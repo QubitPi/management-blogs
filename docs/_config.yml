@@ -1,5 +1,5 @@
 # SITE CONFIGURATION
-baseurl: "/jersey-fundamentals"
+baseurl: "/jersey-guide"
 url: "https://qubitpi.github.io"
 
 # THEME-SPECIFIC CONFIGURATION
