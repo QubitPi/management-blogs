@@ -19,7 +19,7 @@ container.
 **NOTE**
 
 This chapter is focused on server-side Jersey deployment models. The
-[Jersey client runtime](https://qubitpi.github.io/jersey-fundamentals/2020/07/27/5-client-api.html) does not have any
+[Jersey client runtime](https://qubitpi.github.io/jersey-guide/2020/07/27/5-client-api.html) does not have any
 specific container requirements and runs in plain Java SE 6 or higher runtime. 
 
 ---
@@ -259,7 +259,7 @@ The container extension module dependency to be added is:
 **NOTE**
 
 Jersey uses Grizzly extensively in the project unit and end-to-end tests via
-[test framework](https://qubitpi.github.io/jersey-fundamentals/2020/08/18/27-jersey-test-framework.html). 
+[test framework](https://qubitpi.github.io/jersey-guide/2020/08/18/27-jersey-test-framework.html). 
 
 ---
 
@@ -766,7 +766,7 @@ The above works naturally inside any Java EE compliant AS container. In Jersey v
 support was introduced. This feature allows you to publish CDI based JAX-RS resources also in other containers. Jersey
 cdi-webapp example shows Jersey/CDI integration in Grizzly HTTP and Apache Tomcat server. Detailed description of Jersey
 CDI support outside of a fully fledged Java EE application container could be found in
-[Jersey CDI Container Agnostic Support](https://qubitpi.github.io/jersey-fundamentals/2020/08/16/25-jersey-cdi-container-agnostic-support.html).
+[Jersey CDI Container Agnostic Support](https://qubitpi.github.io/jersey-guide/2020/08/16/25-jersey-cdi-container-agnostic-support.html).
 
 ### Enterprise Java Beans (EJB)
 

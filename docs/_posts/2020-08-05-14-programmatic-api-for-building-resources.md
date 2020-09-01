@@ -9,7 +9,7 @@ excerpt_separator: <!--more-->
 A standard approach of developing JAX-RS application is to implement resource classes annotated with `@Path` with
 resource methods annotated with HTTP method annotations like `@GET` or `@POST` and implement needed functionality. This
 approach is described in the
-[JAX-RS Application, Resources and Sub-Resources](https://qubitpi.github.io/jersey-fundamentals/2020/07/25/3-jax-rs-application-resources-and-sub-resources.html). Besides this
+[JAX-RS Application, Resources and Sub-Resources](https://qubitpi.github.io/jersey-guide/2020/07/25/3-jax-rs-application-resources-and-sub-resources.html). Besides this
 standard JAX-RS approach, Jersey offers an API for constructing resources programmatically.
 
 <!--more-->

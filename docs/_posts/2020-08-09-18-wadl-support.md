@@ -464,7 +464,7 @@ generation in Jersey, setup the configuration property in your application:
     
 This property can be setup in a `web.xml` if the Jersey application is deployed in the servlet with `web.xml` or the
 property can be returned from the `Application.getProperties()`. See
-[Deployment chapter](https://qubitpi.github.io/jersey-fundamentals/2020/07/26/4-application-deployment-and-runtime-environments.html)
+[Deployment chapter](https://qubitpi.github.io/jersey-guide/2020/07/26/4-application-deployment-and-runtime-environments.html)
 for more information on setting the application configuration properties in various deployments.
 
 WADL support in Jersey is implemented via `ModelProcessor` extension. This implementation enhances the application
@@ -474,5 +474,5 @@ will not see WADL extensions in the resource model. WADL handling resource model
 resource methods) are not added to the application resource model if there is already a matching resource or a resource
 method detected in the model. In other words, if you define for example your own `OPTIONS` method that would produce
 `"application.wadl"` response content, this method will not be overridden by WADL model processor. See
-[Resource builder chapter](https://qubitpi.github.io/jersey-fundamentals/2020/08/05/14-programmatic-api-for-building-resources.html)
+[Resource builder chapter](https://qubitpi.github.io/jersey-guide/2020/08/05/14-programmatic-api-for-building-resources.html)
 for more information on `ModelProcessor` extension mechanism. 

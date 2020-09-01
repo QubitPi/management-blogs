@@ -9,7 +9,7 @@ and incredible journey~" 😉
 
 July 23rd, 2020 was my birthday. It was a new day of a lot wonderful things happened. One of them is my come-back
 initiative of keep learning intensively. I love learning and making learning an art process; and I love Jersey, too,
-which brings to this work - [The Complete Jersey Guide Book](https://qubitpi.github.io/jersey-fundamentals/), a crystal
+which brings to this work - [The Complete Jersey Guide Book](https://qubitpi.github.io/jersey-guide/), a crystal
 of my experience and love with Jersey technology.
 
 I definitely love using Jersey. I believe Jersey is good and I hope this book could also do something good for you,
