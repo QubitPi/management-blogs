@@ -7,6 +7,8 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
+<!--more-->
+
 ## Representations and Java Types
 
 Previous posts on `@Produces` and `@Consumes` annotations referred to media type of an entity representation. Examples
