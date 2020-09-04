@@ -14,6 +14,9 @@ extension modules and provides hints to implement a custom extension if needed.
 
 <!--more-->
 
+* TOC
+{:toc}
+
 If you are not familiar with the JAX-RS Client API, it is recommended that you see post
 [Client API](https://qubitpi.github.io/jersey-guide/2020/07/27/5-client-api.html) where the basics of JAX-RS Client API
 along with some advanced techniques are described. 

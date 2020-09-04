@@ -14,6 +14,9 @@ standard JAX-RS approach, Jersey offers an API for constructing resources progra
 
 <!--more-->
 
+* TOC
+{:toc}
+
 Imagine a situation where a deployed JAX-RS application consists of many resource classes. These resources implement
 standard HTTP methods like `@GET`, `@POST`, `@DELETE`. In some situations it would be useful to add an `@OPTIONS`
 method which would return some kind of meta data about the deployed resource. Ideally, you would want to expose the

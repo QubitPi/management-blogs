@@ -11,6 +11,9 @@ This article presents an overview of the core JAX-RS concepts - resources and su
 
 <!--more-->
 
+* TOC
+{:toc}
+
 ## Root Resource Classes
 
 _Root resource classes_ are POJOs (Plain Old Java Objects) that

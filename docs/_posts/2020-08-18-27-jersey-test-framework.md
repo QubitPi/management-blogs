@@ -6,3 +6,5 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
+* TOC
+{:toc}

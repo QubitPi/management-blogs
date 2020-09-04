@@ -9,6 +9,9 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+* TOC
+{:toc}
+
 Entity payload, if present in an received HTTP message, is passed to Jersey from an I/O container as an input stream.
 The stream may, for example, contain data represented as a plain text, XML or JSON document. However, in many JAX-RS
 components that process these inbound data, such as resource methods or client responses, the JAX-RS API user can access

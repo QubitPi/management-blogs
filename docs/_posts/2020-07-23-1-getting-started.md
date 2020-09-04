@@ -1,32 +1,51 @@
 ---
 layout: post
 title: Your First Jersey Application
-tags: [Application, Resources, Sub-Resources]
+tags: [Tutorial]
 color: green
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
-This is a quick introduction on how to get started building RESTful services using Jersey. The example described here
-uses the lightweight [Grizzly](https://javaee.github.io/grizzly/) HTTP server.
+This post provides a quick introduction on how to get started building RESTful services using Jersey. The example
+described here uses the lightweight [Grizzly](https://javaee.github.io/grizzly/) HTTP server. At the end of this post
+you will see how to implement equivalent functionality as a JavaEE web application you can deploy on any servlet
+container supporting Servlet 2.5 and higher. 
 
 <!--more-->
 
+* TOC
+{:toc}
+
 ## Creating a New Project from Maven Archetype
 
-Jersey project is built using Apache Maven software project build and management tool. All modules produced as part of
-Jersey project build are pushed to the Central Maven Repository. Therefore it is very convenient to work with Jersey for
-any Maven-based project as all the released (non-SNAPSHOT) Jersey dependencies are readily available without a need to
-configure a special maven repository to consume the Jersey modules. 
+Jersey project is built using [Apache Maven](https://maven.apache.org/) software project build and management tool. All
+modules produced as part of Jersey project build are pushed to the
+[Central Maven Repository](https://search.maven.org/). Therefore it is very convenient to work with Jersey for any
+Maven-based project as all the released (non-SNAPSHOT) Jersey dependencies are readily available without a need to
+configure a special maven repository to consume the Jersey modules.
+
+> 📋 In case you want to depend on the latest SNAPSHOT versions of Jersey modules, the following repository
+> configuration needs to be added to your Maven project pom:
+> ```xml
+> <snapshotRepository>
+>     <id>ossrh</id>
+>     <name>Sonatype Nexus Snapshots</name>
+>     <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+> </snapshotRepository>
+> ```
 
 Since starting from a Maven project is the most convenient way for working with Jersey, let's now have a look at this
 approach. We will now create a new Jersey project that runs on top of a [Grizzly](https://javaee.github.io/grizzly/)
 container. We will use a Jersey-provided maven archetype. To create the project, execute the following Maven command in
-the directory where the new project should reside: 
+the directory where the new project should reside:
+
+> 📋 The complete source code of this section
+> [is provided for reference](https://github.com/QubitPi/jersey-guide/tree/master/simple-service)
 
     mvn archetype:generate -DarchetypeGroupId=org.glassfish.jersey.archetypes -DarchetypeArtifactId=jersey-quickstart-grizzly2 -DarchetypeVersion=2.31
 
-The `groupId`, `package`, and `artifactId` of this project are set to `com.github.QubitPi.jersey`, `simple-service` ,
+The `groupId`, `artifactId`, and `package` of this project are set to `com.github.QubitPi.jersey`, `simple-service` ,
 and `com.github.QubitPi.jersey`, respectively.
 
 ## Exploring the Newly Created Project
@@ -47,7 +66,7 @@ implementation of a simple JAX-RS resource. The simplest form of it looks like t
 
 ```java
 /*
- * Copyright 刘珈奇
+ * Copyright Jiaqi Liu
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,10 +110,11 @@ public class MyResource {
 
 A JAX-RS resource is an annotated POJO that provides so-called _resource methods_ that are able to handle HTTP requests
 for URI paths that the resource is bound to. See
-[JAX-RS Application, Resources and Sub-Resources](#jax-rs-application-resources-and-sub-resources) for a complete guide
-to JAX-RS resources. In our case, the resource exposes a single resource method that is able to handle HTTP `GET`
-requests, is bound to `/myresource` URI path and can produce responses with response message content represented in
-`"text/plain"` media type. In this version, the resource returns the same `"Got it!"` response to all client requests. 
+[JAX-RS Application, Resources and Sub-Resources](https://qubitpi.github.io/jersey-guide/2020/07/25/3-jax-rs-application-resources-and-sub-resources.html)
+for a complete guide to JAX-RS resources. In our case, the resource exposes a single resource method that is able to
+handle HTTP `GET` requests, is bound to `/myresource` URI path and can produce responses with response message content
+represented in `"text/plain"` media type. In this version, the resource returns the same `"Got it!"` response to all
+client requests. 
 
 The last piece of code that has been generated in this skeleton project is a `MyResourceTest` unit test class that is
 located in the same `com.github.QubitPi.jersey` package as the `MyResource` class, however, this unit test class is
@@ -102,7 +122,7 @@ placed into the maven project test source directory `src/test/java`:
 
 ```java
 /*
- * Copyright 刘珈奇
+ * Copyright Jiaqi Liu
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -178,7 +198,8 @@ In the `testGetIt()` method a fluent JAX-RS Client API is used to connect to and
 `MyResource` JAX-RS resource class listening on `/myresource` URI. As part of the same fluent JAX-RS API method
 invocation chain, a response is read as a Java `String` type. On the second line in the test method, the response
 content string returned from the server is compared with the expected phrase in the test assertion. To learn more about
-using JAX-RS Client API, please see the [Client API](#client-api) below. 
+using JAX-RS Client API, please see the post
+[Client API](https://qubitpi.github.io/jersey-guide/2020/07/27/5-client-api.html). 
 
 ## Running the Project
 
@@ -220,7 +241,8 @@ This informs you that the application has been started and it's WADL descriptor 
 `http://localhost:8080/myapp/application.wadl` URL. You can retrieve the WADL content by executing a
 `curl http://localhost:8080/myapp/application.wadl` command in your console or by typing the WADL URL into your favorite
 browser. You should get back an XML document describing your deployed RESTful application in a WADL format. To learn
-more about working with WADL, check out [WADL Support](#wadl-support) section. 
+more about working with WADL, check out
+[WADL Support](https://qubitpi.github.io/jersey-guide/2020/08/09/18-wadl-support.html) post. 
 
 The last thing we should try is to see if we can communicate with our resource deployed at `/myresource` path. We can
 again either type the resource URL in the browser or we can use curl: 
@@ -268,3 +290,95 @@ about the whole communication:
     <
     * Connection #0 to host localhost left intact
     Got it!* Closing connection #0
+
+## Creating a JavaEE Web Application
+
+To create a Web Application that can be packaged as WAR and deployed in a Servlet container follow a similar process to
+the one described in Section
+[Creating a New Project from Maven Archetype](#creating-a-new-project-from-maven-archetype). In addition to the
+Grizzly-based archetype, Jersey provides also a Maven archetype for creating web application skeletons. To create the
+new web application skeleton project, execute the following Maven command in the directory where the new project should
+reside:
+
+    mvn archetype:generate -DarchetypeGroupId=org.glassfish.jersey.archetypes -DarchetypeArtifactId=jersey-quickstart-webapp -DarchetypeVersion=2.31
+
+The `groupId`, `artifactId`, and `package` of this project are set to `com.github.QubitPi.jersey`,
+`simple-service-webapp` , and `com.github.QubitPi.jersey`, respectively:
+
+```
+Define value for property 'groupId': com.github.QubitPi.jersey
+Define value for property 'artifactId': simple-service-webapp
+Define value for property 'version' 1.0-SNAPSHOT: : 
+Define value for property 'package' com.github.QubitPi.jersey: : 
+Confirm properties configuration:
+groupId: com.github.QubitPi.jersey
+artifactId: simple-service-webapp
+version: 1.0-SNAPSHOT
+package: com.github.QubitPi.jersey
+ Y: : 
+```
+
+Once the project generation from a Jersey maven archetype is successfully finished, you should see the new
+`simple-service-webapp` project directory created in your current location. The directory contains a standard Maven
+project structure, similar to the `simple-service` project content we have seen earlier, except it is extended with an
+additional web application specific content:
+
+* Project build and management configuration is described in the `pom.xml` located in the project root directory.
+* Project sources are located under `src/main/java`.
+* Project resources are located under `src/main/resources`.
+* Project web application files are located under `src/main/webapp`.
+
+The project contains the same `MyResouce` JAX-RS resource class. It does not contain any unit tests as well as it does
+not contain a `Main` class that was used to setup Grizzly container in the previous project. Instead, it contains the
+standard Java EE web application `web.xml` deployment descriptor under `src/main/webapp/WEB-INF`. The last component in
+the project is an index.jsp page that serves as a client for the `MyResource` resource class that is packaged and
+deployed with the application. ***Industry practice usually discard index.jsp*** so don't worry about that file too
+much.
+
+To compile and package the application into a WAR, invoke the following maven command in your console:
+
+```
+mvn clean package
+```
+
+A successful build output will produce an output similar to the one below:
+
+```
+Results :
+
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO]
+[INFO] --- maven-war-plugin:2.1.1:war (default-war) @ simple-service-webapp ---
+[INFO] Packaging webapp
+[INFO] Assembling webapp [simple-service-webapp] in [.../simple-service-webapp/target/simple-service-webapp]
+[INFO] Processing war project
+[INFO] Copying webapp resources [.../simple-service-webapp/src/main/webapp]
+[INFO] Webapp assembled in [75 msecs]
+[INFO] Building war: .../simple-service-webapp/target/simple-service-webapp.war
+[INFO] WEB-INF/web.xml already added, skipping
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 9.067s
+[INFO] Finished at: Sun May 26 21:07:44 CEST 2013
+[INFO] Final Memory: 17M/490M
+[INFO] ------------------------------------------------------------------------
+```
+
+Now you are ready to take the packaged WAR (located under `./target/simple-service-webapp.war`) and deploy it to a
+Servlet container of your choice.
+
+> ⚠️ To deploy a Jersey application, you will need a Servlet container that supports Servlet 2.5 or later. For full set
+> of advanced features (such as JAX-RS 2.0 Async Support) you will need a Servlet 3.0 or later compliant container.
+
+## Exploring Other Jersey Examples
+
+In the sections above, we have covered an approach how to get dirty with Jersey quickly. Please consult the other posts
+to learn more about Jersey and JAX-RS. Even though I try my best to cover as much as possible in this Guide, there is
+always a chance that you would not be able to get a full answer to the problem you are solving. In that case, consider
+diving in examples that provide additional tips and hints to the features you may want to use in your projects.
+
+Jersey codebase contains a number of useful examples on how to use various JAX-RS and Jersey features. Feel free to
+browse through the code of individual [Jersey Examples](https://github.com/eclipse-ee4j/jersey/tree/master/examples) in
+the Jersey source repository.

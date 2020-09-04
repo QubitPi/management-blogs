@@ -7,4 +7,7 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
+* TOC
+{:toc}
+
 ## Common Jersey Use Cases

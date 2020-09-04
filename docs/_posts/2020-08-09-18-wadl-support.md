@@ -15,6 +15,9 @@ maLanguage) which describes SOAP web services. WADL is however specifically desi
  
 <!--more-->
 
+* TOC
+{:toc}
+
 ---
 **Important**
 
