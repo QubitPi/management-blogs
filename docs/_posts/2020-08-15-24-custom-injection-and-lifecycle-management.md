@@ -3,20 +3,22 @@ layout: post
 title: Custom Injection and Lifecycle Management
 tags: [HK2, Injection, Annotation, Lifecycle]
 color: rgb(254, 132, 14)
+feature-img: "assets/img/pexels/design-art/2020-08-15-24-custom-injection-and-lifecycle-management/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-15-24-custom-injection-and-lifecycle-management/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
----
-
-Since version 2.0, Jersey uses ***[HK2](https://javaee.github.io/hk2/)*** library for component life cycle management
-and dependency injection. Rather than spending a lot of effort in maintaining Jersey specific API (as it used to be
-before Jersey 2.0 version), Jersey defines several extension points where end-user application can directly manipulate
-Jersey HK2 bindings using the HK2 public API to customize life cycle management and dependency injection of application
-components. 
+--- 
 
 <!--more-->
 
 * TOC
 {:toc}
+
+Since version 2.0, Jersey uses ***[HK2](https://javaee.github.io/hk2/)*** library for component life cycle management
+and dependency injection. Rather than spending a lot of effort in maintaining Jersey specific API (as it used to be
+before Jersey 2.0 version), Jersey defines several extension points where end-user application can directly manipulate
+Jersey HK2 bindings using the HK2 public API to customize life cycle management and dependency injection of application
+components.
 
 This guide can by no means supply an exhaustive documentation of HK2 API in its entire scope. This post only
 points out the most common scenarios related to dependency injection in Jersey and suggests possible options to

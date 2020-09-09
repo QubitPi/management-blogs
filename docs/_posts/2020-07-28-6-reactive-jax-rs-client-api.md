@@ -3,19 +3,21 @@ layout: post
 title: Reactive JAX-RS Client API
 tags: [Reactive, API]
 color: purple
+feature-img: "assets/img/pexels/design-art/2020-07-28-6-reactive-jax-rs-client-api/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-07-28-6-reactive-jax-rs-client-api/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
-
-Reactive client extension is quite a generic API allowing end users to utilize the popular reactive programming model
-when using JAX-RS Client. The API is designed to be extensible, so any existing reactive framework can integrate with it
-and there is build in support for CompletionStage. Along with describing the API itself, this post also covers existing
-extension modules and provides hints to implement a custom extension if needed. 
 
 <!--more-->
 
 * TOC
 {:toc}
+
+Reactive client extension is quite a generic API allowing end users to utilize the popular reactive programming model
+when using JAX-RS Client. The API is designed to be extensible, so any existing reactive framework can integrate with it
+and there is build in support for CompletionStage. Along with describing the API itself, this post also covers existing
+extension modules and provides hints to implement a custom extension if needed. 
 
 If you are not familiar with the JAX-RS Client API, it is recommended that you see post
 [Client API](https://qubitpi.github.io/jersey-guide/2020/07/27/5-client-api.html) where the basics of JAX-RS Client API

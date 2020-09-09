@@ -3,6 +3,8 @@ layout: post
 title: Representations and Responses
 tags: [Response, Java Type]
 color: orange
+feature-img: "assets/img/pexels/design-art/2020-07-29-7-representations-and-responses/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-07-29-7-representations-and-responses/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

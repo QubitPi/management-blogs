@@ -3,19 +3,21 @@ layout: post
 title: Your First Jersey Application
 tags: [Tutorial]
 color: green
+feature-img: "assets/img/pexels/design-art/2020-07-23-1-getting-started/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-07-23-1-getting-started/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
-
-This post provides a quick introduction on how to get started building RESTful services using Jersey. The example
-described here uses the lightweight [Grizzly](https://javaee.github.io/grizzly/) HTTP server. At the end of this post
-you will see how to implement equivalent functionality as a JavaEE web application you can deploy on any servlet
-container supporting Servlet 2.5 and higher. 
 
 <!--more-->
 
 * TOC
 {:toc}
+
+This post provides a quick introduction on how to get started building RESTful services using Jersey. The example
+described here uses the lightweight [Grizzly](https://javaee.github.io/grizzly/) HTTP server. At the end of this post
+you will see how to implement equivalent functionality as a JavaEE web application you can deploy on any servlet
+container supporting Servlet 2.5 and higher. 
 
 ## Creating a New Project from Maven Archetype
 

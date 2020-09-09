@@ -2,9 +2,17 @@
 layout: post
 title: WADL Support
 tags: [WADL]
+color: rgb(195, 68, 122)
+feature-img: "assets/img/pexels/design-art/2020-08-09-18-wadl-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-09-18-wadl-support/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
+
+<!--more-->
+
+* TOC
+{:toc}
 
 ## WADL introduction
 
@@ -12,11 +20,6 @@ Jersey contains support for [Web Application Description Language (WADL)](https:
 description of a deployed RESTful web application. It contains model of the deployed resources, their structure,
 supported media types, HTTP methods and so on. In a sense, WADL is similar to the WSDL (Web Service Description
 maLanguage) which describes SOAP web services. WADL is however specifically designed to describe RESTful Web resources. 
- 
-<!--more-->
-
-* TOC
-{:toc}
 
 ---
 **Important**

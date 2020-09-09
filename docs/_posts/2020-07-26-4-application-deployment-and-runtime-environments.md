@@ -2,21 +2,23 @@
 layout: post
 title: Application Deployment and Runtime Environments
 tags: [Deployment, endpoint]
-color: blue
+color: rgb(91, 94, 166)
+feature-img: "assets/img/pexels/design-art/2020-07-26-4-application-deployment-and-runtime-environments/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-07-26-4-application-deployment-and-runtime-environments/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
+
+<!--more-->
+
+* TOC
+{:toc}
 
 This article is an overview of various server-side environments currently capable of running JAX-RS applications on top
 of Jersey server runtime. Jersey supports wide range of server environments from lightweight http containers up to
 full-fledged Java EE servers. Jersey applications can also run in an [OSGi](https://www.osgi.org/) runtime. The way how
 the application is published depends on whether the application shall run in a Java SE environment or within a
 container. 
-
-<!--more-->
-
-* TOC
-{:toc}
 
 ---
 **NOTE**
@@ -257,14 +259,6 @@ The container extension module dependency to be added is:
     <version>2.31</version>
 </dependency>
 ```
-
----
-**NOTE**
-
-Jersey uses Grizzly extensively in the project unit and end-to-end tests via
-[test framework](https://qubitpi.github.io/jersey-guide/2020/08/18/27-jersey-test-framework.html). 
-
----
 
 #### Jetty HTTP Server
 

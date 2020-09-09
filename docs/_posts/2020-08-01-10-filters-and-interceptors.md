@@ -3,19 +3,21 @@ layout: post
 title: Filters and Interceptors
 tags: [Filter, Interceptor, Request, Response, Name Binding, Dynamic Binding, Priorities]
 color: rgb(255, 105, 180)
+feature-img: "assets/img/pexels/design-art/2020-08-01-10-filters-and-interceptors/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-01-10-filters-and-interceptors/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
-
-This post describes filters, interceptors and their configuration. Filters and interceptors can be used on both sides,
-on the client and the server side. Filters can modify inbound and outbound requests and responses including modification
-of headers, entity and other request/response parameters. Interceptors are used primarily for modification of entity
-input and output streams. You can use interceptors for example to zip and unzip output and input entity streams.
 
 <!--more-->
 
 * TOC
 {:toc}
+
+This post describes filters, interceptors and their configuration. Filters and interceptors can be used on both sides,
+on the client and the server side. Filters can modify inbound and outbound requests and responses including modification
+of headers, entity and other request/response parameters. Interceptors are used primarily for modification of entity
+input and output streams. You can use interceptors for example to zip and unzip output and input entity streams.
 
 ## Filters
 

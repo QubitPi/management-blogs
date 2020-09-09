@@ -3,17 +3,19 @@ layout: post
 title: Asynchronous Services and Clients
 tags: [Asynchronous API, AsyncResponse, Callback, Chunked Output, Chunked Input]
 color: rgb(255, 111, 97)
+feature-img: "assets/img/pexels/design-art/2020-08-02-11-asynchronous-services-and-clients/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-02-11-asynchronous-services-and-clients/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
-
-This post describes the usage of ***asynchronous API*** on the client and server side. The term async will be sometimes
-used interchangeably with the term asynchronous in this chapter. 
 
 <!--more-->
 
 * TOC
 {:toc}
+
+This post describes the usage of ***asynchronous API*** on the client and server side. The term async will be sometimes
+used interchangeably with the term asynchronous in this chapter. 
 
 ## Asynchronous Server API
 

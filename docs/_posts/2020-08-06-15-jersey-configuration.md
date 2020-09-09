@@ -4,17 +4,19 @@ title: Jersey Configuration
 tags: [Configuration, Microprofile, Jakarta EE, Helidon, SmallRye]
 color: rgb(214, 80, 118)
 author: QubitPi
+feature-img: "assets/img/pexels/design-art/2020-08-06-15-jersey-configuration/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-06-15-jersey-configuration/cover.png"
 excerpt_separator: <!--more-->
 ---
-
-This post provides Jersey configuration basics which includes configuration using default configuration provider
-(included in Jersey by default) using system properties, and micro-profile configuration extension which allows
-plugging-in of configuration modules based on micro profile configuration specification. 
 
 <!--more-->
 
 * TOC
 {:toc}
+
+This post provides Jersey configuration basics which includes configuration using default configuration provider
+(included in Jersey by default) using system properties, and micro-profile configuration extension which allows
+plugging-in of configuration modules based on micro profile configuration specification. 
 
 ## Jersey Default Configuration Provider
 

@@ -3,20 +3,22 @@ layout: post
 title: Bean Validation Support
 tags: [Validation, Bean, Hibernate, Constraint Annotations]
 color: rgb(233, 84, 32)
+feature-img: "assets/img/pexels/design-art/2020-08-10-19-bean-validation-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-10-19-bean-validation-support/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
+
+<!--more-->
+
+* TOC
+{:toc}
 
 ***Validation*** is a process of verifying that some data obeys one or more pre-defined constraints. This post describes
 support for [Bean Validation](https://beanvalidation.org/) in Jersey in terms of the needed dependencies, configuration,
 registration and usage. For more detailed description on how JAX-RS provides native support for validating resource
 classes based on the Bean Validation refer to
 [JAX-RS spec](https://github.com/QubitPi/Opinionated-JAX-RS-Spec).
-
-<!--more-->
-
-* TOC
-{:toc}
 
 ## Bean Validation Dependencies
 

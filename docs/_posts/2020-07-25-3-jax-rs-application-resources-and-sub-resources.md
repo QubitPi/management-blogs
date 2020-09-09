@@ -3,16 +3,18 @@ layout: post
 title: JAX-RS Application, Resources and Sub-Resources
 tags: [Application, Resources, Sub-Resources]
 color: brown
+feature-img: "assets/img/pexels/design-art/2020-07-25-3-jax-rs-application-resources-and-sub-resources/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-07-25-3-jax-rs-application-resources-and-sub-resources/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
-
-This article presents an overview of the core JAX-RS concepts - resources and sub-resources.
 
 <!--more-->
 
 * TOC
 {:toc}
+
+This article presents an overview of the core JAX-RS concepts - resources and sub-resources.
 
 ## Root Resource Classes
 

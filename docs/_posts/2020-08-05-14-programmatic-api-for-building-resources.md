@@ -2,20 +2,23 @@
 layout: post
 title: Programmatic API for Building Resources
 tags: [API, Resources, Programmatic]
+color: rbg(136, 176, 75)
+feature-img: "assets/img/pexels/design-art/2020-08-05-14-programmatic-api-for-building-resources/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-05-14-programmatic-api-for-building-resources/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
+
+<!--more-->
+
+* TOC
+{:toc}
 
 A standard approach of developing JAX-RS application is to implement resource classes annotated with `@Path` with
 resource methods annotated with HTTP method annotations like `@GET` or `@POST` and implement needed functionality. This
 approach is described in the
 [JAX-RS Application, Resources and Sub-Resources](https://qubitpi.github.io/jersey-guide/2020/07/25/3-jax-rs-application-resources-and-sub-resources.html). Besides this
 standard JAX-RS approach, Jersey offers an API for constructing resources programmatically.
-
-<!--more-->
-
-* TOC
-{:toc}
 
 Imagine a situation where a deployed JAX-RS application consists of many resource classes. These resources implement
 standard HTTP methods like `@GET`, `@POST`, `@DELETE`. In some situations it would be useful to add an `@OPTIONS`

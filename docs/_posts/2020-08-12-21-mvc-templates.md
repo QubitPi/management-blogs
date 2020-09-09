@@ -4,8 +4,12 @@ title: MVC Templates
 tags: [MVC, Mustache]
 color: rgb(146, 168, 209)
 author: QubitPi
+feature-img: "assets/img/pexels/design-art/2020-08-12-21-mvc-templates/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-12-21-mvc-templates/cover.png"
 excerpt_separator: <!--more-->
 ---
+
+<!--more-->
 
 Jersey provides an extension to support the Model-View-Controller (MVC) design pattern. In the context of Jersey
 components,
@@ -20,8 +24,6 @@ bind model to view (template), namely
 and
 ***[@Template](https://eclipse-ee4j.github.io/jersey.github.io/apidocs/snapshot/jersey/org/glassfish/jersey/server/mvc/Template.html)***.
 These classes determine which approach (explicit/implicit) you would be taking when working with Jersey MVC templating support.  
-
-<!--more-->
 
 * TOC
 {:toc}

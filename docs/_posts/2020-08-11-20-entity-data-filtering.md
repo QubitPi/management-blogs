@@ -4,8 +4,15 @@ title: Entity Data Filtering
 tags: [GraphQL, Filtering]
 color: rgb(151, 127, 215)
 author: QubitPi
+feature-img: "assets/img/pexels/design-art/2020-08-11-20-entity-data-filtering/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-11-20-entity-data-filtering/cover.png"
 excerpt_separator: <!--more-->
 ---
+
+<!--more-->
+
+* TOC
+{:toc}
 
 Support for ***Entity Filtering*** in Jersey introduces a convenient facility for reducing the amount of data exchanged
 over the wire between client and server without a need to create specialized data view components. The main idea behind
@@ -19,11 +26,6 @@ Entity filtering feature allows you to define your own entity-filtering rules fo
 current context (e.g. matched resource method) and keep these rules in one place (directly in your domain model). With
 Jersey entity filtering facility it is also possible to assign security access rules to entity classes properties and
 property accessors. 
-
-<!--more-->
-
-* TOC
-{:toc}
 
 ## Enabling and Configuring Entity Filtering in Your Application
 

@@ -6,9 +6,12 @@ feature-img: "assets/img/pexels/circuit.jpeg"
 tags: [About, Archive]
 ---
 
-Type on Strap is based on Type Theme, a free and open-source theme for [Jekyll](http://jekyllrb.com/), licensed under the MIT License.
+Jersey was the main technology I learnt and utilized during my 4 years at Yahoo.
 
-Head over to the [theme's documentation](https://github.io/sylhare/Type-on-Strap) for much more information about Type on Strap or to install this theme on your own Jekyll site.
+As a reference implementation of [JAX-RS](https://github.com/QubitPi/Opinionated-JAX-RS-Spec), Jersey has been the
+industry standard for developing RESTful Webservices.
 
-This file is an example of a page in Jekyll, that automatically shows up in the header navigation, you can delete or modify this file freely.
- 
+It is a technology that enjoys a broad range of support from Java communities (JavaEE, Hibernate, and etc...) and
+standards; it is an art that I love to practice; and it is absolutely a necessity for you to learn. That is the
+motivation of this series of blogs - make Jersey easy for people to learn(it's very easy, believe me 😉) and let
+people love it ❤️

@@ -3,6 +3,8 @@ layout: post
 title: JAX-RS Entity Providers
 tags: [Request, Response, Serialization, Deserialization]
 color: LightCoral
+feature-img: "assets/img/pexels/design-art/2020-07-30-8-jax-rs-entity-providers/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-07-30-8-jax-rs-entity-providers/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

@@ -3,6 +3,8 @@ layout: post
 title: Support for Common Media Type Representations
 tags: [JSON, Jackson, XML]
 color: rgb(0, 191, 255)
+feature-img: "assets/img/pexels/design-art/2020-07-31-09-support-for-common-media-type-representations/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-07-31-09-support-for-common-media-type-representations/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
