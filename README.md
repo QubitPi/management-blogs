@@ -11,10 +11,10 @@ some interesting naratives there came a little beautiful napkin-picture as a sol
 ![Napkin Picture](./napkin-picture.png)
 
 It doesn't look little but that's something you should talk about with a computer screen engineer the other day, but the
-point is this - I was truly attracted by this napkin-picture idea and I'd like to put this idea into practice; and here
-came to this [Jersey Guide](https://qubitpi.github.io/jersey-guide/), which I think it's an absolutely an beautiful
-guide; Jersy has been an industry standard for standing up Webservices; I love it; and you shall find it pretty useful
-to learn and use it, believe me.
+point is this - I was truly attracted by this napkin-picture idea and I'd like to put this idea into practice; so here
+came to this [Jersey Guide](https://qubitpi.github.io/jersey-guide/), which I think it's an absolutely wonderful guide.
+Jersy has been an industry standard for standing up Webservices; I love it; and you shall find it pretty useful
+to learn and play with, believe me~
 
 # License
 
