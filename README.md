@@ -1,19 +1,20 @@
 [![License Badge](https://img.shields.io/badge/License-Apache%202.0-orange.svg?style=for-the-badge) ](https://www.apache.org/licenses/LICENSE-2.0)
 
-# A Complete Jersey Guide Book
+# [A Complete Jersey Guide Book](https://qubitpi.github.io/jersey-guide/)
 
-July 22nd, 2020 was a great day for me, a good day when I left a truly horrible company, Tencent, which cares nothing
-about its employees and had me experienced the darkest period of my life(I'm saying any reasonably-minded people will
-hate working there). I was very happy about the decision (even now~) and I told myself: "Tomorrow is a reload to a new
-and incredible journey~" 😉
+I was reading a very nicely-written book the other day, called
+"[The Back of the Napkin: Solving Problems and Selling Ideas with Pictures](https://www.goodreads.com/book/show/2420301.The_Back_of_the_Napkin)".
 
-July 23rd, 2020 was my birthday. It was a new day of a lot wonderful things happened. One of them is my come-back
-initiative of keep learning intensively. I love learning and making learning an art process; and I love Jersey, too,
-which brings to this work - [The Complete Jersey Guide Book](https://qubitpi.github.io/jersey-guide/), a crystal
-of my experience and love with Jersey technology.
+It begun with a problem of "lots of people these days are very confused about how to create a useful Web site". With
+some interesting naratives there came a little beautiful napkin-picture as a solution from the book:
 
-I definitely love using Jersey. I believe Jersey is good and I hope this book could also do something good for you,
-whether you are the beginner or someone looking for a reference of Jersey, you will love it :)
+![Napkin Picture](./napkin-picture.png)
+
+It doesn't look little but that's something you should talk about with a computer screen engineer the other day, but the
+point is this - I was truly attracted by this napkin-picture idea and I'd like to put this idea into practice; and here
+came to this [Jersey Guide](https://qubitpi.github.io/jersey-guide/), which I think it's an absolutely an beautiful
+guide; Jersy has been an industry standard for standing up Webservices; I love it; and you shall find it pretty useful
+to learn and use it, believe me.
 
 # License
 
