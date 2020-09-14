@@ -5,7 +5,7 @@
 I was reading a very nicely-written book the other day, called
 "[The Back of the Napkin: Solving Problems and Selling Ideas with Pictures](https://www.goodreads.com/book/show/2420301.The_Back_of_the_Napkin)".
 
-The book began with a situation that many people have trouble with - "lots of people these days are very confused about
+The book began with a situation that many people had trouble with - "lots of people these days are very confused about
 how to create a useful Web site". With some interesting narratives there came a little beautiful napkin-picture as a
 solution:
 
