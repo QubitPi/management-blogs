@@ -25,7 +25,7 @@ For a full description see
 [Patterns of Enterprise Application Architecture - Martin Fowler](../../java/pdfs/architecture/Patterns%20of%20Enterprise%20Application%20Architecture%20-%20Martin%20Fowler.pdf)
 page 278
 
-![Single Table Inheritance Example Diagram](../images/single-table-inheritance.png)
+![Single Table Inheritance Example Diagram]({{ "/assets/img/single-table-inheritance.png" | relative_url}})
 
 Relational databases don't support inheritance, so when mapping from objects to databases we have to consider how to
 represent our nice inheritance structures in relational tables. When mapping to a relational database, we try to
