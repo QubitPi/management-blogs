@@ -14,5 +14,5 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-[Redis in Action]({{ "/assets/pdf/Redis-in-Action.pdf" | relative_url}})
-[Redis 设计与实现]({{ "/assets/pdf/Redis设计与实现.pdf" | relative_url}})
+* [Redis in Action]({{ "/assets/pdf/Redis-in-Action.pdf" | relative_url}})
+* [Redis 设计与实现]({{ "/assets/pdf/Redis设计与实现.pdf" | relative_url}})
