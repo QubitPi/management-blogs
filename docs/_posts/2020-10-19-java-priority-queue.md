@@ -1,6 +1,6 @@
 ---
 layout: post
-title: `PriorityQueue`
+title: PriorityQueue
 tags: [Java]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
