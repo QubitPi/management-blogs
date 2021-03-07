@@ -1,3 +1,19 @@
+---
+layout: post
+title: Concurrency v.s Parallelism
+tags: [Java]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
+<!--more-->
+
+* TOC
+{:toc}
+
 ## Concurrency
 
 Concurrency means that an application is making progress on more than one task at the same time (concurrently). Well,
@@ -5,7 +21,7 @@ if the computer only has one CPU the application may not make progress on more t
 but more than one task is being processed at a time inside the application. It does not completely finish one task
 before it begins the next. Instead, the CPU switches between the different tasks until the tasks are complete.
 
-![Diagram on Concurrency](../images/concurrency-vs-parallelism-1.png)
+![Diagram on Concurrency]({{ "/assets/img/concurrency-vs-parallelism-1.png" | relative_url}})
 
 It is possible to have a concurrent application even though it only has a single thread running inside it.
 
@@ -14,7 +30,7 @@ It is possible to have a concurrent application even though it only has a single
 Parallelism means that an application splits its tasks up into smaller subtasks which can be processed in parallel, for
 instance on multiple CPUs at the exact same time.
 
-![Diagram on Parallelism](../images/concurrency-vs-parallelism-2.png)
+![Diagram on Parallelism]({{ "/assets/img/concurrency-vs-parallelism-2.png" | relative_url}})
 
 To achieve true parallelism your application must have more than one thread running, or at least be able to schedule
 tasks for execution in other threads, processes, CPUs, graphics cards etc.

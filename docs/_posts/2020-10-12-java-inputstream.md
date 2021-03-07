@@ -1,9 +1,23 @@
+---
+layout: post
+title: `InputStream`
+tags: [Java]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
 The Java InputStream class, `java.io.InputStream`, represents an ordered stream of bytes. In other words, you can read
 data from a Java InputStream as an ordered sequence of bytes. This is useful when reading data from a file, or received
 over the network. A Java `InputStream` is typically connected to some data source, like a file, network connection,
 pipe etc.
 
+<!--more-->
 
+* TOC
+{:toc}
 
 ## API
 

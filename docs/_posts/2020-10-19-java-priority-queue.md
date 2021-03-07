@@ -1,3 +1,22 @@
+---
+layout: post
+title: `PriorityQueue`
+tags: [Java]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
+Java Concurrency is a term that covers multithreading, concurrency, and parallelism. That includes the Java concurrency
+tools, problems and solutions.
+
+<!--more-->
+
+* TOC
+{:toc}
+
 ## How PriorityQueue Handles Both Natural Ordering and Comparator Ordering in One API Object
 
 This is a brilliant strategy:
@@ -156,11 +175,11 @@ for (int i = 1; i <= 100; i++) {
 
 When inserting 100 random numbers:
 
-![100](../images/100-elements.png)
+![100]({{ "/assets/img/100-elements.png" | relative_url}})
 
 When inserting 1000000 random numbers:
 
-![1000000](../images/1000000-elements.png)
+![1000000]({{ "/assets/img/1000000-elements.png" | relative_url}})
 
 This shows that while it makes no big difference on large dataset, small datasets with about 11 as initial size gives
 the optimal speed+memory performance

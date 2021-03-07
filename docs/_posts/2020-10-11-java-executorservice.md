@@ -1,8 +1,26 @@
+---
+layout: post
+title: Executor Service
+tags: [Java]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
+Design principles makes software maintainable and ultimately boost team efficiency
+
+<!--more-->
+
+* TOC
+{:toc}
+
 ## Task Delegation
 
 Here is a diagram illustrating a thread delegating a task to a Java `ExecutorService` for asynchronous execution:
 
-![diagram](../images/executor-service.png)
+![diagram]({{ "/assets/img/executor-service.png" | relative_url}})
 
 Once the thread has delegated the task to the `ExecutorService`, the thread continues its own execution independent of
 the execution of that task. The `ExecutorService` then executes the task concurrently, independently of the thread that

@@ -1,3 +1,19 @@
+---
+layout: post
+title: Multi Stream Concatenation
+tags: [Java]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
+<!--more-->
+
+* TOC
+{:toc}
+
 I want to combine the elements of multiple `Stream` instances into a single `Stream`. What's the best way to do this?
 
 This post compares a few different solutions. 
@@ -99,7 +115,7 @@ What's going on here? We can think of the calls to `Stream.concat(a, b)` as form
 concatenation of all the input streams. At the leaves are the individual input streams. Let's look at the trees for up
 to five input streams as formed by our reduce operation.
 
-![Stream deep concat problem illustration](../images/stream-deep-concat-problem.png)
+![Stream deep concat problem illustration]({{ "/assets/img/stream-deep-concat-problem.png" | relative_url}})
 
 The trees are perfectly unbalanced! Each additional input stream adds one layer of depth to the tree and one layer of
 indirection to reach all the other streams. This can have a noticeable negative impact on performance. With enough

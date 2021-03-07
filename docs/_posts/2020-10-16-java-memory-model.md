@@ -1,3 +1,19 @@
+---
+layout: post
+title: Java Memory Model
+tags: [Java]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
+<!--more-->
+
+* TOC
+{:toc}
+
 The Java memory model specifies how the Java virtual machine works with the computer's memory (RAM). The Java virtual
 machine is a model of a whole computer so this model naturally includes a memory model - AKA the Java memory model.
 
@@ -8,14 +24,12 @@ threads, and how to synchronize access to shared variables when necessary.
 The original Java memory model was insufficient, so the Java memory model was revised in Java 1.5. This version of the
 Java memory model is still in use in Java today (Java 14+).
 
-
-
 ## The Internal Java Memory Model
 
 The Java memory model used internally in the JVM divides memory between thread stacks and the heap. This diagram
 illustrates the Java memory model from a logic perspective:
 
-![Java Memory Model 1](../images/java-memory-model-1.png)
+![Java Memory Model 1]({{ "/assets/img/java-memory-model-1.png" | relative_url}})
 
 **Each thread running in the Java virtual machine has its own thread stack**. The thread stack contains information
 about what methods the thread has called to reach the current point of execution. I will refer to this as the "call
@@ -38,7 +52,7 @@ the heap**.
 Here is a diagram illustrating the call stack and local variables stored on the thread stacks, and objects stored on the
 heap:
 
-![Java Memory Model 2](../images/java-memory-model-2.png)
+![Java Memory Model 2]({{ "/assets/img/java-memory-model-2.png" | relative_url}})
 
 A local variable may be of a primitive type, in which case it is totally kept on the thread stack.
 
@@ -60,7 +74,7 @@ own copy of the local variables.
 
 Here is a diagram illustrating the points above:
 
-![Java Memory Model 3](../images/java-memory-model-3.png)
+![Java Memory Model 3]({{ "/assets/img/java-memory-model-3.png" | relative_url}})
 
 Two threads have a set of local variables. One of the local variables (Local Variable 2) point to a shared object on the
 heap (Object 3). The two threads each have a different reference to the same object. Their references are local
@@ -164,7 +178,7 @@ with it.
 
 Here is a simplified diagram of modern computer hardware architecture:
 
-![Java Memory Model 4](../images/java-memory-model-4.png)
+![Java Memory Model 4]({{ "/assets/img/java-memory-model-4.png" | relative_url}})
 
 A modern computer often has 2 or more CPUs in it. Some of these CPUs may have multiple cores too. The point is, that on
 a modern computer with 2 or more CPUs it is possible to have more than one thread running simultaneously. Each CPU is
@@ -202,7 +216,7 @@ architecture does not distinguish between thread stacks and heap. On the hardwar
 are located in main memory**. Parts of the thread stacks and heap may sometimes be present in CPU caches and in internal
 CPU registers. This is illustrated in this diagram:
 
-![Java Memory Model 5](../images/java-memory-model-5.png)
+![Java Memory Model 5]({{ "/assets/img/java-memory-model-5.png" | relative_url}})
 
 When objects and variables can be stored in various different memory areas in the computer, certain problems may occur.
 The two main problems are:
@@ -226,7 +240,7 @@ The following diagram illustrates the sketched situation. One thread running on 
 into its CPU cache, and changes its count variable to 2. This change is not visible to other threads running on the
 right CPU, because the update to count has not been flushed back to main memory yet.
 
-![Java Memory Model 6](../images/java-memory-model-6.png)
+![Java Memory Model 6]({{ "/assets/img/java-memory-model-6.png" | relative_url}})
 
 To solve this problem you can use Java's `volatile` keyword. The `volatile` keyword can make sure that a given
 variable is read directly from main memory, and always written back to main memory when updated.
@@ -249,7 +263,7 @@ than the original value, despite the two increments.
 
 This diagram illustrates an occurrence of the problem with race conditions as described above:
 
-![Java Memory Model 7](../images/java-memory-model-7.png)
+![Java Memory Model 7]({{ "/assets/img/java-memory-model-7.png" | relative_url}})
 
 To solve this problem you can use a Java synchronized block. A synchronized block guarantees that only one thread can
 enter a given critical section of the code at any given time. Synchronized blocks also guarantee that all variables

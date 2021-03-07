@@ -50,8 +50,8 @@ unperishable passion to Java language*.
 
 ### UML
 
-* [UML Distilled A Brief Guide to the Standard Object Modeling Language](../pdfs/architecture/UML%20Distilled%20A%20Brief%20Guide%20to%20the%20Standard%20Object%20Modeling%20Language.pdf)
-    - [PlantUML](../pdfs/architecture/plantuml-guide.pdf)
+* [UML Distilled A Brief Guide to the Standard Object Modeling Language]({{ "/assets/pdf/UML%20Distilled%20A%20Brief%20Guide%20to%20the%20Standard%20Object%20Modeling%20Language.pdf" | relative_url}})
+    - [PlantUML]({{ "/assets/pdf/plantuml-guide.pdf" | relative_url}})
     - [Aggregation vs Composition](https://softwareengineering.stackexchange.com/a/61527)
 
 #### Sequence UML Diagram

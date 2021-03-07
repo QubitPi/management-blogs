@@ -1,6 +1,22 @@
+---
+layout: post
+title: Java Concurrency Model
+tags: [Java]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
 Concurrent systems can be implemented using different concurrency models. **A concurrency model specifies how threads in
 the the system collaborate to complete the tasks they are are given**. Different concurrency models split the tasks in
 different ways, and the threads may communicate and collaborate in different ways.
+
+<!--more-->
+
+* TOC
+{:toc}
 
 ## Concurrency Models and Distributed System Similarities
 
@@ -26,15 +42,14 @@ Shared state means that the different threads in the system will share some stat
 data, typically one or more objects or similar. When threads share state, problems like race conditions and deadlock
 etc. may occur. It depends on how the threads use and access the shared objects, of course.
 
-
-![Concurrency Models Illustration Diagram](../images/concurrency-models-0-1.png)
+![Concurrency Models Illustration Diagram]({{ "/assets/img/concurrency-models-0-1.png" | relative_url}})
 
 Separate state means that the different threads in the system do not share any state among them. In case the different
 threads need to communicate, they do so either by exchanging immutable objects among them, or by sending copies of
 objects (or data) among them. Thus, when no two threads write to the same object (data / state), you can avoid most of
 the common concurrency problems.
 
-![Concurrency Models Illustration Diagram](../images/concurrency-models-0-2.png)
+![Concurrency Models Illustration Diagram]({{ "/assets/img/concurrency-models-0-2.png" | relative_url}})
 
 Using a separate state concurrency design can often make some parts of the code easier to implement and easier to reason
 about, since you know that only one thread will ever write to a given object. You don't have to worry about concurrent
@@ -46,7 +61,7 @@ use separate state concurrency. It's worth it though, I feel. Personally I prefe
 The first concurrency model is what I call the **parallel worker model**. Incoming jobs are assigned to different
 workers. Here is a diagram illustrating the parallel worker concurrency model:
 
-![Concurrency Models Illustration Diagram](../images/concurrency-models-1.png)
+![Concurrency Models Illustration Diagram]({{ "/assets/img/concurrency-models-1.png" | relative_url}})
 
 In the parallel worker concurrency model a delegator distributes the incoming jobs to different workers. Each worker
 completes the full job. The workers work in parallel, running in different threads, and possibly on different CPUs.
@@ -78,7 +93,7 @@ In reality the parallel worker concurrency model is a bit more complex than illu
 need access to some kind of shared data, either in memory or in a shared database. The following diagram shows how this
 complicates the parallel worker concurrency model:
 
-![Concurrency Models Illustration Diagram](../images/concurrency-models-2.png)
+![Concurrency Models Illustration Diagram]({{ "/assets/img/concurrency-models-2.png" | relative_url}})
 
 Some of this shared state is in communication mechanisms like job queues. But some of this shared state is business
 data, data caches, connection pools to the database etc.
@@ -139,7 +154,7 @@ The second concurrency model is what I call the assembly line concurrency model.
 "parallel worker" metaphor from earlier. Other developers use other names (e.g. reactive systems, or event driven
 systems) depending on the platform/community. Here is a diagram illustrating the assembly line concurrency model:
 
-![Concurrency Models Illustration Diagram](../images/concurrency-models-3.png)
+![Concurrency Models Illustration Diagram]({{ "/assets/img/concurrency-models-3.png" | relative_url}})
 
 The workers are organized like workers at an assembly line in a factory. Each worker only performs a part of the full
 job. When that part is finished the worker forwards the job to the next worker.
@@ -157,20 +172,20 @@ With non-blocking IO, the IO operations determine the boundary between workers. 
 has to start an IO operation. Then it gives up control over the job. When the IO operation finishes, the next worker in
 the assembly line continues working on the job, until that too has to start an IO operation etc.
 
-![Concurrency Models Illustration Diagram](../images/concurrency-models-4.png)
+![Concurrency Models Illustration Diagram]({{ "/assets/img/concurrency-models-4.png" | relative_url}})
 
 In reality, the jobs may not flow along a single assembly line. Since most systems can perform more than one job, jobs
 flows from worker to worker depending on the job that needs to be done. In reality there could be multiple different
 virtual assembly lines going on at the same time. This is how job flow through assembly line system might look in
 reality:
 
-![Concurrency Models Illustration Diagram](../images/concurrency-models-5.png)
+![Concurrency Models Illustration Diagram]({{ "/assets/img/concurrency-models-5.png" | relative_url}})
 
 Jobs may even be forwarded to more than one worker for concurrent processing. For instance, a job may be forwarded to
 both a job executor and a job logger. This diagram illustrates how all three assembly lines finish off by forwarding
 their jobs to the same worker (the last worker in the middle assembly line):
 
-![Concurrency Models Illustration Diagram](../images/concurrency-models-6.png)
+![Concurrency Models Illustration Diagram]({{ "/assets/img/concurrency-models-6.png" | relative_url}})
 
 The assembly lines can get even more complex than this.
 
@@ -189,13 +204,13 @@ In the actor model each worker is called an actor. Actors can send messages dire
 and processed asynchronously. Actors can be used to implement one or more job processing assembly lines, as described
 earlier. Here is a diagram illustrating the actor model:
 
-![Concurrency Models Illustration Diagram](../images/concurrency-models-7.png)
+![Concurrency Models Illustration Diagram]({{ "/assets/img/concurrency-models-7.png" | relative_url}})
 
 In the channel model, workers do not communicate directly with each other. Instead they publish their messages (events)
 on different channels. Other workers can then listen for messages on these channels without the sender knowing who is
 listening. Here is a diagram illustrating the channel model:
 
-![Concurrency Models Illustration Diagram](../images/concurrency-models-8.png)
+![Concurrency Models Illustration Diagram]({{ "/assets/img/concurrency-models-8.png" | relative_url}})
 
 ### Assembly Line Advantages
 
@@ -232,7 +247,7 @@ time. Furthermore, you could write all incoming jobs to a log. This log could th
 system from scratch in case any part of the system fails. The jobs are written to the log in a certain order, and this
 order becomes the guaranteed job order. Here is how such a design could look:
 
-![Concurrency Models Illustration Diagram](../images/concurrency-models-8.png)
+![Concurrency Models Illustration Diagram]({{ "/assets/img/concurrency-models-8.png" | relative_url}})
 
 Implementing a guaranteed job order is not necessarily easy, but it is often possible. If you can, it greatly simplifies
 tasks like backup, restoring data, replicating data etc. as this can all be done via the log file(s).

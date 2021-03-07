@@ -1,5 +1,21 @@
+---
+layout: post
+title: Concurrency & Multi-threading
+tags: [Java]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
 Java Concurrency is a term that covers multithreading, concurrency, and parallelism. That includes the Java concurrency
 tools, problems and solutions.
+
+<!--more-->
+
+* TOC
+{:toc}
 
 ## What is Multithreading?
 
@@ -7,13 +23,13 @@ tools, problems and solutions.
 separate CPU executing your application. Thus, a multithreaded application is like an application that has multiple CPUs
 executing different parts of the code at the same time.
 
-![Introduction](../images/introduction-1.png)
+![Introduction]({{ "/assets/img/introduction-1.png" | relative_url}})
 
 A thread is not equal to a CPU though. Usually a single CPU will share its execution time among multiple threads,
 switching between executing each of the threads for a given amount of time. It is also possible to have the threads of
 an application be executed by different CPUs.
 
-![Introduction](../images/introduction-2.png)
+![Introduction]({{ "/assets/img/introduction-2.png" | relative_url}})
 
 ## Why Multithreading?
 
@@ -116,7 +132,7 @@ not be seen on single CPU machines, because two threads never really execute "si
 come with multi core CPUs, and even with multiple CPUs too. This means that separate threads can be executed by separate
 cores or CPUs simultaneously.
 
-![Java Concurrency Introduction](../images/java-concurrency-introduction-1.png)
+![Java Concurrency Introduction]({{ "/assets/img/java-concurrency-introduction-1.png" | relative_url}})
 
 If a thread reads a memory location while another thread writes to it, what value will the first thread end up reading?
 The old value? The value written by the second thread? Or a value that is a mix between the two? Or, if two threads are

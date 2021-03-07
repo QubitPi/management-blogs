@@ -1,3 +1,19 @@
+---
+layout: post
+title: `synchronized`
+tags: [Java]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
+<!--more-->
+
+* TOC
+{:toc}
+
 Synchronized blocks in Java are marked with the `synchronized` keyword. A synchronized block in Java is synchronized on
 some object. All synchronized blocks synchronized on the same object can only have one thread executing inside them at
 the same time. All other threads attempting to enter the synchronized block are blocked until the thread inside the

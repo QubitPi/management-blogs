@@ -1,3 +1,19 @@
+---
+layout: post
+title: Java Tools
+tags: [Java]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
+<!--more-->
+
+* TOC
+{:toc}
+
 * [VisualVM](https://visualvm.github.io/)
 * [jConsole](https://openjdk.java.net/tools/svc/jconsole/)
 

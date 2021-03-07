@@ -1,6 +1,20 @@
+---
+layout: post
+title: Design Principles
+tags: [Design]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
 Design principles makes software maintainable and ultimately boost team efficiency
 
+<!--more-->
 
+* TOC
+{:toc}
 
 ## SOLID Principles
 
@@ -163,7 +177,7 @@ another format of text file? In this case we need a different class to grab that
 `MovieFinder` interface, this won't alter my `moviesDirectedBy` method. But I still need to have some way to get an
 instance of the right finder implementation into place.
 
-![The dependencies using a simple creation in the lister class](../images/naive.png)
+![The dependencies using a simple creation in the lister class]({{ "/assets/img/naive.png" | relative_url}})
 
 The figure on the left shows the dependencies for this situation. The `MovieLister` class is dependent on both the
 `MovieFinder` interface and upon the implementation. We would prefer it if it were only dependent on the interface,
@@ -199,7 +213,7 @@ The basic idea of the Dependency Injection is to have a separate object, an **as
 `lister` class with an appropriate implementation for the `finder` interface, resulting in a dependency diagram
 below
 
-![The dependencies for a Dependency Injector](../images/injector.png)
+![The dependencies for a Dependency Injector]({{ "/assets/img/injector.png" | relative_url}})
 
 There are three main styles of dependency injection:
 
@@ -224,6 +238,6 @@ application might need. So a service locator for this application would have a m
 one is needed. Of course this just shifts the burden a tad, we still have to get the locator into the lister, resulting
 in the dependencies below:
 
-![The dependencies for a Service Locator](../images/locator.png)
+![The dependencies for a Service Locator]({{ "/assets/img/locator.png" | relative_url}})
 
 The best standalone service locator is [Google Guava](https://github.com/google/guava)

@@ -1,3 +1,19 @@
+---
+layout: post
+title: Same Threading
+tags: [Java]
+color: rgb(250, 154, 133)
+feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
+<!--more-->
+
+* TOC
+{:toc}
+
 Thread Pools are useful when you need to **limit the number of threads running in your application at the same time**.
 There is a performance overhead associated with starting a new thread, and each thread is also allocated some memory for
 its stack etc.
@@ -26,7 +42,7 @@ Unfortunately, single-threaded systems do not fully utilize modern CPUs. A moder
 cores. Each core functions as an individual CPU. A single-threaded system can only utilize one of the cores, as
 illustrated here:
 
-![diagram](../images/same-threading-0.png)
+![diagram]({{ "/assets/img/same-threading-0.png" | relative_url}})
 
 ## Same-Threading: Single-Threading Scaled Out
 
@@ -38,7 +54,7 @@ Same-threaded systems usually has 1 thread running per CPU in the computer. If a
 4 cores, then it would be normal to run 4 instances of the same-threaded system (4 single-threaded systems). The
 illustration below shows this picture:
 
-![diagram](../images/same-threading-0-1.png)
+![diagram]({{ "/assets/img/same-threading-0-1.png" | relative_url}})
 
 ## No Shared State
 
@@ -49,7 +65,7 @@ The difference between a same-threaded and a traditional multi-threaded system i
 system do not share state. There is no shared memory which the threads access concurrently. No concurrent data
 structures etc. via which the threads share data. This difference is illustrated here:
 
-![diagram](../images/same-threading-4.png)
+![diagram]({{ "/assets/img/same-threading-4.png" | relative_url}})
 
 The lack of shared state is what makes each thread behave as it if was a single-threaded system. However, since a
 same-threaded system can contain more than a single thread - it is not really a "single-threaded system". In lack of a
@@ -90,7 +106,7 @@ Thread B reads it. Once copied, the message copy is inaccessible for Thread A.
 
 Thread communication via messaging is illustrated here:
 
-![diagram](../images/same-threading-5.png)
+![diagram]({{ "/assets/img/same-threading-5.png" | relative_url}})
 
 The thread communication can take place via queues, pipes, unix sockets, TCP sockets etc. Whatever fits your system.
 
@@ -107,13 +123,13 @@ of the difference between them.
 
 The first illustration shows a single-threaded system.
 
-![diagram](../images/same-threading-1.png)
+![diagram]({{ "/assets/img/same-threading-1.png" | relative_url}})
 
 The second illustration shows a multi-threaded system where the threads share data.
 
-![diagram](../images/same-threading-2.png)
+![diagram]({{ "/assets/img/same-threading-2.png" | relative_url}})
 
 The third illustration shows a same-threaded system with 2 threads with separate data, communicating by passing
 messages to each other.
 
-![diagram](../images/same-threading-3.png)
+![diagram]({{ "/assets/img/same-threading-3.png" | relative_url}})
