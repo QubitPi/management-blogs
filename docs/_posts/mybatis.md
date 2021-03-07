@@ -1,0 +1,55 @@
+## Dynamic Query
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<select id="queryModelListByConstraints" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+        ...
+    FROM
+        ...
+
+    <if test="entityField != null">
+        WHERE mappedColumn = #{entityField}
+    </if>
+    <if test="temporalField != null">
+        <![CDATA[
+            AND column < #{temporalField}
+        ]]>
+    </if>
+</select>
+```
+
+### `COUNT(DISTINCT())` Query
+
+```xml
+<select id="countModelListByConstraints" parameterType="map" resultType="int">
+    SELECT
+        COUNT(DISTINCT(model_name))
+    FROM
+        t_model_conf
+    <where>
+        <if test="appGroupId != null">
+            app_group_id = #{appGroupId}
+        </if>
+        <if test="modelName != null">
+            AND model_name LIKE #{modelName}
+        </if>
+        <if test="modelTrainAlg != null">
+            AND model_train_alg = #{modelTrainAlg}
+        </if>
+        <if test="modelTrainFrame != null">
+            AND model_train_frame = #{modelTrainFrame}
+        </if>
+        <if test="modifyTimeStart != null">
+            AND modify_time >= #{modifyTimeStart}
+        </if>
+        <if test="modifyTimeEnd != null">
+            <![CDATA[
+                AND modify_time < #{modifyTimeEnd}
+            ]]>
+        </if>
+    </where>
+</select>
+```

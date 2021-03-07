@@ -1,0 +1,88 @@
+\chapterimage{chapter_head_2.pdf}
+
+\chapter{Error-handling}
+
+\section{Use Unchecked Exceptions}\index{Error-handling!Use Unchecked Exceptions}
+
+Although checked exception brings benefits, it comes with prices. The price of checked exceptions is an Open/Closed Principle violation. If you throw a checked exception from a method in your code and the \inlinecode[green]{catch} is three levels above, you must declare that exception in the signature of each method between you and the \inlinecode[green]{catch} . This means that a change at a low level of the software can force signature changes on many higher levels. The changed modules must be rebuilt and redeployed, even though nothing they care about changed.
+
+\section{Define the Normal Flow}\index{Error-handling!Define the Normal Flow}
+
+\inlinecode[green]{try-catch} is great, but sometimes it looks awkward if the catch block does some "exceptional" processing other than loging-and-throwing-exception. For example:
+
+\begin{tcolorbox}[breakable, colback=red!10!white, colframe=red!85!black, sidebyside, righthand width = 3cm, tikz lower]
+
+\begin{lstlisting}[language = java, basicstyle=\small]
+try {
+    MealExpenses expenses = expenseReportDAO.getMeals(employee.getID());
+    m_total += expenses.getTotal();
+} catch(MealExpensesNotFound e) {
+    m_total += getMealPerDiem();
+}
+\end{lstlisting}
+
+\tcblower
+
+\path[fill = yellow, draw = yellow!75!red] (0, 0) circle (1cm);
+\fill[red] (45:5mm) circle (1mm);
+\fill[red] (135:5mm) circle (1mm);
+\draw[line width=1mm,red] (230:6mm) arc (145:35:5mm);
+
+\end{tcolorbox}
+
+What's awkward about this is that it wraps a flow of normal logic inside the catch block. The exception clutters the logic. Wouldn't it be better if we didn't have to deal with the special case? If we didn't, our code would look much simpler. It would look like this:
+
+\begin{tcolorbox}[breakable, colback=green!10!white, colframe=green!85!black, sidebyside, righthand width = 3cm, tikz lower, label=blocks-and-indenting-good]
+
+\begin{lstlisting}[language = java, basicstyle=\small]
+MealExpenses expenses = expenseReportDAO.getMeals(employee.getID());
+m_total += expenses.getTotal();
+\end{lstlisting}
+
+\tcblower
+
+\path[fill = yellow, draw = yellow!75!red] (0, 0) circle (1cm);
+\fill[red] (45:5mm) circle (1mm);
+\fill[red] (135:5mm) circle (1mm);
+\draw[line width=1mm,red] (215:5mm) arc (215:325:5mm);
+
+\end{tcolorbox}
+
+Can we make the code that simple? It turns out that we can. We can change the
+ExpenseReportDAO so that it always returns a MealExpense object. If there are no meal expenses, it returns a MealExpense object that returns the per diem as its total:
+
+\begin{tcolorbox}[breakable, colback=green!10!white, colframe=green!85!black, sidebyside, righthand width = 3cm, tikz lower, label=blocks-and-indenting-good]
+
+\begin{lstlisting}[language = java, basicstyle=\small]
+public class PerDiemMealExpenses implements MealExpenses {
+
+    public int getTotal() {
+        // return the per diem default
+    }
+}
+\end{lstlisting}
+
+\tcblower
+
+\path[fill = yellow, draw = yellow!75!red] (0, 0) circle (1cm);
+\fill[red] (45:5mm) circle (1mm);
+\fill[red] (135:5mm) circle (1mm);
+\draw[line width=1mm,red] (215:5mm) arc (215:325:5mm);
+
+\end{tcolorbox}
+
+This is called the \textbf{SPECIAL CASE PATTERN}. You create a class or configure an
+object so that it handles a special case for you. When you do, the client code doesn't have to deal with exceptional behavior. That behavior is encapsulated in the special case object.
+
+\begin{marker}
+Create a class or configure an object so that it handles a special case for you
+\end{marker}
+
+\section{Don’t Return Null}\index{Error-handling!Don’t Return Null}
+
+When we return null, we are essentially creating work for ourselves and foisting
+problems upon our callers. All it takes is one missing null check to send an application spinning out of control.
+
+\begin{marker}
+If you are tempted to return null from a method, consider throwing an exception or returning a SPECIAL CASE object, such as \inlinecode[green]{Optional} instead.
+\end{marker}

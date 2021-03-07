@@ -1,0 +1,58 @@
+\chapterimage{chapter_head_2.pdf}
+
+\chapter{Orthogonality}
+
+Orthogonality is a critical concept if you want to produce systems that are easy to design, build, test, and extend. Code reviewers should promote it during code review.
+
+\section{What Is Orthogonality?}
+
+"Orthogonality" is a term borrowed from geometry. Two lines are orthogonal if they meet at right angles, such as the axes on a graph. In vector terms, the two lines are independent. Move along one of the lines, and your position projected onto the other doesn't change.
+
+\section{Benefits of Orthogonality}
+
+Software system components should be  self-contained: independent, and with a single, well-defined purpose. When components are isolated from one another, you know that you can change one without having to worry about the rest. As long as you don’t change that component’s external interfaces, you can be comfortable that you won’t cause problems that ripple through the entire system.
+
+There are two major benefits in orthogonal systems: increased productivity and reduced risk.
+
+\subsection{Gain Productivity}
+
+1. Changes are localized, so development time and testing time are reduced. It is easier to write relatively small, self-contained components than a single large block of code. Simple components can be designed, coded, unit tested, and then forgotten—there is no need to keep changing existing code as you add new code.
+
+2. An orthogonal approach also promotes reuse. If components have specific, well-defined responsibilities, they can be combined with new components in ways that were not envisioned by their original implementors. The more loosely coupled your systems, the easier they are to reconfigure and reengineer.
+
+3. There is a fairly subtle gain in productivity when you combine orthogonal components. Assume that one component does M distinct things and another does N things. If they are orthogonal and you combine them, the result does M x N things. However, if the two components are not orthogonal, there will be overlap, and the result will do less. You get more functionality per unit effort by combining orthogonal components.
+
+\subsection{Reduce Risk}
+
+An orthogonal approach reduces the risks inherent in any development.
+
+1. Diseased sections of code are isolated. If a module is sick, it is less likely to spread the symptoms around the rest of the system. It is also easier to slice it out and transplant in something new and healthy.
+
+2. The resulting system is less fragile. Make small changes and fixes to a particular area, and any problems you generate will be restricted to that area.
+
+3. An orthogonal system will probably be better tested, because it will be easier to design and run tests on its components.
+
+4. You will not be as tightly tied to a particular vendor, product, or platform, because the interfaces to these third-party components will be isolated to smaller parts of the overall development.
+
+\section{Orthogonal Code}
+
+Every time people write code they run the risk of reducing the orthogonality of an application. Code reviewers should constantly monitor not just what code author is doing but also the larger context of the application, the author might unintentionally duplicate functionality in some other module, or express existing knowledge twice.
+
+There are several techniques to maintain orthogonality:
+
+\begin{item}
+    \item \textbf{Avoid global data} Every time your code references global data, it ties itself into the other components that share that data. Even globals that you intend only to read can lead to trouble (for example, if you suddenly need to change your code to be multithreaded). In general, your code is easier to understand and maintain if you explicitly pass any required context into your modules. In objectoriented applications, context is often passed as parameters to objects’ constructors. In other code, you can create structures containing the context and pass around references to them.
+    \item \textbf{Avoid similar functions} Often you’ll come across a set of functions that all look similar - maybe they share common code at the start and end, but each has a different central algorithm. Duplicate code is a symptom of structural problems. Have a look at the Strategy pattern in book "Design Patterns" for a better implementation.
+\end{item}
+
+\section{Other Applications of Orthogonality}
+
+\subsection{Design}
+
+Most developers are familiar with the need to design orthogonal systems, although they may use words such as modular, component-based, and layered to describe the process. Systems should be composed of a set of cooperating modules, each of which implements functionality independent of the others. Sometimes these components are organized into layers, each providing a level of abstraction. This layered approach is a powerful way to design orthogonal systems. Because each layer uses only the abstractions provided by the layers below it, you have great flexibility in changing underlying implementations without affecting code. Layering also reduces the risk of runaway dependencies between modules.
+
+\subsection{3rd-Parity Libraries}
+
+Be careful to preserve the orthogonality of a system as code author introduces third-party toolkits and libraries.
+
+When you bring in a toolkit (or even a library from other members of your team), ask yourself whether it imposes changes on your code that shouldn’t be there. If an object persistence scheme is transparent, then it’s orthogonal. If it requires you to create or access objects in a special way, then it’s not. Keeping such details isolated from your code has the added benefit of making it easier to change vendors in the future.

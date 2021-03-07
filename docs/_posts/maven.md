@@ -1,0 +1,79 @@
+### [Setup Local Artifactory](https://www.vogella.com/tutorials/Artifactory/article.html)
+
+#### Artifactory Repository Manager
+
+##### What is a Repository Manager?
+
+A repository manager allows to store and retrieve build artifacts. You can use a repository manager to retrieve your
+code dependencies, for example during a Gradle or Maven build. The most popular examples for repository manager are
+[Maven Central Repository](http://search.maven.org/) and [jcenter at Bintray](https://bintray.com/bintray/jcenter).
+
+##### What is Artifactory?
+
+An Artifactory installation brings such a repository for your company. So you can host your own repositories, but also
+use Artifactory as a proxy for public repositories. With such a proxy **the time to receive an artifact is reduced and
+it saves bandwidth**. **Artifactory allows you to host your private build artifacts**.
+
+Artifactory is available as a [commercial version](https://www.jfrog.com/artifactory/free-trial) and as an
+[Open Source distribution](https://www.jfrog.com/open-source/).
+
+#### Installation of Artifactory
+
+In order to install the open source version of Artifactory you need to visit
+[Artifactory Open Source](https://www.jfrog.com/open-source/) and download the ZIP version or the RPM version. Even a
+Docker image can be used to run Artifactory.
+
+![diagram]({{ '/images/artifactory-download.png' | absolute_url }}){: .align-center}
+
+The ZIP version can be extracted into an arbitrary folder, e.g., the user home directory
+`$/var/lib/jenkins/artifactory`.
+
+Inside the extracted folder there is a `app/bin` folder, which contains startup files suitable for Linux/Mac and
+Windows. For Linux/Mac the `artifactory.sh` can be executed to startup a local Artifactory instance and for Windows
+the `artifactory.bat` can be executed.
+
+Inside the `bin` folder there are other options to run Artifactory, for examples it also can be run as a service.
+
+#### Configuration of Artifactory
+
+Once an Artifactory instance is running its web interface can be accessed at http://localhost:8081/artifactory/webapp/
+
+If the browser shows up with "service unavailable", simply refresh the browser couple times until it loads.
+
+##### User Settings
+
+The default user is `admin` and the password is `password`.
+
+## Maven Plugins
+
+### Include Whitelisted Dependency JAR's in Your application
+
+For example, To include `org.apache.commons:commons-lang3` where dependency `groupId` is
+`org.apache.commons:commons-lang3` and `artifactId` is `commons-lang3`:
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>2.4.3</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                    <configuration>
+                        <artifactSet>
+                            <includes>
+                                <include>org.apache.commons:commons-lang3</include>
+                            </includes>
+                        </artifactSet>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+```
