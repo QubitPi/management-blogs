@@ -54,8 +54,8 @@ Example:
         7 [fillcolor=green, style=filled]
         1 [fillcolor=green, style=filled]
     }
-    
-![example](../images/graphviz/tree.png)
+
+![example]({{ "/assets/img/tree.png" | relative_url}})
 
 ## Check MD5 Hash Quickly
 
