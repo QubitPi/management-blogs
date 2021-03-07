@@ -1,6 +1,6 @@
 ---
 layout: post
-title: HBase and Alternatives
+title: HBase Books
 tags: [HBase, Hadoop]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
@@ -14,4 +14,4 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc} 
 
-* [HBase - The Definitive Guide.pdf]({{ "/assets/pdf/HBase-The-Definitive-Guide.pdf" | relative_url}})
+* [HBase - The Definitive Guide]({{ "/assets/pdf/HBase-The-Definitive-Guide.pdf" | relative_url}})
