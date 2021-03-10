@@ -37,3 +37,50 @@ There isn't anything as convenient as annotating the Timestamp field directly, b
 
 [`@CreatedDate`](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#auditing.annotations)
 [`@LastModifiedDate`](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#auditing.annotations)
+
+## [Map the Native Query Result to Non-Entity POJO](https://stackoverflow.com/a/48296588)
+
+Let's say we have a TODO app with a database that keeps information about TODO task (`todo_task` table) and person
+(`person`). We would like to get a list of Person's ongoing TODO's; the results should have at least 2 columns - task
+name and person's name. We could use the following query:
+
+```
+SELECT todo_task.id, todo_task.task_name, person.name
+FROM todo_task
+LEFT JOIN person ON todo_task.person_id = person.id
+WHERE todo_task.task_status NOT IN ('DONE', 'TO DO')
+```
+
+We notice that the result comes with 3 columns that map to 2 separate JPA entities, i.e. `todo_task` & `person`
+
+In order to map the database result to a strongly typed programmable object, the easiest way is to use so called
+[projection](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#projections). It can map query results
+to interfaces. Using `SqlResultSetMapping` is inconvienient and makes your code ugly :).
+
+```java
+@Query(
+        nativeQuery = true,
+        value = "SELECT todo_task.id AS id, todo_task.task_name AS taskName, person.name AS name " +
+                "FROM todo_task " +
+                "LEFT JOIN person ON todo_task.person_id = person.id " +
+                "WHERE todo_task.task_status NOT IN ('Finished', 'Canceled')"
+)
+@NotNull
+List<Task> getAllTasks(@NotNull Pageable pagination);
+```
+
+```java
+public interface Task {
+
+    Long getId();
+
+    String getTaskName();
+    
+    String getName();
+}
+```
+
+> ⚠️ If you use `SELECT table.column ...` notation always define aliases matching names from entity(`Task`). For example
+> this won't work properly (projection will return nulls(`NullPointerException: null` at runtime) for each getter):
+> `SELECT todo_task.id, todo_task.task_name, person.name FROM ...` But this works fine:
+> `SELECT todo_task.id AS id, todo_task.task_name AS taskName, person.name AS name FROM ...`
