@@ -37,12 +37,16 @@ coordinating their flow of execution.
 
 At Yahoo!, as developers started doing more complex processing using Hadoop, multistage Hadoop jobs became common. This
 led to several ad hoc solutions to manage the execution and interdependency of these multiple Hadoop jobs. Not only does
-Hadoop community face such problem, but business solution in general also have challenges maintaining a correctly executing
-inter-dependent jobs. One example solution has 
+Hadoop community face such problem, but business solution in general also have challenges maintaining a correct
+executing inter-dependent jobs. [Tez](https://tez.apache.org/), for example, detects job dependency cycles:
+
+ 
 
 
 
-Tez cycle detection, but the whole graph is in memory(one-time config)
+but the whole graph is in memory(one-time config)
+
+This good given that we are validating a "one-time-config" task graph. 
 
 
 

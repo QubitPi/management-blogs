@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Linux Command Line Reference
-tags: [Linux]
+tags: [Bash, Linux]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
 thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
