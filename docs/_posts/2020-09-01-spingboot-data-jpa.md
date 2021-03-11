@@ -16,6 +16,34 @@ excerpt_separator: <!--more-->
 
 [Show Hibernate SQL query](https://mkyong.com/spring-boot/spring-boot-show-hibernate-sql-query/?__cf_chl_captcha_tk__=651ebbda874cdc687791cc51d8c9a255e78cbcf2-1606966482-0-ARO__MuYuZ7N6tiqlvRANDFD9F2xSEhUjEegpQTvLdBgAv7XHnOBR_RdygL79lB6zNxDrftmAqlEF4GQybvma1BlaZTi5EZGzet4AMsb-TMVuOAtjaUVe0gZvkDb0tX9SMwMHmf6XGC9fGF8iknOTGyPk2IIHKtfVYQ160maHOwHSz3WJ1iSXXJwisHfi6vzhfHEga_Ys84NqOhql9iXpZ11mKpSFeQmEn7bkbR3ZjeeaNMfjECQjTqw-SzAMWZC_lBvEq7A3lKR9fwj-67K1nXiXt-tz3ST_mZIQwwrfgHi412mKFeKTBYevGf1aOW1J15EfZJICKpLIw77SLlY0mbnLA3WYmdclDFEHolpd-kjrA5Xfx8E5eayOBcfUbBWIq5kF-VNddpNnzweisr_E50q9THAL4t7MNQc9maHSch3PVb5ZxYbgkMcnuQ7QnAjGDBPspc7urGXgfN6ExCIrhhJKm-8z9OKEkf8xN-9Q5tOnApDi9N7rVnaIXQUS18udEUEOj_tlnMg87OcG6_R2XRwZlbsvYJNfW7VwjrGcGs4FcsDQOtrSqPh-wsEUOG9QQ0BGQ2OjdZvBqzKIQDIAIiqCFXBphUfgOOqtayhzxeMyFEehYRciYN-t-5DI-cqT7pr6WpJxsM-LcAxzmjHd_I)
 
+## [`@Query`](https://www.baeldung.com/spring-data-jpa-query)
+
+Spring Data provides many ways to define a query that we can execute. One of these is the` @Query` annotation. In this
+section, we'll demonstrate how to use the `@Query` annotation in Spring Data JPA to execute both JPQL and native SQL
+queries. We'll also show how to build a dynamic query when the @Query annotation is not enough.
+         
+In order to define SQL to execute for a Spring Data repository method, we can annotate the method with the `@Query`
+annotation - its `value` attribute contains the JPQL or SQL to execute.
+
+The `@Query` annotation takes precedence over named queries, which are annotated with `@NamedQuery` or defined in an
+`orm.xml` file. (It's a good approach to place a query definition just above the method inside the repository rather
+than inside our domain model as named queries. The repository is responsible for persistence, so it's a better place to
+store these definitions.)
+
+### JPQL
+
+**By default, the query definition uses JPQL.**
+
+Let's look at a simple repository method that returns active User entities from the database:
+
+```java
+@Query("SELECT u FROM User u WHERE u.status = 1")
+Collection<User> findAllActiveUsers();
+```
+
+
+
+
 ## Pagination
 
 https://stackoverflow.com/a/47616648

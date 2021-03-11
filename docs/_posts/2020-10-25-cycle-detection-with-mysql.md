@@ -16,6 +16,9 @@ excerpt_separator: <!--more-->
 
 ## Why Are We Talking About Nasty Algorithm?
 
+I hate algorithm, not because algorithm is horrible in general; it simply isn't a nice thing to think about in my life.
+So let's start with Big Data, something that captures my interests instead.
+
 ### Big Data Processing
 
 Within a very short period of time, Apache Hadoop, an open source implementation of Google's
