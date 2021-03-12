@@ -122,12 +122,138 @@ Cannot use native queries with dynamic sorting and/or pagination
 As the exception says, the sort isn't supported for native queries. The error message gives us a hint that pagination
 will cause an exception too.                                                                              
 
-However, there is a [workaround that enables pagination](#pagination-native)
+However, there is a [workaround that enables pagination](#native-2)
 
 ### Pagination
 
+Pagination allows us to return just a subset of a whole result in a Page. This is useful, for example, when navigating
+through several pages of data on a web page.
+
+Another advantage of pagination is that the amount of data sent from server to client is minimized. By sending smaller
+pieces of data, we can generally see an improvement in performance.
+
+#### JPQL
+
+Using pagination in the JPQL query definition is straightforward:
+
+```java
+@Query(value = "SELECT u FROM User u ORDER BY id")
+Page<User> findAllUsersWithPagination(Pageable pageable);
+```
+
+We can pass a `PageRequest` parameter to get a page of data.
+
+Pagination is also supported for native queries but requires a little bit of additional work.
+
 #### Native
 
+We can enable pagination for native queries by declaring an additional attribute `countQuery`.
+
+This defines the SQL to execute to count the number of rows in the whole result:
+
+```java
+@Query(
+    value = "SELECT * FROM Users ORDER BY id", 
+    countQuery = "SELECT count(*) FROM Users", 
+    nativeQuery = true
+)
+Page<User> findAllUsersWithPagination(Pageable pageable);
+```
+
+### Query Parameters
+
+#### JPQL
+
+We use the `@Param` annotation in the method declaration to match parameters defined by name in JPQL with parameters
+from the method declaration:
+
+```java
+@Query("SELECT u FROM User u WHERE u.status = :status and u.name = :name")
+User findUserByStatusAndNameNamedParams(
+    @Param("status") Integer status, 
+    @Param("name") String name
+);
+```
+
+Note that in the above example, we defined our SQL query and method parameters to have the same names, but it's not
+required as long as the value strings are the same:
+
+```java
+@Query("SELECT u FROM User u WHERE u.status = :status and u.name = :name")
+User findUserByUserStatusAndUserName(
+    @Param("status") Integer userStatus, 
+    @Param("name") String userName
+);
+```
+
+#### Native
+
+For the native query definition, there is no difference in how we pass a parameter via the name to the query in
+comparison to JPQL - we use the @Param annotation:
+
+```java
+@Query(value = "SELECT * FROM Users u WHERE u.status = :status and u.name = :name", 
+  nativeQuery = true)
+User findUserByStatusAndNameNamedParamsNative(
+  @Param("status") Integer status, @Param("name") String name);
+```
+
+### Collection Parameter
+
+Let's consider the case when the where clause of our JPQL or SQL query contains the `IN` (or `NOT IN`) keyword:
+
+```java
+SELECT u FROM User u WHERE u.name IN :names
+```
+
+In this case, we can define a query method that takes Collection as a parameter:
+
+```java
+@Query(value = "SELECT u FROM User u WHERE u.name IN :names")
+List<User> findUserByNameList(@Param("names") Collection<String> names);
+```
+
+As the parameter is a Collection, it can be used with List, HashSet, etc.
+
+### Update Queries With `@Modifying`
+
+We can use the `@Query` annotation to modify the state of the database by also adding the `@Modifying` annotation to the
+repository method.
+
+#### JPQL
+
+The repository method that modifies the data has two differences in comparison to the select query - it has the
+`@Modifying` annotation and, of course, the JPQL query uses update instead of select:
+
+```java
+@Modifying
+@Query("update User u set u.status = :status where u.name = :name")
+int updateUserSetStatusForName(
+    @Param("status") Integer status, 
+    @Param("name") String name
+);
+```
+
+The return value defines how many rows the execution of the query updated. Both indexed and named parameters can be used
+inside update queries.
+
+#### Inserts
+
+To perform an insert operation, we have to both apply `@Modifying` and use a **native query** since `INSERT` is not a
+part of the JPA interface:
+
+```java
+@Modifying
+@Query(
+    value = "insert into Users (name, age, email, status) values (:name, :age, :email, :status)",
+    nativeQuery = true
+)
+void insertUser(
+    @Param("name") String name,
+    @Param("age") Integer age, 
+    @Param("status") Integer status,
+    @Param("email") String email);
+```
 
 ## Pagination
 
