@@ -17,4 +17,3 @@ excerpt_separator: <!--more-->
 
 ### Implicit Default Handling
 
-I have a table 
