@@ -36,9 +36,10 @@ Inheritance maps all fields of all classes of an inheritance structure into a si
 
 **Represents an inheritance hierarchy of classes with one table for each class**.
 
-For a full description see
-[Patterns of Enterprise Application Architecture - Martin Fowler](../../java/pdfs/architecture/Patterns%20of%20Enterprise%20Application%20Architecture%20-%20Martin%20Fowler.pdf)
+For a full description see [Patterns of Enterprise Application Architecture - Martin Fowler](../../java/pdfs/architecture/Patterns%20of%20Enterprise%20Application%20Architecture%20-%20Martin%20Fowler.pdf)
 page 285
+
+![Single Table Inheritance Example Diagram]({{ "/assets/img/class-table-inheritance.png" | relative_url}})
 
 A very visible aspect of the object-relational mismatch is the fact that relational databases don't support inheritance.
 You want database structures that map clearly to the objects and allow links anywhere in the inheritance structure.
