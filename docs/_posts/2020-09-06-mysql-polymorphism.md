@@ -53,7 +53,7 @@ For a full description see
 [Patterns of Enterprise Application Architecture - Martin Fowler](../../java/pdfs/architecture/Patterns%20of%20Enterprise%20Application%20Architecture%20-%20Martin%20Fowler.pdf)
 page 293
 
-![Concrete Table Inheritance] Example Diagram]({{ "/assets/img/concrete-table-inheritance.png" | relative_url}})
+![Concrete Table Inheritance]({{ "/assets/img/concrete-table-inheritance.png" | relative_url}})
 
 As any object purist will tell you, relational databases don't support inheritance - a fact that complicates
 object-relational mapping. Thinking of tables from an object instance point of view, a sensible route is to take each
