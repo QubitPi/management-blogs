@@ -3,13 +3,13 @@ baseurl: "/jersey-guide"
 url: "https://qubitpi.github.io"
 
 # THEME-SPECIFIC CONFIGURATION
-title: "Jersey Guide"                                                 # site's title
-description: "A knowledge hub for developing Jersey Web Service"      # used by search engines
+title: "My Tech Diary"                                                # site's title
+description: "Jiaqi Liu's Tech Blog"      # used by search engines
 avatar: assets/img/jersey.png                                       # Empty for no avatar in navbar
 favicon: assets/favicon.ico                                           # Icon displayed in the tab
 
 # Header and footer text
-header_text: Complete Knowledge Guide of<br>🎊 Jersey 🎊<br>a JAX-RS Reference Implementation  # Change Blog header text
+header_text: I don't like tech<br>but<br>I love technique that makes people live better though tech  # Change Blog header text
 header_feature_image: assets/img/pexels/design-art/cover.png
 footer_text: >
   Art illustration inspired by Artist <a href="https://www.artstation.com/mb0sco">Bogdan mB0sco</a>

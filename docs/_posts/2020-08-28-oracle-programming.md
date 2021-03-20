@@ -16,6 +16,11 @@ excerpt_separator: <!--more-->
 
 ## Shell
 
+### Run Oracle SQL script and Exit Afterwards
+
+    exit | sqlplus -S user/pwd@server @script.sql
+
+
 ### Connecting to Oracle DB Instance From the Command Line
 
 #### (First Time) Install Oracle Instant Client and `sqlplus` using Homebrew
