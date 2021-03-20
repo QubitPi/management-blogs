@@ -3,8 +3,8 @@ layout: post
 title: Java Tools
 tags: [Java]
 color: rgb(250, 154, 133)
-feature-img: "assets/img/pexels/design-art/new-dawn.png"
-thumbnail: "assets/img/pexels/design-art/new-dawn.png"
+feature-img: "assets/img/pexels/design-art/christmas-fair-2.png"
+thumbnail: "assets/img/pexels/design-art/christmas-fair-2.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

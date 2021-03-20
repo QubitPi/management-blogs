@@ -3,8 +3,8 @@ layout: post
 title: Cycle Detection using MySQL
 tags: [MySQL, Database]
 color: rgb(250, 154, 133)
-feature-img: "assets/img/pexels/design-art/christmas-around-corner.png"
-thumbnail: "assets/img/pexels/design-art/christmas-around-corner.png"
+feature-img: "assets/img/pexels/design-art/northern-lights.png"
+thumbnail: "assets/img/pexels/design-art/northern-lights.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
