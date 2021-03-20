@@ -74,3 +74,5 @@ This requires no interpretation on the incoming data. In this approach, data is 
 Using unstructured approach, we only need to deal with one type of complexity, which is the _interpretation of the data
 on use_. **The idea is to keep delaying the interpretation of the data until necessary**. A lot of type checking can be
 avoided when things are pushed down
+
+(To be continued...)
