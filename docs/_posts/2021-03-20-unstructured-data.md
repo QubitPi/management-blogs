@@ -16,10 +16,10 @@ excerpt_separator: <!--more-->
 
 People know that Big Data comes with 3V, which is Volume, Velocity, and Variety. What **Variety** means is that data
 comes from many data sources. An enterprise data pipeline could source data from structured sources, such as MySQL and
-Oracle, or unstructured sources, which includes for example HDFS or some kind of text files.
+Oracle, or unstructured sources, which includes for example HDFS or MongoDB.
 
-It is great when a platform has a large amount of data to play with. The challenge, however, is how should we manage
-those data efficiently from a software perspective?
+It is great when a platform has a large amount of data to play with. The challenge, however, is how we manage those data
+efficiently.
 
 ## An Example Business Scenario
 
