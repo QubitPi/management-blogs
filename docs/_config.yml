@@ -9,7 +9,7 @@ avatar: assets/img/jersey.png                                       # Empty for 
 favicon: assets/favicon.ico                                           # Icon displayed in the tab
 
 # Header and footer text
-header_text: I'm not a fan of modern technology<br>but<br>I love techniques that brings people less painful lives though tech  # Change Blog header text
+header_text: I'm not a fan of modern technology<br>but<br>I love techniques that brings people less painful lives though Big Data  # Change Blog header text
 header_feature_image: assets/img/pexels/design-art/cover.png
 footer_text: >
   Art illustration inspired by Artist <a href="https://www.artstation.com/mb0sco">Bogdan mB0sco</a>
