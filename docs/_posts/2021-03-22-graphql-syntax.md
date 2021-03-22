@@ -387,8 +387,7 @@ following:
 ##### Field
 
 > * A field, as defined below, is a name with optional alias, arguments, directives, or selection set.
-> * A name can be is a set of pre-defined string constants or arbitrary string
-  ( NAME ) show above.
+> * A name is a set of pre-defined string constants or arbitrary string (`NAME`) show below.
 
 ```
 field : alias? name arguments? directives? selectionSet?;
@@ -416,6 +415,9 @@ DIRECTIVE: 'directive';
 NAME: [_A-Za-z][_0-9A-Za-z]*;
 ```
 
+The simplest field becomes a query itself. This is a correct syntax, but GraphQL Java at runtime
+[requires a sub-selection](https://github.com/graphql-java/graphql-java/blob/610a5276ee9588a147de1a7b0dc525bcbd189221/src/main/java/graphql/validation/rules/ScalarLeafs.java#L29-L30)
+in order to get some meaningful data back:
 
 #### Selection with Operation
 
