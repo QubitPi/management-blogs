@@ -2,7 +2,7 @@
 layout: post
 title: Understanding GraphQL Query Syntax
 tags: [GraphQL]
-color: rgb(250, 154, 133)
+color: rgb(224, 1, 152)
 feature-img: "assets/img/pexels/design-art/down-the-street-through-Osaka.png"
 thumbnail: "assets/img/pexels/design-art/down-the-street-through-Osaka.png"
 author: QubitPi
