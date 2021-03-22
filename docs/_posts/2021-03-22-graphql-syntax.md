@@ -357,9 +357,65 @@ fragment UnicodeBOM : [\ufeff];
 
 A GraphQL query is internally called a "**document**". The definition of a GraphQL query/document is the following
 
-> A query/document is
+> A **query/document** is
 > 
-> * an operation, or
+> * an [operation](#operation), or
 > * a fragment, or
 > * a type system
+
+From this point, we will simply refer a GraphQL query as "document". This is a recursive definition, which is usual in
+an ANTLR4 definition language. Next we will look at what an "operation" is.
+
+### Operation
+
+> An **operation** is either
 >
+> * a set of [selection](#selection), or
+> * a set of [selection with operation](#selection-with-operation)
+
+#### Selection
+
+A set of selections(a selection set) is enclosed in a pair of curly braces. The definition of a selection is the
+following:
+
+> A **selection** is one of
+>
+> * a field, or
+> * a fragment spread, or
+> * a inline fragment
+
+##### Field
+
+> * A field, as defined below, is a name with optional alias, arguments, directives, or selection set.
+> * A name can be is a set of pre-defined string constants or arbitrary string
+  ( NAME ) show above.
+
+```
+field : alias? name arguments? directives? selectionSet?;
+
+...
+
+name: NAME | FRAGMENT | QUERY | MUTATION | SUBSCRIPTION | SCHEMA | SCALAR | TYPE | INTERFACE | IMPLEMENTS | ENUM | UNION | INPUT | EXTEND | DIRECTIVE;
+
+...
+
+FRAGMENT: 'fragment';
+QUERY: 'query';
+MUTATION: 'mutation';
+SUBSCRIPTION: 'subscription';
+SCHEMA: 'schema';
+SCALAR: 'scalar';
+TYPE: 'type';
+INTERFACE: 'interface';
+IMPLEMENTS: 'implements';
+ENUM: 'enum';
+UNION: 'union';
+INPUT: 'input';
+EXTEND: 'extend';
+DIRECTIVE: 'directive';
+NAME: [_A-Za-z][_0-9A-Za-z]*;
+```
+
+
+#### Selection with Operation
+
