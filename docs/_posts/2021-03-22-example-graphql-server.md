@@ -27,10 +27,7 @@ framework for Node.js. You will need to install two additional dependencies:
     npm install -g express-generator
     express --view="ejs" example
     
-#### app.js
-
-We can use the 'express' module to run a webserver, and instead of executing a query directly with the graphql function,
-we can use the `express-graphql` library to mount a GraphQL API server on the "/graphql" HTTP endpoint:
+#### Config - package.json
 
 ```json
 "dependencies": {
@@ -40,7 +37,11 @@ we can use the `express-graphql` library to mount a GraphQL API server on the "/
     ...
 }
 ```
+    
+#### Config - app.js
 
+We can use the 'express' module to run a webserver, and instead of executing a query directly with the graphql function,
+we can use the `express-graphql` library to mount a GraphQL API server on the "/graphql" HTTP endpoint:
 
 ```javascript
 var express = require('express');
@@ -73,6 +74,8 @@ console.log('Running a GraphQL API server at http://localhost:4000/graphql');
 module.exports = app;
 ```
 
+Run the server using
+
     npm install
     npm start
     
@@ -82,7 +85,6 @@ If everything is setup correctly, you should be able to see the following output
     > node ./bin/www
     
     Running a GraphQL API server at http://localhost:4000/graphql
-    
     
 Since we configured `graphqlHTTP` with `graphiql: true`, you can use the GraphiQL tool to manually issue GraphQL
 queries. If you navigate in a web browser to [`http://localhost:4000/graphql`](http://localhost:4000/graphql), you
