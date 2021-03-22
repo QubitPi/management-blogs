@@ -411,7 +411,9 @@ related data in one request**, instead of making several roundtrips, for example
 
 [The definition of field](#field) also recursively defines argument:
 
+![graphql-argument.png not loaded property]({{ "/assets/img/graphql-argument.png" | relative_url}})
 
+{% include aligner.html images="graphql-argument.png" %}
 
 #### Selection with Operation
 
