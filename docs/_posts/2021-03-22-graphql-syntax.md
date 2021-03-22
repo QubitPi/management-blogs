@@ -541,3 +541,78 @@ Let's starts with type definition
 
 ![graphql-type-definition.png not loaded property]({{ "/assets/img/graphql-type-definition.png" | relative_url}})
 
+* A [scalar type](#scalar-type) is defined in the form of "scalar typeName <directives>"
+* An [object type](#object-type) is defined in the form of
+
+```
+type typeName <implement interface1 interface2 ...> <directives> {
+    fieldName<(arguments)> : fieldType <directiuves>
+    ...
+}
+```
+
+###### Scalar Type
+
+A GraphQL [object type](#object-type) has a name and fields, but at some point those fields have to resolve to some
+concrete data. That's where the scalar types come in: they represents the leaves of the query.
+
+In the following query, the `name` and `appearsIn` fields resolve to scalar types:
+
+![graphql-scalar-type-example.png not loaded property]({{ "/assets/img/graphql-scalar-type-example.png" | relative_url}})
+
+GraphQL comes with a set of default scalar types:
+
+* `Int` A signed 32-bit integer
+* `Float` A signed double-precision floating-point value
+* `String` An UTF-8 character sequence
+* `Boolean`
+* `ID` ID is serialized in the same way as a String does
+
+To specify custom scalar types, Date for example
+
+```
+scalar Date
+```
+
+Then it's up to implementation how that type is to be serialized, deserialized, and validated.
+
+###### Object Type
+
+Object represent things you can fetch from GraphQL service. For example
+
+![graphql-object-type-example.png not loaded property]({{ "/assets/img/graphql-object-type-example.png" | relative_url}})
+
+#### Schema
+
+![graphql-schema.png not loaded property]({{ "/assets/img/graphql-schema.png" | relative_url}})
+
+* A schema defintion has the form of
+
+        schema <optional directive> {
+            # one or more operation type definition
+        }
+
+* A schema defines one mor more operation type
+* An operation type definition has the form of "subscription/mutation/query : typeName". For example
+
+        schema {
+            query: Query
+            mutation: Mutation
+        }
+        
+## What's Missing from Grammar
+
+### Sorting
+
+If you look at the beginning of [GraphQL Query Syntax](#graphql-query-syntax), there is no definition for sorting and
+pagination. This is because GraphQL is not a query language. We will need to specify sorting grammar by ourselves. What
+this means is we have the absolute freedom to specify sorting and pagination syntax.
+
+For example, we can sort in either ascending or descending order by prepending the attribute expression with a "+" or
+"-" character. If no order character is provided, sort order can defaults to ascending, for example
+
+![graphql-sorting-example.png not loaded property]({{ "/assets/img/graphql-sorting-example.png" | relative_url}})
+
+### Pagination
+
+[GraphQL recommends some pagination syntax](https://graphql.org/learn/pagination/)
