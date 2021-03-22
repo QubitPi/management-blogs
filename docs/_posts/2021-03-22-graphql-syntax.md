@@ -407,5 +407,11 @@ related data in one request**, instead of making several roundtrips, for example
 
 ![graphql-single-round-trip.png not loaded property]({{ "/assets/img/graphql-single-round-trip.png" | relative_url}})
 
+###### Argument
+
+[The definition of field](#field) also recursively defines argument:
+
+
+
 #### Selection with Operation
 
