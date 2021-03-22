@@ -38,3 +38,21 @@ Here is simple grammer that recoginizes phrases like hello jack and hello world:
 
 ![antlr-hello.png not loaded property]({{ "/assets/img/antlr-hello.png" | relative_url}})
 
+To keep things tidy, let's put this grammar file `Hello.g4` in its own directory, such as `hello`. We put `\hello` in
+the same directory hosting the `antlr-4.8-complete.jar`
+
+Then we can run ANTLR on it and compile the results:
+
+![antlr-run-hello.png not loaded property]({{ "/assets/img/antlr-run-hello.png" | relative_url}})
+
+Running the ANTLR tool on `Hello.g4` generates an executable recognizer embodied by `HelloParser.java` and
+`HelloLexer.java`, but we don't have a main program to trigger language recognition. Fortunately, ANTLR provides a
+flexible testing tool in the runtime library called `TestRig`. It can display lots of information about how a recognizer
+matches input from a file or standard input. `TestRig` uses Java reflection to invoke compile recognizers.
+
+The test rig takes a grammar name, a starting rule name kind of like a `main()` method, and various options that dicate
+the output we want.
+
+Let's say we'd like to print the tokens created during recognition. Tokens are vocabulary
+symbols like keyword hello and identifier jack. To test the grammar, start up the test
+rig as follows:
