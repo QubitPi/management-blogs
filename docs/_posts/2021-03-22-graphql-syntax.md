@@ -389,31 +389,7 @@ following:
 > * A field, as defined below, is a name with optional alias, arguments, directives, or selection set.
 > * A name is a set of pre-defined string constants or arbitrary string (`NAME`) show below.
 
-```
-field : alias? name arguments? directives? selectionSet?;
-
-...
-
-name: NAME | FRAGMENT | QUERY | MUTATION | SUBSCRIPTION | SCHEMA | SCALAR | TYPE | INTERFACE | IMPLEMENTS | ENUM | UNION | INPUT | EXTEND | DIRECTIVE;
-
-...
-
-FRAGMENT: 'fragment';
-QUERY: 'query';
-MUTATION: 'mutation';
-SUBSCRIPTION: 'subscription';
-SCHEMA: 'schema';
-SCALAR: 'scalar';
-TYPE: 'type';
-INTERFACE: 'interface';
-IMPLEMENTS: 'implements';
-ENUM: 'enum';
-UNION: 'union';
-INPUT: 'input';
-EXTEND: 'extend';
-DIRECTIVE: 'directive';
-NAME: [_A-Za-z][_0-9A-Za-z]*;
-```
+![graphql-field-def.png not loaded property]({{ "/assets/img/graphql-field-def.png" | relative_url}})
 
 The simplest field becomes a query itself. This is a correct syntax, but GraphQL Java at runtime
 [requires a sub-selection](https://github.com/graphql-java/graphql-java/blob/610a5276ee9588a147de1a7b0dc525bcbd189221/src/main/java/graphql/validation/rules/ScalarLeafs.java#L29-L30)
