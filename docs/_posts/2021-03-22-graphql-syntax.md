@@ -413,7 +413,51 @@ related data in one request**, instead of making several roundtrips, for example
 
 ![graphql-argument.png not loaded property]({{ "/assets/img/graphql-argument.png" | relative_url}})
 
-{% include aligner.html images="graphql-argument.png" %}
+* A field can have one or multiple arguments surrounded by a pair of parenthesis
+* An argument is a column-separated name-value pair, in which value is defined by multiple valid value types, such as
+  `int` and `enum`
+  
+Arguments gives you the ability to pass arguments to fields:
+
+![graphql-argument-example.png not loaded property]({{ "/assets/img/graphql-argument-example.png" | relative_url}})
+
+We can even pass arguments into scalar fields when data transformations is implemented on server
+
+![graphql-argument-scalar.png not loaded property]({{ "/assets/img/graphql-argument-scalar.png" | relative_url}})
+
+Arguments can be of many different types. The example above used Enumeration type, which represents one of a finite set
+of options. GraphQL comes with a default set of types, but a GraphQL server can also declare its own custom types, as
+long as they can be serialized into your transport format.
+
+###### Aliases
+
+When [Field](#field) includes alias, you can query the same field with different argument.
+
+An alias has a name followed by a column. The part after the column is the name that is to be aliased:
+`alias : name ':';`
+
+![graphql-alias-example.png not loaded property]({{ "/assets/img/graphql-alias-example.png" | relative_url}})
+
+In the example above, the two fields `hero` would have conflicted, but not because they are aliased.
+
+###### Directive
+
+A field selection can have a set of directives:
+
+![graphql-directive.png not loaded property]({{ "/assets/img/graphql-directive.png" | relative_url}})
+
+* Directives is composed of one or more directive clauses
+* A directive starts with `@` sign followed by a string which represents the name of the directive. A directive can
+  optionally have [Argument](#argument)
+  
+Understanding **directive** requires knowledge of [variables](#variables). We will talk more about it when we look at
+[variables](#variables) definitions.
+
+###### Fragments
+
+![graphql-fragments.png not loaded property]({{ "/assets/img/graphql-fragments.png" | relative_url}})
 
 #### Selection with Operation
+
+##### Variables
 
