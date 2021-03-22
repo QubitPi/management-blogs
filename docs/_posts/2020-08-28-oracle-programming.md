@@ -14,6 +14,10 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
+## References
+
+* [Oracle Tutorial](https://www.oracletutorial.com/)
+
 ## Shell
 
 ### Run Oracle SQL script and Exit Afterwards

@@ -14,6 +14,10 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
+## References
+
+* [MySQL Tutorial](https://www.mysqltutorial.org/)
+
 ## [SQL Style Guide](https://www.sqlstyle.guide/#naming-conventions)
 
 ### General

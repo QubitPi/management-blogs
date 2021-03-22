@@ -14,6 +14,17 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
+## [Generate Favicon File](https://unix.stackexchange.com/a/89276)
+
+```bash
+convert image.png  -bordercolor white -border 0 \
+      \( -clone 0 -resize 16x16 \) \
+      \( -clone 0 -resize 32x32 \) \
+      \( -clone 0 -resize 48x48 \) \
+      \( -clone 0 -resize 64x64 \) \
+      -delete 0 -alpha off -colors 256 favicon.ico
+```
+
 ## Replace Transparent Background in png with White Background
 
     convert -flatten img1.png img1-white.png
