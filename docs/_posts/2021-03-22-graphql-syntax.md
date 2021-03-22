@@ -395,5 +395,7 @@ The simplest field becomes a query itself. This is a correct syntax, but GraphQL
 [requires a sub-selection](https://github.com/graphql-java/graphql-java/blob/610a5276ee9588a147de1a7b0dc525bcbd189221/src/main/java/graphql/validation/rules/ScalarLeafs.java#L29-L30)
 in order to get some meaningful data back:
 
+![graphql-sub-selection.png not loaded property]({{ "/assets/img/graphql-sub-selection.png" | relative_url}})
+
 #### Selection with Operation
 
