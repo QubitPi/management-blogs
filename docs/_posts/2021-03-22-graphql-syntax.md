@@ -467,7 +467,37 @@ With GraphQL _fragment_, client can construct sets of fields and then inlude the
 
 ![graphql-fragment-excample.png not loaded property]({{ "/assets/img/graphql-fragment-excample.png" | relative_url}})
 
+###### Inline Fragments
+
+![graphql-inline-fragment.png not loaded property]({{ "/assets/img/graphql-inline-fragment.png" | relative_url}})
+
+* An inline fragment starts with "..."
+* An inline fragment must have a set of [selections](#selection)
+* An inline fragment can optionally have type condition and directives
+* A type condition starts with "`on`" followd by type name
+
 #### Selection with Operation
+
+* A selection with operation starts with an _operation type_, which is one of "subscription/mutation/query" followed by
+  an optional name associated with this selection. It ends with a [sub-selection](#selection).
+* Named selection can have variables passed by client. The variables are surounded by a pair of parenthesis. Each
+  varialbe has the form of `$name: <type>`. The variable can have a default value, in which case the variable has the
+  form of `$name: <type> = value`
+* Selection with operations supports [directive](#directive)
+            
+![grpahql-selection-with-operation.png not loaded property]({{ "/assets/img/grpahql-selection-with-operation.png" | relative_url}})
+
+Here is an example that includes the keyword `query` as operation type and `HeroNameAndFriends` as operation name:
+
+![graphql-selection-with-operation-example.png not loaded property]({{ "/assets/img/graphql-selection-with-operation-example.png" | relative_url}})
+
+The operation is required in multi-operation query and is useful for debugging, because you can find log by name.
 
 ##### Variables
 
+Variables allows dynamic argument passing. For example, client dynamically selects an option from drop-down box and set
+that option as the value to a field argument
+
+GraphQL does this by passing those variables as a separate dictionary (not in GraphQL query). For example
+
+![graphql-variable-example.png not loaded property]({{ "/assets/img/graphql-variable-example.png" | relative_url}})
