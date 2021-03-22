@@ -94,7 +94,7 @@ Since we configured `graphqlHTTP` with `graphiql: true`, you can use the GraphiQ
 queries. If you navigate in a web browser to [`http://localhost:4000/graphql`](http://localhost:4000/graphql), you
 should be able see an interface that lets you enter queries. It should look like:
 
-![sentry-io-install-memory.png not loaded property]({{ "/assets/img/hello-graphql-server.png" | relative_url}})
+![hello-graphql-server.png not loaded property]({{ "/assets/img/hello-graphql-server.png" | relative_url}})
 
 This screen shot shows the GraphQL query `{ hello }` being issued and giving a result of
 `{ data: { hello: 'Hello world!' } }`. GraphiQL is a great tool for debugging and inspecting a server, so we recommend
