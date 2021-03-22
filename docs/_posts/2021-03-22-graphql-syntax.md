@@ -53,6 +53,8 @@ matches input from a file or standard input. `TestRig` uses Java reflection to i
 The test rig takes a grammar name, a starting rule name kind of like a `main()` method, and various options that dicate
 the output we want.
 
-Let's say we'd like to print the tokens created during recognition. Tokens are vocabulary
-symbols like keyword hello and identifier jack. To test the grammar, start up the test
-rig as follows:
+Let's say we'd like to print the tokens created during recognition. Tokens are vocabulary symbols like keyword `hello`
+and identifier `jack`. To test the grammar, start up the test rig as follows:
+
+![antlr-run.png not loaded property]({{ "/assets/img/antlr-run.png" | relative_url}})
+
