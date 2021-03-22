@@ -397,5 +397,15 @@ in order to get some meaningful data back:
 
 ![graphql-sub-selection.png not loaded property]({{ "/assets/img/graphql-sub-selection.png" | relative_url}})
 
+You can see immediately that the query has exactly the same shape as the result. This is essential to GraphQL, because
+you always get back what you expect, and the server knows exactly what fields the client is asking for.
+
+Notice in the definition, a field can also be a name followed by a sub-set of selections. This is somehow enforced at
+runtime as demonstrated above. The sub-selection can also refer to Objects. In that case, you can make a sub-selection
+of fields for that object. **GraphQL queries can traverse related objects and their fields, letting client fetch lots of
+related data in one request**, instead of making several roundtrips, for example:
+
+![graphql-single-round-trip.png not loaded property]({{ "/assets/img/graphql-single-round-trip.png" | relative_url}})
+
 #### Selection with Operation
 
