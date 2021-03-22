@@ -355,3 +355,11 @@ fragment Comma : ',';
 fragment UnicodeBOM : [\ufeff];
 ```
 
+A GraphQL query is internally called a "**document**". The definition of a GraphQL query/document is the following
+
+> A query/document is
+> 
+> * an operation, or
+> * a fragment, or
+> * a type system
+>
