@@ -501,3 +501,43 @@ that option as the value to a field argument
 GraphQL does this by passing those variables as a separate dictionary (not in GraphQL query). For example
 
 ![graphql-variable-example.png not loaded property]({{ "/assets/img/graphql-variable-example.png" | relative_url}})
+
+###### Directives
+
+Directive is essentially an application of variable and is able to dynamically change the structure of queries using
+variables. For example
+
+![graphql-directive-example.png not loaded property]({{ "/assets/img/graphql-directive-example.png" | relative_url}})
+
+The core GraphQL specification includes 2 directives, which must be supported by any spec-compliant GraphQL server
+implementation:
+
+1. `@include(if: Boolean)` Include this field in the result if the argument evaluates to `true`
+2. `@skip(if: Boolean)` Skip this field if the arguments evaluates to `true`
+
+###### Mutation
+
+One [operation](#selection-with-operation) type is mutation. The purpose of it is we cannot mutate data with a `GET`
+request, similary we need a convension that distinguish a **write GraphQL query** to a **read GraphQL query**.
+
+_After the mutation, the mutated data is queriable in the same write request_ such as the following:
+
+![graphql-mutation-example.png not loaded property]({{ "/assets/img/graphql-mutation-example.png" | relative_url}})
+
+In the example above, you persist an object of type `Review`. This object is included in variable. The query itself
+includes all the fields that are returnd in this mutation list, i.e. stars.
+
+Note that mutation can persists multiple objects of multipe types.
+
+### Type System
+
+A *type system* defines a schema, a type, a type extension, and direcive
+
+![graphql-type.png not loaded property]({{ "/assets/img/graphql-type.png" | relative_url}})
+
+Let's starts with type definition
+
+#### Type
+
+![graphql-type-definition.png not loaded property]({{ "/assets/img/graphql-type-definition.png" | relative_url}})
+
