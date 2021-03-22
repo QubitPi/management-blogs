@@ -457,6 +457,16 @@ Understanding **directive** requires knowledge of [variables](#variables). We wi
 
 ![graphql-fragments.png not loaded property]({{ "/assets/img/graphql-fragments.png" | relative_url}})
 
+* A standard fragment starts with "..." followed by a fragment name
+* Fragment works with [Directive](#directive)
+
+Let's say we had a relatively complicated page, which lets us look at two heros side by side, along with their friends.
+This query requires client to repeat the fields - one for each side of comparison.
+
+With GraphQL _fragment_, client can construct sets of fields and then inlude them in queries. For example
+
+![graphql-fragment-excample.png not loaded property]({{ "/assets/img/graphql-fragment-excample.png" | relative_url}})
+
 #### Selection with Operation
 
 ##### Variables
