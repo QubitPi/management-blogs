@@ -58,3 +58,300 @@ and identifier `jack`. To test the grammar, start up the test rig as follows:
 
 ![antlr-run.png not loaded property]({{ "/assets/img/antlr-run.png" | relative_url}})
 
+Note that the ".:../antlr-4.8-complete.jar" is basically saying add the current directory (of all `.class`) and the path
+to `antlr-4.8-complete.jar` to `CLASSPATH` so that compiler will be able to reference properly.
+
+After you hit "enter", the computer will patiently wait for you to type in something like "hello jack" followed by a
+newline. At that point, you must type the end-of-file character(ctrl-D) to terminate reading from standard input;
+otherwise, the program will stare at your for eternity. Once the recognizer has read all of the input, `TestRig` prints
+out the list of tokens per the use of option `-tokens`. You should be able see the output of the following:
+
+```
+[@0,0:4='hello',<'hello'>,1:0]
+[@1,6:9='jack',<ID>,1:6]
+[@2,11:10='<EOF>',<EOF>,2:0]
+```
+
+Each line of the output represents a single token and shows everything we know about the token. For example, the
+`[@1,6:9='jack',<ID>,1:6]` indicates that the token
+
+* is the second token (indexed from 0)
+* goes from character position 6 to 9 (inclusive starting from 0)
+* has text `jack`
+* has token type of `ID`
+* is on line 1 (from 1), and
+* is at character position 6 (starting from zero and counting tabs as a single character)
+
+We can print the parse tree in LISP-style text form just as easily:
+
+![antlr-lisp.png not loaded property]({{ "/assets/img/antlr-lisp.png" | relative_url}})
+
+The output shall be
+
+```
+(r hello jack)
+```
+
+The easiest way to see how a grammar recognizes the input, though, is by looking at the parse tree visually. Running
+`TestRig` with the `-gui` option produces the following dialog box:
+
+![antlr-parse-tree.png not loaded property]({{ "/assets/img/antlr-parse-tree.png" | relative_url}})
+
+Running `TestRig` without any command-line options prints a small help message:
+
+```bash
+$ java -cp ".:../antlr-4.8-complete.jar" org.antlr.v4.gui.TestRig
+java org.antlr.v4.gui.TestRig GrammarName startRuleName
+  [-tokens] [-tree] [-gui] [-ps file.ps] [-encoding encodingname]
+  [-trace] [-diagnostics] [-SLL]
+  [input-filename(s)]
+Use startRuleName='tokens' if GrammarName is a lexer grammar.
+Omitting input-filename makes rig read from stdin.
+```
+
+We've already discussed `-tokens`, `-tree`, and `-gui`.
+
+* `-ps file.ps` generates a visual representation of the parse tree in PostScript and stores it in `file.ps`.
+* `-encoding encodingnam`e specifies the test rig input file encoding if the current locale would not read the input
+  properly, such as the case of parsing a Japanese-encoded XML file
+* `-trace` prints the rule name and current token upon rule entry and exit
+* `-diagnostics` turns on diagnostic messages during parsing. This generates messages only for unusual situations such
+  as ambiguous input phrases
+* `-SLL` uses a faster but slightly weaker parsing strategy.
+
+## GraphQL Query Syntax
+
+The definition of GraphQL query language(6.0) is the following:
+
+```g4
+grammar Graphql;
+
+@header {
+    package graphql.parser.antlr;
+}
+
+// Document
+
+document : definition+;
+
+definition:
+operationDefinition |
+fragmentDefinition |
+typeSystemDefinition
+;
+
+operationDefinition:
+selectionSet |
+operationType  name? variableDefinitions? directives? selectionSet;
+
+operationType : SUBSCRIPTION | MUTATION | QUERY;
+
+variableDefinitions : '(' variableDefinition+ ')';
+
+variableDefinition : variable ':' type defaultValue?;
+
+variable : '$' name;
+
+defaultValue : '=' value;
+
+// Operations
+
+selectionSet :  '{' selection+ '}';
+
+selection :
+field |
+fragmentSpread |
+inlineFragment;
+
+field : alias? name arguments? directives? selectionSet?;
+
+alias : name ':';
+
+arguments : '(' argument+ ')';
+
+argument : name ':' valueWithVariable;
+
+// Fragments
+
+fragmentSpread : '...' fragmentName directives?;
+
+inlineFragment : '...' typeCondition? directives? selectionSet;
+
+fragmentDefinition : 'fragment' fragmentName typeCondition directives? selectionSet;
+
+fragmentName :  name;
+
+typeCondition : 'on' typeName;
+
+// Value
+
+name: NAME | FRAGMENT | QUERY | MUTATION | SUBSCRIPTION | SCHEMA | SCALAR | TYPE | INTERFACE | IMPLEMENTS | ENUM | UNION | INPUT | EXTEND | DIRECTIVE;
+
+value :
+IntValue |
+FloatValue |
+StringValue |
+BooleanValue |
+NullValue |
+enumValue |
+arrayValue |
+objectValue;
+
+valueWithVariable :
+variable |
+IntValue |
+FloatValue |
+StringValue |
+BooleanValue |
+NullValue |
+enumValue |
+arrayValueWithVariable |
+objectValueWithVariable;
+
+
+enumValue : name ;
+
+// Array Value
+
+arrayValue: '[' value* ']';
+
+arrayValueWithVariable: '[' valueWithVariable* ']';
+
+
+// Object Value
+
+objectValue: '{' objectField* '}';
+objectValueWithVariable: '{' objectFieldWithVariable* '}';
+objectField : name ':' value;
+objectFieldWithVariable : name ':' valueWithVariable;
+
+// Directives
+
+directives : directive+;
+
+directive :'@' name arguments?;
+
+// Types
+
+type : typeName | listType | nonNullType;
+
+typeName : name;
+listType : '[' type ']';
+nonNullType: typeName '!' | listType '!';
+
+
+// Type System
+typeSystemDefinition:
+schemaDefinition |
+typeDefinition |
+typeExtensionDefinition |
+directiveDefinition
+;
+
+schemaDefinition : SCHEMA directives? '{' operationTypeDefinition+ '}';
+
+operationTypeDefinition : operationType ':' typeName;
+
+typeDefinition:
+scalarTypeDefinition |
+objectTypeDefinition |
+interfaceTypeDefinition |
+unionTypeDefinition |
+enumTypeDefinition |
+inputObjectTypeDefinition
+;
+
+scalarTypeDefinition : SCALAR name directives?;
+
+objectTypeDefinition : TYPE name implementsInterfaces? directives? '{' fieldDefinition+ '}';
+
+implementsInterfaces : IMPLEMENTS typeName+;
+
+fieldDefinition : name argumentsDefinition? ':' type directives?;
+
+argumentsDefinition : '(' inputValueDefinition+ ')';
+
+inputValueDefinition : name ':' type defaultValue? directives?;
+
+interfaceTypeDefinition : INTERFACE name directives? '{' fieldDefinition+ '}';
+
+unionTypeDefinition : UNION name directives? '=' unionMembers;
+
+unionMembers:
+typeName |
+unionMembers '|' typeName
+;
+
+enumTypeDefinition : ENUM name directives? '{' enumValueDefinition+ '}';
+
+enumValueDefinition : enumValue directives?;
+
+inputObjectTypeDefinition : INPUT name directives? '{' inputValueDefinition+ '}';
+
+typeExtensionDefinition : EXTEND objectTypeDefinition;
+
+directiveDefinition : DIRECTIVE '@' name argumentsDefinition? 'on' directiveLocations;
+
+directiveLocation : name;
+
+directiveLocations :
+directiveLocation |
+directiveLocations '|' directiveLocation
+;
+
+
+// Token
+
+BooleanValue: 'true' | 'false';
+
+NullValue: 'null';
+
+FRAGMENT: 'fragment';
+QUERY: 'query';
+MUTATION: 'mutation';
+SUBSCRIPTION: 'subscription';
+SCHEMA: 'schema';
+SCALAR: 'scalar';
+TYPE: 'type';
+INTERFACE: 'interface';
+IMPLEMENTS: 'implements';
+ENUM: 'enum';
+UNION: 'union';
+INPUT: 'input';
+EXTEND: 'extend';
+DIRECTIVE: 'directive';
+NAME: [_A-Za-z][_0-9A-Za-z]*;
+
+
+IntValue : Sign? IntegerPart;
+
+FloatValue : Sign? IntegerPart ('.' Digit*)? ExponentPart?;
+
+Sign : '-';
+
+IntegerPart : '0' | NonZeroDigit | NonZeroDigit Digit+;
+
+NonZeroDigit: '1'.. '9';
+
+ExponentPart : ('e'|'E') Sign? Digit+;
+
+Digit : '0'..'9';
+
+
+StringValue: '"' (~(["\\\n\r\u2028\u2029])|EscapedChar)* '"';
+
+Comment: '#' ~[\n\r\u2028\u2029]* -> channel(2);
+
+Ignored: (UnicodeBOM|Whitespace|LineTerminator|Comma) -> skip;
+
+fragment EscapedChar :   '\\' (["\\/bfnrt] | Unicode) ;
+fragment Unicode : 'u' Hex Hex Hex Hex ;
+fragment Hex : [0-9a-fA-F] ;
+
+fragment LineTerminator: [\n\r\u2028\u2029];
+
+fragment Whitespace : [\u0009\u0020];
+fragment Comma : ',';
+fragment UnicodeBOM : [\ufeff];
+```
+
