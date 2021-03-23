@@ -19,7 +19,7 @@ technology unless it is written by some strong-marketing-minded engineer. I beli
 to dive into its source code and have its documentation as an aid that facilitates your understanding. In this post I am
 going to show you how to master **GraphQL query language** by looking at its source file.
 
-**Note that you will need to have solid understanding of ANTLR4 before moving on**.
+[**Note that you will need to have solid understanding of ANTLR4 before moving on**]({{ "/assets/pdf/the-definitive-antlr-4-reference.pdf" | relative_url}}).
 
 GraphQL query language is defined using ANTLR. This means understanding its grammar is essentially the same thing as
 unserstanding its ANTLR definition. We will understnd GraphQL query language by reading its ANTLR grammar. Leaarning it
