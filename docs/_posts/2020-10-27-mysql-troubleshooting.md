@@ -60,7 +60,7 @@ ERROR 1364 (HY000): Field 'a' doesn't have a default value
 You'll see now only one row in the table which is a result of the
 [goofy syntax](https://dba.stackexchange.com/q/194120/2639) that is still permitted with "strict mode".
 
-### Left Join Comes Out with Duplicate Rows
+### [Left Join Comes Out with Duplicate Rows](https://stackoverflow.com/questions/22769641/left-join-without-duplicate-rows-from-left-table)
 
 The cause of the duplicate rows is that the left table has rows that have more than 1 associated rows in the right
 table.

@@ -14,6 +14,24 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
+## Hive Data Model
+
+Data in Hive is organized into:
+
+* **Tables** - These are analogous to Tables in Relational Databases. Tables can be filtered, projected, joined and
+  unioned. Additionally **all the data of a table is stored in a directory in HDFS**. Hive also supports the notion of
+  external tables wherein a table can be created on prexisting files or directories in HDFS by providing the appropriate
+  location to the table creation DDL. The rows in a table are organized into typed columns similar to Relational
+  Databases.
+* **Partitions** - Each Table can have one or more partition keys which determine how the data is stored, for example a
+  table `T` with a date partition column `ds` had files with data for a particular date stored in the
+  `<table location>/ds=<date>` **directory** in HDFS. Partitions allow the system to prune data to be inspected based on
+  query predicates, for example a query that is interested in rows from `T` that satisfy the predicate
+  `T.ds = '2008-09-01'` would only have to look at files in `<table location>/ds=2008-09-01/` directory in HDFS.
+* **Buckets** - Data in each partition may in turn be divided into Buckets based on the hash of a column in the table.
+  Each bucket is stored as a **file** in the partition directory. Bucketing allows the system to efficiently evaluate
+  queries that depend on a sample of data (these are queries that use the `SAMPLE` clause on the table).
+
 ## Partition
 
 Each Table can have one or more partition Keys which determines how the data is stored. Partitions - apart from being
