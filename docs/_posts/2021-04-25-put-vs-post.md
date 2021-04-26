@@ -1,0 +1,23 @@
+---
+layout: post
+title: PUT v.s. POST
+tags: [HTTP, Webservice]
+color: rgb(224, 1, 152)
+feature-img: "assets/img/pexels/design-art/down-the-street-through-Osaka.png"
+thumbnail: "assets/img/pexels/design-art/down-the-street-through-Osaka.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
+<!--more-->
+
+* TOC
+{:toc}
+
+We should choose between PUT and POST based on [idempotence](http://en.wikipedia.org/wiki/Idempotent) of the action.
+
+**PUT** implies putting a resource - completely replacing whatever is available at the given URL with a different thing.
+By definition, a PUT is idempotent. Do it as many times as you like, and the result is the same. `x=5` is idempotent.
+You can PUT a resource whether it previously exists, or not (eg, to Create, or to Update)!
+
+**POST updates a resource, adds a subsidiary resource, or causes a change. A POST is not idempotent, in the way that x++ is not idempotent.

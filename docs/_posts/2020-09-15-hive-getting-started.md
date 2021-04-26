@@ -87,4 +87,4 @@ permissions, they will not be able to view the data or its metadata.
 
 ### Next Steps
 
-Read the `Hive LanguageManual <https://cwiki.apache.org/confluence/display/Hive/LanguageManual>`_.
+Read the [Hive Language Manual](https://cwiki.apache.org/confluence/display/Hive/LanguageManual).

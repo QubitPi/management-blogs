@@ -19,35 +19,68 @@ excerpt_separator: <!--more-->
 This chapter is compiled from the Hive documentation from Hortonworks, Cloudera, and the book
 [Programming Hive](http://www.amazon.com/Programming-Hive-Edward-Capriolo-ebook/dp/B009D76316/ref=sr_1_1?ie=UTF8&qid=1402703076&sr=8-1&keywords=programming+hive)
 
-## Hive Shell Commands
+## Hive CLI
 
-### Start Hive
+> ⚠️ **Deprecation in favor of Beeline CLI**. HiveServer2 (introduced in Hive 0.11) has its own CLI called
+> [Beeline](https://cwiki.apache.org/confluence/display/Hive/HiveServer2+Clients#HiveServer2Clients-Beeline%E2%80%93NewCommandLineShell),
+> which is a JDBC client based on SQLLine. Due to new development being focused on HiveServer2, Hive CLI will soon be
+> deprecated in favor of Beeline.
 
-`$ hive`
+### Start Beeline
+
+    beeline -u <database URL> -n <username> -p <password>
+
+### Print Configs Overridden by User or Hive.
+ 
+    set;
+    
+### Prints Hadoop and Hive Configs
+
+    set -v;
 
 ### Set Configurations
 
-`hive> set propkey=value;`
-
-### List Properties and Values
+    set <key>=<value>;
  
-`hive> set –v;`
- 
-### Add Resources to the DCache
+### Add [Resources](https://cwiki.apache.org/confluence/display/Hive/LanguageManual+Cli#LanguageManualCli-HiveResources) to the Hadoop Distributed Cache
 
-`hive> add [ARCHIVE|FILE|JAR] filename;`
+    add FILE[S] <filepath> <filepath>*;
+    add JAR[S] <filepath> <filepath>*;
+    add ARCHIVE[S] <filepath> <filepath>*;
+
+### List Databases
+
+    SHOW DATABASES;
 
 ### List Tables	 
 
-`hive> show tables;`
+    SHOW TABLES;
+    
+### Truncate Table
+
+#### Through spark-shell
+
+    sql("TRUNCATE TABLE <db>.<table>");
+    
+### Create a Table (Example)
+
+    CREATE TABLE IF NOT EXISTS celebrity (
+        object_key String,
+        name String
+    )
+    COMMENT 'Celebrity Info'
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY '\t'
+    LINES TERMINATED BY '\n'
+    STORED AS TEXTFILE;
 
 ### Describe a Table
 
-`hive> describe <tablename>;` 
+    DESCRIBE <tablename>;
 
 For more information:
 
-    hive> describe extended <tablename>;
+    DESCRIBE EXTENDED <tablename>;
 
 ### List Functions	 
 
