@@ -20,4 +20,16 @@ We should choose between PUT and POST based on [idempotence](http://en.wikipedia
 By definition, a PUT is idempotent. Do it as many times as you like, and the result is the same. `x=5` is idempotent.
 You can PUT a resource whether it previously exists, or not (eg, to Create, or to Update)!
 
-**POST updates a resource, adds a subsidiary resource, or causes a change. A POST is not idempotent, in the way that x++ is not idempotent.
+**POST updates a resource, adds a subsidiary resource, or causes a change. A POST is not idempotent, in the way that
+`x++` is not idempotent.
+
+By this argument, PUT is for creating when you know the URL of the thing you will create. POST can be used to create
+when you know the URL of the "factory" or manager for the category of things you want to create.
+
+so:
+
+    POST /expense-report
+
+or:
+
+    PUT /expense-report/10929
