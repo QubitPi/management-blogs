@@ -179,7 +179,7 @@ Only those steps on the `GraphTraversalSource` can start a graph traversal
 * `addV()` - Adds a Vertex to start the traversal (example).
 * `E()` - Reads edges from the graph to start the traversal (example).
 * `inject()` - Inserts arbitrary objects to start the traversal (example).
-* [`V()`](#v-graph-step) - Reads vertices from the graph to start the traversal.
+* `V()` - [Reads vertices from the graph to start the traversal](#v-graph-step).
 
 #### V(): Graph Step
 
