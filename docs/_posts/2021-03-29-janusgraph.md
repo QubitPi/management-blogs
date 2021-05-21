@@ -183,9 +183,23 @@ Only those steps on the `GraphTraversalSource` can start a graph traversal
 
 #### V(): Graph Step
 
-Graph steps are those that read vertices, V(), or edges, E(), from the graph. The V()-step is usually used to start a GraphTraversal, but can also be used mid-traversal. The E()-step on the other hand can only be used as a start step.
+Graph steps are those that read vertices, `V()`, or edges, `E()`, from a graph. The V()-step is usually used to start a
+graph traversal, but can also be used mid-traversal. **The E()-step on the other hand can only be used as a start step.**
 
+#### Terminal Steps
 
+```groovy
+g.V().out('created').hasNext() //// (1)
+g.V().out('created').next() //// (2)
+g.V().out('created').next(2) //// (3)
+g.V().out('nothing').tryNext() //// (4)
+g.V().out('created').toList() //// (5)
+g.V().out('created').toSet() //// (6)
+g.V().out('created').toBulkSet() //// (7)
+results = ['blah',3]
+g.V().out('created').fill(results) //// (8)
+g.addV('person').iterate() //9
+```
 
 
 
