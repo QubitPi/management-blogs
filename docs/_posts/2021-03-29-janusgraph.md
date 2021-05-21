@@ -201,6 +201,20 @@ g.V().out('created').fill(results) // fill(collection) will put all results in t
 g.addV('person').iterate() // iterate() does not exactly fit the definition of a terminal step in that it doesn’t return a result, but still returns a traversal - it does however behave as a terminal step in that it iterates the traversal and generates side effects without returning the actual result.
 ```
 
+There is also the `promise()` terminator step, which can only be used with remote traversals to
+[Gremlin Server](https://tinkerpop.apache.org/docs/current/reference/#connecting-gremlin-server) or
+[RGPs](https://tinkerpop.apache.org/docs/current/reference/#connecting-rgp). It starts a promise to execute a function
+on the current Traversal that will be completed in the future.
+
+Finally, [explain()-step](#explain---explain-step) is also a terminal step
+
+#### explain() - Explain Step
+
+
+
+
+
+
 _To be continued..._
 
 ## Architecture
@@ -217,6 +231,3 @@ The indexing is also modular and is backed by one of
 * [Apache Lucene](https://docs.janusgraph.org/index-backend/lucene/)
 
 JanusGraph has embedded mode (same JVM) and standalone mode
-
-
-[]: #
