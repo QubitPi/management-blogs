@@ -189,19 +189,17 @@ graph traversal, but can also be used mid-traversal. **The E()-step on the other
 #### Terminal Steps
 
 ```groovy
-g.V().out('created').hasNext() //// (1)
-g.V().out('created').next() //// (2)
-g.V().out('created').next(2) //// (3)
-g.V().out('nothing').tryNext() //// (4)
-g.V().out('created').toList() //// (5)
-g.V().out('created').toSet() //// (6)
-g.V().out('created').toBulkSet() //// (7)
+g.V().out('created').hasNext() // hasNext() determines whether there are available results
+g.V().out('created').next() // next() will return the next result
+g.V().out('created').next(2) // next(n) will return the next n results in a list
+g.V().out('nothing').tryNext() // tryNext() will return an Optional and thus, is a composite of hasNext()/next()
+g.V().out('created').toList() // toList() will return all results in a list
+g.V().out('created').toSet() // toSet() will return all results in a set and thus, duplicates removed
+g.V().out('created').toBulkSet() // toBulkSet() will return all results in a weighted set and thus, duplicates preserved via weighting
 results = ['blah',3]
-g.V().out('created').fill(results) //// (8)
-g.addV('person').iterate() //9
+g.V().out('created').fill(results) // fill(collection) will put all results in the provided collection and return the collection when complete
+g.addV('person').iterate() // iterate() does not exactly fit the definition of a terminal step in that it doesn’t return a result, but still returns a traversal - it does however behave as a terminal step in that it iterates the traversal and generates side effects without returning the actual result.
 ```
-
-
 
 _To be continued..._
 
