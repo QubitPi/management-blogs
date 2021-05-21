@@ -167,9 +167,29 @@ $ curl -X POST -d "{\"gremlin\":\"g.V(x).out().values('name')\", \"language\":\"
 
 ```
 
-## TinkerPop3 Documentation
+## TinkerPop Syntax
 
-http://tinkerpop.apache.org/docs/3.3.0/reference/#preface
+### Traversal
+
+#### Start Steps
+
+Only those steps on the `GraphTraversalSource` can start a graph traversal
+
+* `addE()` - Adds an Edge to start the traversal (example).
+* `addV()` - Adds a Vertex to start the traversal (example).
+* `E()` - Reads edges from the graph to start the traversal (example).
+* `inject()` - Inserts arbitrary objects to start the traversal (example).
+* [`V()`](#v-graph-step) - Reads vertices from the graph to start the traversal.
+
+#### V(): Graph Step
+
+Graph steps are those that read vertices, V(), or edges, E(), from the graph. The V()-step is usually used to start a GraphTraversal, but can also be used mid-traversal. The E()-step on the other hand can only be used as a start step.
+
+
+
+
+
+_To be continued..._
 
 ## Architecture
 
@@ -185,3 +205,6 @@ The indexing is also modular and is backed by one of
 * [Apache Lucene](https://docs.janusgraph.org/index-backend/lucene/)
 
 JanusGraph has embedded mode (same JVM) and standalone mode
+
+
+[]: #
