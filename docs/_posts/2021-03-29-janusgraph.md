@@ -210,11 +210,6 @@ Finally, [explain()-step](#explain---explain-step) is also a terminal step
 
 #### explain() - Explain Step
 
-
-
-
-
-
 _To be continued..._
 
 ## Architecture
