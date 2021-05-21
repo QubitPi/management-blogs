@@ -19,7 +19,7 @@ excerpt_separator: <!--more-->
 * [What the hell is "Gremlin"?](https://docs.janusgraph.org/basics/gremlin/#:~:text=Gremlin%20is%20JanusGraph's%20query%20language,graph%20traversals%20and%20mutation%20operations.&text=It%20is%20developed%20independently%20from,supported%20by%20most%20graph%20databases.)
 * [The original treatise on Gremlin Language]({{ "/assets/pdf/i-hate-paper.pdf" | relative_url}})
 
-## Learn JanusGraph
+## Learn JanusGraph Basics
 
 ### Using Docker
 
@@ -96,19 +96,92 @@ person, a place, etc.) and an edge represents the relationship between two verti
 
 ![Error loading modern-edge-1-to-3-1.png!]({{ "/assets/img/modern-edge-1-to-3-1.png" | relative_url}})
 
+The diagram above shows a graph with two vertices, one with a **unique identifier** of "1" and another with a unique
+identifier of "3". There is an edge connecting the two with a unique identifier of "9". It is important to know that the
+edge has a direction which goes out from vertex "1" and in to vertex "3'.
 
+> ⚠️ Most TinkerPop implementations do not allow for identifier assignment. They will rather assign their own
+> identifiers and ignore assigned identifiers that you attempt to assign to them.
+
+Vertices and edges can each be given **label**s to categorize them
+
+![Error loading modern-edge-1-to-3-3.png!]({{ "/assets/img/modern-edge-1-to-3-3.png" | relative_url}})
+
+#### Creating a Graph
+
+```
+gremlin> graph = TinkerGraph.open()
+==>tinkergraph[vertices:0 edges:0]
+gremlin> g = graph.traversal()
+==>graphtraversalsource[tinkergraph[vertices:0 edges:0], standard]
+gremlin> v1 = g.addV("person").property(id, 1).property("name", "marko").property("age", 29).next()
+==>v[1]
+gremlin> v2 = g.addV("software").property(id, 3).property("name", "lop").property("lang", "java").next()
+==>v[3]
+gremlin> g.addE("created").from(v1).to(v2).property(id, 9).property("weight", 0.4)
+==>e[9][1-created->3]
+```
+
+Note that TinkerGraph allows for identifier assignment, which is not the case with most graph databases.
+
+### Why TinkerPop?
+
+The goal of TinkerPop is to make it easy for developers to create graph applications by providing APIs and tools that
+simplify their endeavors. **One of the fundamental aspects to what TinkerPop offers in this area lies in the fact that
+TinkerPop is an abstraction layer over different graph databases and different graph processors**. As an abstraction
+layer, TinkerPop provides a way to avoid vendor lock-in to a specific database or processor. This capability provides
+immense value to developers who are thus afforded options in their architecture and development because:
+
+### Gremlin Server
+
+[Gremlin Server](http://tinkerpop.apache.org/docs/3.3.0/reference/#gremlin-server) provides a way to remotely execute
+Gremlin scripts against one or more `Graph` instances hosted within it. It does this by exposing different endpoints,
+which allow a request containing a Gremlin script to be processed with results returned.
+
+```bash
+$ curl -X POST -d "{\"gremlin\":\"g.V(x).out().values('name')\", \"language\":\"gremlin-groovy\", \"bindings\":{\"x\":1}}" "http://localhost:8182"
+```
+
+```json
+{
+    "requestId": "f67dbfff-b33a-4ae3-842d-c6e7c97b246b",
+    "status": {
+        "message": "",
+        "code": 200,
+        "attributes": {
+            "@type": "g:Map",
+            "@value": []
+        }
+    },
+    "result": {
+        "data": {
+            "@type": "g:List",
+            "@value": ["lop", "vadas", "josh"]
+        },
+        "meta": {
+            "@type": "g:Map",
+            "@value": []
+        }
+    }
+}
+
+```
+
+## TinkerPop3 Documentation
+
+http://tinkerpop.apache.org/docs/3.3.0/reference/#preface
 
 ## Architecture
 
 JanusGraph supports adapting external data storage, including
 
-* Cassandra
-* HBase
+* [Cassandra](https://docs.janusgraph.org/storage-backend/cassandra/)
+* [HBase](https://docs.janusgraph.org/storage-backend/hbase/)
 
 The indexing is also modular and is backed by one of
 
-* Elasticsearch
-* Apache Solr
-* Apache Lucene
+* [Elasticsearch](https://docs.janusgraph.org/index-backend/elasticsearch/)
+* [Apache Solr](https://docs.janusgraph.org/index-backend/solr/)
+* [Apache Lucene](https://docs.janusgraph.org/index-backend/lucene/)
 
 JanusGraph has embedded mode (same JVM) and standalone mode
