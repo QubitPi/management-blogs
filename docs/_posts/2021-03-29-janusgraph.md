@@ -27,7 +27,8 @@ excerpt_separator: <!--more-->
 
 #### [Install Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/brew.html)
 
-[Running JanusGraph requires an indexing service](#configuration), we will use Elasticsearch for that purpose
+[Running JanusGraph requires an indexing service](#configuration), we will use Elasticsearch for that purpose. Without
+Elasticsearch installed, JanusGraph will throw such runtime error:
 
 ```
 ...
@@ -43,10 +44,15 @@ Caused by: java.net.ConnectException: Connection refused
 Could not instantiate implementation: org.janusgraph.diskstorage.es.ElasticSearchIndex
 ```
 
+To install Elasticsearch vis homebrew:
+
     brew tap elastic/tap
     brew install elastic/tap/elasticsearch-full
     
-To start Elasticsearch locally, https://www.elastic.co/guide/en/elasticsearch/reference/current/brew.html
+To start Elasticsearch locally,
+[locate the binary script under `bin` directory and fire `elasticsearch` executable](https://www.elastic.co/guide/en/elasticsearch/reference/current/brew.html#brew-layout).
+For example
+
     /usr/local/var/homebrew/linked/elasticsearch-full/bin/elasticsearch
     
 #### Install JanusGraph
