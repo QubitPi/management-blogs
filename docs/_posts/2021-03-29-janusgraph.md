@@ -456,8 +456,8 @@ Most graph queries start the traversal from a list of vertices or edges that are
 JanusGraph supports two different kinds of indexing to speed up query processing:
 
 1. [**graph index**](#graph-index) - makes global retrieval operations efficient on large graphs
-2. **vertex-centric index** -  speeds up the actual traversal through the graph, in particular when traversing through
-   vertices with many incident edges.
+2. [**vertex-centric index**](#vertex-centric-indexes) -  speeds up the actual traversal through the graph, in
+   particular when traversing through vertices with many incident edges.
 
 #### Graph Index
 
@@ -478,7 +478,7 @@ JanusGraph distinguishes between two types of graph indexes
 
 1. [**Composite Index**](#composite-index) - very fast and efficient but limited to equality lookups for a particular, previously-defined
    combination of property keys
-2. **Mixed Index** - can be used for lookups on any combination of indexed keys and support multiple condition predicates in
+2. [**Mixed Index**](#mixed-index) - can be used for lookups on any combination of indexed keys and support multiple condition predicates in
    addition to equality depending on the backing index store
    
 ##### Composite Index
@@ -505,7 +505,7 @@ mgmt.commit()
 ```
 
 First, two property keys "name" and "age" are already defined. Next, a simple composite index on just the "name"
-property key is built. JanusGraph will use this index to answer the following query:
+property key (also called "key-index") is built. JanusGraph will use this index to answer the following query:
 
 ```groovy
 g.V().has('name', 'hercules')
@@ -519,8 +519,142 @@ g.V().has('age', 30).has('name', 'hercules')
 
 > 📋 All keys of a composite graph index must be found in the query's equality conditions for the index to be hit. For
 > example, the following query cannot be answered with either of the indexes because it only contains a constraint on
-> "age" but not "name".
+> "age" but not "name":
 >
 >     g.V().has('age', 30)
+>
+> In addition, composite graph indexes can only be used for **equality** constraints like those in the queries above.
+> The following query will only hit the index defined on the "name" key because the "age" constraint is not an equality
+> constraint:
+>
+>     g.V().has('name', 'hercules').has('age', inside(20, 50))
+>
+> _Composite indexes do not require configuration of an external indexing backend and are supported through the primary
+> storage backend. Hence, composite index modifications are persisted through the same transaction as graph
+> modifications which means that those changes are atomic and/or consistent if the underlying storage backend supports
+> atomicity and/or consistency._
+
+###### Index Uniqueness
+
+Composite indexes can also be used to enforce property uniqueness in the graph. If a composite graph index is defined as
+`unique()` there can be at most one vertex or edge for any given concatenation of property values associated with the
+keys of that index. For instance, to enforce that names are unique across the entire graph the following composite graph
+index would be defined.
+
+```bash
+graph.tx().rollback()  //Never create new indexes while a transaction is active
+mgmt = graph.openManagement()
+name = mgmt.getPropertyKey('name')
+mgmt.buildIndex('byNameUnique', Vertex.class).addKey(name).unique().buildCompositeIndex()
+mgmt.commit()
+//Wait for the index to become available
+ManagementSystem.awaitGraphIndexStatus(graph, 'byNameUnique').call()
+//Reindex the existing data
+mgmt = graph.openManagement()
+mgmt.updateIndex(mgmt.getGraphIndex("byNameUnique"), SchemaAction.REINDEX).get()
+mgmt.commit()
+```
+
+> ⚠️ To enforce uniqueness against an eventually consistent storage backend, the
+> [consistency](https://docs.janusgraph.org/advanced-topics/eventual-consistency/) of the index must be explicitly set
+> to enabling locking.
+     
+##### Mixed Index
+
+Mixed indexes retrieve vertices or edges by any combination of previously added property keys. Mixed indexes provide
+more flexibility than composite indexes and support additional condition predicates beyond equality. On the other hand,
+**mixed indexes are slower for most equality queries than composite indexes**.
+
+Unlike composite indexes, mixed indexes require the configuration of an
+[indexing backend](https://docs.janusgraph.org/index-backend/) and use that indexing backend to execute lookup
+operations. JanusGraph can support multiple indexing backends in a single installation. Each indexing backend must be
+uniquely identified by name in the JanusGraph configuration which is called the **indexing backend name**.
+
+```bash
+graph.tx().rollback()  //Never create new indexes while a transaction is active
+mgmt = graph.openManagement()
+name = mgmt.getPropertyKey('name')
+age = mgmt.getPropertyKey('age')
+mgmt.buildIndex('nameAndAge', Vertex.class).addKey(name).addKey(age).buildMixedIndex("search")
+mgmt.commit()
+//Wait for the index to become available
+ManagementSystem.awaitGraphIndexStatus(graph, 'nameAndAge').call()
+//Reindex the existing data
+mgmt = graph.openManagement()
+mgmt.updateIndex(mgmt.getGraphIndex("nameAndAge"), SchemaAction.REINDEX).get()
+mgmt.commit()
+```
+
+> ⚠️ The example above defines a mixed index containing the property keys "name" and "age". The definition refers to the
+> indexing backend name **`search`** so that JanusGraph knows which configured indexing backend it should use for this
+> particular index. **The `search` parameter specified in the `buildMixedIndex` call must match the **second** part in
+> the JanusGraph configuration definition like this: index.**search**. backend If the index was named `solrsearch` then
+> the configuration definition would appear like this: index.solrsearch.backend.
+
+While the index definition example looks similar to the composite index above, it provides greater query support and can
+answer any of the following queries.
+
+```bash
+g.V().has('name', textContains('hercules')).has('age', inside(20, 50))
+g.V().has('name', textContains('hercules'))
+g.V().has('age', lt(50))
+g.V().has('age', outside(20, 50))
+g.V().has('age', lt(50).or(gte(60)))
+g.V().or(__.has('name', textContains('hercules')), __.has('age', inside(20, 50)))
+```
+
+Mixed indexes support full-text search, range search, geo search and others. Refer to Search Predicates and Data Types for a list of predicates supported by a particular indexing backend.
+
+###### Index Parameters and Full-Text Search
+
+When defining a mixed index, a list of parameters can be optionally specified for each property key added to the index.
+These parameters control how the particular key is to be indexed. Whether these are supported depends on the configured
+index backend. A particular index backend might also support custom parameters in addition to the ones listed here.
+
+* When the value is **indexed as text**, the string is **tokenized** into a bag of words (the exact tokenization depends
+  on the indexing backend and its configuration) which allows the user to
+  efficiently query for all matches that contain one or multiple words. This is commonly referred to as _full-text
+  search_
+* When the value is **indexed as a character string**, the string is index "as-is" without any further analysis or
+  tokenization. **This facilitates queries looking for an exact character sequence match**. This is commonly referred to
+  as _string search_.
+  
+To specify this indexing option, use `Mapping.TEXT` (index as text) or `Mapping.STRING` (index as character sequences)
+as in
+
+```bash
+mgmt = graph.openManagement()
+summary = mgmt.makePropertyKey('booksummary').dataType(String.class).make()
+mgmt.buildIndex('booksBySummary', Vertex.class).addKey(summary, Mapping.TEXT.asParameter()).buildMixedIndex("search")
+mgmt.commit()
+
+mgmt = graph.openManagement()
+name = mgmt.makePropertyKey('bookname').dataType(String.class).make()
+mgmt.buildIndex('booksBySummary', Vertex.class).addKey(name, Mapping.STRING.asParameter()).buildMixedIndex("search")
+mgmt.commit()
+```
+
+####### Full-Text Search
+
+When a string property is indexed as text, only full-text search predicates are supported. **Full-text search is
+case-insensitive**.
+
+* `textContains` - is true if (at least) one word inside the text string matches the query string
+* `textContainsPrefix`: is true if (at least) one word inside the text string begins with the query string
+* `textContainsRegex`: is true if (at least) one word inside the text string matches the given regular expression
+* `textContainsFuzzy`: is true if (at least) one word inside the text string is similar to the query String (based on Levenshtein edit distance)
+
+```groovy
+import static org.janusgraph.core.attribute.Text...
+
+g.V().has('booksummary', textContains('unicorns'))
+g.V().has('booksummary', textContainsPrefix('uni'))
+g.V().has('booksummary', textContainsRegex('.*corn.*'))
+g.V().has('booksummary', textContainsFuzzy('unicorn'))
+```
+
+
+
+
 
 #### Vertex-Centric Indexes
