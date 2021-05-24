@@ -15,7 +15,7 @@ excerpt_separator: <!--more-->
 {:toc}
 
 JanusGraph Doc is so horribly written! And their Docker image sucks!!! This post gives you much better materials that
-helps you jump up with JanusGraph.
+help you jump up with JanusGraph with good experiences.
 
 ## Install JanusGraph
 
