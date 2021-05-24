@@ -634,15 +634,13 @@ mgmt.buildIndex('booksBySummary', Vertex.class).addKey(name, Mapping.STRING.asPa
 mgmt.commit()
 ```
 
-####### Full-Text Search
-
 When a string property is indexed as text, only full-text search predicates are supported. **Full-text search is
 case-insensitive**.
 
-* `textContains` - is true if (at least) one word inside the text string matches the query string
-* `textContainsPrefix`: is true if (at least) one word inside the text string begins with the query string
-* `textContainsRegex`: is true if (at least) one word inside the text string matches the given regular expression
-* `textContainsFuzzy`: is true if (at least) one word inside the text string is similar to the query String (based on Levenshtein edit distance)
+* `textContains` - is true if (at least) **one word** inside the text string matches the query string
+* `textContainsPrefix`: is true if (at least) **one word** inside the text string begins with the query string
+* `textContainsRegex`: is true if (at least) **one word** inside the text string matches the given regular expression
+* `textContainsFuzzy`: is true if (at least) **one word** inside the text string is similar to the query String (based on Levenshtein edit distance)
 
 ```groovy
 import static org.janusgraph.core.attribute.Text...
@@ -653,8 +651,78 @@ g.V().has('booksummary', textContainsRegex('.*corn.*'))
 g.V().has('booksummary', textContainsFuzzy('unicorn'))
 ```
 
+When a string property is indexed as character sequence, the string value is indexed and can be queried "as-is" -
+including stop words and non-letter characters. However, in this case the query must match the entire string value.
+Hence, the string mapping is useful when indexing short character sequences that are considered to be one token.
 
+Only the following predicates are supported in this case:
 
+* `eq` - if *the string* is identical to the query string
+* `neq` - if *the string* is different than the query string
+* `textPrefix` - if *the string* value starts with the given query string
+* `textRegex` - if *the string* value matches the given regular expression in its entirety
+* `textFuzzy` - if *the string* value is similar to the given query string (based on Levenshtein edit distance)
 
+```groovy
+import static org.apache.tinkerpop.gremlin.process.traversal.P...
+import static org.janusgraph.core.attribute.Text...
+
+g.V().has('bookname', eq('unicorns'))
+g.V().has('bookname', neq('unicorns'))
+g.V().has('bookname', textPrefix('uni'))
+g.V().has('bookname', textRegex('.*corn.*'))
+g.V().has('bookname', textFuzzy('unicorn'))
+```
+
+If you are using **Elasticsearch** it is possible to index properties as **both** text and string allowing you to use
+all of the predicates for exact and fuzzy matching:
+
+```bash
+mgmt = graph.openManagement()
+summary = mgmt.makePropertyKey('booksummary').dataType(String.class).make()
+mgmt.buildIndex('booksBySummary', Vertex.class).addKey(summary, Mapping.TEXTSTRING.asParameter()).buildMixedIndex("search")
+mgmt.commit()
+```
+
+Note that the data will be stored in the index **twice**, once for exact matching and once for fuzzy matching.
+
+###### TinkerPop Text Predicates
+
+It is also possible to use the TinkerPop text predicates with JanusGraph, but these predicates do not make use of
+indices which means that they require filtering in memory which can be very costly.
+
+```groovy
+import static org.apache.tinkerpop.gremlin.process.traversal.TextP...;
+
+g.V().has('bookname', startingWith('uni'))
+g.V().has('bookname', endingWith('corn'))
+g.V().has('bookname', containing('nico'))
+```
+
+###### Geo Mapping
+
+By default, JanusGraph supports indexing geo properties with point type and querying geo properties by circle or box. To
+index a non-point geo property with support for querying by any geoshape type, specify the mapping as
+`Mapping.PREFIX_TREE`:
+
+```bash
+mgmt = graph.openManagement()
+name = mgmt.makePropertyKey('border').dataType(Geoshape.class).make()
+mgmt.buildIndex('borderIndex', Vertex.class).addKey(name, Mapping.PREFIX_TREE.asParameter()).buildMixedIndex("search")
+mgmt.commit()
+```
+
+Additional parameters can be specified to tune the configuration of the underlying prefix tree mapping. These optional
+parameters include the number of levels used in the prefix tree as well as the associated precision.
+
+```bash
+mgmt = graph.openManagement()
+name = mgmt.makePropertyKey('border').dataType(Geoshape.class).make()
+mgmt.buildIndex('borderIndex', Vertex.class).addKey(name, Mapping.PREFIX_TREE.asParameter(), Parameter.of("index-geo-max-levels", 18), Parameter.of("index-geo-dist-error-pct", 0.0125)).buildMixedIndex("search")
+mgmt.commit()
+```
+
+Note that some indexing backends (e.g. Solr) may require additional external schema configuration to support and tune
+indexing non-point properties.
 
 #### Vertex-Centric Indexes
