@@ -14,8 +14,12 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-JanusGraph Doc is so horribly written! And their Docker image sucks!!! This post gives you much better materials that
-help you jump up with JanusGraph with good experiences.
+> ⚠️ JanusGraph Doc is so horribly written! And their Docker image sucks!!! This post gives you much better materials
+> that help you jump up with JanusGraph with good experiences, because it
+>
+> * Combines useful informations from various sources and filter out stupid time-wasting texts
+> * Provides copy-and-paste instructions on spinning up a perfect JanusGraph server instance
+> * It covers basics as well as advance topics, such as performance issues 
 
 ## Install JanusGraph
 
@@ -23,8 +27,43 @@ help you jump up with JanusGraph with good experiences.
 
 #### [Install Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/brew.html)
 
+[Running JanusGraph requires an indexing service](#configuration), we will use Elasticsearch for that purpose
+
+```
+...
+Caused by: java.net.ConnectException: Connection refused
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:715)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvent(DefaultConnectingIOReactor.java:174)
+	at org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor.processEvents(DefaultConnectingIOReactor.java:148)
+	at org.apache.http.impl.nio.reactor.AbstractMultiworkerIOReactor.execute(AbstractMultiworkerIOReactor.java:351)
+	at org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager.execute(PoolingNHttpClientConnectionManager.java:221)
+	at org.apache.http.impl.nio.client.CloseableHttpAsyncClientBase$1.run(CloseableHttpAsyncClientBase.java:64)
+	at java.lang.Thread.run(Thread.java:748)
+Could not instantiate implementation: org.janusgraph.diskstorage.es.ElasticSearchIndex
+```
+
     brew tap elastic/tap
     brew install elastic/tap/elasticsearch-full
+    
+To start Elasticsearch locally, https://www.elastic.co/guide/en/elasticsearch/reference/current/brew.html
+    /usr/local/var/homebrew/linked/elasticsearch-full/bin/elasticsearch
+    
+#### Install JanusGraph
+
+In order to run JanusGraph, Java 8 SE is required. JanusGraph can be downloaded
+[Releases](https://github.com/JanusGraph/janusgraph/releases) section of the project repository.
+
+```bash
+$ unzip janusgraph-0.5.3.zip
+Archive:  janusgraph-0.5.3.zip
+  creating: janusgraph-0.5.3/
+...
+```
+
+Once you have unzipped the downloaded archive, you are ready to go.
+
+#### Start the Gremlin Server
 
 
 
