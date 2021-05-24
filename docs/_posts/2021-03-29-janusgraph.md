@@ -27,8 +27,8 @@ excerpt_separator: <!--more-->
 
 #### [Install Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/brew.html)
 
-[Running JanusGraph requires an indexing service](#configuration), we will use Elasticsearch for that purpose. Without
-Elasticsearch installed, JanusGraph will throw such runtime error:
+[Running a full-fledged JanusGraph requires an indexing service](#configuration), we will use Elasticsearch for that
+purpose. Without Elasticsearch installed, JanusGraph will throw such runtime error:
 
 ```
 ...
@@ -476,9 +476,51 @@ graphs.
 
 JanusGraph distinguishes between two types of graph indexes
 
-1. **Composite Index** - very fast and efficient but limited to equality lookups for a particular, previously-defined
+1. [**Composite Index**](#composite-index) - very fast and efficient but limited to equality lookups for a particular, previously-defined
    combination of property keys
 2. **Mixed Index** - can be used for lookups on any combination of indexed keys and support multiple condition predicates in
    addition to equality depending on the backing index store
+   
+##### Composite Index
+
+Composite indexes retrieve vertices or edges by one or a (fixed) composition of multiple keys. Consider the following
+composite index definitions.
+
+```bash
+graph.tx().rollback() //Never create new indexes while a transaction is active
+mgmt = graph.openManagement()
+name = mgmt.getPropertyKey('name')
+age = mgmt.getPropertyKey('age')
+mgmt.buildIndex('byNameComposite', Vertex.class).addKey(name).buildCompositeIndex()
+mgmt.buildIndex('byNameAndAgeComposite', Vertex.class).addKey(name).addKey(age).buildCompositeIndex()
+mgmt.commit()
+//Wait for the index to become available
+ManagementSystem.awaitGraphIndexStatus(graph, 'byNameComposite').call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byNameAndAgeComposite').call()
+//Reindex the existing data
+mgmt = graph.openManagement()
+mgmt.updateIndex(mgmt.getGraphIndex("byNameComposite"), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex("byNameAndAgeComposite"), SchemaAction.REINDEX).get()
+mgmt.commit()
+```
+
+First, two property keys "name" and "age" are already defined. Next, a simple composite index on just the "name"
+property key is built. JanusGraph will use this index to answer the following query:
+
+```groovy
+g.V().has('name', 'hercules')
+```
+
+The second composite graph index includes both keys. JanusGraph will use this index to answer the following query:
+
+```groovy
+g.V().has('age', 30).has('name', 'hercules')
+```
+
+> 📋 All keys of a composite graph index must be found in the query's equality conditions for the index to be hit. For
+> example, the following query cannot be answered with either of the indexes because it only contains a constraint on
+> "age" but not "name".
+>
+>     g.V().has('age', 30)
 
 #### Vertex-Centric Indexes
