@@ -14,6 +14,20 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
+JanusGraph Doc is so horribly written! And their Docker image sucks!!! This post gives you much better materials that
+helps you jump up with JanusGraph.
+
+## Install JanusGraph
+
+### Local (Mac)
+
+#### [Install Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/brew.html)
+
+    brew tap elastic/tap
+    brew install elastic/tap/elasticsearch-full
+
+
+
 ## Gremlin
 
 * [What the hell is "Gremlin"?](https://docs.janusgraph.org/basics/gremlin/#:~:text=Gremlin%20is%20JanusGraph's%20query%20language,graph%20traversals%20and%20mutation%20operations.&text=It%20is%20developed%20independently%20from,supported%20by%20most%20graph%20databases.)
@@ -282,3 +296,55 @@ The indexing is also modular and is backed by one of
 * [Apache Lucene](https://docs.janusgraph.org/index-backend/lucene/)
 
 JanusGraph has embedded mode (same JVM) and standalone mode
+
+## JanusGraph Management
+
+### Configuration
+
+A JanusGraph graph database cluster consists of one or multiple JanusGraph instances. To open a JanusGraph instance, a
+configuration has to be provided which specifies how JanusGraph should be set up and run.
+
+A JanusGraph configuration specifies which components JanusGraph should use, controls all operational aspects of a
+JanusGraph deployment, and provides a number of tuning options to get maximum performance from a JanusGraph cluster.
+
+**At a minimum**, a JanusGraph configuration
+
+1. must define the persistence engine that JanusGraph should use as a
+   [storage backend](https://docs.janusgraph.org/storage-backend/).
+2. If advanced graph query support (e.g full-text search, geo search, or range queries) is required an additional
+   [indexing backend](https://docs.janusgraph.org/index-backend/) must be configured. 
+3. If query performance is a concern, then [caching](https://docs.janusgraph.org/basics/cache/) should be enabled.
+
+## Performance
+
+### Indexing
+
+Most graph queries start the traversal from a list of vertices or edges that are identified by their properties.
+JanusGraph supports two different kinds of indexing to speed up query processing:
+
+1. [**graph index**](#graph-index) - makes global retrieval operations efficient on large graphs
+2. **vertex-centric index** -  speeds up the actual traversal through the graph, in particular when traversing through
+   vertices with many incident edges.
+
+#### Graph Index
+
+Graph indexes are global index structures over the entire graph which allow efficient retrieval of vertices or edges by
+their properties. For instance, consider the following queries:
+
+```groovy
+g.V().has('name', 'hercules')
+g.E().has('reason', textContains('loves'))
+```
+
+The first query asks for all vertices with the name "hercules". The second asks for all edges where the property reason
+contains the word "loves". Without a graph index answering those queries would require a full scan over all vertices or
+edges in the graph to find those that match the given condition which is very inefficient and infeasible for huge
+graphs.
+
+JanusGraph distinguishes between two types of graph indexes
+
+1. **Composite Index** - very fast and efficient but limited to equality lookups for a particular, previously-defined
+   combination of property keys
+2. **Mixed Index** - can be used for lookups on any combination of indexed keys and support multiple condition predicates in
+   addition to equality depending on the backing index store
+
