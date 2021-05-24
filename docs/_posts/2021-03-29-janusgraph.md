@@ -107,6 +107,23 @@ gremlin> :remote connect tinkerpop.server conf/remote.yaml
 The client and server, in this case, are running on the same machine. On a production environment, modify the parameters
 in the conf/remote.yaml file accordingly.
 
+At this point JanusGraph is up and running on your local machine. We shall play with it in [the next section](#basics).
+
+## Basics
+
+The data in this section is the _The Graph of the Gods_ shown in figure below:
+
+![Error loading graph-of-the-gods-2.png!]({{ "/assets/img/graph-of-the-gods-2.png" | relative_url}})
+
+| Figure Symbol      | Semantics                                                  |
+|--------------------|------------------------------------------------------------|
+| bold key           | a graph indexed key                                        |
+| bold key with star | a graph indexed key that must have a unique value          |
+| underlined key     | a [vertex-centric indexed](#vertex-centric-indexes) key    |
+| hollow-head edge   | a functional/unique edge (no duplicates)                   |
+| tail-crossed edge  | a unidirectional edge (can only traverse in one direction) |
+
+
 ## Gremlin
 
 * [What the hell is "Gremlin"?](https://docs.janusgraph.org/basics/gremlin/#:~:text=Gremlin%20is%20JanusGraph's%20query%20language,graph%20traversals%20and%20mutation%20operations.&text=It%20is%20developed%20independently%20from,supported%20by%20most%20graph%20databases.)
@@ -423,3 +440,4 @@ JanusGraph distinguishes between two types of graph indexes
 2. **Mixed Index** - can be used for lookups on any combination of indexed keys and support multiple condition predicates in
    addition to equality depending on the backing index store
 
+#### Vertex-Centric Indexes
