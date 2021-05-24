@@ -175,16 +175,49 @@ $ curl -X POST -d "{\"gremlin\":\"g.V(x).out().values('name')\", \"language\":\"
 
 Only those steps on the `GraphTraversalSource` can start a graph traversal
 
-* `addE()` - Adds an Edge to start the traversal (example).
-* `addV()` - Adds a Vertex to start the traversal (example).
-* `E()` - Reads edges from the graph to start the traversal (example).
-* `inject()` - Inserts arbitrary objects to start the traversal (example).
-* `V()` - [Reads vertices from the graph to start the traversal](#v-graph-step).
+* `addE()` - [Adds an Edge to start the traversal](#adde---addedge-step)
+* `addV()` - [Adds a Vertex to start the traversal](#addv---addvertex-step)
+* `E()` - [Reads edges from the graph to start the traversal](#ve---graph-step)
+* `V()` - [Reads vertices from the graph to start the traversal](#ve---graph-step)
+* `inject()` - [Inserts arbitrary objects to start the traversal](#inject---inject-step)
 
-#### V(): Graph Step
+#### addE() - AddEdge Step
+
+![Error loading addedge-step.png!]({{ "/assets/img/addedge-step.png" | relative_url}})
+
+```groovy
+g.V(1)
+    .as('a')
+    .out('created')
+    .in('created')
+    .where(neq('a'))
+    .addE('co-developer')
+    .from('a')
+    .property('year',2009) // Add a co-developer edge with a year-property between marko and his collaborators.
+```
+
+### addV() - AddVertex Step
+
+```groovy
+g.addV('person').property('name','stephen')
+```
+
+#### V()/E() - Graph Step
 
 Graph steps are those that read vertices, `V()`, or edges, `E()`, from a graph. The V()-step is usually used to start a
 graph traversal, but can also be used mid-traversal. **The E()-step on the other hand can only be used as a start step.**
+
+#### inject() - Inject Step
+
+The concept of "injectable steps" makes it possible to insert arbitrary objects into a traversa:
+
+```groovy
+g.V(4).out().values('name').inject('daniel')
+g.V(4).out().values('name').inject('daniel').map {it.get().length()}
+g.V(4).out().values('name').inject('daniel').map {it.get().length()}.path()
+```
+
+![Error loading inject-step.png!]({{ "/assets/img/inject-step.png" | relative_url}})
 
 #### Terminal Steps
 
@@ -210,7 +243,30 @@ Finally, [explain()-step](#explain---explain-step) is also a terminal step
 
 #### explain() - Explain Step
 
-_To be continued..._
+The `explain()`-step will return a `TraversalExplanation`. A traversal explanation details how the traversal (prior to
+`explain()`) will be compiled given the registered
+[traversal strategies](https://tinkerpop.apache.org/docs/current/reference/#traversalstrategy). A `TraversalExplanation`
+has a `toString()` representation with 3-columns. The first column is the traversal strategy being applied. The second
+column is the traversal strategy category:
+
+* [D]ecoration,
+* [O]ptimization,
+* [P]rovider optimization,
+* [F]inalization, and
+* [V]erification.
+
+Finally, the third column is the state of the traversal post strategy application. The final traversal is the resultant
+execution plan.
+
+```groovy
+g.V().hasLabel('person').outE().identity().inV().count().is(gt(5)).explain()
+```
+
+For traversal profiling information, please see [profile()-step](#profile---profile-step).
+
+#### profile() - Profile Step
+
+_to be continued._
 
 ## Architecture
 
