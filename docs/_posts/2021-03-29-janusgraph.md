@@ -123,13 +123,53 @@ The data in this section is the _The Graph of the Gods_ shown in figure below:
 | hollow-head edge   | a functional/unique edge (no duplicates)                   |
 | tail-crossed edge  | a unidirectional edge (can only traverse in one direction) |
 
+### Load Data with Index
 
-## Gremlin
+```bash
+gremlin> graph = JanusGraphFactory.open('conf/janusgraph-berkeleyje-es.properties')
+==>standardjanusgraph[berkeleyje:../db/berkeley]
+gremlin> GraphOfTheGodsFactory.load(graph)
+==>null
+gremlin> g = graph.traversal()
+==>graphtraversalsource[standardjanusgraph[berkeleyje:../db/berkeley], standard]
+```
+
+### Vertex Example
+
+```bash
+gremlin> saturn = g.V().has('name', 'saturn').next()
+==>v[256]
+gremlin> g.V(saturn).valueMap()
+==>[name:[saturn], age:[10000]]
+gremlin> g.V(saturn).in('father').in('father').values('name')
+==>hercules
+```
+
+### Edge Example
+
+```bash
+gremlin> g.E().has('place', geoWithin(Geoshape.circle(37.97, 23.72, 50)))
+==>e[a9x-co8-9hx-39s][16424-battled->4240]
+==>e[9vp-co8-9hx-9ns][16424-battled->12520]
+gremlin> g.E().has('place', geoWithin(Geoshape.circle(37.97, 23.72, 50))).as('source').inV().as('god2').select('source').outV().as('god1').select('god1', 'god2').by('name')
+==>[god1:hercules, god2:hydra]
+==>[god1:hercules, god2:nemean]
+```
+
+### Traversal Examples
+
+Tt has been demonstrated, in [the previous example](#vertex-example), that Saturn's grandchild was Hercules. Hercules is
+the vertex that is 2-steps away from Saturn along the `in('father')` path.
+
+```bash
+gremlin> hercules = g.V(saturn).repeat(__.in('father')).times(2).next()
+==>v[1536]
+```
+
+## Gremlin - The Language of JanusGraph
 
 * [What the hell is "Gremlin"?](https://docs.janusgraph.org/basics/gremlin/#:~:text=Gremlin%20is%20JanusGraph's%20query%20language,graph%20traversals%20and%20mutation%20operations.&text=It%20is%20developed%20independently%20from,supported%20by%20most%20graph%20databases.)
 * [The original treatise on Gremlin Language]({{ "/assets/pdf/i-hate-paper.pdf" | relative_url}})
-
-## Learn JanusGraph Basics
 
 ### Traverse a Graph Using TinkerPop
 
@@ -273,11 +313,11 @@ $ curl -X POST -d "{\"gremlin\":\"g.V(x).out().values('name')\", \"language\":\"
 
 ```
 
-## TinkerPop Syntax
+### TinkerPop Syntax
 
-### Traversal
+#### Traversal
 
-#### Start Steps
+##### Start Steps
 
 Only those steps on the `GraphTraversalSource` can start a graph traversal
 
@@ -287,7 +327,7 @@ Only those steps on the `GraphTraversalSource` can start a graph traversal
 * `V()` - [Reads vertices from the graph to start the traversal](#ve---graph-step)
 * `inject()` - [Inserts arbitrary objects to start the traversal](#inject---inject-step)
 
-#### addE() - AddEdge Step
+##### addE() - AddEdge Step
 
 ![Error loading addedge-step.png!]({{ "/assets/img/addedge-step.png" | relative_url}})
 
@@ -302,18 +342,18 @@ g.V(1)
     .property('year',2009) // Add a co-developer edge with a year-property between marko and his collaborators.
 ```
 
-### addV() - AddVertex Step
+##### addV() - AddVertex Step
 
 ```groovy
 g.addV('person').property('name','stephen')
 ```
 
-#### V()/E() - Graph Step
+##### V()/E() - Graph Step
 
 Graph steps are those that read vertices, `V()`, or edges, `E()`, from a graph. The V()-step is usually used to start a
 graph traversal, but can also be used mid-traversal. **The E()-step on the other hand can only be used as a start step.**
 
-#### inject() - Inject Step
+##### inject() - Inject Step
 
 The concept of "injectable steps" makes it possible to insert arbitrary objects into a traversa:
 
@@ -325,7 +365,7 @@ g.V(4).out().values('name').inject('daniel').map {it.get().length()}.path()
 
 ![Error loading inject-step.png!]({{ "/assets/img/inject-step.png" | relative_url}})
 
-#### Terminal Steps
+##### Terminal Steps
 
 ```groovy
 g.V().out('created').hasNext() // hasNext() determines whether there are available results
@@ -347,7 +387,7 @@ on the current Traversal that will be completed in the future.
 
 Finally, [explain()-step](#explain---explain-step) is also a terminal step
 
-#### explain() - Explain Step
+##### explain() - Explain Step
 
 The `explain()`-step will return a `TraversalExplanation`. A traversal explanation details how the traversal (prior to
 `explain()`) will be compiled given the registered
@@ -370,7 +410,7 @@ g.V().hasLabel('person').outE().identity().inV().count().is(gt(5)).explain()
 
 For traversal profiling information, please see [profile()-step](#profile---profile-step).
 
-#### profile() - Profile Step
+##### profile() - Profile Step
 
 _to be continued._
 
@@ -406,6 +446,7 @@ JanusGraph deployment, and provides a number of tuning options to get maximum pe
 2. If advanced graph query support (e.g full-text search, geo search, or range queries) is required an additional
    [indexing backend](https://docs.janusgraph.org/index-backend/) must be configured. 
 3. If query performance is a concern, then [caching](https://docs.janusgraph.org/basics/cache/) should be enabled.
+
 
 ## Performance
 
