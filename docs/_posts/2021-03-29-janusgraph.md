@@ -17,9 +17,9 @@ excerpt_separator: <!--more-->
 > ⚠️ JanusGraph Doc is so horribly written! And their Docker image sucks!!! This post gives you much better materials
 > that help you jump up with JanusGraph with good experiences, because it
 >
-> * Combines useful information from various sources and filter out stupid time-wasting texts
-> * Provides copy-and-paste instructions on spinning up a perfect JanusGraph server instance
-> * It covers basics as well as advance topics, such as performance issues 
+> * combines useful information from various sources and filter out stupid time-wasting texts
+> * provides copy-and-paste instructions on spinning up a perfect JanusGraph server instance
+> * covers basics as well as advance topics, such as performance issues 
 
 ## Install JanusGraph
 
