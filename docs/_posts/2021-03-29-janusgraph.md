@@ -44,7 +44,8 @@ Caused by: java.net.ConnectException: Connection refused
 Could not instantiate implementation: org.janusgraph.diskstorage.es.ElasticSearchIndex
 ```
 
-To install Elasticsearch vis homebrew:
+Note that JanusGraph is complaining about not being able to connect to a local Elasticsearch instance and, hence, let's
+install it via `homebrew`:
 
     brew tap elastic/tap
     brew install elastic/tap/elasticsearch-full
@@ -71,7 +72,40 @@ Once you have unzipped the downloaded archive, you are ready to go.
 
 #### Start the Gremlin Server
 
+```bash
+$ cd janusgraph-0.5.3/
+$ ./bin/gremlin-server.sh start
+```
 
+#### Interact JanusGraph Through Gremlin Console
+
+```bash
+$ cd janusgraph-0.5.3
+$ bin/gremlin.sh
+
+         \,,,/
+         (o o)
+-----oOOo-(3)-oOOo-----
+09:12:24 INFO  org.apache.tinkerpop.gremlin.hadoop.structure.HadoopGraph  - HADOOP_GREMLIN_LIBS is set to: /usr/local/janusgraph/lib
+plugin activated: tinkerpop.hadoop
+plugin activated: janusgraph.imports
+gremlin>
+```
+
+The [Gremlin](#gremlin) Console interprets commands using [Apache Groovy](https://www.groovy-lang.org/), which is a
+superset of Java
+
+We will connect the Gremlin Console to [the server we just started](#start-the-gremlin-server) and redirect all of it's
+queries to this server. This is done by using the
+[`:remote` command](https://tinkerpop.apache.org/docs/3.4.6/reference/#console-remote-console):
+
+```bash
+gremlin> :remote connect tinkerpop.server conf/remote.yaml
+==>Configured localhost/127.0.0.1:8182
+```
+
+The client and server, in this case, are running on the same machine. On a production environment, modify the parameters
+in the conf/remote.yaml file accordingly.
 
 ## Gremlin
 
@@ -79,10 +113,6 @@ Once you have unzipped the downloaded archive, you are ready to go.
 * [The original treatise on Gremlin Language]({{ "/assets/pdf/i-hate-paper.pdf" | relative_url}})
 
 ## Learn JanusGraph Basics
-
-### Using Docker
-
-    docker run -it -p 8182:8182 janusgraph/janusgraph ./bin/gremlin.sh
 
 ### Traverse a Graph Using TinkerPop
 
