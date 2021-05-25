@@ -3,8 +3,8 @@ layout: post
 title: PUT v.s. POST
 tags: [HTTP, Webservice]
 color: rgb(224, 1, 152)
-feature-img: "assets/img/pexels/design-art/down-the-street-through-Osaka.png"
-thumbnail: "assets/img/pexels/design-art/down-the-street-through-Osaka.png"
+feature-img: "assets/img/pexels/design-art/2020-07-26-4-application-deployment-and-runtime-environments/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-07-26-4-application-deployment-and-runtime-environments/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

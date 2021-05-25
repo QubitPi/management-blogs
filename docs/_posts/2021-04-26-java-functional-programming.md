@@ -3,8 +3,8 @@ layout: post
 title: Java Functional Programming
 tags: [Java, Functional Programming]
 color: rgb(224, 1, 152)
-feature-img: "assets/img/pexels/design-art/down-the-street-through-Osaka.png"
-thumbnail: "assets/img/pexels/design-art/down-the-street-through-Osaka.png"
+feature-img: "assets/img/pexels/design-art/2020-07-25-3-jax-rs-application-resources-and-sub-resources/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-07-25-3-jax-rs-application-resources-and-sub-resources/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

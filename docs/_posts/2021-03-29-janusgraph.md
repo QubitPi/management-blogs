@@ -3,8 +3,8 @@ layout: post
 title: JanusGraph
 tags: [JanusGraph, Graph, Database]
 color: rgb(224, 1, 152)
-feature-img: "assets/img/pexels/design-art/down-the-street-through-Osaka.png"
-thumbnail: "assets/img/pexels/design-art/down-the-street-through-Osaka.png"
+feature-img: "assets/img/pexels/design-art/2020-07-30-8-jax-rs-entity-providers/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-07-30-8-jax-rs-entity-providers/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

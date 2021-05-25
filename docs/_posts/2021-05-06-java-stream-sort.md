@@ -3,8 +3,8 @@ layout: post
 title: Sorting Stream
 tags: [Java]
 color: rgb(250, 154, 133)
-feature-img: "assets/img/pexels/design-art/dark-radio.png"
-thumbnail: "assets/img/pexels/design-art/dark-radio.png"
+feature-img: "assets/img/pexels/design-art/2020-07-24-2-modules-and-dependencies/cover.png"
+thumbnail: "assets/img/pexels/design-art/2020-07-24-2-modules-and-dependencies/cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
