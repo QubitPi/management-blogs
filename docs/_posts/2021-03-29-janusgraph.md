@@ -14,8 +14,8 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-> ⚠️ JanusGraph Doc is so horribly written! And their Docker image sucks!!! This post gives you much better materials
-> that help you jump up with JanusGraph with good experiences, because it
+> ⚠️ JanusGraph Doc is **so horribly written**. **Their Docker image sucks and doesn't work at all**. You would find
+> this post much more helpful than any other sources, because it
 >
 > * combines useful information from various sources and filter out stupid time-wasting texts
 > * provides copy-and-paste instructions on spinning up a perfect JanusGraph server instance
