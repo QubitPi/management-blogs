@@ -18,7 +18,7 @@ excerpt_separator: <!--more-->
 > Instead, you would find this post much more helpful than any other sources, because it
 >
 > * combines useful information from various sources and filter out stupid time-wasting texts
-> * provides copy-and-paste instructions on spinning up a perfect JanusGraph server instance
+> * provides copy-and-paste instructions on spinning up a perfect JanusGraph server instance for you to play with
 > * covers basics as well as advance topics, such as performance issues 
 
 ## Install JanusGraph
