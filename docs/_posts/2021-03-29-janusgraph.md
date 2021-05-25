@@ -603,7 +603,33 @@ g.V().has('age', lt(50).or(gte(60)))
 g.V().or(__.has('name', textContains('hercules')), __.has('age', inside(20, 50)))
 ```
 
-Mixed indexes support full-text search, range search, geo search and others. Refer to Search Predicates and Data Types for a list of predicates supported by a particular indexing backend.
+Mixed indexes support [full-text search](#index-parameters-and-full-text-search), range search,
+[geo search](#geo-mapping) and more. Please refer to
+[Search Predicates and Data Types](https://docs.janusgraph.org/index-backend/search-predicates/) for a list of
+predicates supported by a specific indexing backend.
+
+> 📋 Unlike composite indexes, mixed indexes do not support uniqueness.
+
+###### Adding Property Keys
+
+New keys (of property) can be added to an existing mixed index which allows subsequent queries to include this key in
+the query condition:
+
+```bash
+graph.tx().rollback()  //Never create new indexes while a transaction is active
+mgmt = graph.openManagement()
+location = mgmt.makePropertyKey('location').dataType(Geoshape.class).make()
+nameAndAge = mgmt.getGraphIndex('nameAndAge')
+mgmt.addIndexKey(nameAndAge, location)
+mgmt.commit()
+//Previously created property keys already have the status ENABLED, but
+//our newly created property key "location" needs to REGISTER so we wait for both statuses
+ManagementSystem.awaitGraphIndexStatus(graph, 'nameAndAge').status(SchemaStatus.REGISTERED, SchemaStatus.ENABLED).call()
+//Reindex the existing data
+mgmt = graph.openManagement()
+mgmt.updateIndex(mgmt.getGraphIndex("nameAndAge"), SchemaAction.REINDEX).get()
+mgmt.commit()
+```
 
 ###### Index Parameters and Full-Text Search
 
@@ -724,5 +750,49 @@ mgmt.commit()
 
 Note that some indexing backends (e.g. Solr) may require additional external schema configuration to support and tune
 indexing non-point properties.
+
+##### Key/Property Ordering
+
+```bash
+g.V().has('name', textContains('hercules')).order().by('age', desc).limit(10)
+```
+
+* When composite graph index is used, all results will be **sorted in-memory**, which will be very costly for large
+  result sets.
+
+##### Label Constraint
+
+To index vertices or edges with only a particular label (e.g. index only gods by their names, but not every vertex (a
+human) that has a "name" property). It is possible to restrict the index to a particular vertex or edge label using the
+`indexOnly` method of the index builder. The following example creates a composite index for the property key "name"
+that indexes only vertices labeled "god".
+
+```bash
+graph.tx().rollback()  //Never create new indexes while a transaction is active
+mgmt = graph.openManagement()
+name = mgmt.getPropertyKey('name')
+god = mgmt.getVertexLabel('god')
+mgmt.buildIndex('byNameAndLabel', Vertex.class).addKey(name).indexOnly(god).buildCompositeIndex()
+mgmt.commit()
+//Wait for the index to become available
+ManagementSystem.awaitGraphIndexStatus(graph, 'byNameAndLabel').call()
+//Reindex the existing data
+mgmt = graph.openManagement()
+mgmt.updateIndex(mgmt.getGraphIndex("byNameAndLabel"), SchemaAction.REINDEX).get()
+mgmt.commit()
+```
+
+> 📋 When a composite index with label restriction is defined as unique, the uniqueness constraint only applies to
+> properties on vertices or edges for the specified label.
+
+##### Composite v.s. Mixed Indexes
+
+* Use a composite index for exact match index retrievals. Composite indexes do not require configuring or operating an
+  external index system and are often significantly faster than mixed indexes.
+  - As an exception, use a mixed index for exact matches when the number of distinct values for query constraint is
+    relatively small or if one value is expected to be associated with many elements in the graph (i.e. in case of low
+    selectivity).
+* Use a mixed indexes for numeric range, full-text or geo-spatial indexing. Also, using a mixed index can speed up the
+  `order().by()` queries.
 
 #### Vertex-Centric Indexes
