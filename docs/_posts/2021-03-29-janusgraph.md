@@ -170,6 +170,7 @@ gremlin> hercules = g.V(saturn).repeat(__.in('father')).times(2).next()
 
 * [What the hell is "Gremlin"?](https://docs.janusgraph.org/basics/gremlin/#:~:text=Gremlin%20is%20JanusGraph's%20query%20language,graph%20traversals%20and%20mutation%20operations.&text=It%20is%20developed%20independently%20from,supported%20by%20most%20graph%20databases.)
 * [The original treatise on Gremlin Language]({{ "/assets/pdf/i-hate-paper.pdf" | relative_url}})
+* [TinkerPop](https://tinkerpop.apache.org/docs/current/reference/) - Gremlin language [syntax system](#tinkerpop-syntax)
 
 ### Traverse a Graph Using TinkerPop
 
@@ -796,3 +797,96 @@ mgmt.commit()
   `order().by()` queries.
 
 #### Vertex-Centric Indexes
+
+Vertex-centric indexes are local index structures built individually per vertex. In large graphs vertices can have
+thousands of incident edges. Traversing through those vertices can be very slow because a large subset of the incident
+edges has to be retrieved and then filtered in memory to match the conditions of the traversal. Vertex-centric indexes
+can speed up such traversals by using localized index structures to retrieve only those edges that need to be traversed.
+
+Without a vertex-centric index, a query like the following would retrieve all battled edges even though there are only a
+handful of matching edges:
+
+```bash
+h = g.V().has('name', 'hercules').next()
+g.V(h).outE('battled').has('time', inside(10, 20)).inV()
+```
+
+Building a vertex-centric index speeds up such traversal queries. Note, this initial index example already exists in the
+example graph dataset (Graph of the Gods) as an index named edges. As a result, running the step of
+`mgmt.buildEdgeIndex(battled, 'battlesByTime', Direction.BOTH, Order.desc, time)
+` below will result in a uniqueness constraint error.
+
+```bash
+graph.tx().rollback()  //Never create new indexes while a transaction is active
+mgmt = graph.openManagement()
+time = mgmt.getPropertyKey('time')
+battled = mgmt.getEdgeLabel('battled')
+mgmt.buildEdgeIndex(battled, 'battlesByTime', Direction.BOTH, Order.desc, time)
+mgmt.commit()
+//Wait for the index to become available
+ManagementSystem.awaitRelationIndexStatus(graph, 'battlesByTime').call()
+//Reindex the existing data
+mgmt = graph.openManagement()
+mgmt.updateIndex(mgmt.getRelationIndex(battled, "battlesByTime"), SchemaAction.REINDEX).get()
+mgmt.commit()
+```
+
+This example builds a vertex-centric index which indexes `battled` edges in both direction by time in descending order.
+A vertex-centric index is built against a particular edge label which is the first argument to the method
+`JanusGraphManagement.buildEdgeIndex()`
+
+A vertex-centric index can be defined with multiple keys.
+
+```bash
+graph.tx().rollback()  //Never create new indexes while a transaction is active
+mgmt = graph.openManagement()
+time = mgmt.getPropertyKey('time')
+rating = mgmt.makePropertyKey('rating').dataType(Double.class).make()
+battled = mgmt.getEdgeLabel('battled')
+mgmt.buildEdgeIndex(battled, 'battlesByRatingAndTime', Direction.OUT, Order.desc, rating, time)
+mgmt.commit()
+//Wait for the index to become available
+ManagementSystem.awaitRelationIndexStatus(graph, 'battlesByRatingAndTime', 'battled').call()
+//Reindex the existing data
+mgmt = graph.openManagement()
+mgmt.updateIndex(mgmt.getRelationIndex(battled, 'battlesByRatingAndTime'), SchemaAction.REINDEX).get()
+mgmt.commit()
+```
+
+Note, that the order in which the property keys are specified is important because vertex-centric indexes are
+**prefix indexes**. This means, that `battled` edges are indexed by "rating" first and then "time".
+
+```bash
+h = g.V().has('name', 'hercules').next()
+g.V(h).outE('battled').property('rating', 5.0) //Add some rating properties (1)
+g.V(h).outE('battled').has('rating', gt(3.0)).inV() // (2)
+g.V(h).outE('battled').has('rating', 5.0).has('time', inside(10, 50)).inV() // (3)
+g.V(h).outE('battled').has('time', inside(10, 50)).inV() // (4)
+```
+
+The `battlesByRatingAndTime` index can speed up the first two but not the third query.
+
+Multiple vertex-centric indexes can be built for the same edge label in order to support different constraint
+traversals. JanusGraph query optimizer attempts to pick the most efficient index for any given traversal. Vertex-centric
+index **supports equality and range/interval constraints only**.
+
+> 📋 The property keys used in a vertex-centric index must have an explicitly defined data type (i.e. not
+> `Object.class`) which supports a native sort order, which means the keys must implement both `Comparable` and
+> `OrderPreservingSerializer` of their serializers. Those types include
+>
+> * Boolean
+> * UUID
+> * Byte
+> * Float
+> * Long
+> * String
+> * Integer
+> * Date
+> * Double
+> * Character, and
+> * Short
+
+JanusGraph automatically builds vertex-centric indexes per edge label and property key. That means, even with thousands
+of incident `battled` edges, queries like `g.V(h).out('mother')` or `g.V(h).values('age')` are efficiently answered by
+the local index.
+
