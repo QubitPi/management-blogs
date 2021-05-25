@@ -4,7 +4,7 @@ url: "https://qubitpi.github.io"
 
 # THEME-SPECIFIC CONFIGURATION
 title: "Jack's Tech Diary"                                                # site's title
-description: "Jiaqi Liu's Tech Blog"      # used by search engines
+description: "Jiaqi Liu"      # used by search engines
 avatar: assets/img/logo.png                                       # Empty for no avatar in navbar
 favicon: assets/favicon.ico                                           # Icon displayed in the tab
 
