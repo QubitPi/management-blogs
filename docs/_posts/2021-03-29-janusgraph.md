@@ -891,3 +891,19 @@ JanusGraph automatically builds vertex-centric indexes per edge label and proper
 of incident `battled` edges, queries like `g.V(h).out('mother')` or `g.V(h).values('age')` are efficiently answered by
 the local index.
 
+Vertex-centric indexes cannot speed up unconstrained traversals which require traversing through all incident edges of a
+particular label. Those traversals will become slower as the number of incident edges increases. Often, such traversals
+can be rewritten as constrained traversals that can utilize a vertex-centric index to ensure acceptable performance at
+scale.
+
+##### Ordered Traversals
+
+```bash
+h = g..V().has('name', 'hercules').next()
+g.V(h).local(outE('battled').order().by('time', desc).limit(10)).inV().values('name')
+g.V(h).local(outE('battled').has('rating', 5.0).order().by('time', desc).limit(10)).values('place')
+```
+
+Such queries can also be efficiently answered by vertex-centric indexes if the order key matches the key of the index
+and the requested order (i.e. ascending or descending) is the same as the one defined for the index. The `battlesByTime`
+index would be used to answer the first query and `battlesByRatingAndTime` applies to the second.
