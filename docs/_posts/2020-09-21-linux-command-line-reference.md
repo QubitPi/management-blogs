@@ -14,6 +14,11 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
+## Dealing with "command not found" Error
+
+* [command-not-found.com](https://command-not-found.com/)
+  - Example: [shasum](https://command-not-found.com/shasum)
+
 ## Must-Learn Commands
 
 * [sed](https://www.gnu.org/software/sed/manual/sed.html)

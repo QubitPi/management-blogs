@@ -14,6 +14,11 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
+## Dealing with "command not found" Error
+
+* [command-not-found.com](https://command-not-found.com/)
+  - Example: [shasum](https://command-not-found.com/shasum)
+
 ### [Keep Wi-Fi Connected While Being Locked](https://apple.stackexchange.com/a/97047)
 
 Find out what the network interface is for your wifi. Take "en1" as an example (I have obfuscated my MAC addresses with
