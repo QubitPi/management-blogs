@@ -3,8 +3,8 @@ layout: post
 title: Your First Jersey Application
 tags: [Tutorial]
 color: green
-feature-img: "assets/img/pexels/design-art/2020-07-23-1-getting-started/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-07-23-1-getting-started/cover.png"
+feature-img: "assets/img/post-cover/1-cover.png"
+thumbnail: "assets/img/post-cover/1-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
