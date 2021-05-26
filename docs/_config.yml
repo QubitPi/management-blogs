@@ -10,7 +10,7 @@ favicon: assets/favicon.ico                                           # Icon dis
 
 # Header and footer text
 header_text: I'm not a fan of modern technologies,<br>but techniques that bring to some crying hearts less-painful lives through Big Data  # Change Blog header text
-header_feature_image: assets/img/pexels/design-art/cover.png
+header_feature_image: assets/img/post-cover/title-image.png
 footer_text: >
   Art illustration inspired by Artist <a href="https://www.artstation.com/mb0sco">Bogdan mB0sco</a>
   <br>
