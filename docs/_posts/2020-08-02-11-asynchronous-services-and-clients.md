@@ -3,8 +3,8 @@ layout: post
 title: Asynchronous Services and Clients
 tags: [Asynchronous API, AsyncResponse, Callback, Chunked Output, Chunked Input]
 color: rgb(255, 111, 97)
-feature-img: "assets/img/pexels/design-art/2020-08-02-11-asynchronous-services-and-clients/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-02-11-asynchronous-services-and-clients/cover.png"
+feature-img: "assets/img/post-cover/11-cover.png"
+thumbnail: "assets/img/post-cover/11-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

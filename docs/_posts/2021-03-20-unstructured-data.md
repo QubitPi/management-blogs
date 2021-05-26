@@ -3,8 +3,8 @@ layout: post
 title: Modeling Business Data with An Unstructured Approach
 tags: [Java, Big Data]
 color: rgb(250, 154, 133)
-feature-img: "assets/img/pexels/design-art/christmas-fair-3.png"
-thumbnail: "assets/img/pexels/design-art/christmas-fair-3.png"
+feature-img: "assets/img/post-cover/23-cover.png"
+thumbnail: "assets/img/post-cover/23-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

@@ -3,8 +3,8 @@ layout: post
 title: Filters and Interceptors
 tags: [Filter, Interceptor, Request, Response, Name Binding, Dynamic Binding, Priorities]
 color: rgb(255, 105, 180)
-feature-img: "assets/img/pexels/design-art/2020-08-01-10-filters-and-interceptors/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-01-10-filters-and-interceptors/cover.png"
+feature-img: "assets/img/post-cover/10-cover.png"
+thumbnail: "assets/img/post-cover/10-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

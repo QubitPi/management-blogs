@@ -3,8 +3,8 @@ layout: post
 title: URIs and Links
 tags: [URI, Links]
 color: rgb(107, 91, 149)
-feature-img: "assets/img/pexels/design-art/2020-08-03-12-uris-and-links/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-03-12-uris-and-links/cover.png"
+feature-img: "assets/img/post-cover/12-cover.png"
+thumbnail: "assets/img/post-cover/12-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

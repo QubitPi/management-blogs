@@ -3,8 +3,8 @@ layout: post
 title: Custom Injection and Lifecycle Management
 tags: [HK2, Injection, Annotation, Lifecycle]
 color: rgb(254, 132, 14)
-feature-img: "assets/img/pexels/design-art/2020-08-15-24-custom-injection-and-lifecycle-management/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-15-24-custom-injection-and-lifecycle-management/cover.png"
+feature-img: "assets/img/post-cover/24-cover.png"
+thumbnail: "assets/img/post-cover/24-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 --- 

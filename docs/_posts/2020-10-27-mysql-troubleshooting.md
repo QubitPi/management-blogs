@@ -3,8 +3,8 @@ layout: post
 title: MySQL Troubleshooting
 tags: [MySQL, Database]
 color: rgb(250, 154, 133)
-feature-img: "assets/img/pexels/design-art/dark-radio.png"
-thumbnail: "assets/img/pexels/design-art/dark-radio.png"
+feature-img: "assets/img/post-cover/21-cover.png"
+thumbnail: "assets/img/post-cover/21-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

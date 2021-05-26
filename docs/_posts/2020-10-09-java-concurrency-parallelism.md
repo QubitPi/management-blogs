@@ -3,8 +3,8 @@ layout: post
 title: Concurrency v.s Parallelism
 tags: [Java]
 color: rgb(250, 154, 133)
-feature-img: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-16-25-jersey-cdi-container-agnostic-support/cover.png"
+feature-img: "assets/img/post-cover/4-cover.png"
+thumbnail: "assets/img/post-cover/4-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

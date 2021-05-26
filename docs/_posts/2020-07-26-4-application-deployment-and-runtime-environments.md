@@ -3,8 +3,8 @@ layout: post
 title: Application Deployment and Runtime Environments
 tags: [Deployment, endpoint]
 color: rgb(91, 94, 166)
-feature-img: "assets/img/pexels/design-art/2020-07-26-4-application-deployment-and-runtime-environments/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-07-26-4-application-deployment-and-runtime-environments/cover.png"
+feature-img: "assets/img/post-cover/4-cover.png"
+thumbnail: "assets/img/post-cover/4-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

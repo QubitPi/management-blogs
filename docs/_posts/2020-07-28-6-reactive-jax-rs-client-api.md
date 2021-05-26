@@ -3,8 +3,8 @@ layout: post
 title: Reactive JAX-RS Client API
 tags: [Reactive, API]
 color: purple
-feature-img: "assets/img/pexels/design-art/2020-07-28-6-reactive-jax-rs-client-api/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-07-28-6-reactive-jax-rs-client-api/cover.png"
+feature-img: "assets/img/post-cover/6-cover.png"
+thumbnail: "assets/img/post-cover/6-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

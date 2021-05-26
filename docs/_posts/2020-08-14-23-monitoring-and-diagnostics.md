@@ -3,8 +3,8 @@ layout: post
 title: Monitoring and Diagnostics
 tags: [Monitoring]
 color: rgb(0, 83, 156)
-feature-img: "assets/img/pexels/design-art/2020-08-14-23-monitoring-and-diagnostics/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-14-23-monitoring-and-diagnostics/cover.png"
+feature-img: "assets/img/post-cover/23-cover.png"
+thumbnail: "assets/img/post-cover/23-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

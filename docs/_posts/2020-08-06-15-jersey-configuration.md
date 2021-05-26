@@ -4,8 +4,8 @@ title: Jersey Configuration
 tags: [Configuration, Microprofile, Jakarta EE, Helidon, SmallRye]
 color: rgb(214, 80, 118)
 author: QubitPi
-feature-img: "assets/img/pexels/design-art/2020-08-06-15-jersey-configuration/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-06-15-jersey-configuration/cover.png"
+feature-img: "assets/img/post-cover/15-cover.png"
+thumbnail: "assets/img/post-cover/15-cover.png"
 excerpt_separator: <!--more-->
 ---
 

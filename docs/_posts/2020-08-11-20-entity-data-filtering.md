@@ -4,8 +4,8 @@ title: Entity Data Filtering
 tags: [GraphQL, Filtering]
 color: rgb(151, 127, 215)
 author: QubitPi
-feature-img: "assets/img/pexels/design-art/2020-08-11-20-entity-data-filtering/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-11-20-entity-data-filtering/cover.png"
+feature-img: "assets/img/post-cover/20-cover.png"
+thumbnail: "assets/img/post-cover/20-cover.png"
 excerpt_separator: <!--more-->
 ---
 

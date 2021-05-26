@@ -3,8 +3,8 @@ layout: post
 title: PriorityQueue
 tags: [Java]
 color: rgb(250, 154, 133)
-feature-img: "assets/img/pexels/design-art/northern-lights.png"
-thumbnail: "assets/img/pexels/design-art/northern-lights.png"
+feature-img: "assets/img/post-cover/14-cover.png"
+thumbnail: "assets/img/post-cover/14-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

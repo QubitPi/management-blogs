@@ -3,8 +3,8 @@ layout: post
 title: Understanding GraphQL Query Syntax
 tags: [GraphQL]
 color: rgb(224, 1, 152)
-feature-img: "assets/img/pexels/design-art/2020-07-31-09-support-for-common-media-type-representations/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-07-31-09-support-for-common-media-type-representations/cover.png"
+feature-img: "assets/img/post-cover/25-cover.png"
+thumbnail: "assets/img/post-cover/25-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

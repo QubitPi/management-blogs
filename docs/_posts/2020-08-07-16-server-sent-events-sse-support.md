@@ -3,8 +3,8 @@ layout: post
 title: Server-Sent Events (SSE) Support
 tags: [Server-Sent Events, SSE, Broadcasting]
 color: rgb(221, 65, 36)
-feature-img: "assets/img/pexels/design-art/2020-08-07-16-server-sent-events-sse-support/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-07-16-server-sent-events-sse-support/cover.png"
+feature-img: "assets/img/post-cover/16-cover.png"
+thumbnail: "assets/img/post-cover/16-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

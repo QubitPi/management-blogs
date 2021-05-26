@@ -3,8 +3,8 @@ layout: post
 title: Programmatic API for Building Resources
 tags: [API, Resources, Programmatic]
 color: rbg(136, 176, 75)
-feature-img: "assets/img/pexels/design-art/2020-08-05-14-programmatic-api-for-building-resources/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-05-14-programmatic-api-for-building-resources/cover.png"
+feature-img: "assets/img/post-cover/14-cover.png"
+thumbnail: "assets/img/post-cover/14-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

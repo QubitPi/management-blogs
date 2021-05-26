@@ -3,8 +3,8 @@ layout: post
 title: The Next Big Thing in Software Testing - Auto Test Generation
 tags: [Java, Test, Maven]
 color: rgb(250, 154, 133)
-feature-img: "assets/img/pexels/design-art/2020-07-23-1-getting-started/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-07-23-1-getting-started/cover.png"
+feature-img: "assets/img/post-cover/33-cover.png"
+thumbnail: "assets/img/post-cover/33-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

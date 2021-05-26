@@ -3,8 +3,8 @@ layout: post
 title: Programming HBase
 tags: [HBase, Hadoop]
 color: rgb(250, 154, 133)
-feature-img: "assets/img/pexels/design-art/piece-of-me.png"
-thumbnail: "assets/img/pexels/design-art/piece-of-me.png"
+feature-img: "assets/img/post-cover/29-cover.png"
+thumbnail: "assets/img/post-cover/29-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

@@ -3,8 +3,8 @@ layout: post
 title: Bean Validation Support
 tags: [Validation, Bean, Hibernate, Constraint Annotations]
 color: rgb(233, 84, 32)
-feature-img: "assets/img/pexels/design-art/2020-08-10-19-bean-validation-support/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-10-19-bean-validation-support/cover.png"
+feature-img: "assets/img/post-cover/19-cover.png"
+thumbnail: "assets/img/post-cover/19-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

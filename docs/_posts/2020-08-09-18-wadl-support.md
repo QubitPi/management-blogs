@@ -3,8 +3,8 @@ layout: post
 title: WADL Support
 tags: [WADL]
 color: rgb(195, 68, 122)
-feature-img: "assets/img/pexels/design-art/2020-08-09-18-wadl-support/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-09-18-wadl-support/cover.png"
+feature-img: "assets/img/post-cover/18-cover.png"
+thumbnail: "assets/img/post-cover/18-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

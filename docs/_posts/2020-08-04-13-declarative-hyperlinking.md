@@ -3,8 +3,8 @@ layout: post
 title: Declarative Hyperlinking
 tags: []
 color: rgb(0, 155, 119)
-feature-img: "assets/img/pexels/design-art/2020-08-04-13-declarative-hyperlinking/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-08-04-13-declarative-hyperlinking/cover.png"
+feature-img: "assets/img/post-cover/13-cover.png"
+thumbnail: "assets/img/post-cover/13-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

@@ -2,8 +2,8 @@
 layout: post
 title: Modules and dependencies
 tags: [Dependency, POM]
-feature-img: "assets/img/pexels/design-art/2020-07-24-2-modules-and-dependencies/cover.png"
-thumbnail: "assets/img/pexels/design-art/2020-07-24-2-modules-and-dependencies/cover.png"
+feature-img: "assets/img/post-cover/2-cover.png"
+thumbnail: "assets/img/post-cover/2-cover.png"
 color: green
 author: QubitPi
 excerpt_separator: <!--more-->
