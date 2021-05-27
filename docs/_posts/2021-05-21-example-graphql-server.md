@@ -3,8 +3,8 @@ layout: post
 title: Setting up a minimized GraphQL server
 tags: [GraphQL]
 color: rgb(250, 154, 133)
-feature-img: "assets/img/post-cover/28-cover.png"
-thumbnail: "assets/img/post-cover/28-cover.png"
+feature-img: "assets/img/post-cover/35-cover.png"
+thumbnail: "assets/img/post-cover/35-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
