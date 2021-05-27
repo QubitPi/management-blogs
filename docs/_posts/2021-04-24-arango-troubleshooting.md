@@ -3,8 +3,8 @@ layout: post
 title: ArangoDB Best Practices
 tags: [ArangoDB, Database, Graph Data, Best Practices]
 color: rgb(224, 1, 152)
-feature-img: "assets/img/post-cover/29-cover.png"
-thumbnail: "assets/img/post-cover/29-cover.png"
+feature-img: "assets/img/post-cover/31-cover.png"
+thumbnail: "assets/img/post-cover/31-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
