@@ -41,6 +41,16 @@ The advantages of auto-generated tests over manually developing automated tests 
 If this all sounds too futuristic to you, bear in mind that tools for generating tests already exist, even if they are
 not as widely used as manual test-writing processes. Below are some good choices:
 
+* [Diffblue](https://www.diffblue.com/)
+* [EvoSuite](https://www.evosuite.org/)
+
+### Diffblue
+
+Using Diffblue is super simple by [installing maven plugin](https://www.diffblue.com/try-cover) and generating tests by
+right-clicking though:
+
+![Error diffblue-example.png!]({{ "/assets/img/diffblue-example.png" | relative_url}})
+
 ### EvoSuite
 
 #### Maven integration
