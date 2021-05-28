@@ -9,6 +9,10 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
+JanusGraph is a transactional graph database with non-graph databases storage, such as HBase, and queries &
+presents the data through [Gremlin graph query language](#gremlin---the-language-of-janusgraph). It is totally free and
+is Open Source under the Apache 2 license.
+
 <!--more-->
 
 * TOC
