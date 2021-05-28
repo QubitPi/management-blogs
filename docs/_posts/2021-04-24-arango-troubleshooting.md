@@ -1,6 +1,6 @@
 ---
 layout: post
-title: ArangoDB Best Practices
+title: ArangoDB Reference
 tags: [ArangoDB, Database, Graph Data, Best Practices]
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/13-cover.png"
