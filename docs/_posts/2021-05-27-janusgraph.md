@@ -594,9 +594,9 @@ mgmt.commit()
 
 > ⚠️ The example above defines a mixed index containing the property keys "name" and "age". The definition refers to the
 > indexing backend name **`search`** so that JanusGraph knows which configured indexing backend it should use for this
-> particular index. **The `search` parameter specified in the `buildMixedIndex` call must match the **second** part in
-> the JanusGraph configuration definition like this: index.**search**. backend If the index was named `solrsearch` then
-> the configuration definition would appear like this: index.solrsearch.backend.
+> particular index. The `search` parameter specified in the `buildMixedIndex` call must match the **second** part in the
+> JanusGraph configuration definition like this: index.**search**. backend If the index was named `solrsearch` then the
+> configuration definition would appear like this: index.solrsearch.backend.
 
 While the index definition example looks similar to the composite index above, it provides greater query support and can
 answer any of the following queries.
