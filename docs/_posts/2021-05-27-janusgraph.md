@@ -10,8 +10,8 @@ excerpt_separator: <!--more-->
 ---
 
 JanusGraph is a transactional graph database, with non-graph databases storage (e.g. HBase), that queries and presents
-the data through [Gremlin graph query language](#gremlin---the-language-of-janusgraph). It is totally free and is Open
-Source under the Apache 2 license.
+the data through Gremlin graph query language. This post shall include everything you need for becoming familiar with
+JanusGraph
 
 <!--more-->
 
