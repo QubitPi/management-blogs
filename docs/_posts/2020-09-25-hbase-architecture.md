@@ -172,7 +172,7 @@ machines in the RegionServers (cluster).
 ![HBase Logical Architecture]({{ "/assets/img/hbase_logical_architecture.png" | relative_url}})
 
 The assignment and distribution of Regions to RegionServers is automatic. You can manually manage Regions--HBase will
-let you do that--but this is not common. When data is inserted into a Region and the Region’s size reaches a threshold,
+let you do that--but this is not common. When data is inserted into a Region and the Region's size reaches a threshold,
 the Region is split along a rowkey boundary into two child Regions. Rows are never divided and a Region always hosts an
 entire row.
 

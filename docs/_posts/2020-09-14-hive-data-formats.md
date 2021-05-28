@@ -21,7 +21,7 @@ The following are the some file formats supported:
 * Delimited text
 * [Row Columnar file (RCFile)](http://en.wikipedia.org/wiki/RCFile)
 * [`Optimized Row Columnar (ORC) file](https://cwiki.apache.org/confluence/display/Hive/LanguageManual%20ORC#LanguageManualORC-ORCFiles) (Hive 0.11 and beyond)
-* [Avro IDL](http://avro.apache.org/docs/1.7.5/idl.html) (end of Q2’14)
+* [Avro IDL](http://avro.apache.org/docs/1.7.5/idl.html) (end of Q2'14)
 
 Hive also allows mixed formats:
 
@@ -141,8 +141,8 @@ To set the default file format as ORCFile, use the `SET` command:
     SET hive.default.fileformat   = orc
     SET hive.exec.orc.memory.pool = 0.50 (ORC writer is allowed 50% of JVM heap size by default)
 
-    ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.orc.OrcSerde’
-    INPUTFORMAT      'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat’ 
+    ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.orc.OrcSerde'
+    INPUTFORMAT      'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat' 
     OUTPUTFORMAT     'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat';
 
 You can also specity that Hive store data as an ORC file when creating a table:
@@ -155,7 +155,7 @@ You can also specity that Hive store data as an ORC file when creating a table:
     zip 	int 
     ) 
     STORED AS orc TBLPROPERTIES ("orc.compress"= "ZLIB");
-    LOCATION ‘/users/sumeetsi/orcfile’;
+    LOCATION ‘/users/sumeetsi/orcfile';
 
 Or, alter a table so that it uses ORCFile:
     

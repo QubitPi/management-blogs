@@ -34,7 +34,7 @@ You can get into trouble with the last form. The problem is that, inside a const
     An object is only fully constructed after its constructor completely returns, and not before
 \end{remark}
 
-But when passed as a parameter to a method of some other object, the this reference should always refer to a fully-formed object. This problem occurs mainly with listeners. Here’s an example which illustrates the point:
+But when passed as a parameter to a method of some other object, the this reference should always refer to a fully-formed object. This problem occurs mainly with listeners. Here's an example which illustrates the point:
 
 \begin{minted}{java}
 import java.util.Observable;
@@ -177,7 +177,7 @@ One of the most fundamental aspects of a programming language is how it initiali
     \item object references: null
 \end{itemize}
 
-This means that explicitly setting fields to 0, false, or null (as the case may be) is unnecessary and redundant. Since this language feature was included in order to, in part, reduce repetitive coding, it’s a good idea to take full advantage of it. Insisting that fields should be explicitly initialized to 0, false, or null is an idiom which is likely inappropriate to the Java programming language
+This means that explicitly setting fields to 0, false, or null (as the case may be) is unnecessary and redundant. Since this language feature was included in order to, in part, reduce repetitive coding, it's a good idea to take full advantage of it. Insisting that fields should be explicitly initialized to 0, false, or null is an idiom which is likely inappropriate to the Java programming language
 
 Furthermore, setting a field explicitly to 0, false, or null may even cause the same operation to be performed twice (depending on your compiler). For example:
 
@@ -201,7 +201,7 @@ public final class Quark {
 }
 \end{minted}
 
-If the bytecode of the Quark class is examined, the duplicated operations become clear (here, Oracle’s javac compiler was used):
+If the bytecode of the Quark class is examined, the duplicated operations become clear (here, Oracle's javac compiler was used):
 
 
 \begin{tcolorbox}[
@@ -268,4 +268,4 @@ There are two problems with starting a thread in a constructor (or static initia
 \end{enumerate}
     
 
-There’s nothing wrong with creating a thread object in a constructor or static initializer - just don’t start it there.
+There's nothing wrong with creating a thread object in a constructor or static initializer - just don't start it there.

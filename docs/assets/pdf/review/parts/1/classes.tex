@@ -59,7 +59,7 @@ Keep the number of instance variables small and breaks a class apart when there 
 
 \subsubsection{Application of Cohesion - Keeping Classes Small}
 
-Consider a large function with many variables declared within it. Let’s say you
+Consider a large function with many variables declared within it. Let's say you
 want to extract one small part of that function into a separate function. However, the code you want to extract uses four of the variables declared in the function. Must you pass all four of those variables into the new function as arguments?
 
 Not at all! If we promoted those four variables to instance variables of the class, then we could extract the code without passing any variables at all. It would be easy to break the function up into small pieces.

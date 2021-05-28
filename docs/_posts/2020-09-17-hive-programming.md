@@ -248,12 +248,12 @@ For example, you could partition the table based the criteria of the locale and 
         locale string, 
         datestamp string)
     STORED AS orc
-    location ‘...’;
+    location ‘...';
 
 You can also add partitions to existing tables with the `ALTER` key word
 
-    ALTER TABLE search ADD PARTITION ( locale=‘US’, datestamp=‘20130201’) 
-    LOCATION ‘...’;
+    ALTER TABLE search ADD PARTITION ( locale=‘US', datestamp=‘20130201') 
+    LOCATION ‘...';
 
 ### Reading Data
 
@@ -353,7 +353,7 @@ Hive also supports multiple inserts in the same statement or dynamic partition i
 You can use ALTER TABLE ADD PARTITION to add partitions to a table. The location must be a directory inside of which
 data files reside.
 
-    ALTER TABLE table_name ADD PARTITION (partCol = 'value1') location 'loc1’;
+    ALTER TABLE table_name ADD PARTITION (partCol = 'value1') location 'loc1';
 
 If new partitions are directly added to HDFS, Hive will not be aware of these. Thus, you will need to add the metadata
 about the partitions from HDFS into the Hive metastore with the following:
@@ -411,7 +411,7 @@ word `SERDEPROPERTIES`, and points to the HBase table with the key word `TBLEPRO
        hit_count int
     )
     STORED BY
-    'org.apache.hadoop.hive.hbase.HBaseStorageHandler’
+    'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
     
     WITH SERDEPROPERTIES
     ("hbase.columns.mapping" = ":key, u:url, s:hits")

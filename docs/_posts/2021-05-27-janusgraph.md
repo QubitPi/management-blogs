@@ -384,7 +384,7 @@ g.V().out('created').toSet() // toSet() will return all results in a set and thu
 g.V().out('created').toBulkSet() // toBulkSet() will return all results in a weighted set and thus, duplicates preserved via weighting
 results = ['blah',3]
 g.V().out('created').fill(results) // fill(collection) will put all results in the provided collection and return the collection when complete
-g.addV('person').iterate() // iterate() does not exactly fit the definition of a terminal step in that it doesn’t return a result, but still returns a traversal - it does however behave as a terminal step in that it iterates the traversal and generates side effects without returning the actual result.
+g.addV('person').iterate() // iterate() does not exactly fit the definition of a terminal step in that it doesn't return a result, but still returns a traversal - it does however behave as a terminal step in that it iterates the traversal and generates side effects without returning the actual result.
 ```
 
 There is also the `promise()` terminator step, which can only be used with remote traversals to

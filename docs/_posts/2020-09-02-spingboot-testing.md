@@ -21,7 +21,7 @@ used in a test.
 
 ## Integration Tests vs. Unit Tests
 
-Before we start into integration tests with Spring Boot, let’s define what sets an integration test apart from a unit
+Before we start into integration tests with Spring Boot, let's define what sets an integration test apart from a unit
 test.
 
 A unit test covers a single "unit", where a unit commonly is a single class, but can also be a cluster of cohesive
@@ -112,7 +112,7 @@ We can turn a lot of knobs to customize the application context created by `@Spr
 
 ### Setting Custom Configuration Properties
 
-Often, in tests it’s necessary to set some configuration properties to a value that’s different from the value in a
+Often, in tests it's necessary to set some configuration properties to a value that's different from the value in a
 production setting:
 
 ```java
@@ -264,7 +264,7 @@ class CustomApplicationTest {
 When doing this, however, we are **testing an application context that may be completely different from the production
 environment**, so this should be a last resort only when the production application cannot be started in a test
 environment. Usually, there are better ways, though, such as to make the real application context configurable to
-exclude beans that will not start in a test environment. Let’s look at this in an example.
+exclude beans that will not start in a test environment. Let's look at this in an example.
 
 Let's say we use the `@EnableScheduling` annotation on our application class. Each time the application context is
 started (even in tests), all `@Scheduled` jobs will be started and may conflict with our tests. We usually don't want

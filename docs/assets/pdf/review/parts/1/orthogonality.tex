@@ -10,7 +10,7 @@ Orthogonality is a critical concept if you want to produce systems that are easy
 
 \section{Benefits of Orthogonality}
 
-Software system components should be  self-contained: independent, and with a single, well-defined purpose. When components are isolated from one another, you know that you can change one without having to worry about the rest. As long as you don’t change that component’s external interfaces, you can be comfortable that you won’t cause problems that ripple through the entire system.
+Software system components should be  self-contained: independent, and with a single, well-defined purpose. When components are isolated from one another, you know that you can change one without having to worry about the rest. As long as you don't change that component's external interfaces, you can be comfortable that you won't cause problems that ripple through the entire system.
 
 There are two major benefits in orthogonal systems: increased productivity and reduced risk.
 
@@ -41,8 +41,8 @@ Every time people write code they run the risk of reducing the orthogonality of 
 There are several techniques to maintain orthogonality:
 
 \begin{item}
-    \item \textbf{Avoid global data} Every time your code references global data, it ties itself into the other components that share that data. Even globals that you intend only to read can lead to trouble (for example, if you suddenly need to change your code to be multithreaded). In general, your code is easier to understand and maintain if you explicitly pass any required context into your modules. In objectoriented applications, context is often passed as parameters to objects’ constructors. In other code, you can create structures containing the context and pass around references to them.
-    \item \textbf{Avoid similar functions} Often you’ll come across a set of functions that all look similar - maybe they share common code at the start and end, but each has a different central algorithm. Duplicate code is a symptom of structural problems. Have a look at the Strategy pattern in book "Design Patterns" for a better implementation.
+    \item \textbf{Avoid global data} Every time your code references global data, it ties itself into the other components that share that data. Even globals that you intend only to read can lead to trouble (for example, if you suddenly need to change your code to be multithreaded). In general, your code is easier to understand and maintain if you explicitly pass any required context into your modules. In objectoriented applications, context is often passed as parameters to objects' constructors. In other code, you can create structures containing the context and pass around references to them.
+    \item \textbf{Avoid similar functions} Often you'll come across a set of functions that all look similar - maybe they share common code at the start and end, but each has a different central algorithm. Duplicate code is a symptom of structural problems. Have a look at the Strategy pattern in book "Design Patterns" for a better implementation.
 \end{item}
 
 \section{Other Applications of Orthogonality}
@@ -55,4 +55,4 @@ Most developers are familiar with the need to design orthogonal systems, althoug
 
 Be careful to preserve the orthogonality of a system as code author introduces third-party toolkits and libraries.
 
-When you bring in a toolkit (or even a library from other members of your team), ask yourself whether it imposes changes on your code that shouldn’t be there. If an object persistence scheme is transparent, then it’s orthogonal. If it requires you to create or access objects in a special way, then it’s not. Keeping such details isolated from your code has the added benefit of making it easier to change vendors in the future.
+When you bring in a toolkit (or even a library from other members of your team), ask yourself whether it imposes changes on your code that shouldn't be there. If an object persistence scheme is transparent, then it's orthogonal. If it requires you to create or access objects in a special way, then it's not. Keeping such details isolated from your code has the added benefit of making it easier to change vendors in the future.

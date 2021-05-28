@@ -12,7 +12,7 @@ you get your thoughts down first, then you massage it until it reads well. The f
 When I write functions, they come out long and complicated. They have lots of
 indenting and nested loops. They have long argument lists. The names are arbitrary, and there is duplicated code. But I also have a suite of unit tests that cover every one of those clumsy lines of code. So then I massage and refine that code, splitting out functions, changing names, eliminating duplication. I shrink the methods and reorder them. Sometimes I break out whole classes, all the while keeping the tests passing.
 
-In the end, I wind up with functions that follow the rules I’ve laid down in this chapter. I don't write them that way to start. I don’t think anyone could.
+In the end, I wind up with functions that follow the rules I've laid down in this chapter. I don't write them that way to start. I don't think anyone could.
 
 \begin{tcolorbox}[breakable, colback=green!10!white, colframe=green!85!black, center title, title = Golden Rule of Functions]
 \begin{center}
@@ -101,7 +101,7 @@ THEY SHOULD DO IT ONLY.
 \end{center}
 \end{tcolorbox}
 
-the problem with this statement is that it is hard to know what “one thing” is. Does Listing~\ref{blocks-and-indenting-good} do one thing? It’s easy to make the case that it’s doing three things:
+the problem with this statement is that it is hard to know what “one thing” is. Does Listing~\ref{blocks-and-indenting-good} do one thing? It's easy to make the case that it's doing three things:
 
 \begin{enumerate}
     \item Determining whether the page is a test page.
@@ -143,8 +143,8 @@ It turns out to be very difficult for programmers to learn to follow this rule a
 
 \section{Switch Statements}\index{Functions!Switch Statements}
 
-It’s hard to make a small \inlinecode[red]{switch} statement(or an equivalent if-else chains). It’s also hard to make a switch statement
-that does one thing. By their nature, switch statements always do N things. Unfortunately we can’t always avoid switch statements, but we can make sure that each \inlinecode[red]{switch} statement is buried in a low-level class and is never repeated. We do this, of course, with
+It's hard to make a small \inlinecode[red]{switch} statement(or an equivalent if-else chains). It's also hard to make a switch statement
+that does one thing. By their nature, switch statements always do N things. Unfortunately we can't always avoid switch statements, but we can make sure that each \inlinecode[red]{switch} statement is buried in a low-level class and is never repeated. We do this, of course, with
 \textbf{polymorphism}.
 
 Consider Listing~\ref{switch-statements-bad}. It shows just one of the operations that might depend on the
@@ -179,7 +179,7 @@ public Money calculatePay(Employee e) {
 There are several problems with this function:
 
 \begin{enumerate}
-    \item it’s large, and when new employee types are added, it will grow
+    \item it's large, and when new employee types are added, it will grow
     \item it very clearly does more than one thing
     \item it violates the Single Responsibility Principle because there is more than one reason for it to change
     \item it violates the Open Closed Principle because it must change whenever new types are added
@@ -258,7 +258,7 @@ Arguments are hard. They take a lot of conceptual power.
 
 Arguments are also hard from a testing point of view.
 
-Output arguments are harder to understand than input arguments. When we read a function, we are used to the idea of information going in to the function through arguments and out through the return value. We don’t usually expect information to be going out through the arguments. So output arguments often cause us to do a double-take.
+Output arguments are harder to understand than input arguments. When we read a function, we are used to the idea of information going in to the function through arguments and out through the return value. We don't usually expect information to be going out through the arguments. So output arguments often cause us to do a double-take.
 
 \begin{marker}
 Reduce the number of arguments as much as possible.
@@ -283,7 +283,7 @@ A somewhat less common, but still very useful form for a single argument functio
 Use monadic argument appropriately
 \end{marker}
 
-Try to avoid any monadic functions that don’t follow these forms. Using an output argument instead of a return value for a transformation is confusing. If a function is going to transform its input argument, the transformation should appear as the return value.
+Try to avoid any monadic functions that don't follow these forms. Using an output argument instead of a return value for a transformation is confusing. If a function is going to transform its input argument, the transformation should appear as the return value.
 
 \begin{marker}
 Put output argument as return vlaue
@@ -304,7 +304,7 @@ There are times, of course, where two arguments are appropriate. For example, it
 Even obvious dyadic functions like \inlinecode[red]{assertEquals(expected, actual)} are problematic.
 How many times have you put the \inlinecode[red]{actual} where the \inlinecode[red]{expected} should be? The two arguments have no natural ordering. The expected, actual ordering is a convention that requires practice to learn. This is one of the reasons I do not use junit for testing.
 
-Dyads aren’t evil, and you will certainly have to write them. However, you should be aware that they come at a cost and should take advantage of what mechanims may be available to you to convert them into monads. For example, you might make the \inlinecode[green]{writeField} method a member of \inlinecode[green]{outputStream} so that you can say \inlinecode[green]{outputStream. writeField(name)}. Or you might make the \inlinecode[green]{outputStream} a member variable of the current class so that you don’t have to pass it. Or you might extract a new class like \inlinecode[green]{FieldWriter} that takes the \inlinecode[green]{outputStream} in its constructor and has a write method.
+Dyads aren't evil, and you will certainly have to write them. However, you should be aware that they come at a cost and should take advantage of what mechanims may be available to you to convert them into monads. For example, you might make the \inlinecode[green]{writeField} method a member of \inlinecode[green]{outputStream} so that you can say \inlinecode[green]{outputStream. writeField(name)}. Or you might make the \inlinecode[green]{outputStream} a member variable of the current class so that you don't have to pass it. Or you might extract a new class like \inlinecode[green]{FieldWriter} that takes the \inlinecode[green]{outputStream} in its constructor and has a write method.
 
 \begin{marker}
 Design natural-ordering or natural-cohesion bi-arguments
@@ -330,7 +330,7 @@ Circle makeCircle(Point center, double radius);
 
 \end{tcolorbox}
 
-Reducing the number of arguments by creating objects out of them may seem like cheating, but it’s not. When groups of variables are passed together, the way x and y are in the example above, they are likely part of a concept that deserves a name of its own.
+Reducing the number of arguments by creating objects out of them may seem like cheating, but it's not. When groups of variables are passed together, the way x and y are in the example above, they are likely part of a concept that deserves a name of its own.
 
 \section{Argument Lists}\index{Functions!Argument Lists}
 
@@ -428,13 +428,13 @@ Output argument makes it hard to read. For example:
 appendFooter(s);
 \end{tcolorbox}
 
-Does this function append s as the footer to something? Or does it append some footer to s? Is s an input or an output? It doesn’t take long to look at the function signature and see:
+Does this function append s as the footer to something? Or does it append some footer to s? Is s an input or an output? It doesn't take long to look at the function signature and see:
 
 \begin{tcolorbox}[breakable, colback=red!10!white, colframe=red!85!black]
 public void appendFooter(StringBuffer report)
 \end{tcolorbox}
 
-This clarifies the issue, but only at the expense of checking the declaration of the function. Anything that forces you to check the function signature is equivalent to a double-take. It’s a cognitive break and should be avoided.
+This clarifies the issue, but only at the expense of checking the declaration of the function. Anything that forces you to check the function signature is equivalent to a double-take. It's a cognitive break and should be avoided.
 
 \begin{marker}
 Anything that forces you to check the function signature is equivalent to a double-take which should be avoided

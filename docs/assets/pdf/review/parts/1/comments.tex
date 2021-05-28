@@ -5,8 +5,8 @@
 \section{Comments Do Not Make Up for Bad Code}\index{Comments!Comments Do Not Make Up for Bad Code}
 
 One of the more common motivations for writing comments is bad code. We write a module
-and we know it is confusing and disorganized. We know it’s a mess. So we say to ourselves,
-“Ooh, I’d better comment that!” No! You’d better clean it!
+and we know it is confusing and disorganized. We know it's a mess. So we say to ourselves,
+“Ooh, I'd better comment that!” No! You'd better clean it!
 Clear and expressive code with few comments is far superior to cluttered and complex
 code with lots of comments. Rather than spend your time writing the comments that
 explain the mess you've made, spend it cleaning that mess.
@@ -30,7 +30,7 @@ if (employee.isEligibleForFullBenefits())
 
 \end{tcolorbox}
 
-It takes only a few seconds of thought to explain most of your intent in code. In many cases it’s simply a matter of creating a function that says the same thing as the comment you want to write.
+It takes only a few seconds of thought to explain most of your intent in code. In many cases it's simply a matter of creating a function that says the same thing as the comment you want to write.
 
 \begin{marker}
 If there is a comment for a piece of logic, it might be a sign of review comments saying "this should be turned into a method"
@@ -118,7 +118,7 @@ for (int i = 0; i < 25000; i++) {
 
 \subsection{Clarification}
 
-Sometimes it is just helpful to translate the meaning of some obscure argument or return value into something that’s readable. In general it is better to find a way to make that argument or return value clear in its own right; but when its part of the standard library, or in code that you cannot alter, then a helpful clarifying comment can be useful.
+Sometimes it is just helpful to translate the meaning of some obscure argument or return value into something that's readable. In general it is better to find a way to make that argument or return value clear in its own right; but when its part of the standard library, or in code that you cannot alter, then a helpful clarifying comment can be useful.
 
 \begin{tcolorbox}[breakable, colback=green!10!white, colframe=green!85!black, sidebyside, righthand width = 3cm, tikz lower, label=blocks-and-indenting-good]
 
@@ -160,10 +160,10 @@ Sometimes it is useful to warn other programmers about certain consequences. For
 \subsection{TODO Comments}
 
 TODO's are jobs that the programmer thinks should be done, but for some reason
-can’t do at the moment.
+can't do at the moment.
 
 Nowadays, most good IDEs provide special gestures and features to locate all the
-TODO comments, so it’s not likely that they will get lost. Still, you don’t want your code to be littered with TODOs. So scan through them regularly and eliminate the ones you can.
+TODO comments, so it's not likely that they will get lost. Still, you don't want your code to be littered with TODOs. So scan through them regularly and eliminate the ones you can.
 
 \begin{marker}
 When you see a relevant TODO during review process, see if this can be resoved in the same PR
@@ -212,7 +212,7 @@ public synchronized void waitForClose(final long timeoutMillis) throws Exception
 
 Listing~\ref{redundant-comment-bad} shows a simple function with a header comment that is completely redundant. The comment probably takes longer to read than the code itself.
 
-What purpose does this comment serve? It’s certainly not more informative than the code. It does not justify the code, or provide intent or rationale. It is not easier to read than the code. 
+What purpose does this comment serve? It's certainly not more informative than the code. It does not justify the code, or provide intent or rationale. It is not easier to read than the code.
 
 \begin{marker}
 Method comments
@@ -314,7 +314,7 @@ public int getDayOfMonth() {
 
 \end{tcolorbox}
 
-\subsection{Don’t Use a Comment When You Can Use a Function or a Variable}
+\subsection{Don't Use a Comment When You Can Use a Function or a Variable}
 
 During review process, if you see the author put a comment on top of a section of code, this is a sign of potentially saying something on that: see if the comment can be replaced by a set of more expressive code. For example, consider the following stretch of code:
 
@@ -467,7 +467,7 @@ response.setBody(formatter.getResultStream(), formatter.getByteCount());
 Few practices are as odious as commenting-out code. Don‘t do this!
 
 There was a time, back in the sixties, when commenting-out code might have been
-useful. But we’ve had good source code control systems for a very long time now. Those systems will remember the code for us. We don’t have to comment it out any more. Just delete the code. We won’t lose it. Promise.
+useful. But we've had good source code control systems for a very long time now. Those systems will remember the code for us. We don't have to comment it out any more. Just delete the code. We won't lose it. Promise.
 
  \begin{marker}
  Ask PR author to remove any commented out code, if any
@@ -563,4 +563,4 @@ this.pngBytes = new byte[((this.width + 1) * this.height * 3) + 200];
 
 What is filter byte? The code itself has nothing to do with filter byte. 
 
-The connection between a comment and the code it describes should be obvious. If you are going to the trouble to write a comment, then at least you’d like the reader to be able to look at the comment and the code and understand what the comment is talking about.
+The connection between a comment and the code it describes should be obvious. If you are going to the trouble to write a comment, then at least you'd like the reader to be able to look at the comment and the code and understand what the comment is talking about.
