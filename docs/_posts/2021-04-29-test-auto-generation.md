@@ -44,12 +44,23 @@ not as widely used as manual test-writing processes. Below are some good choices
 * [Diffblue](https://www.diffblue.com/)
 * [EvoSuite](https://www.evosuite.org/)
 
+### Diffblue v.s. EvoSuite
+
+EvoSuite
+
+* generates more stable tests that execute successfully in the first shot
+* generates less test code
+
+Diffblue
+
+* reversed
+
 ### Diffblue
 
 Using Diffblue is super simple by [installing maven plugin](https://www.diffblue.com/try-cover) and generating tests by
 right-clicking though:
 
-![Error diffblue-example.png!]({{ "/assets/img/diffblue-example.png" | relative_url}})
+![Error loadingdiffblue-example.png!]({{ "/assets/img/diffblue-example.png" | relative_url}})
 
 ### EvoSuite
 
