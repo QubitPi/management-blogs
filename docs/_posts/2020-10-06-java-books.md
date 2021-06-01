@@ -39,7 +39,7 @@ unperishable passion to Java language*.
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
-* Agile Software Development, Principles, Patterns, and Practices
+* [Agile Software Development, Principles, Patterns, and Practices]({{ "/assets/pdf/agile-software-development.pdf" | relative_url}})
 * Clean Code: A Handbook of Agile Software Craftsmanship
 * The Clean Coder: A Code Of Conduct For Professional Programmers
 * Clean Architecture: A Craftsman's Guide to Software Structure and Design
