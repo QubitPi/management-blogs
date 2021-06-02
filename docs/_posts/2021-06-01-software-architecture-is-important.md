@@ -3,8 +3,8 @@ layout: post
 title: The Importance of Enforcing Software Architecture
 tags: [Software, Architecture]
 color: rgb(224, 1, 152)
-feature-img: "assets/img/post-cover/1-cover.png"
-thumbnail: "assets/img/post-cover/1-cover.png"
+feature-img: "assets/img/post-cover/35-cover.png"
+thumbnail: "assets/img/post-cover/35-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
