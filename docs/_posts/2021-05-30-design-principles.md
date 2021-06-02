@@ -118,11 +118,11 @@ derivative classes.
 
 [**Subtypes must be substitutable for their base types]({{ "/assets/pdf/agile-software-development.pdf" | relative_url}})
 
-### Interface segregation principle
+### Interface Segregation Principle
 
 [**Clients should not be forced to depend on methods that they do not use**]({{ "/assets/pdf/agile-software-development.pdf" | relative_url}})
 
-### Dependency inversion principle
+### Dependency Inversion Principle
 
 [**High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details. Details should depend on abstractions**]({{ "/assets/pdf/agile-software-development.pdf" | relative_url}})
 
