@@ -155,6 +155,55 @@ Once you have included the default configuration, you can use its values in your
 
 ## Spring Data JPA
 
+### Interface-based Projection
+
+Suppose we need to need to search for a person's profile as well as the number of vehicles that person owns. Those
+information would normally be kept in 2 tables, A "Person" table and a "Vehicle" table. A JOIN would be required. We
+could
+
+* Issue a single query and parse the *un-typed* result in memory, or
+* Issue 2 queries to the "Person" and "Vehicle" tables and JOIN the *typed* query results in memory
+
+The trade-off between type-safe and single-roundtrip query is obvious here. Is there an approach that allows us to
+obtain typed query result in a single roundtrip? Yes, and the answer is interface-based projection:
+
+#### Step 1 - Define Custom DB Query Result Type
+
+```java
+public class PersonWithNumVehicles {
+
+    Long getSsn();
+    Date getBirthDate();
+    int getVehicleCount();
+}
+```
+
+#### Step 2 - Write Annotated Spring Data JPA Query
+
+```java
+@NotNull
+@Query(
+        value = "SELECT person.ssn AS ssn, "
+                    + "person.name AS name, "
+                    + "person.birthDate AS birthDate, "
+                    + "COUNT(Vehicle.vinNumber) AS vehicleCount "
+                + "FROM Person person, "
+                    + "Vehicle vehicle "
+                + "WHERE person.ssn = vehicle.ownerId AND "
+                    + "person.ssn = 345215674 AND "
+                + "GROUP BY person.ssn"
+)
+PersonWithNumVehicles getPersonWithVehicleInfoBySsn(
+        @NotNull @Param("ssn") Long ssn,
+        @NotNull Pageable pagination
+);
+```
+
+> 📋 Note that `person` is the physical table name.
+
+> ⚠️ The return type of `PersonWithNumVehicles.getVehicleCount()` must be `int` because it is calculated using SQL
+`COUNT()` function. Using other types, such as `Long` will silently fail the query.
+
 ### [`@Query`](https://www.baeldung.com/spring-data-jpa-query)
 
 Spring Data provides many ways to define a query that we can execute. One of these is the` @Query` annotation. In this
