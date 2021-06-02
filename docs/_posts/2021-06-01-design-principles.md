@@ -101,6 +101,19 @@ Axis of Change responsible for the creation of Architectural Boundaries.
 
 [**Software entities (classes, modules, functions, etc) should be open for extension, but closed for modification**]({{ "/assets/pdf/agile-software-development.pdf" | relative_url}})
 
+Modules that conform to the Open-Closed Principle have 2 attributes:
+
+1. **Open for extension**: the behavior of the module can be extended. As the requirements of the application change, we
+   are able to extend the module with new behaviors that satisfy those changes. In other words, we are able to change
+   what the module does.
+2. **Closed for modification**: extending the behavior of a module does not result in changes to the source or binary
+  code of the module. The binary executable version of the module, such as Jave `.jar`, remains untouched
+  
+#### Implement OCP - Abstraction
+
+The abstractions are abstract base classes and the unbounded group of possible behaviors is represented by all of the
+derivative classes.
+
 ### Liskov Substitution Principle
 
 [**Subtypes must be substitutable for their base types]({{ "/assets/pdf/agile-software-development.pdf" | relative_url}})
