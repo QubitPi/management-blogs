@@ -281,5 +281,28 @@ to position the majority of their components at those endpoints.
 If it is desirable for components to be on, or close, to the Main Sequence, then we can create a metric that measures
 how far away a component is from this ideal.
 
-> Distance D = |[A](#measuring-abstraction)+[I](#measuring-stability)–1|
+> Distance D = absolute value of ([A](#measuring-abstraction)+[I](#measuring-stability)–1)
 
+The range of this metric is [0, 1]. A value of 0 indicates that the component is directly on the Main Sequence. A value
+of 1 indicates that the component is as far away as possible from the Main Sequence.
+
+Given this metric, a design can be analyzed for its overall conformance to the Main Sequence. The D metric for each
+component can be calculated. Any component that has a D value that is not near zero can be reexamined and restructured.
+
+Statistical analysis of a design is also possible. We can calculate the mean and variance of all the D metrics for the
+components within a design. We would expect a conforming design to have a mean and variance that are close to zero. The
+variance can be used to establish "**control limits**" so as to identify components that are "exceptional" in comparison
+to all the others.
+
+In the scatterplot in figure below, we see that the bulk of the components lie along the Main Sequence, but some of them
+are more than one standard deviation (Z = 1) away from the mean. These aberrant components are worth examining more
+closely. For some reason, they are either very abstract with few dependents or very concrete with many dependents.
+
+![Error loading scatter.png]({{ "/assets/img/scatter.png" | relative_url}})
+
+Another way to use the metrics is to plot the D metric of each component over time. The graph in the next figure is a
+mock-up of such a plot. You can see that some strange dependencies have been creeping into the Payroll component over
+the last few releases. The plot shows a control threshold at D = 0.1. The R2.1 point has exceeded this control limit, so
+it would be worth our while to find out why this component is so far from the main sequence.
+
+![Error loading time-spanning-scatter.png]({{ "/assets/img/time-spanning-scatter.png" | relative_url}})
