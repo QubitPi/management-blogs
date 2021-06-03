@@ -65,3 +65,71 @@ hat you allowed the system to get to the point where the change was impractical.
 If architecture comes last, then the system will become ever more costly to develop, and eventually change will become
 practically impossible for part or all of the system. If that is allowed to happen, it means the software development
 team did not fight hard enough for what they knew was necessary.
+
+## What is Architecture?
+
+First of all, a software architect is a programmer; and continues to be a programmer. Never fall for the lie that
+suggests that software architects pull back from code to focus on higher-level issues. They do not! Software architects
+are the best programmers, and they continue to take programming tasks, while they also guide the rest of the team toward
+a design that maximizes productivity. Software architects may not write as much code as other programmers do, but they
+continue to engage in programming tasks. They do this because they cannot do their jobs properly if they are not
+experiencing the problems that they are creating for the rest of the programmers.
+
+The architecture of a software system is the shape given to that system by those who build it. The form of that shape is
+
+* in the division of that system into components,
+* the arrangement of those components, and
+* the ways in which those components communicate with each other
+
+**The purpose of that shape is to facilitate the _development_, _deployment_, _operation_, and maintenance of the
+software system contained within it**.
+
+**The primary purpose of architecture is to support the life cycle of the system. Good architecture makes the system
+easy to understand, easy to develop, easy to maintain, and easy to deploy. The ultimate goal is to minimize the lifetime
+cost of the system and to maximize programmer productivity**.
+
+This is not to say that architecture plays no role in supporting the proper behavior of the system. It certainly does,
+and that role is critical. But the role is passive and cosmetic, not active or essential.
+
+### Why Architecture Should Aim At Facilitating ...
+
+#### Development?
+
+Different team structures imply different architectural decisions. On the one hand, a small team of five developers can
+quite effectively work together to develop a monolithic system without well-defined components or interfaces. In fact,
+such a team would likely find the strictures of an architecture something of an impediment during the early days of
+development. This is likely the reason why so many systems lack good architecture: They were begun with none, because
+the team was small and did not want the impediment of a superstructure.
+
+On the other hand, a system being developed by five different teams, each of which includes seven developers, cannot
+make progress unless the system is divided into well-defined components with reliably stable interfaces. If no other
+factors are considered, the architecture of that system will likely evolve into five components - one for each team.
+
+Such a component-per-team architecture is not likely to be the best architecture for deployment, operation, and
+maintenance of the system. Nevertheless, it is the architecture that a group of teams will gravitate toward if they are
+driven solely by development schedule.
+
+#### Deployment?
+
+To be effective, a software system must be deployable. The higher the cost of deployment, the less useful the system is.
+A goal of a software architecture, then, should be to make a system that can be easily deployed with a single action.
+
+Unfortunately, deployment strategy is seldom considered during initial development. This leads to architectures that may
+make the system easy to develop, but leave it very difficult to deploy.
+
+For example, in the early development of a system, the developers may decide to use a "micro-service architecture." They
+may find that this approach makes the system very easy to develop since the component boundaries are very firm and the
+interfaces relatively stable. However, when it comes time to deploy the system, they may discover that the number of
+micro-services has become daunting; configuring the connections between them, and the timing of their initiation, may
+also turn out to be a huge source of errors.
+
+Had the architects considered deployment issues early on, they might have decided on fewer services, a hybrid of
+services and in-process components, and a more integrated means of managing the interconnections.
+
+#### Operation?
+
+Almost any operational difficulty can be resolved by throwing more hardware at the system without drastically impacting
+the software architecture.
+
+This is not to say that an architecture that is well tuned to the operation of the system is not desirable. It is! It's
+just that the cost equation leans more toward development, deployment, and maintenance.
