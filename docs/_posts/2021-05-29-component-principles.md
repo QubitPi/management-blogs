@@ -220,4 +220,66 @@ that a stable component should also be abstract so that its stability does not p
 other hand, it says that an unstable component should be concrete since its instability allows the concrete code within
 it to be easily changed.
 
-To be continued...
+_The Stable Abstraction Principle_ and _The Stable Dependencies Principle_(Depend in the direction of stability)
+combined amount to the
+[Dependency Inversion Principle](https://qubitpi.github.io/jersey-guide/2021/05/30/design-principles.html#dependency-inversion-principle).
+for components. This is true because the SDP says that dependencies should run in the direction of stability, and the
+SAP says that stability implies abstraction. Thus **dependencies run in the direction of abstraction**.
+
+#### Measuring Abstraction
+
+The "A" metric is a measure of the abstractness of a component. Its value is simply the ratio of interfaces and abstract
+classes in a component to the total number of classes in the component.
+
+##### The Main Sequence
+
+We are now in a position to define the relationship between instability (I) and abstractness (A). To do so, we create a
+graph with A on the vertical axis and I on the horizontal axis shown in the figure below:
+
+![Error loading ia.png]({{ "/assets/img/ia.png" | relative_url}})
+
+If we plot the two "good" kinds of components on this graph, we will find the components that are maximally stable and
+abstract at the upper left at (0, 1). The components that are maximally unstable and concrete are at the lower right at
+(1, 0).
+
+##### The Zone of Pain
+
+Consider a component in the area of (0, 0). This is a _highly stable_ and _concrete component_. Such a component is not
+desirable because it is rigid. It cannot be extended because it is not abstract, and it is very difficult to change
+because of its stability. Thus we do not normally expect to see well-designed components sitting near (0, 0). The area
+around (0, 0) is a zone of exclusion called the Zone of Pain as shown below
+
+![Error loading realistic-ia.png]({{ "/assets/img/realistic-ia.png" | relative_url}})
+
+Some software entities do, in fact, fall within the Zone of Pain. An example would be a _database schema_. Database
+schemas are notoriously volatile, extremely concrete, and highly depended on. This is one reason why the interface
+between OO applications and databases is so difficult to manage, and why schema updates are generally painful.
+
+##### The Zone of Uselessness
+
+Consider a component near (1, 1). This location is undesirable because it is maximally abstract, yet has no dependents.
+Such components are useless. Thus this area is called the Zone of Uselessness.
+
+The software entities that inhabit this region are a kind of detritus. They are often leftover abstract classes that no
+one ever implemented. We find them in systems from time to time, sitting in the code base, unused.
+
+##### Avoiding the Zones of Pain & Uselessness
+
+It seems clear that our most volatile components should be kept as far from both zones of exclusion as possible. The
+locus of points that are maximally distant from each zone is the line that connects (1, 0) and (0, 1). Let's call this
+line the **Main Sequence**
+
+A component that sits on the Main Sequence is not "too abstract" for its stability, nor is it "too unstable" for its
+abstractness. It is neither useless nor particularly painful. It is depended on to the extent that it is abstract, and
+it depends on others to the extent that it is concrete.
+
+The most desirable position for a component is at one of the two endpoints of the Main Sequence. Good architects strive
+to position the majority of their components at those endpoints.
+
+###### Distance From The Main Sequence
+
+If it is desirable for components to be on, or close, to the Main Sequence, then we can create a metric that measures
+how far away a component is from this ideal.
+
+> Distance D = |[A](#measuring-abstraction)+[I](#measuring-stability)–1|
+

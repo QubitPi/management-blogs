@@ -116,7 +116,7 @@ derivative classes.
 
 ### Liskov Substitution Principle
 
-[**Subtypes must be substitutable for their base types]({{ "/assets/pdf/agile-software-development.pdf" | relative_url}})
+[**Subtypes must be substitutable for their base types**]({{ "/assets/pdf/agile-software-development.pdf" | relative_url}})
 
 ### Interface Segregation Principle
 
