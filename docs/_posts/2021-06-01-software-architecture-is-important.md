@@ -133,3 +133,10 @@ the software architecture.
 
 This is not to say that an architecture that is well tuned to the operation of the system is not desirable. It is! It's
 just that the cost equation leans more toward development, deployment, and maintenance.
+
+the architecture of a system makes the operation
+of the system readily apparent to the developers. Architecture should reveal operation.
+The architecture of the system should elevate the use cases, the features, and the
+required behaviors of the system to first-class entities that are visible landmarks for the
+developers. This simplifies the understanding of the system and, therefore, greatly aids
+in development and maintenance.
