@@ -120,7 +120,79 @@ builder.setHttpClientConfigCallback(
 Once the `RestClient` has been created, requests can be sent by calling
 
 * `performRequest`, which is **synchronous** and will **block** the calling thread; it returns when the request is
-  successful or throw an exception if it fails
-* `performRequestAsync`. performRequest . performRequestAsync is asynchronous and accepts a ResponseListener argument that it calls with a Response when the request is successful or with an Exception if it fails.
+  successful or throw an exception if it fails. For example
+  
+  ```java
+  Request request = new Request("GET", "/");   
+  Response response = restClient.performRequest(request);
+  ```
+  
+* `performRequestAsync`, which is asynchronous and accepts a listener gets called when the request is successful or
+  throws an Exception if it fails. For instance
+  
+  ```java
+  Request request = new Request("GET", "/");
+  Cancellable cancellable = restClient.performRequestAsync(
+      request,
+      new ResponseListener() {
+  
+          @Override
+          public void onSuccess(Response response) {
+              ...
+          }
+  
+          @Override
+          public void onFailure(Exception exception) {
+              ...
+          }
+  });
+  ```
 
- 
+You can add request parameters to request object:
+
+```java
+request.addParameter("pretty", "true");
+```
+
+You can set the body of request using `HttpEntity`:
+
+```java
+request.setEntity(
+        new NStringEntity(
+                "{\"json\":\"text\"}",
+                ContentType.APPLICATION_JSON
+        )
+);
+```
+
+> ⚠️ The `ContentType` specified in the `HttpEntity` is important because it will be used to set the `Content-Type`
+> header so that Elasticsearch can properly parse the content.
+
+You can also set it to a string which will default to a `ContentType` of "application/json":
+
+```
+request.setJsonEntity("{\"json\":\"text\"}");
+```
+
+##### Request Options
+
+The `RequestOptions` class holds parts of the request that should be shared between many requests in the same
+application. You can make a singleton instance and share it between all requests:
+
+```java
+private static final RequestOptions COMMON_OPTIONS;
+
+static {
+    RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
+    builder.addHeader("Authorization", "Bearer " + TOKEN);
+    builder.setHttpAsyncResponseConsumerFactory(
+            new HttpAsyncResponseConsumerFactory
+                    .HeapBufferedResponseConsumerFactory(30 * 1024 * 1024 * 1024)
+    );
+    COMMON_OPTIONS = builder.build();
+}
+```
+
+Note that there is no need to set the "Content-Type" header because the client will automatically set that from the
+`HttpEntity` attached to the request.
+
