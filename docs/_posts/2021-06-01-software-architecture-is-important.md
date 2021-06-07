@@ -196,5 +196,3 @@ made, and shapes the system such that those decisions can still be deferred or c
 Good architects carefully separate details from policy, and then decouple the policy from the details so thoroughly that
 the policy has no knowledge of the details and does not depend on the details in any way. Good architects design the
 policy so that decisions about the details can be delayed and deferred for as long as possible
-
-To be continued...
