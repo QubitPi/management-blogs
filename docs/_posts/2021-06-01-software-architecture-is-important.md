@@ -141,3 +141,60 @@ of the system and, therefore, greatly aids in development and maintenance.
 
 #### Maintenance?
 
+### Keeping Options open
+
+**Software was invented because we needed a way to quickly and easily change the behavior of machines. But that
+flexibility depends critically on the shape of the system, the arrangement of its components, and the way those
+components are interconnected.**
+
+_The way you keep software soft is to leave as many options open as possible, for as long as possible. What are the
+options that we need to leave open? They are the details that don’t matter_.
+
+All software systems can be decomposed into two major elements
+
+1. policy and
+2. details.
+
+The policy element embodies all the business rules and procedures. The policy is where the true value of the system
+lives.
+
+The details are those things that are necessary to enable humans, other systems, and programmers to communicate with the
+policy, but that do not impact the behavior of the policy at all. They include IO devices, databases, web systems,
+servers, frameworks, communication protocols, and so forth.
+
+_**The goal of the architect is to create a shape for the system that recognizes policy as the most essential element of
+the system while making the details irrelevant to that policy. This allows decisions about those details to be delayed
+and deferred.**_
+
+For example:
+
+* It is not necessary to choose a database system in the early days of development, because the high-level policy should
+  not care which kind of database will be used. Indeed, if the architect is careful, the high-level policy will not care
+  if the database is relational, distributed, hierarchical, or just plain flat files.
+* It is not necessary to choose a web server early in development, because the highlevel policy should not know that it
+  is being delivered over the web. If the high-level policy is unaware of HTML, AJAX, JSP, JSF, or any of the rest of
+  the alphabet soup of web development, then you don't need to decide which web system to use until much later in the
+  project. Indeed, you don’t even have to decide if the system will be delivered over the web.
+* It is not necessary to adopt REST early in development, because the high-level policy should be agnostic about the
+  interface to the outside world. Nor is it necessary to adopt a micro-services framework, or a SOA framework. Again,
+  the high-level policy should not care about these things.
+* It is not necessary to adopt a dependency injection framework early in development, because the high-level policy
+  should not care how dependencies are resolved.
+  
+The longer you leave options open, the more experiments you can run (e.g. applicabilities and performances of various
+databases), the more things you can try, and the more information you will have when you reach the point at which those
+decisions can no longer be deferred.
+
+What if the decisions have already been made by someone else? What if your company has made a commitment to a certain
+database, or a certain web server, or a certain framework? A good architect pretends that the decision has not been
+made, and shapes the system such that those decisions can still be deferred or changed for as long as possible.
+
+> A good architect maximizes the number of decisions not made.
+
+### Conclusion
+
+Good architects carefully separate details from policy, and then decouple the policy from the details so thoroughly that
+the policy has no knowledge of the details and does not depend on the details in any way. Good architects design the
+policy so that decisions about the details can be delayed and deferred for as long as possible
+
+To be continued...
