@@ -21,7 +21,9 @@ The Java REST Client comes in 2 flavors:
 1. [Java Low Level REST Client](#java-low-level-rest-client): the official low-level client for Elasticsearch. It allows
    to communicate with an Elasticsearch cluster through http. Leaves requests marshalling and responses un-marshalling
    to users. It is compatible with all Elasticsearch versions.
-Java High Level REST Client: the official high-level client for Elasticsearch. Based on the low-level client, it exposes API specific methods and takes care of requests marshalling and responses un-marshalling.
+2. [Java High Level REST Client](#java-high-level-rest-client): the official high-level client for Elasticsearch. Based
+   on the low-level client, it exposes API specific methods and takes care of requests marshalling and responses
+   un-marshalling.
 
 ### Java Low Level REST Client
 
@@ -196,3 +198,107 @@ static {
 Note that there is no need to set the "Content-Type" header because the client will automatically set that from the
 `HttpEntity` attached to the request.
 
+You can set the `NodeSelector` which controls which nodes will receive requests. `NodeSelector.SKIP_DEDICATED_MASTERS`
+is a good choice.
+
+You can also customize the response consumer used to buffer the asynchronous responses. The default consumer will buffer
+up to 100MB of response on the JVM heap. If the response is larger then the request will fail. You could, for example,
+lower the maximum size which might be useful if you are running in a heap constrained environment like the example
+above.
+
+Once you’ve created the singleton you can use it when making requests:
+
+```java
+request.setOptions(COMMON_OPTIONS);
+```
+
+You can also customize these options on a per request basis. For example, this adds an extra header:
+
+```java
+RequestOptions.Builder options = COMMON_OPTIONS.toBuilder();
+options.addHeader("cats", "knock things off of other things");
+request.setOptions(options);
+```
+
+##### Multiple Parallel Asynchronous Actions
+
+The client is quite happy to execute many actions in parallel. The following example indexes many documents in parallel.
+In a real world scenario you'd probably want to use the `_bulk` API instead, but the example is illustrative.
+
+```java
+final CountDownLatch latch = new CountDownLatch(documents.length);
+for (int i = 0; i < documents.length; i++) {
+    Request request = new Request("PUT", "/posts/doc/" + i);
+    //let's assume that the documents are stored in an HttpEntity array
+    request.setEntity(documents[i]);
+    restClient.performRequestAsync(
+            request,
+            new ResponseListener() {
+                @Override
+                public void onSuccess(Response response) {
+                    latch.countDown();
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+                    latch.countDown();
+                }
+            }
+    );
+}
+latch.await();
+```
+
+##### Cancelling Asynchronous Requests
+
+The `performRequestAsync` method returns a `Cancellable` that exposes a single public method called `cancel`. Such
+method can be called to cancel the on-going request. Cancelling a request will result in aborting the http request
+through the underlying http client. On the server side, **this does not automatically translate to the execution of that
+request being cancelled, which needs to be specifically implemented in the API itself**.
+
+The use of the `Cancellable` instance is optional and you can safely ignore this if you don't need it. A typical usecase
+for this would be using this together with frameworks like Rx Java. Cancelling no longer needed requests is a good way
+to avoid putting unnecessary load on Elasticsearch.
+
+```java
+Request request = new Request("GET", "/posts/_search");
+Cancellable cancellable = restClient.performRequestAsync(
+    request,
+    new ResponseListener() {
+        @Override
+        public void onSuccess(Response response) {
+            ...
+        }
+
+        @Override
+        public void onFailure(Exception exception) {
+            ...
+        }
+    }
+);
+cancellable.cancel();
+```
+
+#### Reading Responses
+
+The `Response` object, either returned by the synchronous `performRequest` methods or received as an argument in
+`ResponseListener#onSuccess(Response)`, wraps the response object returned by the http client and exposes some
+additional information.
+
+```java
+Response response = restClient.performRequest(new Request("GET", "/"));
+RequestLine requestLine = response.getRequestLine(); // Information about the performed request
+HttpHost host = response.getHost();
+int statusCode = response.getStatusLine().getStatusCode();
+Header[] headers = response.getHeaders();
+String responseBody = EntityUtils.toString(response.getEntity());
+```
+
+### Java High Level REST Client
+
+The Java High Level REST Client works on top of the Java Low Level REST client. Its main goal is to expose API specific
+methods, that **accept request objects as an argument and return response objects (type-safe)**
+
+Each API can be called synchronously or asynchronously. The synchronous methods return a response object, while the
+asynchronous methods, whose names end with the `async` suffix, require a listener argument that is notified (on the
+thread pool managed by the low level client) once a response or an error is received.
