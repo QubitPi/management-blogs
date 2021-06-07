@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Understanding GraphQL Query Syntax
+title: Understanding GraphQL Query Syntax (Updated Daily...)
 tags: [GraphQL]
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/31-cover.png"
