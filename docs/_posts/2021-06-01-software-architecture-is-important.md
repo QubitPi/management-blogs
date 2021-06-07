@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The Importance of Enforcing Software Architecture (Updated Daily...)
+title: The Importance of Enforcing Software Architecture
 tags: [Software, Architecture]
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/35-cover.png"
@@ -196,16 +196,3 @@ made, and shapes the system such that those decisions can still be deferred or c
 Good architects carefully separate details from policy, and then decouple the policy from the details so thoroughly that
 the policy has no knowledge of the details and does not depend on the details in any way. Good architects design the
 policy so that decisions about the details can be delayed and deferred for as long as possible
-
-## Independence
-
-### Use Cases
-
-The architecture of the system must support the intent of the system. If the system is a shopping cart application, then
-the architecture must support shopping cart use cases. Indeed, this is the first concern of the architect, and the first
-priority of the architecture. The architecture must support the use cases.
-
-However, as we discussed previously, architecture does not wield much influence over the behavior of the system. There
-are very few behavioral options that the architecture can leave open. But influence isn’t everything. The most important
-thing a good architecture can do to support behavior is to clarify and expose that behavior so that the intent of the
-system is visible at the architectural level.
