@@ -322,15 +322,16 @@ Querying
 ```
 POST /my-index-000001/_search?from=40&size=20
 {
-  "query": {
-    "term": {
-      "user.id": "kimchy"
+    "query": {
+        "term": {
+            "user.id": "kimchy"
+        }
     }
-  }
 }
 ```
 
-Although Elasticsearch API also supports 
+Although Elasticsearch API also supports attaching query string as request body in GET, it is, however,
+[not recommended](https://stackoverflow.com/questions/978061/http-get-with-request-body#comment53906725_983458)
 
 ##### Get All Data
 
