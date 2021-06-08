@@ -302,3 +302,54 @@ methods, that **accept request objects as an argument and return response object
 Each API can be called synchronously or asynchronously. The synchronous methods return a response object, while the
 asynchronous methods, whose names end with the `async` suffix, require a listener argument that is notified (on the
 thread pool managed by the low level client) once a response or an error is received.
+
+## REST API
+
+#### Search
+
+Returns search hits that match the query defined in the request.
+
+##### Get All Data by Index
+
+```
+GET /my-index-000001/_search
+```
+
+#### Get Data by Query
+
+Querying
+
+```
+POST /my-index-000001/_search?from=40&size=20
+{
+  "query": {
+    "term": {
+      "user.id": "kimchy"
+    }
+  }
+}
+```
+
+Although Elasticsearch API also supports 
+
+##### Get All Data
+
+##### Query Parameters
+
+###### from
+
+(Optional, integer) Starting document offset. Defaults to 0.
+
+By default, you cannot page through more than 10,000 hits using the `from` and [`size`](#size) parameters. To page
+through more hits, use the
+[search_after](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#search-after)
+parameter.
+
+###### size
+
+(Optional, integer) Defines the number of hits to return. Defaults to **10**.
+
+By default, you cannot page through more than 10,000 hits using the [`from`](#from) and `size` parameters. To page
+through more hits, use the
+[search_after](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#search-after)
+parameter.

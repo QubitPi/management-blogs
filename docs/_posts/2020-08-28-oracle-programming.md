@@ -24,7 +24,6 @@ excerpt_separator: <!--more-->
 
     exit | sqlplus -S user/pwd@server @script.sql
 
-
 ### Connecting to Oracle DB Instance From the Command Line
 
 #### (First Time) Install Oracle Instant Client and `sqlplus` using Homebrew
@@ -46,6 +45,69 @@ excerpt_separator: <!--more-->
 where `SERVICE_NAME` is the same thing as "database name" as in MySQL terminology
     
 ### Shell Commands
+
+#### Show Tables
+
+If you have worked with MySQL, you may be familiar with the `SHOW TABLES` command that lists all tables in a database:
+
+```sql
+SHOW TABLES;
+```
+
+Unfortunately, Oracle **does not** directly support the `SHOW TABLES` command. However, you can list all tables in a
+database by querying from various data dictionary views.
+
+##### Show Tables Owned By the Current User
+
+To show tables **owned** by the current user, you query from the `user_tables` view.
+
+```sql
+SELECT table_name
+FROM user_tables
+ORDER BY table_name;
+```
+
+Note that this view does not show the `OWNER` column. Also, the user_tables table **does not** contain the other tables
+that are **accessible** by the current user.
+
+##### Show Tables Accessible By the Current User
+
+To show all tables that are currently **accessible** by the current user, regardless of owners, you query from the
+`all_tables` view:
+
+```sql
+SELECT table_name
+FROM all_tables
+ORDER BY table_name;
+```
+
+If you want to show all tables of a specific owner, you add the `OWNER` column in the `WHERE` clause as shown in the
+following query:
+
+```sql
+SELECT *
+FROM all_tables
+WHERE OWNER = 'OT'
+ORDER BY table_name;
+```
+
+##### Show All Tables in the Oracle Database
+
+To show **all tables** in the entire Oracle Database, you query from the `dba_tables` view as follows:
+
+```sql
+SELECT table_name 
+FROM dba_tables;
+```
+
+You will get the following error message if you don't have access to the `dba_tables` view:
+
+```
+ORA-00942: table or view does not exist
+```
+
+In this case, you should request your database administrator to grant your account either privileges on the `dba_tables`
+view, or `SELECT ANY DICTIONARY` privilege, or `SELECT_CATALOG_ROLE` privilege.
 
 #### [Comparing Dates](https://stackoverflow.com/a/34061999)
 
