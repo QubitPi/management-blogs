@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Understanding GraphQL Query Syntax (Updated Daily...)
-tags: [GraphQL]
+title: GraphQL Reference Guide (Updated Daily...)
+tags: [GraphQL, Data]
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/31-cover.png"
 thumbnail: "assets/img/post-cover/31-cover.png"
@@ -14,6 +14,8 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
+## Understanding GraphQL Query Syntax
+
 Many years of software engineering experience told me that software documentation is never a good way to learn a new
 technology unless it is written by some strong-marketing-minded engineer. I believe the best way to learn a new tech is
 to dive into its source code and have its documentation as an aid that facilitates your understanding. In this post I am
@@ -25,7 +27,7 @@ GraphQL query language is defined using ANTLR. This means understanding its gram
 unserstanding its ANTLR definition. We will understnd GraphQL query language by reading its ANTLR grammar. Leaarning it
 this way will allow to transform GraphQL query to internal query format adapted in your own data system.
 
-## ANTLR Basics
+### ANTLR Basics
 
 ANTLR is written in Java. Since we will be demonstrating ANTLR through command line, installing ANTLR itself is simply a
 matter of downloading the latest jar and storing it somewhere appropriate. The jar contains all dependencies necessary
@@ -119,7 +121,7 @@ We've already discussed `-tokens`, `-tree`, and `-gui`.
   as ambiguous input phrases
 * `-SLL` uses a faster but slightly weaker parsing strategy.
 
-## GraphQL Query Syntax
+### GraphQL Query Syntax
 
 The definition of GraphQL query language(6.0) is the following:
 
@@ -366,14 +368,14 @@ A GraphQL query is internally called a "**document**". The definition of a Graph
 From this point, we will simply refer a GraphQL query as "document". This is a recursive definition, which is usual in
 an ANTLR4 definition language. Next we will look at what an "operation" is.
 
-### Operation
+#### Operation
 
 > An **operation** is either
 >
 > * a set of [selection](#selection), or
 > * a set of [selection with operation](#selection-with-operation)
 
-#### Selection
+##### Selection
 
 A set of selections(a selection set) is enclosed in a pair of curly braces. The definition of a selection is the
 following:
@@ -384,7 +386,7 @@ following:
 > * a fragment spread, or
 > * a inline fragment
 
-##### Field
+###### Field
 
 > * A field, as defined below, is a name with optional alias, arguments, directives, or selection set.
 > * A name is a set of pre-defined string constants or arbitrary string (`NAME`) show below.
@@ -407,7 +409,7 @@ related data in one request**, instead of making several roundtrips, for example
 
 ![graphql-single-round-trip.png not loaded property]({{ "/assets/img/graphql-single-round-trip.png" | relative_url}})
 
-###### Argument
+####### Argument
 
 [The definition of field](#field) also recursively defines argument:
 
@@ -429,7 +431,7 @@ Arguments can be of many different types. The example above used Enumeration typ
 of options. GraphQL comes with a default set of types, but a GraphQL server can also declare its own custom types, as
 long as they can be serialized into your transport format.
 
-###### Aliases
+####### Aliases
 
 When [Field](#field) includes alias, you can query the same field with different argument.
 
@@ -440,7 +442,7 @@ An alias has a name followed by a column. The part after the column is the name 
 
 In the example above, the two fields `hero` would have conflicted, but not because they are aliased.
 
-###### Directive
+####### Directive
 
 A field selection can have a set of directives:
 
@@ -453,7 +455,7 @@ A field selection can have a set of directives:
 Understanding **directive** requires knowledge of [variables](#variables). We will talk more about it when we look at
 [variables](#variables) definitions.
 
-###### Fragments
+####### Fragments
 
 ![graphql-fragments.png not loaded property]({{ "/assets/img/graphql-fragments.png" | relative_url}})
 
@@ -467,7 +469,7 @@ With GraphQL _fragment_, client can construct sets of fields and then inlude the
 
 ![graphql-fragment-excample.png not loaded property]({{ "/assets/img/graphql-fragment-excample.png" | relative_url}})
 
-###### Inline Fragments
+####### Inline Fragments
 
 ![graphql-inline-fragment.png not loaded property]({{ "/assets/img/graphql-inline-fragment.png" | relative_url}})
 
@@ -476,7 +478,7 @@ With GraphQL _fragment_, client can construct sets of fields and then inlude the
 * An inline fragment can optionally have type condition and directives
 * A type condition starts with "`on`" followd by type name
 
-#### Selection with Operation
+##### Selection with Operation
 
 * A selection with operation starts with an _operation type_, which is one of "subscription/mutation/query" followed by
   an optional name associated with this selection. It ends with a [sub-selection](#selection).
@@ -493,7 +495,7 @@ Here is an example that includes the keyword `query` as operation type and `Hero
 
 The operation is required in multi-operation query and is useful for debugging, because you can find log by name.
 
-##### Variables
+###### Variables
 
 Variables allows dynamic argument passing. For example, client dynamically selects an option from drop-down box and set
 that option as the value to a field argument
@@ -502,7 +504,7 @@ GraphQL does this by passing those variables as a separate dictionary (not in Gr
 
 ![graphql-variable-example.png not loaded property]({{ "/assets/img/graphql-variable-example.png" | relative_url}})
 
-###### Directives
+####### Directives
 
 Directive is essentially an application of variable and is able to dynamically change the structure of queries using
 variables. For example
@@ -515,7 +517,7 @@ implementation:
 1. `@include(if: Boolean)` Include this field in the result if the argument evaluates to `true`
 2. `@skip(if: Boolean)` Skip this field if the arguments evaluates to `true`
 
-###### Mutation
+####### Mutation
 
 One [operation](#selection-with-operation) type is mutation. The purpose of it is we cannot mutate data with a `GET`
 request, similary we need a convension that distinguish a **write GraphQL query** to a **read GraphQL query**.
@@ -529,7 +531,7 @@ includes all the fields that are returnd in this mutation list, i.e. stars.
 
 Note that mutation can persists multiple objects of multipe types.
 
-### Type System
+#### Type System
 
 A *type system* defines a schema, a type, a type extension, and direcive
 
@@ -537,7 +539,7 @@ A *type system* defines a schema, a type, a type extension, and direcive
 
 Let's starts with type definition
 
-#### Type
+##### Type
 
 ![graphql-type-definition.png not loaded property]({{ "/assets/img/graphql-type-definition.png" | relative_url}})
 
@@ -551,7 +553,7 @@ type typeName <implement interface1 interface2 ...> <directives> {
 }
 ```
 
-###### Scalar Type
+####### Scalar Type
 
 A GraphQL [object type](#object-type) has a name and fields, but at some point those fields have to resolve to some
 concrete data. That's where the scalar types come in: they represents the leaves of the query.
@@ -576,13 +578,13 @@ scalar Date
 
 Then it's up to implementation how that type is to be serialized, deserialized, and validated.
 
-###### Object Type
+####### Object Type
 
 Object represent things you can fetch from GraphQL service. For example
 
 ![graphql-object-type-example.png not loaded property]({{ "/assets/img/graphql-object-type-example.png" | relative_url}})
 
-#### Schema
+##### Schema
 
 ![graphql-schema.png not loaded property]({{ "/assets/img/graphql-schema.png" | relative_url}})
 
@@ -600,9 +602,9 @@ Object represent things you can fetch from GraphQL service. For example
             mutation: Mutation
         }
         
-## What's Missing from Grammar
+### What's Missing from Grammar
 
-### Sorting
+#### Sorting
 
 If you look at the beginning of [GraphQL Query Syntax](#graphql-query-syntax), there is no definition for sorting and
 pagination. This is because GraphQL is not a query language. We will need to specify sorting grammar by ourselves. What
@@ -613,6 +615,6 @@ For example, we can sort in either ascending or descending order by prepending t
 
 ![graphql-sorting-example.png not loaded property]({{ "/assets/img/graphql-sorting-example.png" | relative_url}})
 
-### Pagination
+#### Pagination
 
 [GraphQL recommends some pagination syntax](https://graphql.org/learn/pagination/)
