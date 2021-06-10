@@ -14,7 +14,7 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-## Dealing with "command not found" Error
+### Dealing with "command not found" Error
 
 * [command-not-found.com](https://command-not-found.com/)
   - Example: [shasum](https://command-not-found.com/shasum)
@@ -106,3 +106,11 @@ Will generate 4 files:
         ### header ###
         data5
         data6
+        
+### Pretty Pring JSON
+
+    echo '{"name":"Tom"}' | python -m json.tool
+    
+or
+
+    
