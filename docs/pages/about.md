@@ -4,6 +4,7 @@ title: About
 permalink: /about/
 feature-img: "assets/img/pexels/pride-and-prejudice.png"
 tags: [About, Archive]
+hide: true 
 ---
 
 Jersey was the main technology I learnt and utilized during my 4 years at Yahoo.
