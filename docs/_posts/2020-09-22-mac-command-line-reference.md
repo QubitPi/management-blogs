@@ -113,4 +113,4 @@ Will generate 4 files:
     
 or
 
-    
+    echo '{"name":"Tom"}' | jq --indent 4
