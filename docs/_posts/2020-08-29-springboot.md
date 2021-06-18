@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Spring Boot ReferenceS
+title: Spring Boot References
 tags: [Spring Boot, Spring]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/1-cover.png"
@@ -24,6 +24,41 @@ excerpt_separator: <!--more-->
 
 The basic binding in Spring Boot is through the combination of `@Configuration` and `@Bean`:
 https://howtodoinjava.com/spring-core/spring-configuration-annotation/
+
+#### Autowiring an Interface with Multiple Implementations
+
+```java
+public interface MyService {
+    
+    ...
+}
+```
+
+```java
+public class FirstService implements MyService {
+    
+    ...
+}
+```
+
+```java
+public class SecondService implements MyService {
+    
+    ...
+}
+```
+
+You can make it work by giving it the name of the implementation.
+
+```java
+@Autowired
+MyService firstService;
+
+@Autowired
+MyService secondService;
+```
+
+> Reference - https://stackoverflow.com/a/57248283
 
 #### @Resource vs @Autowired
 
