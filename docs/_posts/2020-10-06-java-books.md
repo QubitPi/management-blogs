@@ -20,6 +20,7 @@ unperishable passion to Java language*.
 ## Programming
 
 * [Effective Java]({{ "/assets/pdf/effective-java.pdf" | relative_url}})
+* [Refactoring](https://www.refactoring.com/)
 * [Clean Code]({{ "/assets/pdf/clean-code.pdf" | relative_url}})
 * [Code Review Guidebook]({{ "/assets/pdf/review/main.pdf" | relative_url}})
 * [The Pragmatic Programmer]({{ "/assets/pdf/the-pragmatic-programmer.pdf" | relative_url}})
@@ -40,6 +41,7 @@ unperishable passion to Java language*.
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
 * [Agile Software Development, Principles, Patterns, and Practices]({{ "/assets/pdf/agile-software-development.pdf" | relative_url}})
+    - [Product-Development Practices That Work: How Internet Companies Build Software]({{ "/assets/pdf/product-development practices-that-work.pdf" | relative_url}})
 * Clean Code: A Handbook of Agile Software Craftsmanship
 * The Clean Coder: A Code Of Conduct For Professional Programmers
 * Clean Architecture: A Craftsman's Guide to Software Structure and Design
