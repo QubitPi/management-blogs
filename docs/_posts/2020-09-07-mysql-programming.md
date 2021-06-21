@@ -1404,32 +1404,21 @@ With one argument, the value specifies the number of rows to return from the beg
 ```sql
 SELECT 
     table_name AS `Table`, 
-    round(((data_length + index_length) / 1024 / 1024), 2) AD `Size in MB` 
-    FROM information_schema.TABLES 
-    WHERE table_schema = "$DB_NAME"
-    ORDER BY `Size in MB` 
+    round(((data_length + index_length) / 1024 / 1024), 2) AS `Size in MB` 
+FROM information_schema.TABLES 
+WHERE table_schema = "$DB_NAME"
+ORDER BY `Size in MB`; 
 ```
 
 where `$DB_NAME` is the name of the database whose tables are to be listed
 
-To simply list tables in current database:
+[To check the size of a single table (`$TABLE_NAME`) of a database (`$DB_NAME`)](https://stackoverflow.com/a/9620273):
 
 ```sql
 SELECT 
     table_name AS `Table`, 
     round(((data_length + index_length) / 1024 / 1024), 2) AS `Size in MB` 
 FROM information_schema.TABLES 
-ORDER BY `Size in MB`;
-```
-
-To check the size of a single table (`$TABLE_NAME`) of a database (`$DB_NAME`):
-
-```sql
-SELECT 
-    table_name AS `Table`, 
-    round(((data_length + index_length) / 1024 / 1024), 2) AD `Size in MB` 
-    FROM information_schema.TABLES 
-    WHERE table_schema = "$DB_NAME"
-    AND table_name = "$TABLE_NAME";
-    ORDER BY `Size in MB` 
+WHERE table_schema = "$DB_NAME" AND table_name = "$TABLE_NAME";
+ORDER BY `Size in MB` 
 ```

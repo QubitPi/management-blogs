@@ -42,8 +42,8 @@ unperishable passion to Java language*.
 
 * [Agile Software Development, Principles, Patterns, and Practices]({{ "/assets/pdf/agile-software-development.pdf" | relative_url}})
     - [Product-Development Practices That Work: How Internet Companies Build Software]({{ "/assets/pdf/product-development practices-that-work.pdf" | relative_url}})
-* Clean Code: A Handbook of Agile Software Craftsmanship
-* The Clean Coder: A Code Of Conduct For Professional Programmers
+* [Clean Code: A Handbook of Agile Software Craftsmanship]({{ "/assets/pdf/clean-code.pdf" | relative_url}}))
+* [The Clean Coder: A Code Of Conduct For Professional Programmers]({{ "/assets/pdf/clean-coder-conduct-professional-programmers.pdf" | relative_url}}))
 * Clean Architecture: A Craftsman's Guide to Software Structure and Design
 * Clean Agile: Back to Basics
 
