@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Sorting Stream
+title: Java 8 Stream
 tags: [Java]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/25-cover.png"
@@ -13,6 +13,10 @@ excerpt_separator: <!--more-->
 
 * TOC
 {:toc}
+
+## Stream Skills
+
+### Sorting
 
 ```java
 public class User {
@@ -31,4 +35,12 @@ final List<User> users = Arrays.asList(
 List<User> sortedList = users.stream()
             .sorted(Comparator.comparingInt(User::getAge))
             .collect(Collectors.toList());
+```
+
+### Convert Iterable to Stream
+
+```java
+StreamSupport.stream(iterable.spliterator(), false)
+        .filter(...)
+        .moreStreamOps(...);
 ```
