@@ -1435,3 +1435,29 @@ source script/s1.sql;
 source script/s2.sql;
 -- so on, so forth
 ```
+
+### User-Defined Variables
+
+https://dev.mysql.com/doc/refman/8.0/en/user-variables.html
+
+User Defined Varibles can be used across scrips like this:
+
+`main.sql`:
+
+```sql
+-- User-Defined Variables
+SET @tom_id = 1;
+SET @jack_id = 2;
+
+source add_data_to_person_table.sql;
+```
+
+`person.sql`:
+
+```sql
+INSERT INTO
+    Person (id, name)
+VALUES
+    (@tom_id, "TOME"),
+    (@jack_id, "JACK");
+```
