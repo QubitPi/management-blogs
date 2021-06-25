@@ -1422,3 +1422,16 @@ FROM information_schema.TABLES
 WHERE table_schema = "$DB_NAME" AND table_name = "$TABLE_NAME";
 ORDER BY `Size in MB` 
 ```
+
+## Scripting
+
+### Calling SQL Script File from Other SQL Script File
+
+You can use `source` command. So your script will be something like:
+
+```sql
+use your_db;
+source script/s1.sql;
+source script/s2.sql;
+-- so on, so forth
+```
