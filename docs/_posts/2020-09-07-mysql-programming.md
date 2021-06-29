@@ -1423,6 +1423,40 @@ WHERE table_schema = "$DB_NAME" AND table_name = "$TABLE_NAME";
 ORDER BY `Size in MB` 
 ```
 
+### SELECT INTO Variable
+
+To store query result in one or more variables, you use the `SELECT INTO variable` syntax:
+
+```sql
+SELECT 
+    c1, c2, c3, ...
+INTO 
+    @v1, @v2, @v3,...
+FROM 
+    table_name
+WHERE 
+    condition;
+```
+
+In this syntax:
+
+* `c1`, `c2`, and `c3` are columns or expressions that you want to select and store into the variables.
+* `@v1`, `@v2`, and `@v3` are the variables which store the values from `c1`, `c2`, and `c3`, respectively.
+
+The number of variables must be the same as the number of columns or expressions in the select list. In addition, the
+query must returns zero or one row.
+
+If the query return no rows, MySQL issues a warning of no data and the value of the variables remain unchanged.
+
+In case the query returns multiple rows, MySQL issues an error like the following:
+
+```
+Error Code: 1172. Result consisted of more than one row
+```
+
+To ensure that the query always returns maximum one row, you use the `LIMIT 1` clause to limit the result set to a
+single row.
+
 ## Scripting
 
 ### Calling SQL Script File from Other SQL Script File
