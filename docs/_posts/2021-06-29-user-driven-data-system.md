@@ -29,7 +29,7 @@ post presents some of my thoughts on how to best align system functions with sta
     of stakeholders
 * Developers Convert Data Specification to the Actual Data
   - **Experiences have shown that different Data Specifications can all be converted to the actual Data using almost the
-    same" implementation. The variables only come from the "meta" data of the Data Specification;**
+    same implementation. The variables only come from the "meta" data of the Data Specification;**
   - Given the fact above, the conversion can be auto-generated using a "meta" program. The benefits of it is that any
     changes in the Data
     Specification can be quickly consumed to re-generate the test data, it is the same effort as re-executing
