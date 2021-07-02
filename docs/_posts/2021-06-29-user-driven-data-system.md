@@ -49,5 +49,4 @@ post presents some of my thoughts on how to best align system functions with sta
 
     This enum definition could be reused in production code (or "meta program") by bumping it to a common package
     ("Shared Code" in the diagram above). This makes it easier to maintain the code by keeping a single source of truth.
-
-**To be continued**
+* Acceptance Testing (**To be continued**)...
