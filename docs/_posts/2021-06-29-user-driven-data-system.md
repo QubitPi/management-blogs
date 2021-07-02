@@ -3,7 +3,7 @@ layout: post
 title: Customer-Driven Data System - Feature & Test
 tags: [GraphQL, Data]
 color: rgb(224, 1, 152)
-feature-img: "assets/img/post-cover/31-cover.png"
+feature-img: "assets/img/post-cover/32-cover.png"
 thumbnail: "assets/img/post-cover/32-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
