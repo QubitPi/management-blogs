@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Customer-Driven Data System - Feature & Test
-tags: [GraphQL, Data]
+tags: [Data, Product, Stakeholder, Test]
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/32-cover.png"
 thumbnail: "assets/img/post-cover/32-cover.png"
