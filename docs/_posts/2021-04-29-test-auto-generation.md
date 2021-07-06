@@ -63,6 +63,9 @@ Diffblue has been integrated into IntelliJ and can be installed using plugin mar
 
 ![Error loading diffblue-plugin.png!]({{ "/assets/img/diffblue-plugin.png" | relative_url}})
 
+Note that there are "Community" version and "Paid" version. The difference is the that the former supports by-class file
+test generations while the latter supports per-package and per-project(multiple packages) test generations
+
 Using Diffblue is super simple by [installing maven plugin](https://www.diffblue.com/try-cover) and generating tests by
 right-clicking though:
 
