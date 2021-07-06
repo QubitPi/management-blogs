@@ -1303,6 +1303,96 @@ These are some suggested column data types to use for maximum compatibility betw
 
 ## Shell
 
+### JOIN
+
+#### Self Join
+
+We know how to join a table to the other tables using "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", or "CROSS JOIN" clause.
+However, there is a special case that you need to join a table to itself, which is known as a "self join".
+
+The self join is often used to query hierarchical data or to compare a row with other rows within the same table.
+
+To perform a self join, you must use table aliases to not repeat the same table name twice in a single query. Note that
+referencing a table twice or more in a query without using table aliases will cause an error.
+
+##### Self Join Examples
+
+Let's take a look at the employees table:
+
+![Error loading employees.png]({{ "/assets/img/employees.png" | relative_url}})
+
+The table employees stores not only employees data but also the organization structure data. The `reportsto` column is
+used to determine the manager id of an employee.
+
+###### Self Join using INNER JOIN Clause
+
+To get the whole organization structure, you can join the employees table to itself using the `employeeNumber` and
+`reportsTo` columns. The employees table has two roles: one is the Manager and the other is Direct Reports.
+
+```sql
+SELECT 
+    CONCAT(manager.lastName, ', ', manager.firstName) AS Manager,
+    CONCAT(report.lastName, ', ', report.firstName) AS 'Direct report'
+FROM
+    employees report
+INNER JOIN employees manager ON 
+    manager.employeeNumber = report.reportsTo
+ORDER BY 
+    Manager;
+```
+
+![Error loading report.png]({{ "/assets/img/report.png" | relative_url}})
+
+The output only shows the employees who have a manager. However, you don't see the President because his name is
+filtered out due to the INNER JOIN clause.
+
+###### Self Join using LEFT JOIN Clause
+
+The President is the employee who does not have any manager to report to, i.e. the value in the `reportsTo` column is
+`NULL`.
+
+The following statement uses the LEFT JOIN clause instead of INNER JOIN to include the President:
+
+```sql
+SELECT 
+    IFNULL(CONCAT(manager.lastname, ', ', manager.firstname), 'Top Manager') AS 'Manager',
+    CONCAT(report.lastname, ', ', report.firstname) AS 'Direct report'
+FROM
+    employees report
+LEFT JOIN employees manager ON 
+    manager.employeeNumber = report.reportsto
+ORDER BY 
+    manager DESC;
+```
+
+![Error loading MySQL-Self-Join-with-LEFT-JOIN-technique.png]({{ "/assets/img/MySQL-Self-Join-with-LEFT-JOIN-technique.png" | relative_url}})
+
+###### Using Self Join to Compare Successive Rows
+
+By using the MySQL self join, you can display a list of customers who locate in the same city by joining the customers
+table to itself.
+
+```sql
+SELECT 
+    c1.city, 
+    c1.customerName, 
+    c2.customerName
+FROM
+    customers c1
+INNER JOIN customers c2 ON 
+    c1.city = c2.city
+    AND c1.customername > c2.customerName
+ORDER BY 
+    c1.city;
+```
+
+![Error loading MySQL-Self-Join-cutomers-located-in-the-same-city.png]({{ "/assets/img/MySQL-Self-Join-cutomers-located-in-the-same-city.png" | relative_url}})
+
+In this example, the table customers is joined to itself using the following join conditions:
+
+* `c1.city = c2.city` makes sure that both customers have the same city.
+* `c.customerName > c2.customerName` ensures that no same customer is included.
+
 ### Connecting to MySQL From the Command Line
 
     mysql -u USERNAME -pPASSWORD -h HOSTNAMEORIP DATABASENAME --default-character-set=utf8
