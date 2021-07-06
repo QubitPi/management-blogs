@@ -37,6 +37,39 @@ List<User> sortedList = users.stream()
             .collect(Collectors.toList());
 ```
 
+### Remove Duplicates from a List of Objects based on Property
+
+You can get a stream from the List and put in in the TreeSet from which you provide a custom comparator that compares
+the property uniquely. Then if you really need a list you can put then back this collection into an ArrayList: 
+
+```java
+import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
+
+...
+List<Employee> unique = employee.stream()
+        .collect(
+                collectingAndThen(
+                        toCollection(() -> new TreeSet<>(comparingInt(Employee::getId))),
+                        ArrayList::new
+                )
+        );
+```
+
+Given the example:
+
+```java
+List<Employee> employee = Arrays.asList(new Employee(1, "John"), new Employee(1, "Bob"), new Employee(2, "Alice"));
+```
+
+It will output:
+
+```java
+[Employee{id=1, name='John'}, Employee{id=2, name='Alice'}]
+```
+
+
 ### Convert Iterable to Stream
 
 ```java
