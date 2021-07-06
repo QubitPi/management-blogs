@@ -57,10 +57,16 @@ Diffblue
 
 ### Diffblue
 
+#### Install Diffblue
+
+Diffblue has been integrated into IntelliJ and can be installed using plugin marketplace:
+
+![Error loading diffblue-plugin.png!]({{ "/assets/img/diffblue-plugin.png" | relative_url}})
+
 Using Diffblue is super simple by [installing maven plugin](https://www.diffblue.com/try-cover) and generating tests by
 right-clicking though:
 
-![Error loadingdiffblue-example.png!]({{ "/assets/img/diffblue-example.png" | relative_url}})
+![Error loading diffblue-example.png!]({{ "/assets/img/diffblue-example.png" | relative_url}})
 
 ### EvoSuite
 
