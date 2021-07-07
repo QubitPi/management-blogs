@@ -188,7 +188,24 @@ example, the `TAB` and `CAT` views both show information about tables that are i
 `TABLE_TYPE` of "TABLE" which is unlikely to be what you really want. `DICT` combines tables and synonyms and doesn't
 tell you who owns the object.
 
-#### Drop All User Tables
+## Scripting
+
+### WHENEVER SQLERROR
+
+When you have a script that has syntax errors, the script won't exit with error while executing the line that has the
+syntax error. We would like to, instead, halt the execution at that point for the script tuning purposes. To do that
+`WHENEVER SQLERROR` could be used.
+
+The commands in the following script cause SQL*Plus to exit and return the SQL error code if the SQL UPDATE command
+fails:
+
+```sql
+WHENEVER SQLERROR EXIT SQL.SQLCODE
+UPDATE EMP_DETAILS_VIEW SET SALARY = SALARY*1.1;
+```
+
+
+### Drop All User Tables
 
 ```
 BEGIN
