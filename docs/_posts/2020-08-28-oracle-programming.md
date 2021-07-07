@@ -22,7 +22,10 @@ excerpt_separator: <!--more-->
 
 ### Run Oracle SQL script and Exit Afterwards
 
-    exit | sqlplus -S user/pwd@server @script.sql
+    exit | sqlplus -S $user/$pwd@//$server:$port/$service_name @script.sql
+
+One example value of `$service_name` could be "ORCL". Note that there is a `@` symble preceding the script
+path(`script.sql`)
 
 ### Connecting to Oracle DB Instance From the Command Line
 
