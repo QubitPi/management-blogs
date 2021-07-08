@@ -417,6 +417,9 @@ PersonWithNumVehicles getPersonWithVehicleInfoBySsn(
 > ⚠️ The return type of `PersonWithNumVehicles.getVehicleCount()` must be `int` because it is calculated using SQL
 `COUNT()` function. Using other types, such as `Long` will silently fail the query.
 
+> ⚠️ The projection aliases (`AS ssn`, `AS name`, ..) are required in order to map the columns from DB results to the
+> corresponding getters of the projection bean
+
 ### [`@Query`](https://www.baeldung.com/spring-data-jpa-query)
 
 Spring Data provides many ways to define a query that we can execute. One of these is the` @Query` annotation. In this
