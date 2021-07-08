@@ -545,7 +545,88 @@ public interface Task {
 > ⚠️ If you use `SELECT table.column ...` notation always define aliases matching names from entity(`Task`). For example
 > this won't work properly (projection will return nulls(`NullPointerException: null` at runtime) for each getter):
 > `SELECT todo_task.id, todo_task.task_name, person.name FROM ...` But this works fine:
-> `SELECT todo_task.id AS id, todo_task.task_name AS taskName, person.name AS name FROM ...`
+> `SELECT todo_task.id AS id, todo_task.task_name AS taskName, person.name AS name FROM ...
+
+### Delete Records Older than a Given Date
+
+For example, if you have following Entity and if you want to delete all the comments older than 7 year, we could make
+it happen like this
+
+```java
+package com.kalliphant.samples.springdata.jpa;
+ 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
+ 
+public interface CommentRepository extends CrudRepository<Comment , Long> {
+ 
+       /**
+        * This methods deletes all the records whose 'createdOn' date is less than 'expiryDate'
+        */
+       @Modifying
+       @Transactional // Make sure to import org.springframework.transaction.annotation.Transactional
+       public void deleteByCreatedOnBefore(Date expiryDate);
+}
+```
+
+#### Query Creation
+
+Generally, the query creation mechanism for JPA works as described in
+[Query Methods](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods). The
+following example shows what a JPA query method translates into:
+
+```java
+public interface UserRepository extends Repository<User, Long> {
+
+    List<User> findByEmailAddressAndLastname(String emailAddress, String lastname);
+}
+```
+
+We create a query using the JPA criteria API from this, but, essentially, this translates into the following query
+
+```sql
+SELECT user
+FROM User user
+where user.emailAddress = ?1 and user.lastname = ?2
+```
+
+Spring Data JPA does a property check and traverses nested properties, as described in
+[Property Expressions](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.query-property-expressions).
+
+The following table describes the keywords supported for JPA and what a method containing that keyword translates to:
+
+| Keyword            | Example                                                   | JPQL snippet                                                              |
+|--------------------|-----------------------------------------------------------|---------------------------------------------------------------------------|
+| Distinct           | findDistinctByLastnameAndFirstname                        | `select distinct … where x.lastname = ?1 and x.firstname = ?2`            |
+| And                | findByLastnameAndFirstname                                | `… where x.lastname = ?1 and x.firstname = ?2`                            |
+| Or                 | findByLastnameOrFirstname                                 | `… where x.lastname = ?1 or x.firstname = ?2`                             |
+| Is, Equals         | findByFirstname, findByFirstnameIs, findByFirstnameEquals | `… where x.firstname = ?1`                                                |
+| Between            | findByStartDateBetween                                    | `… where x.startDate between ?1 and ?2`                                   |
+| LessThan           | findByAgeLessThan                                         | `… where x.age < ?1`                                                      |
+| LessThanEqual      | findByAgeLessThanEqual                                    | `… where x.age <= ?1`                                                     |
+| GreaterThan        | findByAgeGreaterThan                                      | `… where x.age > ?1`                                                      |
+| GreaterThanEqual   | findByAgeGreaterThanEqual                                 | `… where x.age >= ?1`                                                     |
+| After              | findByStartDateAfter                                      | `… where x.startDate > ?1`                                                |
+| Before             | findByStartDateBefore                                     | `… where x.startDate < ?1`                                                |
+| IsNull, Null       | findByAge(Is)Null                                         | `… where x.age is null`                                                   |
+| IsNotNull, NotNull | findByAge(Is)NotNull                                      | `… where x.age not null`                                                  |
+| Like               | findByFirstnameLike                                       | `… where x.firstname like ?1`                                             |
+| NotLike            | findByFirstnameNotLike                                    | `… where x.firstname not like ?1`                                         |
+| StartingWith       | findByFirstnameStartingWith                               | `… where x.firstname like ?1` (**parameter bound with appended `%`**)     |
+| EndingWith         | findByFirstnameEndingWith                                 | `… where x.firstname like ?1` (** (parameter bound with prepended `%`)**) |
+| Containing         | findByFirstnameContaining                                 | `… where x.firstname like ?1` (**parameter bound wrapped in `%`**)        |
+| OrderBy            | findByAgeOrderByLastnameDesc                              | `… where x.age = ?1 order by x.lastname desc`                             |
+| Not                | findByLastnameNot                                         | `… where x.lastname <> ?1`                                                |
+| In                 | findByAgeIn(Collection<Age> ages)                         | `… where x.age in ?1`                                                     |
+| NotIn              | findByAgeNotIn(Collection<Age> ages)                      | `… where x.age not in ?1`                                                 |
+| True               | findByActiveTrue()                                        | `… where x.active = true`                                                 |
+| False              | findByActiveFalse()                                       | `… where x.active = false`                                                |
+| IgnoreCase         | findByFirstnameIgnoreCase                                 | … where UPPER(x.firstname) = UPPER(?1)                                    |
+
+> 📋 `In` and `NotIn` also take any subclass of `Collection` as a parameter as well as arrays or varargs. For other
+> syntactical versions of the same logical operator, check
+> [Repository query keywords](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords).
 
 ## Testing
 
