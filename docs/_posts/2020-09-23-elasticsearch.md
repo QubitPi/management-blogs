@@ -333,6 +333,23 @@ POST /my-index-000001/_search?from=40&size=20
 Although Elasticsearch API also supports attaching query string as request body in GET, it is, however,
 [not recommended](https://stackoverflow.com/questions/978061/http-get-with-request-body#comment53906725_983458)
 
+> ⚠️ **Pay special attention to the `from` and `size` parameters**.
+> [**By default, searches return the top 10 matching hits**](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#paginate-search-results).
+> **Use `from` and `size` in order to page through a larger set of result**. We could also attach them in the JSON query
+> 
+> ```
+> POST /my-index-000001/_search
+> {
+>     "from": 40,
+>     "size": 20,
+>     "query": {
+>         "term": {
+>             "user.id": "kimchy"
+>         }
+>     }
+> }
+```
+
 ##### Get All Data
 
 ##### Query Parameters

@@ -26,7 +26,7 @@ excerpt_separator: <!--more-->
 
 ## gawk (an implementation of awk)
 
-* [Manual](../references/gawk.pdf)
+> [Apache Oozie]({{ "/assets/pdf/apache-oozie-the-workflow-scheduler-for-hadoop.pdf" | relative_url}})
 
 ## Graphviz
 

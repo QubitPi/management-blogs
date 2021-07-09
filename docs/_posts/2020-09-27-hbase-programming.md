@@ -693,6 +693,10 @@ public static class MyRdbmsReducer extends Reducer<Text, IntWritable, Text, IntW
 Oozie is a workflow scheduler system to manage Apache Hadoop jobs. We're going to show you how to set up credentials and
 then a couple of examples illustrating how to perform a Java action and a map reduce.
 
+### Books
+
+
+
 ### Set Up Oozie Server with HBase Credential
 
 ### Oozie Workflow Example (Java Action With HBase Credential)
