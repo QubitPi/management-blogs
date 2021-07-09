@@ -103,7 +103,7 @@ Add the following to your Maven project:
 **The JPAAnnotationProcessor finds domain types annotated with the `javax.persistence.Entity` annotation and generates
 query types for them**.
 
-> âš ï¸ If you use Hibernate annotations in your domain types you should use the APT processor of
+> œò¤Àœóð¯ If you use Hibernate annotations in your domain types you should use the APT processor of
 > `com.querydsl.apt.hibernate.HibernateAnnotationProcessor` instead.
 
 To generate source codes the query types, run `mvn clean install` and you will get your Query types generated into
@@ -258,7 +258,7 @@ Add the following to your Maven project:
 **The JPAAnnotationProcessor finds domain types annotated with the `javax.persistence.Entity` annotation and generates
 query types for them**.
 
-> âš ï¸ If you use Hibernate annotations in your domain types you should use the APT processor of
+> œò¤Àœóð¯ If you use Hibernate annotations in your domain types you should use the APT processor of
 > `com.querydsl.apt.hibernate.HibernateAnnotationProcessor` instead.
 
 To generate source codes the query types, run `mvn clean install` and you will get your Query types generated into
@@ -376,9 +376,35 @@ queryFactory.selectFrom(cat)
 
 The native JPQL version of the query would be
 
-select cat from Cat as cat
-inner join cat.mate as mate
-left outer join cat.kittens as kitten
+    select cat from Cat as cat
+    inner join cat.mate as mate
+    left outer join cat.kittens as kitten
+
+Another example
+
+```java
+queryFactory.selectFrom(cat)
+        .leftJoin(cat.kittens, kitten)
+        .on(kitten.bodyWeight.gt(10.0))
+        .fetch();
+```
+
+which has the following JPQL version
+
+    select cat from Cat as cat
+    left join cat.kittens as kitten
+    on kitten.bodyWeight > 10.0
+
+### Ordering
+
+The syntax for declaring ordering is
+
+```java
+QCustomer customer = QCustomer.customer;
+queryFactory.selectFrom(customer)
+        .orderBy(customer.lastName.asc(), customer.firstName.desc())
+        .fetch();
+```
 
 ## Quering Lucene
 

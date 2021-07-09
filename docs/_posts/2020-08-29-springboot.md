@@ -490,7 +490,7 @@ When we use JPQL for a query definition, then Spring Data can handle sorting wit
 add a method parameter of type Sort:
 
 ```java
-@Query(value = "SELECT u FROM User u")
+@Query(value = "SELECT user FROM User user")
 List<User> findAllUsers(Sort sort);
 ```
 
@@ -572,7 +572,7 @@ We use the `@Param` annotation in the method declaration to match parameters def
 from the method declaration:
 
 ```java
-@Query("SELECT u FROM User u WHERE u.status = :status and u.name = :name")
+@Query("SELECT user FROM User user WHERE user.status = :status and user.name = :name")
 User findUserByStatusAndNameNamedParams(
     @Param("status") Integer status, 
     @Param("name") String name
@@ -583,12 +583,22 @@ Note that in the above example, we defined our SQL query and method parameters t
 required as long as the value strings are the same:
 
 ```java
-@Query("SELECT u FROM User u WHERE u.status = :status and u.name = :name")
+@Query("SELECT user FROM User user WHERE user.status = :status and user.name = :name")
 User findUserByUserStatusAndUserName(
     @Param("status") Integer userStatus, 
     @Param("name") String userName
 );
 ```
+
+> ⚠️ When parameter is used for defining `LIKE` constraint, the string quoting, i.e. `'...'`, transforms the parameter
+> value to a plane parameter name, which is incorrect. For example
+> 
+> `SELECT user FROM User user WHERE user.name LIKE '%:searchKey%'` is in correct as it will search for names containing the
+> plane string ":searchKey".
+> 
+> Instead, use `LIKE CONCAT('%', :searchKey, '%')`, i.e.
+> 
+> `SELECT user FROM User user WHERE user.name LIKE CONCAT('%', :searchKey, '%')`
 
 ##### Native
 
