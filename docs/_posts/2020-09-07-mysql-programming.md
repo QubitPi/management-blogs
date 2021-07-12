@@ -1303,6 +1303,20 @@ These are some suggested column data types to use for maximum compatibility betw
 
 ## Shell
 
+### Adjust Display Settings of MySQL Command Line?
+
+You may notice that command line result of mysql is not displaying results properly. Some columns of table are in the
+first line and some are in the second line. Output is also broken into two rows. How do we adjust these settings so that
+it properly display results?
+
+We can use the `\G` command (instead of the `;`) at the end of our SQL queries:
+
+```sql
+SELECT * FROM USER \G
+```
+
+It will display your table in row form instead of column form.
+
 ### JOIN
 
 #### Self Join
