@@ -13,6 +13,20 @@ excerpt_separator: <!--more-->
 
 * TOC
 {:toc}
+  
+## sed
+
+### Applications
+
+#### Pattern for Getting String Between Two Character Sequence
+
+For example, if we would like to extract email address from a string of
+`<some text> from=someuser@somedomain.com, <some text>`, which gives "someuser@somedomain.com", we could use
+
+```bash
+sed 's/.*from=\(.*\),.*/\1/' <<< "$s"
+someuser@somedomain.com
+```
 
 ## Testing Using Bash
 
