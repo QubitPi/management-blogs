@@ -1599,3 +1599,30 @@ VALUES
     (@tom_id, "TOME"),
     (@jack_id, "JACK");
 ```
+
+## MySQL Functions
+
+MySQL has many built-in functions.
+
+### IF
+
+Returns a value if a condition is `TRUE`, or another value if a condition is `FALSE`. For example, Return "YES" if the
+condition is TRUE, or "NO" if the condition is FALSE:
+
+```sql
+SELECT IF(500 < 1000, "YES", "NO");
+```
+
+This function is useful if we would like to replicate a table and update some column values on the flight:
+
+```sql
+INSERT INTO some_table(column1, column2, column3)
+SELECT column1, column2, IF(column3 = "Blue", "Dark Blue", "Dark Color")
+FROM some_table;
+```
+
+In the example above, all rows with column value "Blue" will have "Dark Blue" as the new value for that column; all
+other rows will be changed to "Dark Color".
+
+We could have richer modifications, other than 2-branch modification, using
+[CASE](https://www.w3schools.com/mysql/func_mysql_case.asp)

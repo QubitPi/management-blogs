@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to Deal with Polymorphism in MySQL?
+title: MySQL Table & Schema Design
 tags: [MySQL, Database]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/9-cover.png"
@@ -13,6 +13,8 @@ excerpt_separator: <!--more-->
 
 * TOC
 {:toc}
+
+### How to Deal with Polymorphism in MySQL?
 
 Take a look at Martin Fowler's [Patterns of Enterprise Application Architecture](http://www.martinfowler.com/eaaCatalog/):
 
