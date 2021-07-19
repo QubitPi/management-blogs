@@ -1527,6 +1527,8 @@ WHERE table_schema = "$DB_NAME" AND table_name = "$TABLE_NAME";
 ORDER BY `Size in MB` 
 ```
 
+### Delete Duplicate Rows
+
 ### SELECT INTO Variable
 
 To store query result in one or more variables, you use the `SELECT INTO variable` syntax:

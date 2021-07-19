@@ -260,3 +260,36 @@ BEGIN
 END;
 /
 ```
+
+## Troubleshooting
+
+### Oracle: ORA-00955: name is already used by an existing object
+
+#### Cause 1
+
+You probably have another object with the same name, for example, 'person'
+
+You can find it by quering `person`:
+
+```sql
+SELECT * FROM user_objects WHERE object_name = 'person';
+```
+
+Then drop it (replace `TYPE_OF_OBJECT` by the type of the object from the above query):
+
+```sql
+DROP TYPE_OF_OBJECT person
+```
+
+#### Cause 2
+
+You simply have a stupid `/` at the end of your statement, such as
+
+```sql
+CREATE TABLE some_schema.person (
+    ...
+);
+/
+```
+
+Note the `/` at the end of the query statement
