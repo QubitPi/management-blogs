@@ -293,3 +293,20 @@ CREATE TABLE some_schema.person (
 ```
 
 Note the `/` at the end of the query statement
+
+### ORA-02261: such unique or primary key already exists in the table
+
+You simply have a stupid `/` at the end of your statement, such as
+
+```sql
+CREATE TABLE BRANCH(
+BRA_CODE NUMBER NOT NULL PRIMARY KEY,
+BRA_NAME VARCHAR(15),
+BRA_ADDR VARCHAR(30),
+ CITY_ID NUMBER);
+
+ALTER TABLE BRANCH ADD CONSTRAINT UNIQUE_BRANCH_NAME UNIQUE (BRA_NAME);
+\
+```
+
+Note the `/` at the end of the query statement
