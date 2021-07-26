@@ -1529,6 +1529,35 @@ ORDER BY `Size in MB`
 
 ### Delete Duplicate Rows
 
+MySQL provides [`DELETE JOIN`](https://www.mysqltutorial.org/mysql-delete-join/) statement that allows you to remove
+duplicate rows quickly.
+
+The following statement deletes duplicate rows and keeps the highest id:
+
+```sql
+DELETE t1 FROM contacts t1
+INNER JOIN contacts t2 
+WHERE 
+    t1.id < t2.id AND 
+    t1.email = t2.email;
+```
+
+You can execute the query that find duplicate emails again to verify the delete:
+
+```sql
+SELECT 
+    email, 
+    COUNT(email)
+FROM
+    contacts
+GROUP BY 
+    email
+HAVING 
+    COUNT(email) > 1;
+```
+
+The query returns an empty set, which means that the duplicate rows have been deleted.
+
 ### SELECT INTO Variable
 
 To store query result in one or more variables, you use the `SELECT INTO variable` syntax:
