@@ -263,6 +263,10 @@ END;
 
 ## Troubleshooting
 
+### Double Quotes v.s. Single Quotes
+
+Unlike MySQL which makes double and single quotes interchangeable. 
+
 ### Oracle: ORA-00955: name is already used by an existing object
 
 #### Cause 1
