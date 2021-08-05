@@ -72,6 +72,7 @@ The best Sequence Diagram maker is [PlantUML](https://plantuml.com/):
 * Define Boundary Classes, Control Classes, and Entity Classes:
   [https://stackoverflow.com/a/17028825](https://stackoverflow.com/a/17028825)
 * [The Hitchhiker's Guide to PlantUML](https://crashedmind.github.io/PlantUMLHitchhikersGuide/index.html)
+* [Integration with JIRA and Trello](https://drawio-app.com/uml-class-diagrams-in-draw-io/)
 
 ##### Usage
 
