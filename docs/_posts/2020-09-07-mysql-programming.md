@@ -1592,6 +1592,12 @@ Error Code: 1172. Result consisted of more than one row
 To ensure that the query always returns maximum one row, you use the `LIMIT 1` clause to limit the result set to a
 single row.
 
+### Copy a Table from One Database to Another?
+
+```sql
+CREATE TABLE db1.table1 SELECT * FROM db2.table1
+```
+
 ## Scripting
 
 ### Calling SQL Script File from Other SQL Script File
