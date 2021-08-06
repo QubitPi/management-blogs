@@ -303,6 +303,39 @@ Each API can be called synchronously or asynchronously. The synchronous methods 
 asynchronous methods, whose names end with the `async` suffix, require a listener argument that is notified (on the
 thread pool managed by the low level client) once a response or an error is received.
 
+#### Example
+
+```java
+try (XContentParser parser = XContentFactory
+        .xContent(XContentType.JSON)
+        .createParser(
+                new NamedXContentRegistry(
+                        new SearchModule(
+                                Settings.EMPTY,
+                                false,
+                                Collections.emptyList()
+                        ).getNamedXContents()
+                ),
+                DeprecationHandler.THROW_UNSUPPORTED_OPERATION,
+                query
+        )
+) {
+    SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+    searchSourceBuilder.parseXContent(parser);
+    
+    getEsRestClient()
+            .getRestHighLevelClient(storeURL)
+            .search(
+                    new SearchRequest(index).source(searchSourceBuilder),
+                    RequestOptions.DEFAULT
+            );
+} catch (IOException exception) {
+    String message = String.format("Error on quering ES: %s", exception.getMessage());
+    LOG.error(message, exception);
+    throw new IllegalStateException(message, exception);
+}
+```
+
 ## REST API
 
 #### Search
