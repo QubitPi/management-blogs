@@ -77,3 +77,11 @@ StreamSupport.stream(iterable.spliterator(), false)
         .filter(...)
         .moreStreamOps(...);
 ```
+
+### Convert Two Dimensional Array to List
+
+```java
+List<Foo> collection = Arrays.stream(array)  //'array' is two-dimensional
+        .flatMap(Arrays::stream)
+        .collect(Collectors.toList());
+```
