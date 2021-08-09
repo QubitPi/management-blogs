@@ -821,7 +821,152 @@ The following table describes the keywords supported for JPA and what a method c
 
 ## Testing
 
-### Integration Tests with `@SpringBootTest`
+### Testing MVC Web Controllers with Spring Boot and @WebMvcTest
+
+#### Dependencies
+
+We're going to use [JUnit Jupiter](https://junit.org/junit5/) (JUnit 5) as the testing framework, Mockito for mocking,
+AssertJ for creating assertions and Lombok to reduce boilerplate code:
+
+```
+dependencies {
+  compile('org.springframework.boot:spring-boot-starter-web')
+  compileOnly('org.projectlombok:lombok')
+  testCompile('org.springframework.boot:spring-boot-starter-test')
+  testCompile 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+  testCompile('org.mockito:mockito-junit-jupiter:2.23.0')
+}
+```
+
+AssertJ and Mockito automatically come with the dependency to `spring-boot-starter-test`.
+
+#### Responsibilities of a Web Controller
+
+Let's start by looking at a typical REST controller:
+
+```java
+@RestController
+@RequiredArgsConstructor
+class RegisterRestController {
+    
+    private final RegisterUseCase registerUseCase;
+
+    @PostMapping("/forums/{forumId}/register")
+    UserResource register(
+            @PathVariable("forumId") Long forumId,
+            @Valid @RequestBody UserResource userResource,
+            @RequestParam("sendWelcomeMail") boolean sendWelcomeMail
+    ) {
+      User user = new User(userResource.getName(), userResource.getEmail());
+      Long userId = registerUseCase.registerUser(user, sendWelcomeMail);
+
+      return new UserResource(userId, user.getName(), user.getEmail());
+    }
+}
+```
+
+The controller method is annotated with `@PostMapping` to define the URL, HTTP method and content type it should listen
+to.
+
+It takes input via parameters annotated with `@PathVariable`, `@RequestBody`, and `@RequestParam` which are
+automatically filled from the incoming HTTP request.
+
+Parameters my be annotated with `@Valid` to indicate that Spring should perform
+[bean validation](https://reflectoring.io/bean-validation-with-spring-boot/) on them.
+
+The controller then works with those parameters, calling the business logic before returning a plain Java object, which
+is automatically mapped into JSON and written into the HTTP response body by default.
+
+There's a lot of Spring magic going on here. In summary, for each request, a controller usually does the following
+steps:
+
+| # | Responsibility          | Description                                                                                                                                                                                      |
+|---|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | Listen to HTTP Requests | The controller should respond to certain URLs, HTTP methods and content types.                                                                                                                   |
+| 2 | Deserialize Input       | The controller should parse the incoming HTTP request and create Java objects from variables in the URL, HTTP request parameters and the request body so that we can work with them in the code. |
+| 3 | Validate Input          | The controller is the first line of defense against bad input, so it’s a place where we can validate the input.                                                                                  |
+| 4 | Call the Business Logic | Having parsed the input, the controller must transform the input into the model expected by the business logic and pass it on to the business logic.                                             |
+| 5 | Serialize the Output    | The controller takes the output of the business logic and serializes it into an HTTP response.                                                                                                   |
+| 6 | Translate Exceptions    | If an exception occurs somewhere on the way, the controller should translate it into a meaningful error message and HTTP status for the user.                                                    |
+
+A controller apparently has a lot to do. We should take care not to add even more responsibilities like performing
+business logic. Otherwise, our controller tests will become fat and unmaintainable.
+
+How are we going to write meaningful tests that cover all of those responsibilities?
+
+#### Unit or Integration Test?
+
+Do we write unit tests? Or integration tests? What’s the difference, anyways? Let's discuss both approaches and decide
+for one.
+
+In a unit test, we would test the controller in isolation. That means we would instantiate a controller object, [mocking
+away the business logic](https://reflectoring.io/unit-testing-spring-boot/#using-mockito-to-mock-dependencies), and then
+call the controller's methods and verify the response.
+
+Would that work in our case? Let's check which of the 6 responsibilities we have identified above we can cover in an
+isolated unit test:
+
+| # | Responsibility          | Covered in a Unit Test?                                                                                                                                                                                 |
+|---|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1 | Listen to HTTP Requests | ❌ No, because the unit test would not evaluate the `@PostMapping` annotation and similar annotations specifying the properties of a HTTP request.                                                         |
+| 2 | Deserialize Input       | ❌ No, because annotations like `@RequestParam` and `@PathVariable` would not be evaluated. Instead we would provide the input as Java objects, effectively skipping deserialization from an HTTP request. |
+| 3 | Validate Input          | ❌ Not when depending on bean validation, because the `@Valid` annotation would not be evaluated.                                                                                                          |
+| 4 | Call the Business Logic | ✅ Yes, because we can verify if the mocked business logic has been called with the expected arguments.                                                                                                    |
+| 5 | Serialize the Output    | ❌ No, because we can only verify the Java version of the output, and not the HTTP response that would be generated.                                                                                       |
+| 6 | Translate Exceptions    | ❌ No. We could check if a certain exception was raised, but not that it was translated to a certain JSON response or HTTP status code.                                                                    |
+
+In summary, **a simple unit test will not cover the HTTP layer**. So, we need to introduce Spring to our test to do the
+HTTP magic for us. Thus, we're building an integration test that tests the integration between our controller code and
+the components Spring provides for HTTP support.
+
+An integration test with Spring fires up a Spring application context that contains all the beans we need. This includes
+framework beans that are responsible for listening to certain URLs, serializing and deserializing to and from JSON and
+translating exceptions to HTTP. These beans will evaluate the annotations that would be ignored by a simple unit test.
+
+So, how do we do it?
+
+#### Verifying Controller Responsibilities with @WebMvcTest
+
+Spring Boot provides the `@WebMvcTest` annotation to fire up an application context that contains only the beans needed
+for testing a web controller:
+
+```java
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(controllers = RegisterRestController.class)
+class RegisterRestControllerTest {
+    
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private RegisterUseCase registerUseCase;
+
+    @Test
+    void whenValidInput_thenReturns200() throws Exception {
+      mockMvc.perform(...);
+    }
+}
+```
+
+> 📋 `@ExtendWith`
+>
+> The @ExtendWith annotation to tells JUnit 5 to enable Spring support. As of Spring Boot 2.1, we no longer need to load
+> the SpringExtension because it's included as a meta annotation in the Spring Boot test annotations like
+> `@DataJpaTest`, `@WebMvcTest`, and `@SpringBootTest`.
+
+We can now `@Autowire` all the beans we need from the application context. Spring Boot automatically provides beans
+like an `ObjectMapper` to map to and from JSON and a `MockMvc` instance to simulate HTTP requests.
+
+We use [`@MockBean`](https://reflectoring.io/spring-boot-mock/) to mock away the business logic, since we don't want to test integration between controller and
+business logic, but between controller and the HTTP layer. `@MockBean` automatically replaces the bean of the same type
+in the application context with a Mockito mock.
+
+> **Use @WebMvcTest with or without the controllers parameter?**
+
+### Integration Tests with @SpringBootTest
 
 With the `@SpringBootTest` annotation, Spring Boot provides a convenient way to start up an application context to be
 used in a test.
