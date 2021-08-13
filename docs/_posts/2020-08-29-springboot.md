@@ -964,7 +964,296 @@ We use [`@MockBean`](https://reflectoring.io/spring-boot-mock/) to mock away the
 business logic, but between controller and the HTTP layer. `@MockBean` automatically replaces the bean of the same type
 in the application context with a Mockito mock.
 
-> **Use @WebMvcTest with or without the controllers parameter?**
+> **Use `@WebMvcTest` with or without the controllers parameter?**
+> 
+> By setting the controllers parameter to RegisterRestController.class in the example above, we're telling Spring Boot
+> to restrict the application context created for this test to the given controller bean and some framework beans needed
+> for Spring Web MVC. All other beans we might need have to be included separately or mocked away with `@MockBean`.
+
+Let's go through each of the responsibilities and see how we can use MockMvc to verify each of them in order build the
+best integration test we can.
+
+##### 1. Verifying HTTP Request Matching
+
+Verifying that a controller listens to a certain HTTP request is pretty straightforward. We simply call the `perform()`
+method of `MockMvc` and provide the URL we want to test:
+
+```java
+mockMvc.perform(post("/forums/42/register")
+        .contentType("application/json"))
+        .andExpect(status().isOk());
+```
+
+Aside from verifying that the controller responds to a certain URL, this test also verifies the correct HTTP method
+(POST in our case) and the correct request content type. The controller we have seen above would reject any requests
+with a different HTTP method or content type.
+
+Note that this test would still fail, yet, since our controller expects some input parameters.
+
+More options to match HTTP requests can be found in the Javadoc of
+[MockHttpServletRequestBuilder](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/test/web/servlet/request/MockHttpServletRequestBuilder.html).
+
+##### 2. Verifying Input Serialization
+
+To verify that the input is successfully serialized into Java objects, we have to provide it in the test request. Input
+can be either the JSON content of the request body (`@RequestBody`), a variable within the URL path (`@PathVariable`),
+or an HTTP request parameter (`@RequestParam`):
+
+```java
+@Test
+void whenValidInput_thenReturns200() throws Exception {
+    UserResource user = new UserResource("Zaphod", "zaphod@galaxy.net");
+
+    mockMvc.perform(post("/forums/{forumId}/register", 42L)
+            .contentType("application/json")
+            .param("sendWelcomeMail", "true")
+            .content(objectMapper.writeValueAsString(user)))
+            .andExpect(status().isOk());
+}
+```
+
+We now provide the path variable `forumId`, the request parameter `sendWelcomeMail` and the request body that are
+expected by the controller. The request body is generated using the `ObjectMapper` provided by Spring Boot, serializing
+a `UserResource` object to a JSON string.
+
+If the test is green, we now know that the controller's `register()` method has received those parameters as Java
+objects and that they have been successfully parsed from the HTTP request.
+
+##### 3. Verifying Input Validation
+
+Let's say the `UserResource` uses the `@NotNull` annotation to deny null values:
+
+```java
+@Value
+public class UserResource {
+
+    @NotNull
+    private final String name;
+
+    @NotNull
+    private final String email;
+}
+```
+
+Bean validation is triggered automatically when we
+[add the @Valid annotation to a method parameter](https://reflectoring.io/bean-validation-with-spring-boot/#validating-input-to-a-spring-mvc-controller)
+like we did with the userResource parameter in our controller. So, for the happy path (i.e. when the validation
+succeeds), the test we created in the previous section is enough.
+
+If we want to test if the validation fails as expected, we need to add a test case in which we send an invalid
+`UserResource` JSON object to the controller. We then expect the controller to return HTTP status 400 (Bad Request):
+
+```java
+@Test
+void whenNullValue_thenReturns400() throws Exception {
+    UserResource user = new UserResource(null, "zaphod@galaxy.net");
+  
+    mockMvc.perform(post("/forums/{forumId}/register", 42L)
+            ...
+            .content(objectMapper.writeValueAsString(user)))
+            .andExpect(status().isBadRequest());
+}
+```
+
+Depending on how important the validation is for the application, we might add a test case like this for each invalid
+value that is possible. This can quickly add up to a lot of test cases, though, so you should talk to your team about
+how you want to handle validation tests in your project.
+
+##### 4. Verifying Business Logic Calls
+
+Next, we want to verify that the business logic is called as expected. In our case, the business logic is provided by
+the `RegisterUseCase` interface and expects a `User` object and a `boolean` as input:
+
+```java
+interface RegisterUseCase {
+    
+    Long registerUser(User user, boolean sendWelcomeMail);
+}
+```
+
+We expect the controller to transform the incoming `UserResource` object into a `User` and to pass this object into the
+`registerUser()` method.
+
+```java
+@Test
+void whenValidInput_thenMapsToBusinessModel() throws Exception {
+    UserResource user = new UserResource("Zaphod", "zaphod@galaxy.net");
+    mockMvc.perform(...);
+
+    ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
+    verify(registerUseCase, times(1)).registerUser(userCaptor.capture(), eq(true));
+    assertThat(userCaptor.getValue().getName()).isEqualTo("Zaphod");
+    assertThat(userCaptor.getValue().getEmail()).isEqualTo("zaphod@galaxy.net");
+}
+```
+
+After the call to the controller has been performed, we use an `ArgumentCaptor` to capture the `User` object that was
+passed to the `RegisterUseCase.registerUser()` and assert that it contains the expected values.
+
+The `verify` call checks that `registerUser()` has been called exactly once.
+
+>  📋️ If we do a lot of assertions on `User` objects, we can create
+> [our own custom Mockito assertion methods](https://reflectoring.io/unit-testing-spring-boot/#creating-readable-assertions-with-assertj)
+> for better readability.
+
+##### 5. Verifying Output Serialization
+
+After the business logic has been called, we expect the controller to map the result into a JSON string and include it
+in the HTTP response. In our case, we expect the HTTP response body to contain a valid `UserResource` object in JSON
+form:
+
+```java
+@Test
+void whenValidInput_thenReturnsUserResource() throws Exception {
+    MvcResult mvcResult = mockMvc.perform(...)
+            ...
+            .andReturn();
+
+    UserResource expectedResponseBody = ...;
+    String actualResponseBody = mvcResult.getResponse().getContentAsString();
+    
+    assertThat(actualResponseBody).isEqualToIgnoringWhitespace(objectMapper.writeValueAsString(expectedResponseBody));
+}
+```
+
+To do assertions on the response body, we need to store the result of the HTTP interaction in a variable of type
+`MvcResult` using the `andReturn()` method.
+
+We can then read the JSON string from the response body and compare it to the expected string using
+`isEqualToIgnoringWhitespace()`. We can build the expected JSON string from a Java object using the `ObjectMapper`
+provided by Spring Boot.
+
+##### 6. Verifying Exception Handling
+
+Usually, if an exception occurs, the controller should return a certain HTTP status. 400, if something is wrong with the
+request, 500, if an exception bubbles up, and so on.
+
+Spring takes care of most of these cases by default. However, if we have a custom exception handling, we want to test
+it. Let's say we want to return a structured JSON error response with a field name and error message for each field that
+was invalid in the request. We’d create a `@ControllerAdvice` like this:
+
+```java
+@ControllerAdvice
+class ControllerExceptionHandler {
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ErrorResult handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        ErrorResult errorResult = new ErrorResult();
+    
+        for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
+            errorResult
+                    .getFieldErrors()
+                    .add(new FieldValidationError(fieldError.getField(), fieldError.getDefaultMessage()));
+        }
+    
+        return errorResult;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    static class ErrorResult {
+        
+        private final List<FieldValidationError> fieldErrors = new ArrayList<>();
+        
+        ErrorResult(String field, String message) {
+            this.fieldErrors.add(new FieldValidationError(field, message));
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    static class FieldValidationError {
+        
+        private String field;
+        private String message;
+    }
+  
+}
+```
+
+If bean validation fails, Spring throws an `MethodArgumentNotValidException`. We handle this exception by mapping
+Spring's `FieldError` objects into our own `ErrorResult` data structure. The exception handler causes all controllers to
+return HTTP status 400 in this case and puts the `ErrorResult` object into the response body as a JSON string.
+
+To verify that this actually happens, we expand on our earlier test for failing validations:
+
+```java
+@Test
+void whenNullValue_thenReturns400AndErrorResult() throws Exception {
+    UserResource user = new UserResource(null, "zaphod@galaxy.net");
+
+    MvcResult mvcResult = mockMvc
+            .perform(...)
+            .contentType("application/json")
+            .param("sendWelcomeMail", "true")
+            .content(objectMapper.writeValueAsString(user)))
+            .andExpect(status().isBadRequest())
+            .andReturn();
+
+    ErrorResult expectedErrorResponse = new ErrorResult("name", "must not be null");
+    String actualResponseBody = mvcResult.getResponse().getContentAsString();
+    String expectedResponseBody = objectMapper.writeValueAsString(expectedErrorResponse);
+    assertThat(actualResponseBody).isEqualToIgnoringWhitespace(expectedResponseBody);
+}
+```
+
+Again, we read the JSON string from the response body and compare it against an expected JSON string. Additionally, we
+check that the response status is 400.
+
+#### Creating Custom ResultMatchers
+
+Certain assertions are rather hard to write and, more importantly, hard to read. Especially when we want to compare the
+JSON string from the HTTP response to an expected value it takes a lot of code, as we have seen in the last two
+examples.
+
+Luckily, we can create custom `ResultMatchers` that we can use within the fluent API of `MockMvc`. Let's see how we can
+do this for our use cases.
+
+##### Matching JSON Output
+
+Wouldn't it be nice to use the following code to verify if the HTTP response body contains a JSON representation of a
+certain Java object?
+
+```java
+@Test
+void whenValidInput_thenReturnsUserResource_withFluentApi() throws Exception {
+    UserResource user = ...;
+    UserResource expected = ...;
+
+    mockMvc.perform(...)
+            ...
+            .andExpect(responseBody().containsObjectAsJson(expected, UserResource.class));
+}
+```
+
+No need to manually compare JSON strings anymore. And it’s much better readable. In fact, the code is so
+self-explanatory that I'm going to stop explaining here.
+
+To be able to use the above code, we create a custom `ResultMatcher`:
+
+```java
+public class ResponseBodyMatchers {
+    
+    private ObjectMapper objectMapper = new ObjectMapper();
+    
+    public <T> ResultMatcher containsObjectAsJson(Object expectedObject, Class<T> targetClass) {
+        return mvcResult -> {
+            String json = mvcResult.getResponse().getContentAsString();
+            T actualObject = objectMapper.readValue(json, targetClass);
+            assertThat(actualObject).isEqualToComparingFieldByField(expectedObject);
+        };
+    }
+    
+    static ResponseBodyMatchers responseBody(){
+        return new ResponseBodyMatchers();
+    }
+}
+```
+
+The static method `responseBody()` serves as the entrypoint for our fluent API. It returns the actual `ResultMatcher`
+that parses the JSON from the HTTP response body and compares it field by field with the expected object that is passed in.
 
 ### Integration Tests with @SpringBootTest
 
