@@ -17,4 +17,4 @@ excerpt_separator: <!--more-->
 ## Use Cases (Learn from Others)
 
 * [How Yahoo! Uses Neutron for Ironic](https://www.openstack.org/videos/summits/tokio-2015/how-yahoo-uses-neutron-for-ironic)
-* [Operating OpenStack at Scale | Yahoo Engineering](https://yahooeng.tumblr.com/post/159795571841/operating-openstack-at-scale)
+* [Yahoo Engineering - Operating OpenStack at Scale](https://yahooeng.tumblr.com/post/159795571841/operating-openstack-at-scale)
