@@ -1,6 +1,6 @@
 ---
 layout: post
-title: OpenStack Reference Guide
+title: OpenStack Reference Guide (Updated Daily...)
 tags: [OpenStack]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/20-cover.png"
