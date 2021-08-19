@@ -46,6 +46,23 @@ OpenStack consists of several independent parts, named the **OpenStack services*
 common **Identity service**. Individual services interact with each other through public APIs, except where privileged
 administrator commands are necessary.
 
+Internally, OpenStack services are composed of several processes. All services have at least one API process, which
+listens for API requests, preprocesses them and passes them on to other parts of the service. _With the exception of the
+Identity service_, the actual work is done by distinct processes.
+
+For communication between the processes of one service, an
+[AMQP](https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol/) message broker is used. The service's state is
+tored in a database. When deploying and configuring your OpenStack cloud, you can choose among several message broker
+and database solutions, such as RabbitMQ, MySQL, MariaDB, and SQLite.
+
+Users can access OpenStack via the web-based user interface implemented by the Horizon Dashboard, via command-line
+clients and by issuing API requests through tools like browser plug-ins or curl. For applications, several SDKs are
+available. Ultimately, all these access methods issue REST API calls to the various OpenStack services.
+
+The following diagram shows the most common, but not the only possible, architecture for an OpenStack cloud:
+
+![openstack-logical-architecture.png not loaded property]({{ "/assets/img/openstack-logical-architecture.png" | relative_url}})
+
 ## Use Cases (Learn from Others)
 
 * [How Yahoo! Uses Neutron for Ironic](https://www.openstack.org/videos/summits/tokio-2015/how-yahoo-uses-neutron-for-ironic)
