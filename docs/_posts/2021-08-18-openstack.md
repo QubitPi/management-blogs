@@ -38,6 +38,14 @@ The following diagram shows the relationships among the OpenStack services:
 
 ![openstack-conceptual-architecture.png not loaded property]({{ "/assets/img/openstack-conceptual-architecture.png" | relative_url}})
 
+### Logical architecture
+
+To design, deploy, and configure OpenStack, administrators must understand the logical architecture.
+
+OpenStack consists of several independent parts, named the **OpenStack services**. All services authenticate through a
+common **Identity service**. Individual services interact with each other through public APIs, except where privileged
+administrator commands are necessary.
+
 ## Use Cases (Learn from Others)
 
 * [How Yahoo! Uses Neutron for Ironic](https://www.openstack.org/videos/summits/tokio-2015/how-yahoo-uses-neutron-for-ironic)
