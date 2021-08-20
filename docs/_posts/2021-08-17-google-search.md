@@ -39,5 +39,15 @@ Deliver the most relevant and reliable information available
 * **Constantly Crawling for New Info** - Because the web and other content is constantly changing, our crawling
   processes are always running to keep up. They learn how often content they've seen before seems to change and revisit
   as needed. They also discover new content as new links to those pages or information appear.
+  
+  Google also provides a free toolset called
+  [Search Console](https://support.google.com/webmasters/answer/9128668?hl=en) that creators can use to help us better
+  crawl their content. They can also make use of established standards like
+  [sitemaps](https://developers.google.com/search/docs/advanced/sitemaps/overview?hl=en&visit_id=637533703645569991-3393536445&rd=1)
+  or [robots.txt](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag?hl=en) to indicate how often
+  content should be visited or if it shouldn't be included in our Search index at all.
+
+  Google never accepts payment to crawl a site more frequently — we provide the same tools to all websites to ensure the
+  best possible results for our users.
 
 To be continued...
