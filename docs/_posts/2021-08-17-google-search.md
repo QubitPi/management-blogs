@@ -33,5 +33,11 @@ Deliver the most relevant and reliable information available
   crawlers. These automatically visit publicly accessible webpages and follow links on those pages, much like you would
   if you were browsing content on the web. They go from page to page and store information about what they find on these
   pages and other publicly-accessible content in Google's Search index.
+* **Organizing Information by Indexing** - When crawlers find a webpage, our systems render the content of the page,
+  just as a browser does. We take note of key signals - from keywords to website freshness - and we keep track of it all 
+  in the Search index
+* **Constantly Crawling for New Info** - Because the web and other content is constantly changing, our crawling
+  processes are always running to keep up. They learn how often content they've seen before seems to change and revisit
+  as needed. They also discover new content as new links to those pages or information appear.
 
 To be continued...
