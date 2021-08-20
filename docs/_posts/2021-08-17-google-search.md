@@ -49,5 +49,19 @@ Deliver the most relevant and reliable information available
 
   Google never accepts payment to crawl a site more frequently — we provide the same tools to all websites to ensure the
   best possible results for our users.
+  
+* Our Search index contains more than just what's on the web, because helpful information can be located in other
+  sources.
+
+  In fact, we have multiple indexes of different types of information, which is gathered through crawling, through
+  partnerships, through data feeds being sent to us and through our own encyclopedia of facts, the
+  [Knowledge Graph](https://support.google.com/knowledgepanel/answer/9787176).
+  
+## Google's Knowledge Graph
+
+Google's search results sometimes show information that comes from our Knowledge Graph, our database of billions of
+facts about people, places, and things. The Knowledge Graph allows us to answer factual questions such as "How tall is
+the Eiffel Tower?" or "Where were the 2016 Summer Olympics held." Our goal with the Knowledge Graph is for our systems
+to discover and surface publicly known, factual information when it’s determined to be useful.
 
 To be continued...
