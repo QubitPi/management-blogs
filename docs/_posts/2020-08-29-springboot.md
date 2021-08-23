@@ -95,7 +95,7 @@ public class PriorityProvider {
     Using this default file, we don't have to explicitly register a `PropertySource` or even provide a path to a
     property file.
     
-##### `@Value` with Enum
+##### @Value with Enum
 
 We can use enum with `@Value` annotation. A field or constructor parameter can be injected with enum value using
 `@Value` annotation. For example, suppose we have an Enum class of
@@ -129,7 +129,7 @@ public class Foo {
 }
 ```
 
-### What is `applicationContext.xml` file?
+### What is applicationContext.xml file?
 
 `applicationContext.xml` is effectively the same thing as `web.xml`. This file should be placed as
 `/WEB-INF/applicationContext.xml` under `resource` directory.
@@ -420,7 +420,7 @@ PersonWithNumVehicles getPersonWithVehicleInfoBySsn(
 > ⚠️ The projection aliases (`AS ssn`, `AS name`, ..) are required in order to map the columns from DB results to the
 > corresponding getters of the projection bean
 
-### [`@Query`](https://www.baeldung.com/spring-data-jpa-query)
+### [@Query](https://www.baeldung.com/spring-data-jpa-query)
 
 Spring Data provides many ways to define a query that we can execute. One of these is the` @Query` annotation. In this
 section, we'll demonstrate how to use the `@Query` annotation in Spring Data JPA to execute both JPQL and native SQL
@@ -629,7 +629,7 @@ List<User> findUserByNameList(@Param("names") Collection<String> names);
 
 As the parameter is a Collection, it can be used with List, HashSet, etc.
 
-#### Update Queries With `@Modifying`
+#### Update Queries With @Modifying
 
 We can use the `@Query` annotation to modify the state of the database by also adding the `@Modifying` annotation to the
 repository method.
@@ -1253,7 +1253,139 @@ public class ResponseBodyMatchers {
 ```
 
 The static method `responseBody()` serves as the entrypoint for our fluent API. It returns the actual `ResultMatcher`
-that parses the JSON from the HTTP response body and compares it field by field with the expected object that is passed in.
+that parses the JSON from the HTTP response body and compares it field by field with the expected object that is passed
+in.
+
+##### Matching Expected Validation Errors
+
+We can even go a step further to simplify our exception handling test: 
+
+```java
+@Test
+void whenNullValue_thenReturns400AndErrorResult_withFluentApi() throws Exception {
+    UserResource user = new UserResource(null, "zaphod@galaxy.net");
+
+    mockMvc.perform(...)
+            ...
+            .content(objectMapper.writeValueAsString(user)))
+            .andExpect(status().isBadRequest())
+            .andExpect(responseBody().containsError("name", "must not be null"));
+}
+```
+
+Again, the code is self-explanatory.
+
+To enable this fluent API, we must add the method `containsErrorMessageForField()` to our `ResponseBodyMatchers` class:
+
+```java
+public class ResponseBodyMatchers {
+    
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    public ResultMatcher containsError(String expectedFieldName, String expectedMessage) {
+        return mvcResult -> {
+            String json = mvcResult.getResponse().getContentAsString();
+            ErrorResult errorResult = objectMapper.readValue(json, ErrorResult.class);
+            List<FieldValidationError> fieldErrors = errorResult.getFieldErrors().stream()
+                    .filter(fieldError -> fieldError.getField().equals(expectedFieldName))
+                    .filter(fieldError -> fieldError.getMessage().equals(expectedMessage))
+                    .collect(Collectors.toList());
+
+            assertThat(fieldErrors)
+                    .hasSize(1)
+                    .withFailMessage("expecting exactly 1 error message"
+                                    + "with field name '%s' and message '%s'",
+                            expectedFieldName,
+                            expectedMessage);
+        };
+    }
+
+    static ResponseBodyMatchers responseBody() {
+        return new ResponseBodyMatchers();
+    }
+}
+```
+
+All the ugly code is hidden within this helper class and we can happily write clean assertions in our integration tests.
+
+### Testing JPA Queries with Spring Boot and @DataJpaTest
+
+Aside from unit tests, integration tests play a vital role in producing quality software. A special kind of integration
+test deals with the integration between our code and the database.
+
+With the `@DataJpaTest` annotation, Spring Boot provides a convenient way to set up an environment with an embedded
+database to test our database queries against.
+
+#### Dependencies
+
+Aside from the usual Spring Boot dependencies, we're using JUnit Jupiter as our testing framework and H2 as an in-memory
+database.
+
+```
+dependencies {
+  compile('org.springframework.boot:spring-boot-starter-data-jpa')
+  compile('org.springframework.boot:spring-boot-starter-web')
+  runtime('com.h2database:h2')
+  testCompile('org.springframework.boot:spring-boot-starter-test')
+  testCompile('org.junit.jupiter:junit-jupiter-engine:5.2.0')
+}
+```
+
+#### What to Test?
+
+The first question to answer to ourselves is what we need to test. Let's consider a Spring Data repository responsible
+for `UserEntity` objects:
+
+```java
+interface UserRepository extends CrudRepository<UserEntity, Long> {
+
+    // query methods
+}
+```
+
+We have different options to create queries. Let's look at some of those in detail to determine if we should cover them
+with tests.
+
+##### Inferred Queries
+
+The first option is to create an inferred query:
+
+```java
+UserEntity findByName(String name);
+```
+
+We don't need to tell Spring Data what to do, since it automatically infers the SQL query from the name of the method
+name.
+
+What's nice about this feature is that **Spring Data also automatically checks if the query is valid at spring boot
+applicaiton startup**. If we renamed the method to `findByFoo()` and the `UserEntity` does not have a property `foo`,
+Spring Data will point that out to us with an exception:
+
+```
+org.springframework.data.mapping.PropertyReferenceException: 
+  No property foo found for type UserEntity!
+```
+
+**So, as long as we have at least one test that tries to start up the Spring application context in our code base, we do
+not need to write an extra test for our inferred query**.
+
+_Note that this is not true for queries inferred from long method names like
+`findByNameAndRegistrationDateBeforeAndEmailIsNotNull(). This method name is hard to grasp and easy to get wrong, so we
+should test if it really does what we intended_.
+
+Having said this, it's a good practice to rename such method with a shorter, more meaningful name and add a `@Query`
+annotation to provide a custom JPQL query
+
+##### Custom JPQL Queries with @Query
+
+If queries become more complex, it makes sense to provide a custom JPQL query:
+
+```java
+@Query("select u from UserEntity u where u.name = :name")
+UserEntity findByNameCustomQuery(@Param("name") String name);
+```
+
+Similar to inferred queries, we get a validity check for those JPQL queries for free. Using Hibernate as our JPA provider, we’ll get a QuerySyntaxException on startup if it found an invalid query:
 
 ### Integration Tests with @SpringBootTest
 
@@ -1294,7 +1426,7 @@ Note that these test slices will also take some time to boot up, though.
 Finally, for tests that cover the whole Spring Boot application from incoming request to database, or tests that cover
 certain parts of the application that are hard to set up manually, we can and should use `@SpringBootTest`
 
-### Creating an ApplicationContext with `@SpringBootTest`
+### Creating an ApplicationContext with @SpringBootTest
 
 `@SpringBootTest` by default starts searching in the current package of the test class and then searches upwards through
 the package structure, looking for a class annotated with `@SpringBootConfiguration` from which it then reads the
@@ -1372,7 +1504,7 @@ class SpringBootPropertiesTest {
 
 If the property `foo` exists in the default setting, it will be overridden by the value `bar` for this test.
 
-### Externalizing Properties with `@ActiveProfiles`
+### Externalizing Properties with @ActiveProfiles
 
 If many of our tests need the same set of properties, we can create a configuration file
 `application-<profile>.properties` or `application-<profile>.yml` and load the properties from that file by
@@ -1424,7 +1556,7 @@ In addition, we can also use
 [@ContextConfiguration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextConfiguration.html),
 which is a very similar mechanism for specifying test class properties.
 
-#### Injecting Mocks with `@MockBean`
+#### Injecting Mocks with @MockBean
 
 If we only want to test a certain part of the application instead of the whole path from incoming request to database,
 we can replace certain beans in the application context by using `@MockBean`:
@@ -1458,7 +1590,7 @@ class MockBeanTest {
 In this case, we have replaced the `UserRepository` bean with a mock. Using Mockito's `when` method, we have
 specified the expected behavior for this mock in order to test a class that uses this repository.
 
-#### Adding Beans with `@Import`
+#### Adding Beans with @Import
 
 If certain beans are not included in the default application context, but we need them in a test, we can import them
 using the `@Import` annotation:
@@ -1487,7 +1619,7 @@ class SpringBootImportTest {
 }
 ```
 
-#### Creating a Custom `@SpringBootApplication`
+#### Creating a Custom @SpringBootApplication
 
 We can even create a whole custom Spring Boot application to start up in tests. If this application class is in the same
 package as the real application class, but in the test sources rather than the production sources, `@SpringBootTest`

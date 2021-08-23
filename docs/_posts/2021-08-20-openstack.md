@@ -63,6 +63,45 @@ The following diagram shows the most common, but not the only possible, architec
 
 ![openstack-logical-architecture.png not loaded property]({{ "/assets/img/openstack-logical-architecture.png" | relative_url}})
 
+### Architecture Requirements
+
+#### Enterprise Requirements
+
+The following sections describe business, usage, and performance considerations for customers which will impact cloud
+architecture design.
+
+##### Cost
+
+Financial factors are a primary concern for any organization. Cost considerations may influence the type of cloud that
+you build. For example, a general purpose cloud is unlikely to be the most cost-effective environment for specialized
+applications. Unless business needs dictate that cost is a critical factor, cost should not be the sole consideration
+when choosing or designing a cloud.
+
+Consider the following costs categories when designing a cloud:
+
+* Compute resources
+* Networking resources
+* Replication
+* Storage
+* Management
+* Operational costs
+
+It is also important to consider how costs will increase as your cloud scales. Choices that have a negligible impact in
+small systems may considerably increase costs in large systems. In these cases, it is important to minimize capital
+expenditure (CapEx) at all layers of the stack.
+
+##### Time-to-market
+
+The ability to deliver services or products within a flexible time frame is a common business factor when building a
+cloud. Allowing users to self-provision and gain access to compute, network, and storage resources on-demand may
+decrease time-to-market for new products and applications.
+
+You must balance the time required to build a new cloud platform against the time saved by migrating users away from
+legacy platforms. In some cases, existing infrastructure may influence your architecture choices. For example, using
+multiple cloud platforms may be a good option when there is an existing investment in several applications, as it could
+be faster to tie the investments together rather than migrating the components and refactoring them to a single
+platform.
+
 ## Use Cases (Learn from Others)
 
 * [How Yahoo! Uses Neutron for Ironic](https://www.openstack.org/videos/summits/tokio-2015/how-yahoo-uses-neutron-for-ironic)
