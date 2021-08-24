@@ -13,6 +13,386 @@ excerpt_separator: <!--more-->
 
 * TOC
 {:toc}
+  
+## Mapping
+
+Mapping is the process of defining how a document, and the fields it contains, are stored and indexed.
+
+Each document is a collection of fields, which each have their own
+[data type](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html). When mapping your data,
+you create a mapping definition, which contains a list of fields that are pertinent to the document. A mapping
+definition also includes metadata fields, like the `_source` field, which customize how a document's associated metadata
+is handled.
+
+### Metadata Fields
+
+Each document has metadata associated with it, such as the `_index`, mapping `_type`, and `_id` metadata fields. The
+behavior of some of these metadata fields can be customized when a mapping type is created.
+
+#### Identity Metadata Fields
+
+##### "_index" - the index to which the document belongs.
+
+When performing queries across multiple indexes, it is sometimes desirable to add query clauses that are associated with
+documents of only certain indexes. The `_index` field allows matching on the index a document was indexed into. Its
+value is accessible in certain queries and aggregations, and when sorting or scripting:
+
+```
+PUT index_1/_doc/1
+{
+    "text": "Document in index 1"
+}
+
+PUT index_2/_doc/2?refresh=true
+{
+    "text": "Document in index 2"
+}
+
+GET index_1,index_2/_search
+{
+    "query": {
+        "terms": {
+            "_index": ["index_1", "index_2"] 
+        }
+    },
+    "aggs": {
+        "indices": {
+            "terms": {
+                "field": "_index", 
+                "size": 10
+            }
+        }
+    },
+    "sort": [
+        {
+            "_index": { 
+                "order": "asc"
+            }
+        }
+    ],
+    "script_fields": {
+        "index_name": {
+            "script": {
+                "lang": "painless",
+                "source": "doc['_index']" 
+            }
+        }
+    }
+}
+```
+
+The `_index` field is exposed virtually - it is **not added to the Lucene index** as a real field. This means that you
+can use the `_index` field in a `term` or `terms` query (or any query that is rewritten to a `term` query, such as the
+`match`, `query_string` or `simple_query_string` query), as well as `prefix` and `wildcard` queries. However, it does
+not support `regexp` and `fuzzy` queries.
+
+Queries on the `_index` field accept index aliases in addition to concrete index names.
+
+##### "_type" - the document's mapping type
+
+> ⚠️ Deprecated in 6.0.0. See
+> [Removal of mapping types](https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html)
+
+Each document indexed is associated with a _type and an [_id](#_id---the-documents-id). The `_type` field is indexed in
+order to make searching by type name fast.
+
+The value of the `_type` field is accessible in queries, aggregations, scripts, and when sorting:
+
+```
+# Example documents
+
+PUT my-index-000001/_doc/1?refresh=true
+{
+    "text": "Document with type 'doc'"
+}
+
+GET my-index-000001/_search
+{
+    "query": {
+        "term": {
+            "_type": "_doc"  
+        }
+    },
+    "aggs": {
+        "types": {
+            "terms": {
+                "field": "_type", 
+                "size": 10
+            }
+        }
+    },
+    "sort": [
+        {
+            "_type": { 
+                "order": "desc"
+            }
+        }
+    ],
+    "script_fields": {
+        "type": {
+            "script": {
+                "lang": "painless",
+                "source": "doc['_type']" 
+            }
+        }
+    }
+}
+```
+
+###### Alternatives to "_type"
+
+The first alternative is to have an index per document type. Indices are completely independent of each other and so
+there will be no conflict of field types between indices.
+
+This approach has two benefits:
+
+1. Data is more likely to be dense and so benefit from compression techniques used in Lucene.
+2. The term statistics used for scoring in full text search are more likely to be accurate because all documents in the
+   same index represent a single entity.
+
+Each index can be sized appropriately for the number of documents it will contain: you can use a smaller number of
+primary shards for index1 and a larger number of primary shards for index2.
+
+Of course, there is a limit to how many primary shards can exist in a cluster so you may not want to waste an entire
+shard for a collection of only a few thousand documents. In this case, you can implement your own custom `type` field
+which will work in a similar way to the old `_type`.
+
+Let's take the `user`/`tweet` example above. Originally, the workflow would have looked something like this:
+
+```
+PUT twitter
+{
+    "mappings": {
+        "user": {
+            "properties": {
+                "name": { "type": "text" },
+                "user_name": { "type": "keyword" },
+                "email": { "type": "keyword" }
+            }
+        },
+        "tweet": {
+            "properties": {
+                "content": { "type": "text" },
+                "user_name": { "type": "keyword" },
+                "tweeted_at": { "type": "date" }
+            }
+        }
+    }
+}
+
+PUT twitter/user/kimchy
+{
+    "name": "Shay Banon",
+    "user_name": "kimchy",
+    "email": "shay@kimchy.com"
+}
+
+PUT twitter/tweet/1
+{
+    "user_name": "kimchy",
+    "tweeted_at": "2017-10-24T09:00:00Z",
+    "content": "Types are going away"
+}
+
+GET twitter/tweet/_search
+{
+    "query": {
+        "match": {
+            "user_name": "kimchy"
+        }
+    }
+}
+```
+
+You can achieve the same thing by adding a custom type field as follows:
+
+```
+PUT twitter
+{
+    "mappings": {
+        "_doc": {
+            "properties": {
+                "type": { "type": "keyword" }, 
+                "name": { "type": "text" },
+                "user_name": { "type": "keyword" },
+                "email": { "type": "keyword" },
+                "content": { "type": "text" },
+                "tweeted_at": { "type": "date" }
+            }
+        }
+    }
+}
+
+PUT twitter/_doc/user-kimchy
+{
+    "type": "user", 
+    "name": "Shay Banon",
+    "user_name": "kimchy",
+    "email": "shay@kimchy.com"
+}
+
+PUT twitter/_doc/tweet-1
+{
+    "type": "tweet", 
+    "user_name": "kimchy",
+    "tweeted_at": "2017-10-24T09:00:00Z",
+    "content": "Types are going away"
+}
+
+GET twitter/_search
+{
+    "query": {
+        "bool": {
+            "must": {
+                "match": {
+                    "user_name": "kimchy"
+                }
+            },
+            "filter": {
+                "match": {
+                    "type": "tweet" 
+                }
+            }
+        }
+    }
+}
+```
+
+##### "_id" - the document's ID.
+
+Each document has an `_id` that uniquely identifies it, which is indexed so that documents can be looked up either with
+the [GET API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-get.html) or the
+[ids query](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html). The `_id` can
+either be assigned at indexing time, or a unique `_id` can be generated by Elasticsearch. This field is not configurable
+in the mappings.
+
+The value of the `_id` field is accessible in queries such as `term`, `terms`, `match`, and `query_string`.
+
+```
+# Example documents
+PUT my-index-000001/_doc/1
+{
+    "text": "Document with ID 1"
+}
+
+PUT my-index-000001/_doc/2?refresh=true
+{
+    "text": "Document with ID 2"
+}
+
+GET my-index-000001/_search
+{
+    "query": {
+        "terms": {
+            "_id": [ "1", "2" ] 
+        }
+    }
+}
+```
+
+The `_id` field is restricted from use in aggregations, sorting, and scripting. In case sorting or aggregating on the
+`_id` field is required, it is advised to duplicate the content of the `_id` field into another field that has
+`doc_values` enabled.
+
+> `_id` is limited to 512 bytes in size and larger values will be rejected.
+
+#### Document Source Metadata Fields
+
+##### "_source" - the original JSON representing the body of the document.
+
+The `_source` field contains the original JSON document body that was passed at index time. The `_source` field itself
+is not indexed (and thus is not searchable), but it is stored so that it can be returned when executing _fetch_
+requests, like [get](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-get.html) or
+[search](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html).
+
+###### Disabling the "_source" fieldedit
+
+Though very handy to have around, the source field does incur storage overhead within the index. For this reason, it can
+be disabled as follows:
+
+```
+PUT my-index-000001
+{
+    "mappings": {
+        "_source": {
+            "enabled": false
+        }
+    }
+}
+```
+
+> ⚠️ **Think before disabling the `_source` field
+> 
+> Users often disable the `_source` field without thinking about the consequences, and then live to regret it. If the
+> `_source` field isn't available then a number of features are not supported:
+> 
+> * The [update](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update.html),
+    [update_by_query](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update-by-query.html), and
+    [reindex](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html) APIs
+> * On the fly [highlighting](https://www.elastic.co/guide/en/elasticsearch/reference/current/highlighting.html)
+> * The ability to reindex from one Elasticsearch index to another, either to change mappings or analysis, or to upgrade
+    an index to a new major version
+> * The ability to debug queries or aggregations by viewing the original document used at index time
+> * Potentially in the future, the ability to repair index corruption automatically
+
+> 💡 If disk space is a concern, rather increase the
+> [compression level](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#index-codec)
+> instead of disabling the `_source`.
+
+###### Including/Excluding Fields from "_source"
+
+An expert-only feature is the ability to prune the contents of the `_source` field after the document has been indexed,
+but before the `_source` field is stored.
+
+> ⚠️ Removing fields from the `_source` has similar downsides to disabling `_source`, especially the fact that you
+> cannot reindex documents from one Elasticsearch index to another. Consider using
+> [source filtering](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-fields.html#source-filtering)
+> instead.
+
+The `includes`/`excludes` parameters (which also accept wildcards) can be used as follows:
+
+```
+PUT logs
+{
+    "mappings": {
+        "_source": {
+            "includes": [
+                "*.count",
+                "meta.*"
+            ],
+            "excludes": [
+                "meta.description",
+                "meta.other.*"
+            ]
+        }
+    }
+}
+
+PUT logs/_doc/1
+{
+    "requests": {
+        "count": 10,
+        "foo": "bar" 
+    },
+    "meta": {
+        "name": "Some metric",
+        "description": "Some metric description", 
+        "other": {
+            "foo": "one", 
+            "baz": "two" 
+        }
+    }
+}
+
+GET logs/_search
+{
+    "query": {
+        "match": {
+            "meta.other.foo": "one" 
+        }
+    }
+}
+```
 
 ## Java API
 
