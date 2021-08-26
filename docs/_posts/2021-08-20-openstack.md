@@ -102,6 +102,8 @@ multiple cloud platforms may be a good option when there is an existing investme
 be faster to tie the investments together rather than migrating the components and refactoring them to a single
 platform.
 
+**To be continued...**
+
 ## Use Cases (Learn from Others)
 
 * [How Yahoo! Uses Neutron for Ironic](https://www.openstack.org/videos/summits/tokio-2015/how-yahoo-uses-neutron-for-ironic)
