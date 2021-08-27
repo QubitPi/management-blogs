@@ -102,6 +102,14 @@ multiple cloud platforms may be a good option when there is an existing investme
 be faster to tie the investments together rather than migrating the components and refactoring them to a single
 platform.
 
+##### Revenue Opportunity
+
+Revenue opportunities vary based on the intent and use case of the cloud. The requirements of a commercial,
+customer-facing product are often very different from an internal, private cloud. You must consider what features make
+your design most attractive to your users.
+
+
+
 **To be continued...**
 
 ## Use Cases (Learn from Others)
