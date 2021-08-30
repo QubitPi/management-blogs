@@ -108,7 +108,26 @@ Revenue opportunities vary based on the intent and use case of the cloud. The re
 customer-facing product are often very different from an internal, private cloud. You must consider what features make
 your design most attractive to your users.
 
+##### Capacity Planning and Scalability
 
+Capacity and the placement of workloads are key design considerations for clouds. A long-term capacity plan for these
+designs must incorporate growth over time to prevent permanent consumption of more expensive external clouds. To avoid
+this scenario, account for **future** applications' capacity requirements and plan growth appropriately.
+
+It is difficult to predict the amount of load a particular application might incur if the number of users fluctuates,
+or the application experiences an unexpected increase in use. It is possible to define application requirements in terms
+of vCPU, RAM, bandwidth, or other resources and plan appropriately. However, other clouds might not use the same meter
+or even the same oversubscription rates.
+
+Oversubscription is a method to emulate more capacity than may physically be present. For example, a physical hypervisor
+node with 32 GB RAM may host 24 instances, each provisioned with 2 GB RAM. As long as all 24 instances do not
+concurrently use 2 full gigabytes, this arrangement works well. However, some hosts take oversubscription to extremes
+and, as a result, performance can be inconsistent. If at all possible, determine what the oversubscription rates of each
+host are and plan capacity accordingly.
+
+##### Performance
+
+Performance is a critical consideration when designing any cloud, and becomes increasingly important as size and complexity grow. While single-site, private clouds can be closely controlled, multi-site and hybrid deployments require more careful planning to reduce problems such as network latency between sites.
 
 **To be continued...**
 
