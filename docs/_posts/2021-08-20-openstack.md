@@ -127,7 +127,9 @@ host are and plan capacity accordingly.
 
 ##### Performance
 
-Performance is a critical consideration when designing any cloud, and becomes increasingly important as size and complexity grow. While single-site, private clouds can be closely controlled, multi-site and hybrid deployments require more careful planning to reduce problems such as network latency between sites.
+Performance is a critical consideration when designing any cloud, and becomes increasingly important as size and
+complexity grow. While single-site, private clouds can be closely controlled, multi-site and hybrid deployments require
+more careful planning to reduce problems such as network latency between sites.
 
 **To be continued...**
 
