@@ -129,7 +129,71 @@ host are and plan capacity accordingly.
 
 Performance is a critical consideration when designing any cloud, and becomes increasingly important as size and
 complexity grow. While single-site, private clouds can be closely controlled, multi-site and hybrid deployments require
-more careful planning to reduce problems such as network latency between sites.
+more careful planning to reduce problems such as
+
+**For example, you should consider the time required to run a workload in different clouds and methods for reducing this
+time. This may require moving data closer to applications or applications closer to the data they process, and grouping
+functionality so that connections that require low latency take place over a single cloud rather than spanning clouds.**
+
+This may also require a CMP (Cloud Management Platform) that can determine which cloud can most efficiently run which
+types of workloads.
+
+Using native OpenStack tools can help improve performance. For example, you can use Telemetry to measure performance and
+the Orchestration service (heat) to react to changes in demand.
+
+> 📋 Orchestration requires special client configurations to integrate with Amazon Web Services. For other types of
+> clouds, use CMP features.
+
+###### Cloud resource deployment
+
+**The cloud user expects repeatable, dependable, and deterministic processes for launching and deploying cloud
+resources**. You could deliver this through a web-based interface or publicly available API endpoints. All appropriate
+options for requesting cloud resources must be available through some type of user interface, a command-line interface
+(CLI), or API endpoints.
+
+###### Consumption model
+
+**Cloud users expect a fully self-service and on-demand consumption model**. When an OpenStack cloud reaches the
+massively scalable size, expect consumption as a service in each and every way.
+
+* **Everything must be capable of automation**. For example, everything from compute hardware, storage hardware,
+  networking hardware, to the installation and configuration of the supporting software. Manual processes are
+  impractical in a massively scalable OpenStack design architecture
+* **Massively scalable OpenStack clouds require extensive metering and monitoring functionality to maximize the
+  operational efficiency by keeping the operator informed about the status and state of the infrastructure. This
+  includes full scale metering of the hardware and software status. A corresponding framework of logging and alerting is
+  also required to store and enable operations to act on the meters provided by the metering and monitoring solutions.
+  The cloud operator also needs a solution that uses the data provided by the metering and monitoring solution to
+  provide capacity planning and capacity trending analysis**.
+
+###### Location
+
+For many use cases **the proximity of the user to their workloads has a direct influence on the performance of the
+application and therefore should be taken into consideration in the design**. Certain applications require zero to
+minimal latency that can only be achieved by deploying the cloud in multiple locations. These locations could be in
+different data centers, cities, countries or geographical regions, depending on the user requirement and location of the
+users.
+
+###### Input-Output requirements
+
+Input-Output performance requirements require researching and modeling before deciding on a final storage framework.
+Running benchmarks for Input-Output performance provides a baseline for expected performance levels. If these tests
+include details, then the resulting data can help model behavior and results during different workloads. Running
+scripted smaller benchmarks during the lifecycle of the architecture helps record the system health at different points
+in time. The data from these scripted benchmarks assist in future scoping and gaining a deeper understanding of an
+organization's needs.
+
+###### Scale
+
+Scaling storage solutions in a storage-focused OpenStack architecture design is driven by initial requirements,
+including IOPS, capacity, bandwidth, and future needs. Planning capacity based on projected needs over the course of a
+budget cycle is important for a design. The architecture should balance cost and capacity, while also allowing
+flexibility to implement new technologies and methods as they become available.
+
+> **Input/Output Operations Per Second (IOPS)**
+> 
+> IOPS are a common performance measurement used to benchmark computer storage devices like hard disk drives, solid
+> state drives, and storage area networks.
 
 **To be continued...**
 
