@@ -202,6 +202,50 @@ flexibility to implement new technologies and methods as they become available.
 > IOPS are a common performance measurement used to benchmark computer storage devices like hard disk drives, solid
 > state drives, and storage area networks.
 
+###### Network
+
+It is important to consider the functionality, security, scalability, availability, and testability of the network when
+choosing a CMP and cloud provider.
+
+* Decide on a network framework and design minimum functionality tests. This ensures testing and functionality persists
+  during and after upgrades.
+* Scalability across multiple cloud providers may dictate which underlying network framework you choose in different
+  cloud providers. It is important to present the network API functions and to verify that functionality persists across
+  all cloud endpoints chosen.
+* High availability implementations vary in functionality and design. Examples of some common methods are
+  active-hot-standby, active-passive, and active-active. Development of high availability and test frameworks is
+  necessary to insure understanding of functionality and limitations.
+* Consider the security of data between the client and the endpoint, and of traffic that traverses the multiple clouds.
+
+For example, degraded video streams and low quality VoIP sessions negatively impact user experience and may lead to
+productivity and economic loss.
+
+* **Network misconfigurations** - Configuring incorrect IP addresses, VLANs, and routers can cause outages to areas of
+  the network or, in the worst-case scenario, the entire cloud infrastructure. Automate network configurations to
+  minimize the opportunity for operator error as it can cause disruptive problems.
+* **Capacity planning** - Cloud networks require management for capacity and growth over time. Capacity planning
+  includes the purchase of network circuits and hardware that can potentially have lead times measured in months or
+  years.
+* **Network tuning** - Configure cloud networks to minimize link loss, packet loss, packet storms, broadcast storms, and
+  loops.
+* **Single Point Of Failure (SPOF)** - Consider high availability at the physical and environmental layers. If there is
+  a single point of failure due to only one upstream link, or only one power supply, an outage can become unavoidable.
+* **Complexity** - An overly complex network design can be difficult to maintain and troubleshoot. While device-level
+  configuration can ease maintenance concerns and automated tools can handle overlay networks, avoid or document
+  non-traditional interconnects between functions and specialized hardware to prevent outages.
+* **Non-standard features** - There are additional risks that arise from configuring the cloud network to take advantage
+  of vendor specific features. One example is multi-link aggregation (MLAG) used to provide redundancy at the aggregator
+  switch level of the network. MLAG is not a standard and, as a result, each vendor has their own proprietary
+  implementation of the feature. MLAG architectures are not interoperable across switch vendors, which leads to vendor
+  lock-in, and can cause delays or inability when upgrading components.
+* **Dynamic resource expansion or bursting** - An application that requires additional resources may suit a multiple
+  cloud architecture. For example, a retailer needs additional resources during the holiday season, but does not want to
+  add private cloud resources to meet the peak demand. The user can accommodate the increased load by bursting to a
+  public cloud for these peak load periods. These bursts could be for long or short cycles ranging from hourly to
+  yearly.
+  
+##### Compliance and geo-location
+
 **To be continued...**
 
 ## Use Cases (Learn from Others)
