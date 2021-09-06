@@ -30,6 +30,13 @@ install some or all services.
 > housing, operating and maintaining it. The client typically pays on a per-use basis. IaaS is a model for providing
 > cloud services.
 
+## Hypervisor Baiscs
+
+* [QEMU](https://www.qemu.org/)
+* [KVM](https://www.linux-kvm.org/page/Main_Page)
+* [LXC](https://qubitpi.github.io/jersey-guide/2020/08/25/34-lxc.html)
+* [LXD](https://qubitpi.github.io/jersey-guide/2020/08/24/33-lxd.html)
+
 ## The OpenStack Architecture
 
 ### Conceptual Architecture
