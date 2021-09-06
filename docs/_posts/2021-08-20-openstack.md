@@ -72,6 +72,13 @@ The following diagram shows the most common, but not the only possible, architec
 
 ### Architecture Requirements
 
+By "architecture" in this context, we mean the component serivces we use to construct an OpenStack clould.
+
+> ⚠️ Using OpenStack does not involve a "one-for-all" architecture. Becauase different organization imposes different
+> set of needs and requirements. Aa minimum configuration is good for providing proof-of-concept for the purpose of
+> learning about OpenStack. For a productionized architecture focusing a some specific use case or how to determine
+> which architecture is required, there needs a "Architecture Design Guide" which is covered in this section.
+
 #### Enterprise Requirements
 
 The following sections describe business, usage, and performance considerations for customers which will impact cloud
@@ -245,6 +252,116 @@ productivity and economic loss.
   yearly.
   
 ##### Compliance and geo-location
+
+An organization may have certain legal obligations and regulatory compliance measures which could require certain
+workloads or data to not be located in certain regions.
+
+Compliance considerations are particularly important for multi-site clouds. Considerations include:
+
+* federal legal requirements
+* local jurisdictional legal and compliance requirements
+* image consistency and availability
+* storage replication and availability (both block and file/object storage)
+* authentication, authorization, and auditing (AAA)
+
+Geographical considerations may also impact the cost of building or leasing data centers. Considerations include:
+
+* floor space
+* floor weight
+* rack height and type
+* environmental considerations
+* power usage and power usage efficiency (PUE)
+* physical security
+
+##### Auditing
+
+A well-considered auditing plan is essential for quickly finding issues. Keeping track of changes made to security
+groups and tenant changes can be useful in rolling back the changes if they affect production. For example, if all
+security group rules for a tenant disappeared, the ability to quickly track down the issue would be important for
+operational and legal reasons. For more details on auditing, see the
+[Compliance](https://docs.openstack.org/security-guide/compliance.html) in the OpenStack Security Guide.
+
+##### Security
+
+The importance of security varies based on the type of organization using a cloud. For example, government and financial
+institutions often have very high security requirements. Security should be implemented according to asset, threat, and
+vulnerability risk assessment matrices
+
+##### Service level agreements
+
+Service level agreements (SLA) must be developed in conjunction with business, technical, and legal input. Small,
+private clouds may operate under an informal SLA, but hybrid or public clouds generally require more formal agreements
+with their users.
+
+For a user of a massively scalable OpenStack public cloud, there are no expectations for control over security,
+performance, or availability. Users expect only SLAs related to uptime of API services, and very basic SLAs for services
+offered. It is the user’s responsibility to address these issues on their own. The exception to this expectation is the
+rare case of a massively scalable cloud infrastructure built for a private or government organization that has specific
+requirements.
+
+High performance systems have SLA requirements for a minimum quality of service with regard to guaranteed uptime,
+latency, and bandwidth. The level of the SLA can have a significant impact on the network architecture and requirements
+for redundancy in the systems.
+
+Hybrid cloud designs must accommodate differences in SLAs between providers, and consider their enforceability.
+
+##### Application Readiness
+
+Some applications are tolerant of a lack of synchronized object storage, while others may need those objects to be
+replicated and available across regions. **Understanding how the cloud implementation impacts new and existing
+applications is important for risk mitigation, and the overall success of a cloud project**. Applications may have to be
+written or rewritten for an infrastructure with little to no redundancy, or with the cloud in mind.
+
+* **Application momentum** Businesses with existing applications may find that it is more cost effective to integrate
+  applications on multiple cloud platforms than migrating them to a single platform.
+* **No predefined usage model** The lack of a pre-defined usage model enables the user to run a wide variety of
+  applications without having to know the application requirements in advance. This provides a degree of independence
+  and flexibility that no other cloud scenarios are able to provide.
+* **On-demand and self-service application** By definition, a cloud provides end users with the ability to
+  self-provision computing power, storage, networks, and software in a simple and flexible way. The user must be able to
+  scale their resources up to a substantial level without disrupting the underlying host operations. One of the benefits
+  of using a general purpose cloud architecture is the ability to start with limited resources and increase them over
+  time as the user demand grows.
+
+##### Authentication
+
+It is recommended to have a single authentication domain rather than a separate implementation for each and every site.
+This requires an authentication mechanism that is highly available and distributed to ensure continuous operation.
+Authentication server locality might be required and should be planned for.
+
+##### Migration, Availability, Site Loss and Recovery
+
+Outages can cause partial or full loss of site functionality. Strategies should be implemented to understand and plan
+for recovery scenarios.
+
+* The deployed applications need to continue to function and, more importantly, you must consider the impact on the
+  performance and reliability of the application when a site is unavailable.
+* It is important to understand what happens to the replication of objects and data between the sites when a site goes
+  down. If this causes queues to start building up, consider how long these queues can safely exist until an error
+  occurs.
+* After an outage, ensure the method for resuming proper operations of a site is implemented when it comes back online.
+  We recommend you architect the recovery to avoid race conditions.
+* Cheaper storage makes the public cloud suitable for maintaining backup applications.
+* Hybrid cloud architecture enables the migration of applications between different clouds.
+* Business changes can affect provider availability. Likewise, changes in a provider's service can disrupt a hybrid
+  cloud environment or increase costs.
+* **Consumers of external clouds rarely have control over provider changes to APIs, and changes can break compatibility.
+  Using only the most common and basic APIs can minimize potential conflicts**.
+* **As of the Kilo release, there is no common image format that is usable by all clouds. Conversion or recreation of
+  images is necessary if migrating between clouds. To simplify deployment, use the smallest and simplest images
+  feasible, install only what is necessary, and use a deployment manager such as Chef or Puppet. Do not use golden
+  images to speed up the process unless you repeatedly deploy the same images on the same cloud**.
+* Organizations leveraging cloud-based services can embrace business diversity and utilize a hybrid cloud design to
+  spread their workloads across multiple cloud providers. This ensures that no single cloud provider is the sole host
+  for an application.
+
+
+
+
+
+
+
+
 
 **To be continued...**
 
