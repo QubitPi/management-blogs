@@ -42,8 +42,11 @@ unperishable passion to Java language*.
 
 * [ATDD by Example : A Practical Guide to Acceptance Test-Driven Development]({{ "/assets/pdf/The Addison-Wesley Signature Series/ATDD by Example - A Practical Guide to Acceptance Test-Driven Development.pdf" | relative_url}})
 * [Large-Scale Scrum: More with LeSS]({{ "/assets/pdf/The Addison-Wesley Signature Series/Large-Scale Scrum - More with LeSS.pdf" | relative_url}})
-* [Domain Storytelling: A Collaborative, Visual, and Agile Way to Build Domain-Driven Software]()
+* Domain Storytelling: A Collaborative, Visual, and Agile Way to Build Domain-Driven Software (Not yet released)
   - https://domainstorytelling.org/
+* [User Stories Applied - For Agile Software Development]({{ "/assets/pdf/The Addison-Wesley Signature Series/User Stories Applied - For Agile Software Development.pdf" | relative_url}})
+* [Essential Scrum - a Practical Guide to the Most Popular Agile Process]({{ "/assets/pdf/The Addison-Wesley Signature Series/Essential Scrum - a Practical Guide to the Most Popular Agile Process.pdf" | relative_url}})
+* [Patterns of Enterprise Application Architecture]({{ "/assets/pdf/The Addison-Wesley Signature Series/Patterns of Enterprise Application Architecture.pdf" | relative_url}})
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
