@@ -40,9 +40,10 @@ unperishable passion to Java language*.
 
 ### [The Addison-Wesley Signature Series](https://www.thriftbooks.com/series/the-addison-wesley-signature-series/92687/)
 
-* [ATDD by Example : A Practical Guide to Acceptance Test-Driven Development](({{ "/assets/pdf/The Addison-Wesley Signature Series/ATDD by Example - A Practical Guide to Acceptance Test-Driven Development.pdf" | relative_url}}))
-* [Large-Scale Scrum: More with LeSS](({{ "/assets/pdf/The Addison-Wesley Signature Series/Large-Scale Scrum - More with LeSS.pdf" | relative_url}}))
-
+* [ATDD by Example : A Practical Guide to Acceptance Test-Driven Development]({{ "/assets/pdf/The Addison-Wesley Signature Series/ATDD by Example - A Practical Guide to Acceptance Test-Driven Development.pdf" | relative_url}})
+* [Large-Scale Scrum: More with LeSS]({{ "/assets/pdf/The Addison-Wesley Signature Series/Large-Scale Scrum - More with LeSS.pdf" | relative_url}})
+* [Domain Storytelling: A Collaborative, Visual, and Agile Way to Build Domain-Driven Software]()
+  - https://domainstorytelling.org/
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
