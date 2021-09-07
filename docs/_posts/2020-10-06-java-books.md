@@ -38,6 +38,10 @@ unperishable passion to Java language*.
 
 ## Architecture
 
+### [The Addison-Wesley Signature Series](https://www.thriftbooks.com/series/the-addison-wesley-signature-series/92687/)
+
+* [ATDD by Example : A Practical Guide to Acceptance Test-Driven Development](({{ "/assets/pdf/The Addison-Wesley Signature Series/ATDD by Example - A Practical Guide to Acceptance Test-Driven Development.pdf" | relative_url}}))
+
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
 * [Agile Software Development, Principles, Patterns, and Practices]({{ "/assets/pdf/agile-software-development.pdf" | relative_url}})
