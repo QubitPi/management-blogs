@@ -56,7 +56,8 @@ unperishable passion to Java language*.
 * Beyond Software Architecture: Creating and Sustaining Winning Solutions
 * [Implementation Patterns]({{ "/assets/pdf/The Addison-Wesley Signature Series/Implementation Patterns.epub" | relative_url}})
 * Refactoring to Patterns
-* 
+* [Coaching Agile Teams: A Companion for ScrumMasters, Agile Coaches, and Project Managers in Transition]({{ "/assets/pdf/The Addison-Wesley Signature Series/Coaching Agile Teams - A Companion for ScrumMasters, Agile Coaches, and Project Managers in Transition.pdf" | relative_url}})
+* [Continuous Integration: Improving Software Quality And Reducing Risk]({{ "/assets/pdf/The Addison-Wesley Signature Series/Continuous Integration - Improving Software Quality And Reducing Risk.pdf" | relative_url}})
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
