@@ -44,10 +44,14 @@ unperishable passion to Java language*.
 * [Large-Scale Scrum: More with LeSS]({{ "/assets/pdf/The Addison-Wesley Signature Series/Large-Scale Scrum - More with LeSS.pdf" | relative_url}})
 * Domain Storytelling: A Collaborative, Visual, and Agile Way to Build Domain-Driven Software (Not yet released)
   - https://domainstorytelling.org/
-* [User Stories Applied - For Agile Software Development]({{ "/assets/pdf/The Addison-Wesley Signature Series/User Stories Applied - For Agile Software Development.pdf" | relative_url}})
-* [Essential Scrum - a Practical Guide to the Most Popular Agile Process]({{ "/assets/pdf/The Addison-Wesley Signature Series/Essential Scrum - a Practical Guide to the Most Popular Agile Process.pdf" | relative_url}})
+* [User Stories Applied: For Agile Software Development]({{ "/assets/pdf/The Addison-Wesley Signature Series/User Stories Applied - For Agile Software Development.pdf" | relative_url}})
+* [Essential Scrum: a Practical Guide to the Most Popular Agile Process]({{ "/assets/pdf/The Addison-Wesley Signature Series/Essential Scrum - a Practical Guide to the Most Popular Agile Process.pdf" | relative_url}})
 * [Patterns of Enterprise Application Architecture]({{ "/assets/pdf/The Addison-Wesley Signature Series/Patterns of Enterprise Application Architecture.pdf" | relative_url}})
-* [Succeeding with Agile: Software Development Using Scrum]({{ "/assets/pdf/The Addison-Wesley Signature Series/Succeeding with Agile: Software Development Using Scrum.pdf" | relative_url}})
+* [Succeeding with Agile: Software Development Using Scrum]({{ "/assets/pdf/The Addison-Wesley Signature Series/Succeeding with Agile - Software Development Using Scrum.pdf" | relative_url}})
+* [Test Driven Development: By Example]({{ "/assets/pdf/The Addison-Wesley Signature Series/Test Driven Development - By Example.pdf" | relative_url}})
+* [Implementing Lean Software Development: From Concept to Cash]({{ "/assets/pdf/The Addison-Wesley Signature Series/Implementing Lean Software Development - From Concept to Cash.pdf" | relative_url}})
+
+
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
