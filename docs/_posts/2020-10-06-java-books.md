@@ -53,6 +53,10 @@ unperishable passion to Java language*.
 * [Agile Testing: a Practical Guide for Testers and Agile Teams]({{ "/assets/pdf/The Addison-Wesley Signature Series/Agile Testing - a Practical Guide for Testers and Agile Teams.pdf" | relative_url}})
 * [Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions]({{ "/assets/pdf/The Addison-Wesley Signature Series/Enterprise Integration Patterns - Designing, Building, and Deploying Messaging Solutions.pdf" | relative_url}})
 * [Continuous Delivery: Reliable Software Releases Through Build, Test, and Deployment Automation]({{ "/assets/pdf/The Addison-Wesley Signature Series/Continuous Delivery - Reliable Software Releases Through Build, Test, and Deployment Automation.pdf" | relative_url}})
+* Beyond Software Architecture: Creating and Sustaining Winning Solutions
+* [Implementation Patterns]({{ "/assets/pdf/The Addison-Wesley Signature Series/Implementation Patterns.epub" | relative_url}})
+* Refactoring to Patterns
+* 
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
