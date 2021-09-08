@@ -51,7 +51,7 @@ unperishable passion to Java language*.
 * [Test Driven Development: By Example]({{ "/assets/pdf/The Addison-Wesley Signature Series/Test Driven Development - By Example.pdf" | relative_url}})
 * [Implementing Lean Software Development: From Concept to Cash]({{ "/assets/pdf/The Addison-Wesley Signature Series/Implementing Lean Software Development - From Concept to Cash.pdf" | relative_url}})
 * [Agile Testing: a Practical Guide for Testers and Agile Teams]({{ "/assets/pdf/The Addison-Wesley Signature Series/Agile Testing - a Practical Guide for Testers and Agile Teams.pdf" | relative_url}})
-
+* [Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions]({{ "/assets/pdf/The Addison-Wesley Signature Series/Enterprise Integration Patterns - Designing, Building, and Deploying Messaging Solutions.pdf" | relative_url}})
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
