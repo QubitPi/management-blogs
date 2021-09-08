@@ -52,6 +52,7 @@ unperishable passion to Java language*.
 * [Implementing Lean Software Development: From Concept to Cash]({{ "/assets/pdf/The Addison-Wesley Signature Series/Implementing Lean Software Development - From Concept to Cash.pdf" | relative_url}})
 * [Agile Testing: a Practical Guide for Testers and Agile Teams]({{ "/assets/pdf/The Addison-Wesley Signature Series/Agile Testing - a Practical Guide for Testers and Agile Teams.pdf" | relative_url}})
 * [Enterprise Integration Patterns: Designing, Building, and Deploying Messaging Solutions]({{ "/assets/pdf/The Addison-Wesley Signature Series/Enterprise Integration Patterns - Designing, Building, and Deploying Messaging Solutions.pdf" | relative_url}})
+* [Continuous Delivery: Reliable Software Releases Through Build, Test, and Deployment Automation]({{ "/assets/pdf/The Addison-Wesley Signature Series/Continuous Delivery - Reliable Software Releases Through Build, Test, and Deployment Automation.pdf" | relative_url}})
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
