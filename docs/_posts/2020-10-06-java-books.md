@@ -59,6 +59,7 @@ unperishable passion to Java language*.
 * [Coaching Agile Teams: A Companion for ScrumMasters, Agile Coaches, and Project Managers in Transition]({{ "/assets/pdf/The Addison-Wesley Signature Series/Coaching Agile Teams - A Companion for ScrumMasters, Agile Coaches, and Project Managers in Transition.pdf" | relative_url}})
 * [Continuous Integration: Improving Software Quality And Reducing Risk]({{ "/assets/pdf/The Addison-Wesley Signature Series/Continuous Integration - Improving Software Quality And Reducing Risk.pdf" | relative_url}})
 * [Agile Product Management with Scrum: Creating Products that Customers Love]({{ "/assets/pdf/The Addison-Wesley Signature Series/Agile Product Management with Scrum - Creating Products that Customers Love.pdf" | relative_url}})
+* [The Scrum Field Guide: Agile Advice for Your First Year and Beyond]({{ "/assets/pdf/The Addison-Wesley Signature Series/The Scrum Field Guide - Agile Advice for Your First Year and Beyond.pdf" | relative_url}})
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
