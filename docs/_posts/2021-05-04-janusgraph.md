@@ -140,6 +140,86 @@ gremlin> g = graph.traversal()
 ==>graphtraversalsource[standardjanusgraph[berkeleyje:../db/berkeley], standard]
 ```
 
+#### Configuration
+
+The `JanusGraphFactory` is all about configuration. A JanusGraph graph database cluster consists of one or multiple
+JanusGraph instances. To open a JanusGraph instance, a configuration has to be provided which specifies how JanusGraph
+should be set up.
+
+A JanusGraph configuration specifies which components JanusGraph should use, controls all operational aspects of a
+JanusGraph deployment, and provides a number of tuning options to get maximum performance from a JanusGraph cluster.
+
+At a minimum, a JanusGraph configuration must define the persistence engine that JanusGraph should use as a storage
+backend. [Storage Backends](https://docs.janusgraph.org/storage-backend/) lists all supported persistence engines. If
+advanced graph query support (e.g full-text search, geo search, or range queries) is required an additional
+[indexing backend](https://docs.janusgraph.org/index-backend/) must be configured. If query performance is a concern,
+then [caching](https://docs.janusgraph.org/configs/#caching) should be enabled. 
+
+##### Example Configurations
+
+Below are some example configuration files to demonstrate how to configure the most commonly used storage backends,
+indexing systems, and performance components. This covers only a tiny portion of the available configuration options.
+Refer to [Configuration Reference](https://docs.janusgraph.org/configs/configuration-reference/) for the complete list
+of all options.
+
+###### Cassandra + Elasticsearch
+
+Sets up JanusGraph to use the Cassandra persistence engine running locally and a remote Elastic search indexing system:
+
+```
+storage.backend=cql
+storage.hostname=localhost
+
+index.search.backend=elasticsearch
+index.search.hostname=100.100.101.1, 100.100.101.2
+index.search.elasticsearch.client-only=true
+```
+
+###### HBase + Caching
+
+Sets up JanusGraph to use the HBase persistence engine running remotely and uses JanusGraph's caching component for
+better performance.
+
+```
+storage.backend=hbase
+storage.hostname=100.100.101.1
+storage.port=2181
+
+cache.db-cache = true
+cache.db-cache-clean-wait = 20
+cache.db-cache-time = 180000
+cache.db-cache-size = 0.5
+```
+
+###### BerkeleyDB
+
+Sets up JanusGraph to use BerkeleyDB as an embedded persistence engine with Elasticsearch as an embedded indexing
+system.
+
+```
+storage.backend=berkeleyje
+storage.directory=/tmp/graph
+
+index.search.backend=elasticsearch
+index.search.directory=/tmp/searchindex
+index.search.elasticsearch.client-only=false
+index.search.elasticsearch.local-mode=true
+```
+
+##### Using Configuration
+
+###### JanusGraphFactory
+
+* **Gremlin Console** 
+
+    graph = JanusGraphFactory.open('path/to/configuration.properties')
+
+* 
+
+#### ConfiguredGraphFactory
+
+
+
 ### Vertex Example
 
 ```bash

@@ -60,6 +60,8 @@ unperishable passion to Java language*.
 * [Continuous Integration: Improving Software Quality And Reducing Risk]({{ "/assets/pdf/The Addison-Wesley Signature Series/Continuous Integration - Improving Software Quality And Reducing Risk.pdf" | relative_url}})
 * [Agile Product Management with Scrum: Creating Products that Customers Love]({{ "/assets/pdf/The Addison-Wesley Signature Series/Agile Product Management with Scrum - Creating Products that Customers Love.pdf" | relative_url}})
 * [The Scrum Field Guide: Agile Advice for Your First Year and Beyond]({{ "/assets/pdf/The Addison-Wesley Signature Series/The Scrum Field Guide - Agile Advice for Your First Year and Beyond.pdf" | relative_url}})
+* Refactoring HTML: Improving the Design of Existing Web Applications
+* 
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
