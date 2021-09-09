@@ -212,9 +212,19 @@ index.search.elasticsearch.local-mode=true
 
 * **Gremlin Console** 
 
-    graph = JanusGraphFactory.open('path/to/configuration.properties')
+  graph = JanusGraphFactory.open('path/to/configuration.properties')
 
-* 
+* **Program** JanusGraphFactory can also be used to open an embedded JanusGraph graph instance from within a JVM-based
+  user application. In that case, JanusGraph is part of the user application and the application can call upon
+  JanusGraph directly through its public API.
+* If the JanusGraph graph cluster has been previously configured and/or only the storage backend needs to be defined,
+  JanusGraphFactory accepts a colon-separated string representation of the storage backend name and hostname or
+  directory.
+
+  graph = JanusGraphFactory.open('cql:localhost')
+  graph = JanusGraphFactory.open('berkeleyje:/tmp/graph')
+  
+
 
 #### ConfiguredGraphFactory
 
