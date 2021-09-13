@@ -206,9 +206,7 @@ index.search.elasticsearch.client-only=false
 index.search.elasticsearch.local-mode=true
 ```
 
-##### Using Configuration
-
-###### JanusGraphFactory
+##### JanusGraphFactory
 
 * **Gremlin Console** 
 
@@ -224,11 +222,230 @@ index.search.elasticsearch.local-mode=true
   graph = JanusGraphFactory.open('cql:localhost')
   graph = JanusGraphFactory.open('berkeleyje:/tmp/graph')
   
+###### JanusGraph Server
+
+JanusGraph, by itself, is simply a set of jar files that cannnot run on its own. There are two basic patterns for
+connecting to, and using a JanusGraph database:
+
+1. JanusGraph can be used by embedding JanusGraph calls in a client program where the program provides the thread of
+   execution.
+2. JanusGraph packages a long running server process that, when started, allows a remote client or logic running in a
+   separate program to make JanusGraph calls. This long running server process is called **JanusGraph Server**.
+
+In the case of JanusGraph Server, JanusGraph uses [Gremlin Server](#gremlin-server) of the
+[TinkerPop](Traverse a Graph Using TinkerPop) stack to service client requests. JanusGraph provides an out-of-the-box
+configuration for a quick start with JanusGraph Server, but the configuration can be changed to provide a wide range of
+server capabilities.
+
+**Configuring JanusGraph Server is accomplished through a JanusGraph Server yaml configuration file** located in the
+./conf/gremlin-server directory in the JanusGraph distribution. To configure JanusGraph Server with a graph instance
+(JanusGraph), the JanusGraph Server configuration file requires the following settings:
+
+```groovy
+...
+graphs: {
+  graph: conf/janusgraph-berkeleyje.properties
+}
+scriptEngines: {
+  gremlin-groovy: {
+    plugins: {
+      org.janusgraph.graphdb.tinkerpop.plugin.JanusGraphGremlinPlugin: {},
+      org.apache.tinkerpop.gremlin.server.jsr223.GremlinServerGremlinPlugin: {},
+      org.apache.tinkerpop.gremlin.tinkergraph.jsr223.TinkerGraphGremlinPlugin: {},
+      org.apache.tinkerpop.gremlin.jsr223.ImportGremlinPlugin: {classImports: [java.lang.Math], methodImports: [java.lang.Math#*]},
+      org.apache.tinkerpop.gremlin.jsr223.ScriptFileGremlinPlugin: {files: [scripts/empty-sample.groovy]}
+    }
+  }
+}
+...
+```
+
+The `graphs` defines the bindings to specific `JanusGraph` configurations. In the above case it binds a graph named
+`graph` to a JanusGraph configuration at `conf/janusgraph-berkeleyje.properties`. The `plugins` entry enables the 
+JanusGraph Gremlin Plugin, which enables auto-imports of JanusGraph classes so that they can be referenced in remotely
+submitted scripts.
+
+##### ConfiguredGraphFactory
+
+`ConfiguredGraphFactory` is different from [`JanusGraphFactory`](#janusgraphfactory) in the sense that 
+`ConfiguredGraphFactory` can only be used if you have configured your server to use the `ConfigurationManagementGraph`
+APIs at server start.
+
+The benefits of `ConfiguredGraphFactory` are
+
+* You only need to supply a string to access your graphs, as opposed to the JanusGraphFactory which requires you to
+  specify information about the backend every time you open a graph.
+* If your `ConfigurationManagementGraph` is configured with a distributed storage backend then your graph configurations
+  are available to all JanusGraph nodes in your cluster.
+
+##### JanusGraphManager
+
+The `JanusGraphManager` is a Singleton that satisfies TinkerPop graphManager specifications and that provides:
+
+* a coordinated mechanism for creating graph references on a given JanusGraph node
+* a graph reference tracker (or cache)
+
+Any graph you create using the `graph.graphname` property will go through the `JanusGraphManager` and thus will be
+instantiated in a coordinated manner. The graph reference will also be placed in the graph cache. Thus, any graph
+opened by `graph.graphname` property will be retrieved from the graph cache. This is why updating to your configurations
+requires a few steps to guarantee correctness.
+
+To pick up and use `JanusGraphManager`, make a reference to it in YAML config:
+
+```yaml
+graphManager: org.janusgraph.graphdb.management.JanusGraphManager
+graphs {
+  graph1: conf/graph1.properties,
+  graph2: conf/graph2.properties
+}
+```
+
+##### Configuring JanusGraph Server using ConfiguredGraphFactory
+
+To be able to use the `ConfiguredGraphFactory`, you must configure your server to use the
+`ConfigurationManagementGraph` APIs. To do this, you have to add a config field named "ConfigurationManagementGraph".
+For instance
+
+```yaml
+graphManager: org.janusgraph.graphdb.management.JanusGraphManager
+graphs: {
+    ConfigurationManagementGraph: conf/JanusGraph-configurationmanagement.properties
+}
+```
+
+In this example, our `ConfigurationManagementGraph` graph will be configured using the properties stored inside
+`conf/JanusGraph-configurationmanagement.properties`, which for example, look like:
+
+```yaml
+gremlin.graph=org.janusgraph.core.ConfiguredGraphFactory
+storage.backend=cql
+graph.graphname=ConfigurationManagementGraph
+storage.hostname=127.0.0.1
+```
+
+##### API
+
+The ConfigurationManagementGraph singleton allows you to create configurations used to **open graphs**. For instance
+
+```java
+map = new HashMap<String, Object>();
+map.put("storage.backend", "cql");
+map.put("storage.hostname", "127.0.0.1");
+map.put("graph.graphname", "graph1");
+ConfiguredGraphFactory.createConfiguration(new MapConfiguration(map));
+```
+
+Then you could access this graph on any JanusGraph node:
+
+```java
+ConfiguredGraphFactory.open("graph1");
+```
+
+It also allows you to create one **template configuration**, which you can use to create many graphs using the same
+configuration template. For example
+
+```java
+map = new HashMap<String, Object>();
+map.put("storage.backend", "cql");
+map.put("storage.hostname", "127.0.0.1");
+ConfiguredGraphFactory.createTemplateConfiguration(new MapConfiguration(map));
+```
+
+You can create/use graphs using the template configuration afterwards
+
+```java
+ConfiguredGraphFactory.create("graph2");
+...
+ConfiguredGraphFactory.open("graph2");
+```
+
+> ⚠️ Any updates to a graph created using the template configuration are not guaranteed to take effect immediately
+> unless
+>
+> 1. The relevant configuration is removed: `ConfiguredGraphFactory.removeConfiguration("graph2");`, and
+> 2. The graph is recreated using the template configuration: `ConfiguredGraphFactory.create("graph2");`
 
 
-#### ConfiguredGraphFactory
 
+###### Updating Configurations
 
+> `JanusGraphManager` which keeps track of graph references and manages the config.
+>
+> Any updates to a graph configuration results in the eviction of the relevant graph from the graph cache on every node
+> in the JanusGraph cluster
+
+We can update persistent storage
+
+```
+map = new HashMap();
+map.put("storage.backend", "cql");
+map.put("storage.hostname", "127.0.0.1");
+map.put("graph.graphname", "graph1");
+ConfiguredGraphFactory.createConfiguration(new
+MapConfiguration(map));
+
+g1 = ConfiguredGraphFactory.open("graph1");
+
+// Update configuration
+map = new HashMap();
+map.put("storage.hostname", "10.0.0.1");
+ConfiguredGraphFactory.updateConfiguration("graph1",
+map);
+
+// We are now guaranteed to use the updated configuration
+g1 = ConfiguredGraphFactory.open("graph1");
+```
+
+We could also add new index engine like
+
+```java
+map = new HashMap();
+map.put("storage.backend", "cql");
+map.put("storage.hostname", "127.0.0.1");
+map.put("graph.graphname", "graph1");
+ConfiguredGraphFactory.createConfiguration(new
+MapConfiguration(map));
+
+g1 = ConfiguredGraphFactory.open("graph1");
+
+// Update configuration
+map = new HashMap();
+map.put("index.search.backend", "elasticsearch");
+map.put("index.search.hostname", "127.0.0.1");
+map.put("index.search.elasticsearch.transport-scheme", "http");
+ConfiguredGraphFactory.updateConfiguration("graph1",
+map);
+
+// We are now guaranteed to use the updated configuration
+g1 = ConfiguredGraphFactory.open("graph1");
+```
+
+In the case of template config:
+
+```java
+map = new HashMap();
+map.put("storage.backend", "cql");
+map.put("storage.hostname", "127.0.0.1");
+ConfiguredGraphFactory.createTemplateConfiguration(new
+MapConfiguration(map));
+
+g1 = ConfiguredGraphFactory.create("graph1");
+
+// Update template configuration
+map = new HashMap();
+map.put("index.search.backend", "elasticsearch");
+map.put("index.search.hostname", "127.0.0.1");
+map.put("index.search.elasticsearch.transport-scheme", "http");
+ConfiguredGraphFactory.updateTemplateConfiguration(new
+MapConfiguration(map));
+
+// Remove Configuration
+ConfiguredGraphFactory.removeConfiguration("graph1");
+
+// Recreate
+ConfiguredGraphFactory.create("graph1");
+// Now this graph's configuration is guaranteed to be updated
+```
 
 ### Vertex Example
 
