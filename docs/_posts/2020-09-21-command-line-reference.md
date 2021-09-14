@@ -16,6 +16,10 @@ excerpt_separator: <!--more-->
 
 ## Mac
 
+### Homebrew Error - fatal: unable to access 'https://github.com/xxx/xxx': LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443
+
+    git config --global http.sslVerify false
+
 ### Dealing with "command not found" Error
 
 * [command-not-found.com](https://command-not-found.com/)
