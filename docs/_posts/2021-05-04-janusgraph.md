@@ -728,6 +728,55 @@ For traversal profiling information, please see [profile()-step](#profile---prof
 
 _to be continued._
 
+### Java API (Gremlin-Java)
+
+Apache TinkerPop's Gremlin-Java implements Gremlin within the Java language and can be used by any Java Virtual Machine.
+Gremlin-Java is considered to be the canonical, reference implementation of Gremlin and serves as the foundation by
+which all other Gremlin language variants should emulate.
+
+#### Submitting Scripts
+
+TinkerPop comes equipped with a reference client for Java-based applications. It is referred to as **gremlin-driver**,
+which enables applications to send requests to Gremlin Server and get back results.
+
+Gremlin scripts are sent to the server from a `Client` instance. A Client is created as follows:
+
+```java
+// Opens a reference to localhost - note that there are many configuration options available in defining a Cluster object.
+Cluster cluster = Cluster.open();
+
+// Creates a Client given the configuration options of the Cluster.
+Client client = cluster.connect();
+```
+
+Once a `Client` instance is ready, it is possible to issue some Gremlin Groovy scripts:
+
+```java
+// Submits a script that simply returns a List of integers. This method blocks until the request is written to the
+// server and a ResultSet is constructed.
+ResultSet results = client.submit("[1,2,3,4]");
+
+// Even though the ResultSet is constructed, it does not mean that the server has sent back the results (or even
+// evaluated the script potentially). The ResultSet is just a holder that is awaiting the results from the server. In
+// this case, they are streamed from the server as they arrive.
+results.stream().map(i -> i.get(Integer.class) * 2);
+
+// Submit a script, get a ResultSet, then return a CompletableFuture that will be called when all results have been
+// returned.
+CompletableFuture<List<Result>> results = client.submit("[1,2,3,4]").all();  //3
+
+// Submit a script asynchronously without waiting for the request to be written to the server.
+CompletableFuture<ResultSet> future = client.submitAsync("[1,2,3,4]"); //4
+
+/*
+ * Parameterized request are considered the most efficient way to send Gremlin to the server as they can be cached,
+ * which will boost performance and reduce resources required on the server.
+ */
+Map<String,Object> params = new HashMap<>();
+params.put("x",4);
+client.submit("[1,2,3,x]", params);
+```
+
 ## Architecture
 
 JanusGraph supports adapting external data storage, including
