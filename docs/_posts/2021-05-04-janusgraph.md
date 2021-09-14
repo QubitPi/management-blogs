@@ -679,6 +679,90 @@ g.V(4).out().values('name').inject('daniel').map {it.get().length()}.path()
 
 ![Error loading inject-step.png!]({{ "/assets/img/inject-step.png" | relative_url}})
 
+##### IO Step
+
+The task of importing and exporting the data of Graph instances is the job of the IO step. By default, TinkerPop
+supports three formats for importing and exporting graph data
+
+1. [GraphML](#graphml)
+2. [GraphSON](#graphson)
+3. [Gryo](#gryo)
+
+> Additional documentation for TinkerPop IO formats can be found in the
+> [IO Reference](https://tinkerpop.apache.org/docs/3.5.1/dev/io/).
+
+the IO step only configures the importing and exporting without executing them. Tt is the follow-on call to `read()` or
+`write()` step that does it. Therefore, a typical usage of the IO step would look like this:
+
+```
+g.io(someInputFile).read().iterate()
+g.io(someOutputFile).write().iterate()
+```
+
+By default, the IO step will try to detect the right file format using the file name extension. To gain greater control
+of the format use the `with()` step modulator to provide further information to `io()`. For example:
+
+```
+g.io(someInputFile)
+    .with(IO.reader, IO.graphson)
+    .read()
+    .iterate()
+g.io(someOutputFile)
+    .with(IO.writer, IO.graphml)
+    .write()
+    .iterate()
+```
+
+The IO class is a helper for the IO step that provides expressions that can be used to help configure it and in this
+case it allows direct specification of the "reader" or "writer" to use. The "reader" actually refers to a GraphReader
+implementation and the "writer" refers to a GraphWriter implementation. The implementations of those interfaces provided
+by default are the standard TinkerPop implementations.
+
+> ⚠️ The default TinkerPop implementations are not designed for massive, complex, parallel bulk loading. They are
+> designed to do single-threaded, OLTP-style loading of data in the most generic way possible so as to accommodate the
+> greatest number of graph databases out there. As such, in terms of reading data, they work best for small datasets
+> (or perhaps medium datasets where memory is plentiful and time is not critical) that are loading to an empty graph -
+> incremental loading is not supported. In the case of writing data it is not that different in there are no parallel
+> operations in play, however streaming the output to disk requires a single pass of the data without high memory
+> requirements for larger datasets.
+
+###### GraphML
+
+The [GraphML](http://graphml.graphdrawing.org/) file format is a common XML-based representation of a graph. It is
+widely supported by graph-related tools and libraries making it a solid interchange format for TinkerPop. If the intent
+is to work with graph data in conjunction with applications outside of TinkerPop, GraphML may be the best choice to do
+that. Common use cases might be:
+
+* Generate a graph using [NetworkX](https://networkx.github.io/), export it with GraphML and import it to TinkerPop
+* Produce a subgraph and export it to GraphML to be consumed by and visualized in [Gephi](https://gephi.org/)
+* Migrate the data of an entire graph to a different graph database not supported by TinkerPop.
+
+GraphML only supports primitive values and does not have support for Graph variables. It depends on `toString` to
+serialize non-primitive property values
+
+###### GraphSON
+
+GraphSON is a JSON-based format useful in the following scenarios:
+
+* A text format of the graph or its elements is desired (e.g. debugging, usage in source control, etc.)
+* The graph or its elements need to be consumed by code that is not JVM-based (e.g. JavaScript, Python, .NET, etc.)
+
+```
+g.io("graph.json").read().iterate()
+g.io("graph.json").write().iterate()
+```
+
+###### Gryo
+
+[Kryo](https://github.com/EsotericSoftware/kryo) is a popular serialization package for the JVM. Gremlin-Kryo is a
+binary Graph serialization format for use on the JVM by JVM languages. It is designed to be space efficient, non-lossy
+and is promoted as the standard format to use when working with graph data inside of the TinkerPop stack. A list of
+common use cases is presented below:
+
+* Migration from one Gremlin Structure implementation to another (e.g. TinkerGraph to Neo4jGraph)
+* Serialization of individual graph elements to be sent over the network to another JVM.
+* Backups of in-memory graphs or subgraphs.
+
 ##### Terminal Steps
 
 ```groovy
