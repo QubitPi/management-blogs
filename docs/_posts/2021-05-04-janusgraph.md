@@ -267,6 +267,11 @@ submitted scripts.
 
 ##### ConfiguredGraphFactory
 
+###### What is ConfiguredGraphFactory
+
+Similar to the [JanusGraphFactory](#janusgraphfactory), the `ConfiguredGraphFactory` is an access point to your graphs.
+These graph factories provide methods for dynamically managing the graphs hosted on the server.
+
 `ConfiguredGraphFactory` is different from [`JanusGraphFactory`](#janusgraphfactory) in the sense that 
 `ConfiguredGraphFactory` can only be used if you have configured your server to use the `ConfigurationManagementGraph`
 APIs at server start.
@@ -278,54 +283,7 @@ The benefits of `ConfiguredGraphFactory` are
 * If your `ConfigurationManagementGraph` is configured with a distributed storage backend then your graph configurations
   are available to all JanusGraph nodes in your cluster.
 
-##### JanusGraphManager
-
-The `JanusGraphManager` is a Singleton that satisfies TinkerPop graphManager specifications and that provides:
-
-* a coordinated mechanism for creating graph references on a given JanusGraph node
-* a graph reference tracker (or cache)
-
-Any graph you create using the `graph.graphname` property will go through the `JanusGraphManager` and thus will be
-instantiated in a coordinated manner. The graph reference will also be placed in the graph cache. Thus, any graph
-opened by `graph.graphname` property will be retrieved from the graph cache. This is why updating to your configurations
-requires a few steps to guarantee correctness.
-
-To pick up and use `JanusGraphManager`, make a reference to it in YAML config:
-
-```yaml
-graphManager: org.janusgraph.graphdb.management.JanusGraphManager
-graphs {
-  graph1: conf/graph1.properties,
-  graph2: conf/graph2.properties
-}
-```
-
-##### Configuring JanusGraph Server using ConfiguredGraphFactory
-
-To be able to use the `ConfiguredGraphFactory`, you must configure your server to use the
-`ConfigurationManagementGraph` APIs. To do this, you have to add a config field named "ConfigurationManagementGraph".
-For instance
-
-```yaml
-graphManager: org.janusgraph.graphdb.management.JanusGraphManager
-graphs: {
-    ConfigurationManagementGraph: conf/JanusGraph-configurationmanagement.properties
-}
-```
-
-In this example, our `ConfigurationManagementGraph` graph will be configured using the properties stored inside
-`conf/JanusGraph-configurationmanagement.properties`, which for example, look like:
-
-```yaml
-gremlin.graph=org.janusgraph.core.ConfiguredGraphFactory
-storage.backend=cql
-graph.graphname=ConfigurationManagementGraph
-storage.hostname=127.0.0.1
-```
-
-##### API
-
-The ConfigurationManagementGraph singleton allows you to create configurations used to **open graphs**. For instance
+###### How to Use ConfiguredGraphFactory
 
 ```java
 map = new HashMap<String, Object>();
@@ -335,14 +293,13 @@ map.put("graph.graphname", "graph1");
 ConfiguredGraphFactory.createConfiguration(new MapConfiguration(map));
 ```
 
-Then you could access this graph on any JanusGraph node:
+Then you could access this graph on any JanusGraph node using:
 
 ```java
 ConfiguredGraphFactory.open("graph1");
 ```
 
-It also allows you to create one **template configuration**, which you can use to create many graphs using the same
-configuration template. For example
+We could also use template:
 
 ```java
 map = new HashMap<String, Object>();
@@ -351,28 +308,18 @@ map.put("storage.hostname", "127.0.0.1");
 ConfiguredGraphFactory.createTemplateConfiguration(new MapConfiguration(map));
 ```
 
-You can create/use graphs using the template configuration afterwards
+Next, we create graphs using the template configuration:
 
 ```java
 ConfiguredGraphFactory.create("graph2");
-...
-ConfiguredGraphFactory.open("graph2");
 ```
 
-> ⚠️ Any updates to a graph created using the template configuration are not guaranteed to take effect immediately
-> unless
->
-> 1. The relevant configuration is removed: `ConfiguredGraphFactory.removeConfiguration("graph2");`, and
-> 2. The graph is recreated using the template configuration: `ConfiguredGraphFactory.create("graph2");`
+This method will first create a new configuration for "graph2" by copying over all the properties associated with the
+template and will be available at
 
-
-
-###### Updating Configurations
-
-> `JanusGraphManager` which keeps track of graph references and manages the config.
->
-> Any updates to a graph configuration results in the eviction of the relevant graph from the graph cache on every node
-> in the JanusGraph cluster
+```java
+ConfiguredGraphFactory.open("graph2");
+```
 
 We can update persistent storage
 
@@ -445,6 +392,35 @@ ConfiguredGraphFactory.removeConfiguration("graph1");
 // Recreate
 ConfiguredGraphFactory.create("graph1");
 // Now this graph's configuration is guaranteed to be updated
+```
+
+> ⚠️ Any updates to a graph created using the template configuration are not guaranteed to take effect immediately
+> unless
+>
+> 1. The relevant configuration is removed: `ConfiguredGraphFactory.removeConfiguration("graph2");`, and
+> 2. The graph is recreated using the template configuration: `ConfiguredGraphFactory.create("graph2");`
+
+###### How to Configure ConfiguredGraphFactory
+
+To be able to use the `ConfiguredGraphFactory`, you must configure your server to use the
+`ConfigurationManagementGraph` APIs. To do this, you have to add a config field named "ConfigurationManagementGraph".
+For instance
+
+```yaml
+graphManager: org.janusgraph.graphdb.management.JanusGraphManager
+graphs: {
+    ConfigurationManagementGraph: conf/JanusGraph-configurationmanagement.properties
+}
+```
+
+In this example, our `ConfigurationManagementGraph` graph will be configured using the properties stored inside
+`conf/JanusGraph-configurationmanagement.properties`, which for example, look like:
+
+```yaml
+gremlin.graph=org.janusgraph.core.ConfiguredGraphFactory
+storage.backend=cql
+graph.graphname=ConfigurationManagementGraph
+storage.hostname=127.0.0.1
 ```
 
 ### Vertex Example
@@ -688,9 +664,6 @@ supports three formats for importing and exporting graph data
 2. [GraphSON](#graphson)
 3. [Gryo](#gryo)
 
-> Additional documentation for TinkerPop IO formats can be found in the
-> [IO Reference](https://tinkerpop.apache.org/docs/3.5.1/dev/io/).
-
 the IO step only configures the importing and exporting without executing them. Tt is the follow-on call to `read()` or
 `write()` step that does it. Therefore, a typical usage of the IO step would look like this:
 
@@ -762,6 +735,15 @@ common use cases is presented below:
 * Migration from one Gremlin Structure implementation to another (e.g. TinkerGraph to Neo4jGraph)
 * Serialization of individual graph elements to be sent over the network to another JVM.
 * Backups of in-memory graphs or subgraphs.
+
+One of the key aspects of Gryo is that, by default, it requires that all types to be registered with the `GryoMapper`.
+There are two ways to do that:
+
+* On the `GryoMapper.Builder`, use the `addCustom` methods. These methods allow registration of single classes with an
+  optional custom serializer.
+* Add a custom `IoRegistry` implementation using `addRegistry` method on `GryoMapper.Builder`. The `IoRegistry` contains
+  registrations that will be supplied to the `GryoMapper`. There is additional documentation on how this works in the
+  [provider documentation](https://tinkerpop.apache.org/docs/current/dev/provider/#io-implementations).
 
 ##### Terminal Steps
 
