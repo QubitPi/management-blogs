@@ -2,7 +2,7 @@
 layout: post
 title: What is a Knowledge Graph?
 tags: [Data, Graph]
-color: rgb(255,127,80)
+color: rgb(240,78,35)
 feature-img: "assets/img/post-cover/11-cover.png"
 thumbnail: "assets/img/post-cover/11-cover.png"
 author: QubitPi
@@ -200,6 +200,32 @@ and this is perceived as a disadvantage compared to Property Graphs. This concer
 (To be continued...)
 
 ### What is RDF-Star?
+
+> RDF-Star (also known as “RDF*”) allows descriptions to be added to edges in a graph such as scores, weights, temporal
+> aspects and provenance to edges in a graph. Formally, RDF* extends the RDF graph model by allowing statements about
+> statements, i.e., one can attach metadata, which describe an edge in a graph, while RDF allows statements to be made
+> only about nodes.
+
+![Error loading What-is-RDF-Star.svg!]({{ "/assets/img/What-is-RDF-Star.svg" | relative_url}})
+
+RDF-star (or RDF*) and the associated query language SPARQL-star (also written as SPARQL*) are the most widely supported
+extension of the existing standards and will be included in RDF 1.2. In RDF* one can make statements about statements,
+formally called statement-level annotations. For instance, one can provide a time span for a relationship. The example
+above demonstrates that Abraham Lincoln was the President of the United States (i.e. POTUS) from March 4th 1862.
+
+RDF* goes beyond the expressivity of Property Graphs, where one can attach key-value pairs to relationships. The
+statement-level annotations enable a more efficient representation of scores, weights, temporal restrictions and
+provenance information.
+
+#### Why is RDF not Enough?
+
+[RDF](#what-is-rdf) stands for Resource Description Framework and is a standard for data interchange on the Web,
+developed via a W3C community process. Conceived as the foundation of the entire stack of Semantic Web standards, it has
+features that allow it to link data published without centralized control. An expressive and powerful language, it
+enables us to deliver enterprise-strength knowledge graphs to solve the data management problems of some of the world's
+top global brands in finance, pharmaceuticals and media.
+
+
 
 #### RDF*
 
