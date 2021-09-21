@@ -131,6 +131,18 @@ After years of developing expertise in the news publishing industry, Ontotext pr
 Open Data and news articles about people, organizations and locations. It incorporates the data from the KGs described
 above as well as specialized ontologies such as the Financial Industry Business Ontology.
 
+## The Most Common Graph Query Languages
+
+* **Gremlin** A graph searching language originally developed for the Apache Tinkerpop project that allows procedural or
+  declarative queries.
+* **Cypher** First created by Neo4j and later adopted by others as OpenCypher, this declarative language allows
+  searching for nodes and edges that match particular properties.
+* **GQL** This proposed standard attempts to unify the styles of Cypher, GSQL, and PSQL.
+* **SPARQL** A standard developed for querying knowledge graphs stored in the RDF format.
+* **PGQL** Oracle's original language for searching and collecting information from nodes that match specifications.
+* **GSQL** TigerGraph's original procedural language.
+* **AQL** ArangoDB’s original procedural language.
+
 ## Reference
 
 ### What is RDF?
