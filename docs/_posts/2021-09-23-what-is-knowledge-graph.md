@@ -135,6 +135,44 @@ above as well as specialized ontologies such as the Financial Industry Business 
 
 ### What is RDF?
 
+![Error loading What-is-RDF.png!]({{ "/assets/img/What-is-RDF.png" | relative_url}})
+
+RDF stands for Resource Description Framework and is a standard for describing web resources and data interchange,
+[developed and standardized with the World Wide Web Consortium (W3C)](https://www.w3.org/TR/rdf11-concepts/). While
+there are many conventional tools for dealing with data and more specifically for dealing with the relationships between
+data, RDF is the easiest, most powerful and expressive standard designed by now.
+
+> RDF is a general method of describing data by defining relationships between data objects.
+
+#### The RDF Triples
+
+The way RDF connects data pieces together is via triples (three positional statements).
+
+In plain English, an RDF statement states facts, relationships and data by linking resources of different kinds. With
+the help of an RDF statement, just about anything can be expressed by a uniform structure, consisting of three linked
+data pieces.
+
+![Error loading SubjectPredicateObject_01.png!]({{ "/assets/img/SubjectPredicateObject_01.png" | relative_url}})
+
+Let's consider the following statement: "Apoptosis is a type I programmed cell death". Translated into RDF statements,
+the example fact (statement) would state the information in the following way: "Apoptosis is a type I programmed cell
+death" = > "Apoptosis of neutrophils" is the subject in two separate statements:
+
+1. <apoptosis> is_a <type 1 programmed cell death> and
+2. <apoptosis> type <biological process>
+
+![Error loading Semantic-Repositiry.svg!]({{ "/assets/img/Semantic-Repositiry.svg" | relative_url}})
+
+#### The RDF Knowledge Graph
+
+Being a powerful and expressive framework for representing data, RDF is used for building knowledge graphs. The
+following diagram demonstrates the expressivity of RDF.
+
+![Error loading RDF.png!]({{ "/assets/img/RDF.png" | relative_url}})
+
+
+
+
 #### What is an RDF Triplestore?
 
 ### RDF*
