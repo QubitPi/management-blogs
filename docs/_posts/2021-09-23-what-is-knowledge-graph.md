@@ -232,7 +232,43 @@ SHACL can be applied to validate data that is already available in the triplesto
 
 ##### Hypotheses Testing in Pharma
 
+In the pharmaceutical research and discovery process, success is highly dependent on the availability and accessibility
+of high-quality research data. The quality of the data can be assessed by its accuracy, correctness, completeness,
+currency and relevance. The accuracy and the correctness of data are purely defined by the methods used to generate the
+data. However, the latter three – completeness, currency and relevance – could be determined partially or completely by
+an effective
+[semantic data integration approach](https://www.ontotext.com/knowledgehub/fundamentals/semantic-data-integration/),
+which:
 
+* aggregates all relevant information;
+* removes redundancy and ambiguities in the data;
+* interlinks the related entities.
+
+Researchers gather information from a broad range of biomedical data sources in an iterative way in order to generate or
+expand a certain theory, to test hypotheses, to make informed assertions about which relationships are causal and about
+exactly how they are causal. They need a mechanism that would allow them to mine all data scattered among different
+relevant resources and to identify visible (direct) and invisible (distant) relations between biomedical entities
+studied in the pharmaceutical research and discovery process.
+
+###### The Solution: Linked Life Data Cloud
+
+Semantic warehousing helps researchers get an overview of the existing relationships within scientific and clinical data
+by utilizing causality data mining. [Linked Life Data](http://linkedlifedata.com/) is used as a platform for Interactive Relationship Discovery
+between biomedical entities as it:
+
+* integrates over 25 diverse data sources;
+* aligns the data to more than 17 different biomedical objects (genes, proteins, molecular functions, biological processes/pathways, molecular interactions, cell localization, organisms, organs/tissues, cell lines, cell types, diseases, symptoms, drugs, drug side effects, small chemical compounds, clinical trials, scientific publications, etc.);
+* identifies explicit relationships between entities locked in the original data sets and categorizes them to a causality relationship ontology;
+* mines unstructured data in order to identify relationships hidden within the text (inclusion/exclusion criteria for clinical studies).
+
+![Error loading LS_CAUSALITY-1.png!]({{ "/assets/img/LS_CAUSALITY-1.png" | relative_url}})
+
+Since the entities in Linked Life Data are usually strongly interlinked, in most cases the approach for simply
+crawling/querying the repository for relationships and listing them is not sufficient. That’s why Linked Life Data also
+provides a user-centered process and interactive tools for assisting the discovery of even very large numbers of causal
+relations.
+
+![Error loading relfinder_0-2.png!]({{ "/assets/img/relfinder_0-2.png" | relative_url}})
 
 ### List of KG Products/Graph Databases
 
