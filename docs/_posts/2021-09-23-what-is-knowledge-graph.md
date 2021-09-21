@@ -415,7 +415,9 @@ machine-readable data are then indexed and stored in a semantic graph database f
 
 ![Error loading How-GraphDB-work.svg!]({{ "/assets/img/How-GraphDB-work.svg" | relative_url}})
 
-
+What semantic annotation brings to the table are smart data pieces containing highly-structured and informative notes
+for machines to refer to. Solutions that include semantic annotation are widely used for risk analysis, content
+recommendation, content discovery, detecting regulatory compliance and much more.
 
 ### List of KG Products/Graph Databases
 
