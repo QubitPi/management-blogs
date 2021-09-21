@@ -268,6 +268,11 @@ Without the ability to express statement-level metadata annotations, engineers h
 approaches (e.g. hacks) to mitigate the inherent lack of native support for such edge-level properties in RDF. However,
 they all have certain advantages and disadvantages, which we will look at below.
 
+###### Standard Reification
+
+Reification means expressing an abstract construct with the existing concrete methods supported by the language. The RDF
+specification sets a standard vocabulary for representing references to statements like:
+
 ![Error loading Standard-Reification.png!]({{ "/assets/img/Standard-Reification.png" | relative_url}})
 
     :man :hasSpouse :woman .
@@ -276,6 +281,14 @@ they all have certain advantages and disadvantages, which we will look at below.
       rdf:predicate :hasSpouse ;
       rdf:object :woman ;
       :startDate "2020-02-11"^^xsd:date .
+
+Standard reification requires stating four additional triples to refer to the triple for which one wants to provide
+metadata. The subject of these four additional triples has to be a new identifier (IRI or blank node), which later on
+may be used for providing the metadata. The existence of a reference to a triple does not automatically assert it.
+
+> Advantage: This approach is compliant with published RDF standards and will be supported by any RDF store.
+> Disadvantage: This approach creates inefficiency related to exchanging or persisting the RDF data and the cumbersome
+> syntax to access and match the corresponding four reification triples.
 
 #### RDF*
 
