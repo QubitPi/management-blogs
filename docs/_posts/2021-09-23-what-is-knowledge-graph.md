@@ -197,8 +197,6 @@ and this is perceived as a disadvantage compared to Property Graphs. This concer
 > new information out of existing relations. It's flexible and dynamic nature allows linking diverse data, indexing it
 > for semantic search and enriching it via text analysis to build big knowledge graphs.
 
-(To be continued...)
-
 ### What is RDF-Star?
 
 > RDF-Star (also known as “RDF*”) allows descriptions to be added to edges in a graph such as scores, weights, temporal
