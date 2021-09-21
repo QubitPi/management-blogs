@@ -286,18 +286,91 @@ Standard reification requires stating four additional triples to refer to the tr
 metadata. The subject of these four additional triples has to be a new identifier (IRI or blank node), which later on
 may be used for providing the metadata. The existence of a reference to a triple does not automatically assert it.
 
-> Advantage: This approach is compliant with published RDF standards and will be supported by any RDF store.
-> Disadvantage: This approach creates inefficiency related to exchanging or persisting the RDF data and the cumbersome
-> syntax to access and match the corresponding four reification triples.
+> **dvantage**: This approach is compliant with published RDF standards and will be supported by any RDF store.
+>
+> **Disadvantage**: This approach creates inefficiency related to exchanging or persisting the RDF data and the
+> cumbersome syntax to access and match the corresponding four reification triples.
 
 ###### N-ary Relations
 
 The approach for representing N-ary relations in RDF is to model it via a new relationship concept that connects all
 arguments like:
 
+![Error loading N-ary-relations.svg!]({{ "/assets/img/N-ary-relations.svg" | relative_url}})
 
+    :Marriage1 rdf:type :Marriage ;
+      :partner1 :man ;
+      :partner2 :woman ;
+      :startDate "2020-02-11"^^xsd:date .
 
-#### RDF*
+> **Advantage**: Similar to standard reification in terms of standard compliance, but it adopts a schema specific to the
+> domain model that is presumably understood by its consumers.
+>
+> **Disadvantage**: This approach increases the ontology model complexity and is proven difficult to evolve models in a
+> backward compatible way.
+
+###### Singleton Properties
+
+Singleton properties are a hacky way to introduce statement identifiers as a part of the predicate like:
+
+![Error loading Singleton-properties.svg!]({{ "/assets/img/Singleton-properties.svg" | relative_url}})
+
+    :man :hasSpouse#1 :woman .
+    :hasSpouse#1 :startDate "2020-02-11"^^xsd:date .
+
+The local name of the predicate after the # encodes a unique identifier.
+
+> **Advantage**: This approach created a more compact representation.
+>
+> **Disadvantage**: It is highly inefficient for querying data. For example, a query to return all :hasSpouse links must
+> parse all predicate values with a regular expression.
+
+###### Named Graphs
+
+The named graph approach is a variation of the singleton properties, which uses the so-called named graphs, which are
+formally introduced in the SPARQL specification. Technically, this is a fourth element, which can be attached to the
+`<subject, predicate, object>` triple, in order to designate that this statement is part of a specific named (sub)graph.
+The identifier of the named graph can be treated as a node in the RDF graph, so that one can easily make statements
+about the entire named graph. Singleton named graph can be created to allow one to attach properties to this statement
+as follows:
+
+    :man :hasSpouse :woman :singletonGraph#1 .
+    :singletonGraph#1 :startDate "2020-02-11"^^xsd:date :metadata .
+
+![Error loading Named-graphs_02.svg!]({{ "/assets/img/Named-graphs_02.svg" | relative_url}})
+
+> **Advantage**: The approach has multiple advantages over the singleton properties and eliminates the need for regular
+> expression parsing.
+>
+> **Disadvantage**: A significant drawback is the overload of the named graph parameter with an identifier instead of
+> the file or source that produced the triple. The updates based on the triple source become more complicated and
+> cumbersome to maintain. Also, if a
+> [repository](https://www.ontotext.com/knowledgehub/fundamentals/semantic-repository/) stores a large number of named
+> graphs, it is vital to enable the context indexes.
+
+#### What RDF* Improves
+
+RDF* is an extension of the RDF 1.1 standard that
+[proposes a more efficient reification serialization syntax](https://arxiv.org/pdf/1406.3399.pdf). The main advantages
+of this representation include reduced document size that increases the efficiency of data exchange as well as shorter
+SPARQL queries for improved comprehensibility.
+
+    :man :hasSpouse :woman .
+    <<:man :hasSpouse :woman>> :startDate "2020-02-11"^^xsd:date .
+
+![Error loading What-RDF-star-Improves.svg!]({{ "/assets/img/What-RDF-star-Improves.svg" | relative_url}})
+
+The RDF* extension captures the notion of an embedded triple by enclosing the referenced triple using the strings `<<`
+and `>>`. The embedded triples, like the blank nodes, may take a subject and object position only, and their meaning is
+aligned to the semantics of the standard reification, but using a much more efficient serialization syntax. To simplify
+the querying of the embedded triples, the paper extends the query syntax with SPARQL* enabling queries like:
+
+    # List all metadata for the given reference to a statement
+    SELECT *
+    WHERE {
+        <<:man :hasSpouse :woman>> ?p ?o
+    }
+
 
 ### What are Ontologies?
 
