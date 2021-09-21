@@ -18,4 +18,4 @@ integration, unification, analytics and sharing.
 * TOC
 {:toc}
 
-![Error loading Ontotext-offshore-zone-case.png!]({{ "/assets/img/Ontotext-offshore-zone-case.png" | relative_url}})
+![Error loading Ontotext-offshore-zone-case.svg!]({{ "/assets/img/Ontotext-offshore-zone-case.svg" | relative_url}})
