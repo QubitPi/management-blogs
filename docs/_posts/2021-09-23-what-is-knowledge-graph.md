@@ -273,7 +273,7 @@ they all have certain advantages and disadvantages, which we will look at below.
 Reification means expressing an abstract construct with the existing concrete methods supported by the language. The RDF
 specification sets a standard vocabulary for representing references to statements like:
 
-![Error loading Standard-Reification.png!]({{ "/assets/img/Standard-Reification.png" | relative_url}})
+![Error loading Standard-Reification.svg!]({{ "/assets/img/Standard-Reification.svg" | relative_url}})
 
     :man :hasSpouse :woman .
     :id1 rdf:type rdf:Statement ;
@@ -289,6 +289,13 @@ may be used for providing the metadata. The existence of a reference to a triple
 > Advantage: This approach is compliant with published RDF standards and will be supported by any RDF store.
 > Disadvantage: This approach creates inefficiency related to exchanging or persisting the RDF data and the cumbersome
 > syntax to access and match the corresponding four reification triples.
+
+###### N-ary Relations
+
+The approach for representing N-ary relations in RDF is to model it via a new relationship concept that connects all
+arguments like:
+
+
 
 #### RDF*
 
