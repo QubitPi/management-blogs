@@ -131,9 +131,6 @@ After years of developing expertise in the news publishing industry, Ontotext pr
 Open Data and news articles about people, organizations and locations. It incorporates the data from the KGs described
 above as well as specialized ontologies such as the Financial Industry Business Ontology.
 
-## Knowledge Graphs and RDF Databases
-
-
 ## Reference
 
 ### What is RDF?
@@ -141,3 +138,14 @@ above as well as specialized ontologies such as the Financial Industry Business 
 ### RDF*
 
 ### What are Ontologies?
+
+![Error loading What-is-Ontology.png!]({{ "/assets/img/What-is-Ontology.png" | relative_url}})
+
+
+### List of KG Products/Graph Databases
+
+* [tiddlyroam](https://tiddlyroam.org/)
+  
+* [Ontotext GraphDB](https://www.ontotext.com/products/graphdb/)
+* [Memgraph](https://memgraph.com/)
+* [GDB by rankings](https://db-engines.com/en/ranking/graph+dbms)
