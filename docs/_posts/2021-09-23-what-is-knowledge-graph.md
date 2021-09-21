@@ -225,7 +225,57 @@ features that allow it to link data published without centralized control. An ex
 enables us to deliver enterprise-strength knowledge graphs to solve the data management problems of some of the world's
 top global brands in finance, pharmaceuticals and media.
 
+RDF (without the star) is an abstract knowledge representation model that does not differentiate data from metadata. It
+provides enormous flexibility for the expression of multiple levels of metadata about nodes, classes, predicates
+(relationship types) and even (sub-)graphs. It is all about making statements about nodes. Nodes and predicates are
+identified via URIs (Uniform Resource Identifiers, e.g., URLs). Here follows an example:
 
+    :hasSpouse rdf:type owl:TransitiveProperty;
+            rdfs:subPropertyOf :familyRelationship .
+    :Person rdfs:subClassOf :Agent ;
+            rdfs:label "Person" ;
+            rdf:description "A human being" .
+    
+    GRAPH :myFamilyData {
+            :man :hasSpouse :woman .
+            :woman rdf:type :Person ;
+            :hasGender "Female";
+            :birthdate "2000-12-08"^^xsd:date .
+    }
+
+    :myFamilyData <http://purl.org/dc/elements/1.1/creator&gt :me ;
+            < http://purl.org/dc/elements/1.1/date&gt "2021-02-15"^^xsd:date .
+
+As we see above, one can declare relationship types such as `:hasSpouse` to be of a specific class (transitive
+properties) and to be a more specific version of another property, i.e., `:familyRelationship`. Similarly, one can
+define new classes of objects and attach metadata to them, e.g., human readable labels and descriptions. One can link
+two nodes such as `:man` and `:woman` with a specific type of relationship like the defined above `:hasSpouse`. It is
+also very straightforward to provide data or metadata about the nodes as, for example, to define that `:woman` is an
+instance of `:Person` and has specific gender and birth date.
+
+Using the so-called named graphs (we use the TRIG format above) one can group several statements and designate them as a
+specific graph, named in the example above `:myFamilyData`. Again it is easy to attach metadata to the entire graph,
+e.g., author and publication date.
+
+In RDF (almost) everything has an URI – the specific objects, as well as the classes, the predicates, the graphs, etc.
+And one can make further statements that describe these resources (that’s why it is called Resource Description
+Framework!). It is a very flexible one. Still, there is one thing for which there is no direct way to describe: the
+edges in the graph, the specific statements.
+
+##### Current Approaches to Tagging Edges
+
+Without the ability to express statement-level metadata annotations, engineers have had to develop a number of
+approaches (e.g. hacks) to mitigate the inherent lack of native support for such edge-level properties in RDF. However,
+they all have certain advantages and disadvantages, which we will look at below.
+
+![Error loading Standard-Reification.png!]({{ "/assets/img/Standard-Reification.png" | relative_url}})
+
+    :man :hasSpouse :woman .
+    :id1 rdf:type rdf:Statement ;
+      rdf:subject :man ;
+      rdf:predicate :hasSpouse ;
+      rdf:object :woman ;
+      :startDate "2020-02-11"^^xsd:date .
 
 #### RDF*
 
