@@ -135,6 +135,8 @@ above as well as specialized ontologies such as the Financial Industry Business 
 
 ### What is RDF?
 
+#### What is an RDF Triplestore?
+
 ### RDF*
 
 ### What are Ontologies?
@@ -232,6 +234,8 @@ SHACL can be applied to validate data that is already available in the triplesto
 
 ##### Hypotheses Testing in Pharma
 
+###### The Challenge
+
 In the pharmaceutical research and discovery process, success is highly dependent on the availability and accessibility
 of high-quality research data. The quality of the data can be assessed by its accuracy, correctness, completeness,
 currency and relevance. The accuracy and the correctness of data are purely defined by the methods used to generate the
@@ -269,6 +273,109 @@ provides a user-centered process and interactive tools for assisting the discove
 relations.
 
 ![Error loading relfinder_0-2.png!]({{ "/assets/img/relfinder_0-2.png" | relative_url}})
+
+##### Fraud Detection
+
+> In today's global economy, the stealing of national assets by current and former dictators is a worldwide problem,
+> especially in developing countries where it robs the national economies of much needed financial resources.
+>
+> The International Centre for Asset Recovery (ICAR) within the Basel Institute on Governance helps the Financial
+> Intelligence Units (FIUs) of developed and developing countries in the areas of financial investigations, fight
+> against corruption and money laundering, asset tracing and recovery, mutual legal assistance.
+>
+> The Asset Recovery Intelligence System (ARIS) project was created with the cooperation of Dow Jones, World-Check and
+> EDGAR (an international organization of the FIUs of 104 countries).
+
+###### The Challenge
+
+The biggest challenge for the process of tracking stolen assets is the mobility of funds and the existing cracks between
+jurisdictions. This enables perpetrators to distribute assets and funds between different jurisdictions without leaving
+obvious ties to themselves (usually, the transactions are made by family members or business associates).
+
+ICAR needed to be able to connect and analyze information that would otherwise remain unrelated such as, for example,
+when one country had information about corrupt practices and another country – about financial transactions.
+
+###### The Solution: The Asset Recovery Intelligence System Prototype
+
+The Asset Recovery Intelligence System (ARIS) is a web-based secure service that helps financial investigators, analysts
+and FIUs track stolen assets by providing asset-related profiles of named legal entities.
+
+Some of the important products and technologies that ARIS uses to accomplish the task are:
+
+* Ontotext's leading RDF database [GraphDB](https://www.ontotext.com/products/graphdb/) for efficient storage of facts,
+  with powerful inference and query answering capabilities;
+* [Semantic Annotation](#what-is-semantic-annotation) and multi-paradigm search over documents, data and knowledge;
+* Named Entity Recognition for recognizing people, companies, roles, etc. in free text.
+* Relation Extraction for recognizing and inferring relationships between entities.
+
+ARIS uses various data sources such as domain-specific documents (Suspicious Activity Reports from banks and other
+financial institutions to the FIUs, etc.), newsfeeds from worldwide press agencies, financial and risk-related
+information from external sources (Dow Jones Watchlist data feed, Dow Jones Factiva news feed, World-Check Politically
+Exposed Persons data feed, etc.) and many more.
+
+By exploiting all available data sources and various public documents, ARIS discovers hidden relationships between
+people, companies, accounts, transfers, etc. Then, the system summarizes the collected and inferred facts about an
+entity in an _Entity Profile_, whereas the complete set of facts are presented in an _Entity Factsheet_ as shown below.
+
+![Error loading ARIS-profile-report-7.png!]({{ "/assets/img/ARIS-profile-report-7.png" | relative_url}})
+
+### What is Semantic Annotation
+
+Semantic annotation is the process of tagging documents with relevant concepts (e.g., people, places, organizations,
+products or topics). The documents are enriched with metadata: references that link the content to concepts, described
+in a knowledge graph. This makes unstructured content easier to find, interpret and reuse.
+
+The result of the semantic annotation process is metadata that describes the document via references to concepts and
+entities mentioned in the text or relevant to it. These references link the content to the formal descriptions of these
+concepts in a knowledge graph. Typically, such metadata is represented as a set of tags or annotations that enrich the
+document, or specific fragments of it, with identifiers of concepts.
+
+Semantic metadata can be stored in a knowledge graph, rather than embedded in a document. One modelling approach, which
+enables a broad range of analytics, is to store the annotations as individual objects, which refer to the document,
+which is also a node in the graph. This way documents and annotations become first class citizens of the knowledge graph
+and can be indexed and queried alongside the other type of data there: ontologies, schemata, reference and master data.
+
+#### Create Smart Content with Machine-Processable Marginalia
+
+Think of semantic annotations as a sort of highly structured digital marginalia (notes made in the margins of a book or
+other document), usually invisible in the human-readable part of the content. Written in the machine-interpretable
+formal language of data, these notes serve computers to perform operations such as classifying, linking, inferencing,
+searching, filtering, etc.
+
+For instance, to semantically annotate chosen concepts in the sentence "Aristotle, the author of Politics, established
+the Lyceum" means to identify Aristotle as a person and Politics as a written work of political philosophy, and to
+further index, classify and interlink the identified concepts in a [semantic graph database](#what-is-an-rdf-triplestore),
+also known as a triplestore. In this case, Aristotle can be linked to his date of birth, his teachers, his works, etc.
+Politics can be linked to its subject, its date of creation, etc. Given the semantic metadata about the above sentence
+and its links to other (external or internal) formal knowledge, algorithms will be able to automatically:
+
+* find out who tutored Alexander the Great;
+* answer which of Plato’s pupils established the Lyceum;
+* retrieve a list of political thinkers who lived between 380 BC and 310 BC;
+* render a list of Greek philosophers, which includes Aristotle.
+
+#### How Does Semantic Annotation Work?
+
+Semantic annotation enriches content with machine-processable information by linking background information to extracted
+concepts. These concepts, found in a document or another piece of content, are unambiguously defined and related to each
+other within and outside the content. It turns the content into a better manageable data source.
+
+A typical process of semantic enrichment includes:
+
+##### Text Identification
+
+> Step 1: Remove the boilerplate from the unstructured textual content.
+
+![Error loading Step_01-Semantic-Identification.svg!]({{ "/assets/img/Step_01-Semantic-Identification.svg" | relative_url}})
+
+Text is extracted from non-textual sources such as PDF files, videos, documents, voice recordings, etc.
+
+##### Text Analysis
+
+> Perform a set of standard Natural Language Processing operations over content - such as Sentence Splitting,
+> Part-of-Speech Tagging and Named Entity Recognition.
+
+![Error loading Step_01-Text-Analysis.svg!]({{ "/assets/img/Step_01-Text-Analysis.svg" | relative_url}})
 
 ### List of KG Products/Graph Databases
 
