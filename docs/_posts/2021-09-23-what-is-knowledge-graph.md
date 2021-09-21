@@ -152,14 +152,14 @@ In plain English, an RDF statement states facts, relationships and data by linki
 the help of an RDF statement, just about anything can be expressed by a uniform structure, consisting of three linked
 data pieces.
 
-![Error loading SubjectPredicateObject_01.png!]({{ "/assets/img/SubjectPredicateObject_01.png" | relative_url}})
+![Error loading SubjectPredicateObject_01.svg!]({{ "/assets/img/SubjectPredicateObject_01.svg" | relative_url}})
 
 Let's consider the following statement: "Apoptosis is a type I programmed cell death". Translated into RDF statements,
 the example fact (statement) would state the information in the following way: "Apoptosis is a type I programmed cell
 death" = > "Apoptosis of neutrophils" is the subject in two separate statements:
 
-1. <apoptosis> is_a <type 1 programmed cell death> and
-2. <apoptosis> type <biological process>
+1. `<apoptosis>` is_a `<type 1 programmed cell death>` and
+2. `<apoptosis>` type `<biological process>`
 
 ![Error loading Semantic-Repositiry.svg!]({{ "/assets/img/Semantic-Repositiry.svg" | relative_url}})
 
