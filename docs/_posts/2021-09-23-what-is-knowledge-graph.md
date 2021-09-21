@@ -377,6 +377,46 @@ Text is extracted from non-textual sources such as PDF files, videos, documents,
 
 ![Error loading Step_01-Text-Analysis.svg!]({{ "/assets/img/Step_01-Text-Analysis.svg" | relative_url}})
 
+Algorithms split sentences and identify concepts such as people, things, places, events, numbers, etc.
+
+##### Concept Extraction
+
+> Classify and disambiguate the identified entities
+
+![Error loading Step-3-Consept-Extraction_02.svg!]({{ "/assets/img/Step-3-Consept-Extraction_02.svg" | relative_url}})
+
+All recognized concepts are classified, which means that they are defined as people, organizations, numbers, etc. Next,
+they are disambiguated, that is, they are unambiguously identified according to a domain-specific knowledge base. For
+example, Rome is classified as a city and further disambiguated as Rome, Italy, and not Rome, Iowa.
+
+This is the most important stage of semantic annotation. It recognizes text chunks and turns them into
+machine-processable and understandable data pieces by linking them to the broader context of already existing data
+
+##### Relationship Extraction
+
+> Identify the relationships between known and newly recognized entities.
+
+![Error loading Step-4-Relationship-Extraction.svg!]({{ "/assets/img/Step-4-Relationship-Extraction.svg" | relative_url}})
+
+The relationships between the extracted concepts are identified and further interlinked with related external or
+internal domain knowledge.
+
+##### Indexing and Storing in a Semantic Graph Database
+
+> The extracted knowledge, represented as a graph, is stored in a semantic graph database, which can also **create
+> full-text indices in a search engine like Elasticsearch**.
+
+![Error loading Step-5-Indexing-and-storing-in-a-semantic-graph-database.svg!]({{ "/assets/img/Step-5-Indexing-and-storing-in-a-semantic-graph-database.svg" | relative_url}})
+
+All mentions of people, things, etc. and the relationships between them that have been recognized and enriched with
+machine-readable data are then indexed and stored in a semantic graph database for further reference and use.
+
+#### Where is Semantic Annotation Used?
+
+![Error loading How-GraphDB-work.svg!]({{ "/assets/img/How-GraphDB-work.svg" | relative_url}})
+
+
+
 ### List of KG Products/Graph Databases
 
 * [tiddlyroam](https://tiddlyroam.org/)
