@@ -2,7 +2,7 @@
 layout: post
 title: What is a Knowledge Graph?
 tags: [Data, Graph]
-color: rgb(250, 154, 133)
+color: rgb(166, 169, 231)
 feature-img: "assets/img/post-cover/24-cover.png"
 thumbnail: "assets/img/post-cover/24-cover.png"
 author: QubitPi
