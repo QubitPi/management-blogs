@@ -154,9 +154,10 @@ data pieces.
 
 ![Error loading SubjectPredicateObject_01.svg!]({{ "/assets/img/SubjectPredicateObject_01.svg" | relative_url}})
 
-Let's consider the following statement: "Apoptosis is a type I programmed cell death". Translated into RDF statements,
-the example fact (statement) would state the information in the following way: "Apoptosis is a type I programmed cell
-death" = > "Apoptosis of neutrophils" is the subject in two separate statements:
+Let's consider the following statement: "Apoptosis is a type I programmed cell death". Translated into RDF statements
+according to the semantic repository shown below, the example fact (statement) would state the information in the
+following way: "Apoptosis is a type I programmed cell death" = > "Apoptosis of neutrophils" is the subject in two
+separate statements:
 
 1. `<apoptosis>` is_a `<type 1 programmed cell death>` and
 2. `<apoptosis>` type `<biological process>`
@@ -170,12 +171,37 @@ following diagram demonstrates the expressivity of RDF.
 
 ![Error loading RDF.png!]({{ "/assets/img/RDF.png" | relative_url}})
 
+The nodes in an RDF knowledge graph could be either resources, represented by a unique resource identifier (URI, e.g.,
+the well known URLs), literals (e.g., the same as in XML) or auxiliary blank nodes. The types of the edges are called
+predicates, (e.g., partOf or knows). Named graphs or contexts (e.g., g1 and g2 above) can be used to manage components
+in the graph, (e.g., by provenance). Each edge in the graph represents a fact and can be seen as a quadruple
+`<subject, predicate, object, context>`.
 
+Classes, predicates and named graphs are all defined as URIs. This way they can appear as nodes in the graph, get their
+descriptions, i.e. instance data and schema can be managed and accessed in an uniform model. The nodes in the above
+diagram are numbered for better readability; those must have URIs like the ones listed below:
 
+1. http://www.ontotext.com
+2. https://www.linkedin.com/in/atanas-kiryakov
+3. https://www.linkedin.com/in/vassil-momtchev
+4. https://en.wikipedia.org/wiki/Sofia
+5. https://en.wikipedia.org/wiki/Bulgaria
+
+Often RDF is criticized because it doesn't allow for descriptions or properties to be attached to the edges in the graph
+and this is perceived as a disadvantage compared to Property Graphs. This concern has been addressed with
+[RDF-Star](#what-is-rdf-star) (abbreviated RDF*)
 
 #### What is an RDF Triplestore?
 
-### RDF*
+> The RDF triplestore is a type of graph database that stores data as a network of objects and uses inference to uncover
+> new information out of existing relations. It's flexible and dynamic nature allows linking diverse data, indexing it
+> for semantic search and enriching it via text analysis to build big knowledge graphs.
+
+(To be continued...)
+
+### What is RDF-Star?
+
+#### RDF*
 
 ### What are Ontologies?
 
