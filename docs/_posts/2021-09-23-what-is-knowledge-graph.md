@@ -3,8 +3,8 @@ layout: post
 title: What is a Knowledge Graph?
 tags: [Data, Graph]
 color: rgb(240,78,35)
-feature-img: "assets/img/post-cover/11-cover.png"
-thumbnail: "assets/img/post-cover/11-cover.png"
+feature-img: "assets/img/post-cover/33-cover.png"
+thumbnail: "assets/img/post-cover/33-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
