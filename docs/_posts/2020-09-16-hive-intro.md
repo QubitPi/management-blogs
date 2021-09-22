@@ -50,7 +50,6 @@ that like the queries from the CLI are converted into a MapReduce job that is ex
 ![Accessing Hive Diagram]({{ "/assets/img/accessing_hive_services.png" | relative_url}})
 
 ## Hive vs. Pig
-============
 
 The table below shows the difference between Hive and Pig, highlighting when and where each should be used, respective
 features, and available support.
