@@ -52,6 +52,86 @@ List<MyClass> myObjects = JSON_MAPPER.readValue(jsonInput, new TypeReference<Lis
 ObjectNode json = new ObjectMapper().readValue("{}", ObjectNode.class);
 ```
 
+## Handling Polymorphism
+
+Let's take a look at Jackson polymorphic type handling annotations:
+
+* `@JsonTypeInfo` - indicates details of what type information to include in serialization
+* `@JsonSubTypes` - indicates sub-types of the annotated type
+* `@JsonTypeName` - defines a logical type name to use for annotated class
+
+In the following example, we serialize/deserialize an entity "Zoo":
+
+```java
+public class Zoo {
+    
+    public Animal animal;
+
+    @JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME, 
+        include = As.PROPERTY, 
+        property = "type"
+    )
+    @JsonSubTypes({
+        @JsonSubTypes.Type(value = Dog.class, name = "dog"),
+        @JsonSubTypes.Type(value = Cat.class, name = "cat")
+    })
+    public static class Animal {
+        public String name;
+    }
+
+    @JsonTypeName("dog")
+    public static class Dog extends Animal {
+        public double barkVolume;
+    }
+
+    @JsonTypeName("cat")
+    public static class Cat extends Animal {
+        boolean likesCream;
+        public int lives;
+    }
+}
+```
+
+Here's what serializing the Zoo instance with the Dog will result in:
+
+```json
+{
+    "animal": {
+        "type": "dog",
+        "name": "lacy",
+        "barkVolume": 0
+    }
+}
+```
+
+Now for de-serialization. Let's start with the following JSON input:
+
+```json
+{
+    "animal":{
+        "name":"lacy",
+        "type":"cat"
+    }
+}
+```
+
+Then let's see how that gets unmarshalled to a Zoo instance:
+
+```java
+@Test
+public void whenDeserializingPolymorphic_thenCorrect() throws IOException {
+    String json = "{\"animal\":{\"name\":\"lacy\",\"type\":\"cat\"}}";
+
+    Zoo zoo = new ObjectMapper()
+      .readerFor(Zoo.class)
+      .readValue(json);
+
+    assertEquals("lacy", zoo.animal.name);
+    assertEquals(Zoo.Cat.class, zoo.animal.getClass());
+}
+```
+
 ## Troubleshooting
 
 ### [No serializer found for class ...](https://www.baeldung.com/jackson-jsonmappingexception)
