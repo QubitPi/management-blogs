@@ -9,7 +9,7 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
-A Primer on “Following the Money” for Integrity Practitioners and Policymakers
+A Primer on "Following the Money" for Integrity Practitioners and Policymakers
 
 <!--more-->
 

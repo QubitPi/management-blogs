@@ -61,7 +61,9 @@ unperishable passion to Java language*.
 * [Agile Product Management with Scrum: Creating Products that Customers Love]({{ "/assets/pdf/The Addison-Wesley Signature Series/Agile Product Management with Scrum - Creating Products that Customers Love.pdf" | relative_url}})
 * [The Scrum Field Guide: Agile Advice for Your First Year and Beyond]({{ "/assets/pdf/The Addison-Wesley Signature Series/The Scrum Field Guide - Agile Advice for Your First Year and Beyond.pdf" | relative_url}})
 * Refactoring HTML: Improving the Design of Existing Web Applications
-* 
+* Service Design Patterns: Fundamental Design Solutions for SOAP/WSDL and RESTful Web Services
+* Agile Game Development with Scrum
+* [Growing Object-Oriented Software, Guided by Tests]({{ "/assets/pdf/The Addison-Wesley Signature Series/Growing Object-Oriented Software, Guided by Tests.pdf" | relative_url}})
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
