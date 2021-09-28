@@ -9,7 +9,6 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
-
 <!--more-->
 
 ## Java API for WebSocket
