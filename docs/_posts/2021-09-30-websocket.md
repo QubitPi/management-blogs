@@ -1,0 +1,294 @@
+---
+layout: post
+title: Websocket
+tags: [Java, Webservice, JavaEE]
+color: rgb(240,78,35)
+feature-img: "assets/img/post-cover/3-cover.png"
+thumbnail: "assets/img/post-cover/3-cover.png"
+author: QubitPi
+excerpt_separator: <!--more-->
+---
+
+
+<!--more-->
+
+## Java API for WebSocket
+
+### Introduction to WebSocket
+
+In the traditional request-response model used in HTTP, the client requests resources, and the server provides
+responses. The exchange is always initiated by the client; the server cannot send any data without the client requesting
+it first. This model worked well for the World Wide Web when clients made occasional requests for documents that changed
+infrequently, but the limitations of this approach are increasingly relevant as content changes quickly and users expect
+a more interactive experience on the Web. The WebSocket protocol addresses these limitations by providing a full-duplex
+communication channel between the client and the server. Combined with other client technologies, such as JavaScript and
+HTML5, WebSocket enables web applications to deliver a richer user experience.
+
+In a WebSocket application, the server publishes a WebSocket endpoint, and the client uses the endpoint's URI to connect
+to the server. The WebSocket protocol is symmetrical after the connection has been established; the client and the
+server can send messages to each other at any time while the connection is open, and they can close the connection at
+any time. Clients usually connect only to one server, and servers accept connections from multiple clients.
+
+The WebSocket protocol has two parts:
+
+1. handshake
+2. data transfer
+   
+The client initiates the handshake by sending a request to a WebSocket endpoint using its URI. The handshake is
+compatible with existing HTTP-based infrastructure: web servers interpret it as an HTTP connection upgrade request. An
+example handshake from a client looks like this:
+
+```
+GET /path/to/websocket/endpoint HTTP/1.1
+Host: localhost
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: xqBt3ImNzJbYqRINxEFlkg==
+Origin: http://localhost
+Sec-WebSocket-Version: 13
+```
+
+An example handshake from the server in response to the client looks like this:
+
+```
+vHTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: K7DJLdLooIwIG/MOpvWFB3y3FE8=
+```
+
+The server applies a known operation to the value of the `Sec-WebSocket-Key` header to generate the value of the
+`Sec-WebSocket-Accept header`. The client applies the same operation to the value of the Sec-WebSocket-Key header, and
+the connection is established successfully if the result matches the value received from the server. The client and the
+server can send messages to each other after a successful handshake.
+
+WebSocket supports text messages (encoded as UTF-8) and binary messages. The control frames in WebSocket are close,
+ping, and pong (a response to a ping frame). Ping and pong frames may also contain application data.
+
+WebSocket endpoints are represented by URIs that have the following form:
+
+    ws://host:port/path?query
+    wss://host:port/path?query
+
+* The `ws` scheme represents an unencrypted WebSocket connection
+* The `wss` scheme represents an encrypted connection
+* The port component is optional. The default port number is 80 for unencrypted connections and 443 for encrypted
+  connections.
+* The path component indicates the location of an endpoint within a server 
+* The query component is optional.
+
+Modern web browsers implement the WebSocket protocol and provide a JavaScript API to connect to endpoints, send
+messages, and assign callback methods for WebSocket events (such as opened connections, received messages, and closed
+connections).
+
+### Creating WebSocket Applications in the Java EE Platform
+
+The Java EE platform includes the Java API for WebSocket ([JSR 356](http://www.jcp.org/en/jsr/detail?id=356)), which
+enables you to create, configure, and deploy WebSocket endpoints in web applications. The WebSocket client API specified
+in [JSR 356](http://www.jcp.org/en/jsr/detail?id=356) also enables you to access remote WebSocket endpoints from any
+Java application.
+
+The Java API for WebSocket consists of the following packages:
+
+* The `javax.websocket.server` package contains annotations, classes, and interfaces to create and configure server
+  endpoints.
+* The `javax.websocket` package contains annotations, classes, interfaces, and exceptions that are common to client and
+  server endpoints.
+
+WebSocket endpoints are instances of the `javax.websocket.Endpoint` class. The Java API for WebSocket enables you to
+create two kinds of endpoints
+
+1. programmatic endpoints
+2. annotated endpoints
+   
+To create a programmatic endpoint, you extend the `Endpoint` class and override its lifecycle methods. To create an
+annotated endpoint, you decorate a Java class and some of its methods with the annotations provided by the packages
+mentioned previously. After you have created an endpoint, you deploy it to an specific URI in the application so that
+remote clients can connect to it.
+
+> 📋 In most cases, it is easier to create and deploy an annotated endpoint than a programmatic endpoint. This post
+> provides a simple example of a programmatic endpoint, but it focuses on annotated endpoints.
+
+#### Creating and Deploying a WebSocket Endpoint
+
+The process for creating and deploying a WebSocket endpoint is
+
+1. Create an endpoint class.
+2. Implement the lifecycle methods of the endpoint.
+3. Add your business logic to the endpoint.
+4. Deploy the endpoint inside a web application.
+
+> 📋 As opposed to servlets, **WebSocket endpoints are instantiated multiple times**. **The container creates an
+> instance of an endpoint per connection** to its deployment URI. Each instance is associated with one and only one
+> connection. This facilitates keeping user state for each connection and makes development easier, because there is
+> only one thread executing the code of an endpoint instance at any given time.
+
+### Programmatic Endpoints
+
+The following example shows how to create an endpoint by extending the `Endpoint` class:
+
+```java
+public class EchoEndpoint extends Endpoint {
+    
+    @Override
+    public void onOpen(final Session session, EndpointConfig config) {
+        session.addMessageHandler(new MessageHandler.Whole<String>() {
+            @Override
+            public void onMessage(String msg) {
+                try {
+                    session.getBasicRemote().sendText(msg);
+                } catch (IOException e) {
+                    ...
+                }
+            }
+        });
+    }
+}
+```
+
+This endpoint echoes every message received. The Endpoint class defines three lifecycle methods
+
+1. `onOpen`
+2. `onClose`
+3. `onError`
+   
+The `EchoEndpoint` class implements the `onOpen` method, which is the only abstract method in the `Endpoint` class.
+
+The `Session` parameter represents a conversation between this endpoint and the remote endpoint. The `addMessageHandler`
+method registers message handlers, and the `getBasicRemote` method returns an object that represents the remote
+endpoint. The Session interface is covered in detail later.
+
+The message handler is implemented as an anonymous inner class. The `onMessage` method of the message handler is invoked
+when the endpoint receives a text message.
+
+To deploy this programmatic endpoint, use the following code in your Java EE application:
+
+```java
+ServerEndpointConfig.Builder.create(EchoEndpoint.class, "/echo").build();
+```
+
+When you deploy your application, the endpoint is available at `ws://<host>:<port>/<application>/echo`; for example,
+`ws://localhost:8080/echoapp/echo`.
+
+### Annotated Endpoints
+
+The following example shows how to create the same endpoint from [Programmatic Endpoints](#programmatic-endpoints) using
+annotations instead:
+
+```java
+@ServerEndpoint("/echo")
+public class EchoEndpoint {
+    @OnMessage
+    public void onMessage(Session session, String msg) {
+        try {
+            session.getBasicRemote().sendText(msg);
+        } catch (IOException e) {
+            ...
+        }
+    }
+}
+```
+
+The annotated endpoint is simpler than the equivalent programmatic endpoint, and it is deployed automatically with the
+application to the relative path defined in the `ServerEndpoint` annotation. Instead of having to create an additional
+class for the message handler, this example uses the `OnMessage` annotation to designate the method invoked to handle
+messages.
+
+The list below lists the annotations available in the `javax.websocket` package to designate the methods that handle
+lifecycle events. The examples in the table show the most common parameters for these methods. See the API reference for
+details on what combinations of parameters are allowed in each case.
+
+* `@OnOpen` Connection opened
+
+  ```java
+  @OnOpen
+  public void open(Session session, EndpointConfig conf) {
+      ...
+  }  
+  ```
+  
+* `@OnMessage` Message received
+
+  ```java
+  @OnMessage
+  public void message(Session session, String msg) {
+      ...
+  }
+  ```
+
+* `@OnError` Connection error
+  
+  ```java
+  @OnError
+  public void error(Session session, Throwable error) {
+     ...
+  }
+  ```
+
+* `@OnClose` Connection closed
+
+  ```java
+  @OnClose
+  public void close(Session session, CloseReason reason) {{
+     ...
+  }
+  ```
+  
+### Sending and Receiving Messages
+
+WebSocket endpoints can send and receive text and binary messages. In addition, they can also send ping frames and
+receive pong frames. This section describes how to use the `Session` and `RemoteEndpoint` interfaces to send messages to
+the connected peer and how to use the `OnMessage` annotation to receive messages from it.
+
+#### Sending Messages
+
+Follow these steps to send messages in an endpoint.
+
+1. **Obtain the `Session` object from the connection** The Session object is available as a parameter in the annotated
+   lifecycle methods of the endpoint. When your message is a response to a message from the peer, you have the `Session`
+   object available inside the method that received the message (the method annotated with `@OnMessage`). If you have to
+   send messages that are not responses, store the `Session` object as an instance variable of the endpoint class in the
+   method annotated with `@OnOpen` so that you can access it from other methods.
+2. **Use the `Session` object to obtain a `RemoteEndpoint` object** The `Session.getBasicRemote` method and the
+   `Session.getAsyncRemote` method return `RemoteEndpoint.Basic` and `RemoteEndpoint.Async` objects, respectively. The
+   `RemoteEndpoint.Basic` interface provides blocking methods to send messages; the `RemoteEndpoint.Async` interface
+   provides nonblocking methods.
+3. **Use the `RemoteEndpoint` object to send messages to the peer** The following list shows some of the methods you can
+   use to send messages to the peer
+   - `void RemoteEndpoint.Basic.sendText(String text)` Send a text message to the peer. This method blocks until the
+     whole message has been transmitted
+   - `void RemoteEndpoint.Basic.sendBinary(ByteBuffer data)` Send a binary message to the peer. This method blocks until
+     the whole message has been transmitted
+   - `void RemoteEndpoint.sendPing(ByteBuffer appData)` Send a ping frame to the peer
+   - `void RemoteEndpoint.sendPong(ByteBuffer appData)` Send a pong frame to the peer
+
+The example in [Annotated Endpoints](#annotated-endpoints) demonstrates how to use this procedure to reply to every
+incoming text message.
+
+##### Sending Messages to All Peers Connected to an Endpoint
+
+Each instance of an endpoint class is associated with one and only one connection and peer; however, there are cases in
+which an endpoint instance needs to send messages to all connected peers. Examples include chat applications and online
+auctions. The `Session` interface provides the `getOpenSessions` method for this purpose. The following example
+demonstrates how to use this method to forward incoming text messages to all connected peers:
+
+```java
+@ServerEndpoint("/echoall")
+public class EchoAllEndpoint {
+    
+    @OnMessage
+    public void onMessage(Session session, String msg) {
+        try {
+            for (Session sess : session.getOpenSessions()) {
+                if (sess.isOpen()) {
+                    sess.getBasicRemote().sendText(msg);
+                }
+            }
+        } catch (IOException e) {
+            ...
+        }
+    }
+}
+
+
+```
