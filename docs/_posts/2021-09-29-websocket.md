@@ -436,12 +436,148 @@ The procedure to implement and use decoders in endpoints is
     * `Decoder.Text<T>` for text messages
     * `Decoder.Binary<T>` for binary messages
 
-These interfaces specify the `willDecode` and `decode` methods.
+    These interfaces specify the `willDecode` and `decode` methods.
 
-Note:
+2. Add the names of your decoder implementations to the `decoders` optional parameter of the `ServerEndpoint`
+   annotation.
 
-Unlike with encoders, you can specify at most one decoder for binary messages and one decoder for text messages.
+3. Use the `OnMessage` annotation in the endpoint to designate a method that takes your custom Java type as a parameter.
+   When the endpoint receives a message that can be decoded by one of the decoders you specified, the container calls
+   the method annotated with `@OnMessage` that takes your custom Java type as a parameter if this method exists.
 
+For example, if you have two Java types (`MessageA` and `MessageB`) that you want to send and receive as text messages,
+define them so that they extend a common class (`Message`). **Because you can only define one decoder for text
+messages**, implement a decoder for the Message class as follows:
 
+```java
+public class MessageTextDecoder implements Decoder.Text<Message> {
+    
+    @Override
+    public void init(EndpointConfig ec) {
+        ...
+    }
+    
+    @Override
+    public void destroy() {
+        ...
+    }
+    
+    @Override
+    public Message decode(String string) throws DecodeException {
+        // Read message...
+        if ( /* message is an A message */ ) {
+            return new MessageA(...);
+        } else {
+            // message is a B message
+            return new MessageB(...);
+        }
+    }
+    
+    @Override
+    public boolean willDecode(String string) {
+        // Determine if the message can be converted into either a
+        // MessageA object or a MessageB object...
+        return canDecode;
+    }
+}
+```
 
+Then, add the `decoder` parameter to the `ServerEndpoint` annotation as follows:
+
+```java
+@ServerEndpoint(
+    value = "/myendpoint",
+    encoders = { MessageATextEncoder.class, MessageBTextEncoder.class },
+    decoders = { MessageTextDecoder.class }
+)
+public class EncDecEndpoint {
+    
+    ...
+}
+```
+
+Now, define a method in the endpoint class that receives `MessageA` and `MessageB` objects as follows:
+
+```java
+@OnMessage
+public void message(Session session, Message msg) {
+    if (msg instanceof MessageA) {
+        // We received a MessageA object...
+    } else {
+        // We received a MessageB object...
+    }
+}
+```
+
+Like endpoints, decoder instances are associated with one and only one WebSocket connection and peer, so there is only
+one thread executing the code of a decoder instance at any given time.
+
+### Path Parameters
+
+The `ServerEndpoint` annotation enables you to use URI templates to specify parts of an endpoint deployment URI as
+application parameters. For example, consider this endpoint:
+
+```java
+@ServerEndpoint("/chatrooms/{room-name}")
+public class ChatEndpoint {
+    ...
+}
+```
+
+If the endpoint is deployed inside a web application called `chatapp` at a local Java EE server in port 8080, clients
+can connect to the endpoint using any of the following URIs:
+
+* http://localhost:8080/chatapp/chatrooms/currentnews
+* http://localhost:8080/chatapp/chatrooms/music
+* http://localhost:8080/chatapp/chatrooms/cars
+* http://localhost:8080/chatapp/chatrooms/technology
+
+Annotated endpoints can receive path parameters as arguments in methods annotated with `@OnOpen`, `@OnMessage`, and
+`@OnClose`. In this example, the endpoint uses the parameter in the `@OnOpen` method to determine which chat room the
+client wants to join:
+
+```java
+@ServerEndpoint("/chatrooms/{room-name}")
+public class ChatEndpoint {
+    
+    @OnOpen
+    public void open(Session session, EndpointConfig config, @PathParam("room-name") String roomName) {
+        // Add the client to the chat room of their choice ...
+    }
+}
+```
+
+The path parameters used as arguments in these methods can be strings, primitive types, or the corresponding wrapper
+types.
+
+### Handling Errors
+
+To designate a method that handles errors in an annotated WebSocket endpoint, decorate it with `@OnError`:
+
+```java
+@ServerEndpoint("/testendpoint")
+public class TestEndpoint {
+
+    ...
+    
+    @OnError
+    public void error(Session session, Throwable t) {
+        ...
+    }
+}
+```
+
+This method is invoked when there are connection problems, runtime errors from message handlers, or conversion errors
+when decoding messages.
+
+### Specifying an Endpoint Configurator Class
+
+The Java API for WebSocket enables you to configure how the container creates server endpoint instances. You can provide
+custom endpoint configuration logic in order to:
+
+* access the details of the initial HTTP request for a WebSocket connection
+* perform custom checks on the `origin` HTTP header
+* modify the WebSocket handshake response
+* choose a WebSocket subprotocol from those requested by the client
+* control the instantiation and initialization of endpoint instances
 
