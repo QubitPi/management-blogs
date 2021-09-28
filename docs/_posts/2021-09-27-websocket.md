@@ -580,3 +580,42 @@ custom endpoint configuration logic in order to:
 * choose a WebSocket subprotocol from those requested by the client
 * control the instantiation and initialization of endpoint instances
 
+To provide custom endpoint configuration logic, you extend the `ServerEndpointConfig.Configurator` class and override
+some of its methods. In the endpoint class, you specify the configurator class using the configurator parameter of the
+`ServerEndpoint` annotation.
+
+For example, the following configurator class makes the handshake request object available to endpoint instances:
+
+```java
+public class CustomConfigurator extends ServerEndpointConfig.Configurator {
+
+    @Override
+    public void modifyHandshake(ServerEndpointConfig conf, HandshakeRequest req, HandshakeResponse resp) {
+        conf.getUserProperties().put("handshakereq", req);
+    }
+}
+```
+
+The following endpoint class configures endpoint instances with the custom configurator, which enables them to access
+the handshake request object:
+
+```java
+@ServerEndpoint(
+    value = "/myendpoint",
+    configurator = CustomConfigurator.class
+)
+public class MyEndpoint {
+
+    @OnOpen
+    public void open(Session s, EndpointConfig conf) {
+        HandshakeRequest req = (HandshakeRequest) conf.getUserProperties().get("handshakereq");
+        Map<String,List<String>> headers = req.getHeaders();
+        ...
+    }
+}
+```
+
+The endpoint class can use the handshake request object to access the details of the initial HTTP request, such as its
+headers or the `HttpSession` object.
+
+For more information on endpoint configuration, see the API reference for the `ServerEndpointConfig.Configurator` class.
