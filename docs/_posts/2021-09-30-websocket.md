@@ -289,6 +289,79 @@ public class EchoAllEndpoint {
         }
     }
 }
-
-
 ```
+
+#### Receiving Messages
+
+The `OnMessage` annotation designates methods that handle incoming messages. You can have at most three methods
+annotated with `@OnMessage` in an endpoint, one for each message type: text, binary, and pong. The following example
+demonstrates how to designate methods to receive all three types of messages:
+
+```java
+@ServerEndpoint("/receive")
+public class ReceiveEndpoint {
+    
+    @OnMessage
+    public void textMessage(Session session, String msg) {
+        System.out.println("Text message: " + msg);
+    }
+    
+    @OnMessage
+    public void binaryMessage(Session session, ByteBuffer msg) {
+        System.out.println("Binary message: " + msg.toString());
+    }
+    
+    @OnMessage
+    public void pongMessage(Session session, PongMessage msg) {
+        System.out.println("Pong message: " + msg.getApplicationData().toString());
+    }
+}
+```
+
+### Maintaining Client State
+
+Because the container creates an instance of the endpoint class for every connection, you can define and use instance
+variables to store client state information. In addition, the `Session.getUserProperties` method provides a modifiable
+map to store user properties. For example, the following endpoint replies to incoming text messages with the contents of
+the previous message from each client:
+
+```java
+@ServerEndpoint("/delayedecho")
+public class DelayedEchoEndpoint {
+    
+    @OnOpen
+    public void open(Session session) {
+        session.getUserProperties().put("previousMsg", " ");
+    }
+    
+    @OnMessage
+    public void message(Session session, String msg) {
+        String prev = (String) session.getUserProperties().get("previousMsg");
+        session.getUserProperties().put("previousMsg", msg);
+        try {
+            session.getBasicRemote().sendText(prev);
+        } catch (IOException e) {
+            ...
+        }
+    }
+}
+```
+
+### Using Encoders and Decoders
+
+The Java API for WebSocket provides support for converting between WebSocket messages and custom Java types using
+encoders and decoders. An encoder takes a Java object and produces a representation that can be transmitted as a
+WebSocket message; for example, encoders typically produce JSON, XML, or binary representations. A decoder performs the
+reverse function; it reads a WebSocket message and creates a Java object.
+
+This mechanism simplifies WebSocket applications, because it decouples the business logic from the serialization and
+deserialization of objects.
+
+#### Implementing Encoders to Convert Java Objects into WebSocket Messages
+
+The procedure to implement and use encoders in endpoints follows.
+
+1. Implement one of the following interfaces:
+
+  * `Encoder.Text<T>` for text messages
+  * `Encoder.Binary<T>` for binary messages
