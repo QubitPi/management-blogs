@@ -363,5 +363,85 @@ The procedure to implement and use encoders in endpoints follows.
 
 1. Implement one of the following interfaces:
 
-  * `Encoder.Text<T>` for text messages
-  * `Encoder.Binary<T>` for binary messages
+    * `Encoder.Text<T>` for text messages
+    * `Encoder.Binary<T>` for binary messages
+
+    These interfaces specify the "encode" method. Implement an encoder class for each custom Java type that you want to
+    send as a WebSocket message.
+   
+2. Add the names of your encoder implementations to the encoders optional parameter of the ServerEndpoint annotation.
+   (see example below)
+   
+3. Use the `sendObject(Object data)` method of the `RemoteEndpoint.Basic` or `RemoteEndpoint.Async` interfaces to send
+   your objects as messages. The container looks for an encoder that matches your type and uses it to convert the object
+   to a WebSocket message.
+
+For example, if you have two Java types (`MessageA` and `MessageB`) that you want to send as text messages, implement
+the `Encoder.Text<MessageA>` and `Encoder.Text<MessageB>` interfaces as follows:
+
+```java
+public class MessageATextEncoder implements Encoder.Text<MessageA> {
+    
+    @Override
+    public void init(EndpointConfig ec) {
+        ...
+    }
+    
+    @Override
+    public void destroy() {
+        ...
+    }
+    
+    @Override
+    public String encode(MessageA msgA) throws EncodeException {
+        // Access msgA's properties and convert to JSON text...
+        return msgAJsonString;
+    }
+}
+```
+
+Implement `Encoder.Text<MessageB>` similarly. Then, add the encoders parameter to the `ServerEndpoint` annotation as
+follows:
+
+```java
+@ServerEndpoint(
+    value = "/myendpoint",
+    encoders = { MessageATextEncoder.class, MessageBTextEncoder.class }
+)
+public class EncEndpoint {
+    
+    ...
+}
+```
+
+Now, you can send `MessageA` and `MessageB` objects as WebSocket messages using the `sendObject` method as follows:
+
+```java
+MessageA msgA = new MessageA(...);
+MessageB msgB = new MessageB(...);
+session.getBasicRemote.sendObject(msgA);
+session.getBasicRemote.sendObject(msgB);
+```
+
+As in this example, you can have more than one encoder for text messages and more than one encoder for binary messages.
+Like endpoints, encoder instances are associated with one and only one WebSocket connection and peer, so there is only
+one thread executing the code of an encoder instance at any given time.
+
+#### Implementing Decoders to Convert WebSocket Messages into Java Objects
+
+The procedure to implement and use decoders in endpoints is
+
+1. Implement one of the following interfaces:
+
+    * `Decoder.Text<T>` for text messages
+    * `Decoder.Binary<T>` for binary messages
+
+These interfaces specify the `willDecode` and `decode` methods.
+
+Note:
+
+Unlike with encoders, you can specify at most one decoder for binary messages and one decoder for text messages.
+
+
+
+
