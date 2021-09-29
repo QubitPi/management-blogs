@@ -228,7 +228,7 @@ details on what combinations of parameters are allowed in each case.
 
   ```java
   @OnClose
-  public void close(Session session, CloseReason reason) {{
+  public void close(Session session, CloseReason reason) {
      ...
   }
   ```
