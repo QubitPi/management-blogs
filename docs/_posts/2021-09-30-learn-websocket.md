@@ -3,8 +3,8 @@ layout: post
 title: Websocket
 tags: [Java, Webservice, JavaEE]
 color: rgb(240,78,35)
-feature-img: "assets/img/post-cover/3-cover.png"
-thumbnail: "assets/img/post-cover/3-cover.png"
+feature-img: "assets/img/post-cover/4-cover.png"
+thumbnail: "assets/img/post-cover/4-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
