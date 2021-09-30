@@ -889,8 +889,7 @@ Although Elasticsearch API also supports attaching query string as request body 
 >             "user.id": "kimchy"
 >         }
 >     }
-> }
-```
+> }```
 
 ##### Get All Data
 
@@ -913,3 +912,6 @@ By default, you cannot page through more than 10,000 hits using the [`from`](#fr
 through more hits, use the
 [search_after](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#search-after)
 parameter.
+
+## Performance
+
