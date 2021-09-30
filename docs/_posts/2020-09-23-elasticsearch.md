@@ -118,6 +118,9 @@ curl -XPOST ...:9200/my_index -d '{
 }'
 ```
 
+> 📋 For more details about index settings, please refer to
+> https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#index-modules-settings
+
 Another way of providing the mapping is using the [Put Mapping API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-put-mapping.html).
 
 ```
@@ -141,15 +144,16 @@ result, as already indexed documents are not re-indexed automatically with the n
 Because of this, specifying the mapping during creation of the indexes is recommended over using the Put Mapping API in
 most cases.
 
-Mapping is the process of defining how a document, and the fields it contains, are stored and indexed.
+### Metadata Fields
+
+As we discussed above, papping is the process of defining how a document, and the fields it contains, are stored and
+indexed.
 
 Each document is a collection of fields, which each have their own
 [data type](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html). When mapping your data,
 you create a mapping definition, which contains a list of fields that are pertinent to the document. A mapping
 definition also includes metadata fields, like the `_source` field, which customize how a document's associated metadata
 is handled.
-
-### Metadata Fields
 
 Each document has metadata associated with it, such as the `_index`, mapping `_type`, and `_id` metadata fields. The
 behavior of some of these metadata fields can be customized when a mapping type is created.
