@@ -14,7 +14,132 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
   
-## Mapping
+## Elasticsearch Mapping
+
+A schema in Elasticsearch is a mapping that describes the fields in the JSON documents along with their data type, as
+well as how they should be indexed in the Lucene indexes that lie under the hood. Because of this, in Elasticsearch
+terms, we usually call this schema a "mapping".
+
+Conceptually, an Elasticsearch server contains zero or more indexes. An index is a container for zero or more types,
+which in turn has zero or more documents. For example:
+
+![Error Loading es-index-type-docs.png]({{ "/assets/img/es-index-type-docs.png" | relative_url}})
+
+The type called `another_type` and the index called `another` is shown in order to emphasize that Elasticsearch is
+multi-tenant, i.e. a single server can store multiple indexes and multiple types.
+
+In the Elasticsearch documentation and related material, we often see the term "mapping type", which is actually the
+name of the type inside the index, such as `my_type` and `another_type` in the figure above. When we talk about types in
+Elasticsearch, it is usually this definition of type. It is not to be confused with the `type` key inside each mapping
+definition that determines how the data inside the documents are handled by Elasticsearch.
+
+Elasticsearch has the ability to be schema-less, which means that documents can be indexed without explicitly providing
+a schema.
+
+If you do not specify a mapping, Elasticsearch will by default generate one dynamically when detecting new fields in
+documents during indexing. However, this dynamic mapping generation comes with a few caveats:
+
+* Detected types might not be correct.
+* May lead to unnecessary duplication. (The [_source field](#document-source-metadata-fields) and
+  [_all field](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/mapping-all-field.html#custom-all-fields)
+  especially.)
+* Uses default analyzers and settings for indexing and searching.
+
+For example, a timestamp is often represented in JSON as a `long`, but Elasticsearch will be unable to detect the field
+as a date field, preventing date filters and facets such as
+[the date histogram facet](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/search-aggregations-bucket-datehistogram-aggregation.html)
+from working properly.
+
+By explicitly specifying the schema, we can avoid these problems.
+
+### What Does a Mapping Look Like?
+
+The mapping is usually provided to Elasticsearch as JSON, and is a hierarchically structured format where the root is
+the name of the type the mapping applies to. For example
+
+Document:
+
+```json
+{
+    "name": {
+        "first": "John"
+    }
+}
+```
+
+Mapping:
+
+```json
+{
+    "my_type" : {
+        "properties" : {
+            "name" : {
+                "properties" : {
+                    "first" : {
+                        "type" : "string"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+#### The "type" Key
+
+In the above example, we see that the document field `name.first` differs from the rest of the structure in that it
+defines a **type**. The `type` key is used on the _leaf_ levels to tell Elasticsearch how to handle the field at the
+given level in the document. If the `type` key is omitted, as in the case of non-leaf types, Elasticsearch assumes it is
+of the object type.
+
+The `string` type is one of the built-in
+[core types](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html), and Elasticsearch
+comes with support for many different types, such as
+[geo_point](https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html) and ip, which can be used to
+effectively index and search geographical locations and IPv4 addresses respectively. Using the
+[multi_field](https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-fields.html) type, we can even index
+a single document field into multiple virtual fields. We’ll elaborate on this in a future article.
+
+### How to Provide a Mapping
+
+There are two ways of providing a mapping to Elasticsearch. The most common way is during
+[index creation](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html):
+
+```
+curl -XPOST ...:9200/my_index -d '{
+    "settings" : {
+        # .. index settings
+    },
+    "mappings" : {
+        "my_type" : {
+            # mapping for my_type
+        }
+    }
+}'
+```
+
+Another way of providing the mapping is using the [Put Mapping API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-put-mapping.html).
+
+```
+$ curl -XPUT 'http://localhost:9200/my_index/my_type/_mapping' -d '
+{
+    "my_type" : {
+        # mapping for my_type
+    }
+}
+'
+```
+
+> Note that the type (`my_type`) is duplicated in the request path and the request body.
+
+This API enables us to update the mapping for an already existing index, but with some limitations with regards to
+potential conflicts. New mapping definitions can be added to the existing mapping, and existing types may have their
+configuration updated, but changing the types is considered a conflict and is not accepted. It is, however, possible to
+pass `ignore_conflicts=true` as a parameter to the Mapping API, but doing so does not guarantee producing the expected
+result, as already indexed documents are not re-indexed automatically with the new mapping.
+
+Because of this, specifying the mapping during creation of the indexes is recommended over using the Put Mapping API in
+most cases.
 
 Mapping is the process of defining how a document, and the fields it contains, are stored and indexed.
 
@@ -321,7 +446,7 @@ PUT my-index-000001
 }
 ```
 
-> ⚠️ **Think before disabling the `_source` field
+> ⚠️ **Think before disabling the `_source` field**
 > 
 > Users often disable the `_source` field without thinking about the consequences, and then live to regret it. If the
 > `_source` field isn't available then a number of features are not supported:
