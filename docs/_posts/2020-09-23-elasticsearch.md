@@ -979,5 +979,41 @@ PUT movies
 
 #### Pre-Index Data
 
+You should leverage patterns in your queries to optimize the way data is indexed. For instance, if all your documents
+have a `price` field and most queries run
+[range](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-range-aggregation.html)
+aggregations on a fixed list of ranges, you could make this aggregation faster by pre-indexing the ranges into the index
+and using a [terms](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-terms-aggregation.html) aggregations.
 
+For instance, if documents look like:
+
+```
+PUT index/_doc/1
+{
+    "designation": "spoon",
+    "price": 13
+}
+```
+
+and search requests look like:
+
+```
+GET index/_search
+{
+    "aggs": {
+        "price_ranges": {
+            "range": {
+                "field": "price",
+                "ranges": [
+                    { "to": 10 },
+                    { "from": 10, "to": 100 },
+                    { "from": 100 }
+                ]
+            }
+        }
+    }
+}
+```
+
+Then documents could be enriched by a `price_range` field at index time, which should be mapped as a keyword:
 
