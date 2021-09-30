@@ -669,3 +669,7 @@ recommendation, content discovery, detecting regulatory compliance and much more
 * [Ontotext GraphDB](https://www.ontotext.com/products/graphdb/)
 * [Memgraph](https://memgraph.com/)
 * [GDB by rankings](https://db-engines.com/en/ranking/graph+dbms)
+
+## Good Books on Graph
+
+[Introduction to Graph Theory (Dover Books on Mathematics)]({{ "/assets/pdf/Introduction to Graph Theory (Dover Books on Mathematics).epub" | relative_url}})
