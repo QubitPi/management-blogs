@@ -1336,7 +1336,7 @@ The edge_ngram tokenizer can break up text into words when it encounters any of 
 ###### N-Gram Tokenizer
 
 The **n-gram tokenizer** breaks text down into words whenever it encounters one of a list of specified characters and
-emits N-grams of each word of the specified length.
+emits [N-grams](https://en.wikipedia.org/wiki/N-gram) of each word of the specified length.
 
 N-grams are like a sliding window that moves across the word - a continuous sequence of characters of the specified
 length. They are useful for querying languages that don't use spaces or that have long compound words, like German.
@@ -1367,6 +1367,63 @@ The `ngram` tokenizer accepts the following parameters:
 | `token_chars`        | Character classes that should be included in a token. Elasticsearch will split on characters that do not belong to the classes specified.<br />Character classes may be any of the following:<br />* letter - for example `a`, `b`, `ï` or `京`<br />* digit - for example 3 or 7<br />* whitespace - for example " " or "\n"<br />* punctuation - for example ! or "<br />* symbol - for example `$` or `√`<br />* custom - custom characters which need to be set using the `custom_token_chars` setting.  | `[]` (keep all characters). |
 | `custom_token_chars` | Custom characters that should be treated as part of a token. For example, setting this to `+-_` will make the tokenizer treat the plus, minus and underscore sign as part of a token.                                                                                                                                                                                                                                                                                                                       | N/A                         |
 
+> 💡 It usually makes sense to set `min_gram` and `max_gram` to the same value. The smaller the length, the more
+> documents will match but the lower the quality of the matches. The longer the length, the more specific the matches.
+> A tri-gram (length 3) is a good place to start.
+
+The index level setting `index.max_ngram_diff` controls the maximum allowed difference between `max_gram` and `min_gram`
+
+In this example, we configure the `ngram` tokenizer to treat letters and digits as tokens, and to produce tri-grams
+(grams of length 3):
+
+```json
+PUT my-index-000001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "tokenizer": "my_tokenizer"
+                }
+            },
+            "tokenizer": {
+                "my_tokenizer": {
+                    "type": "ngram",
+                    "min_gram": 3,
+                    "max_gram": 3,
+                    "token_chars": ["letter", "digit"]
+                }
+            }
+        }
+    }
+}
+
+POST my-index-000001/_analyze
+{
+    "analyzer": "my_analyzer",
+    "text": "2 Quick Foxes."
+}
+```
+
+which produces
+
+```
+[Qui, uic, ick, Fox, oxe, xes]
+```
+
+###### Edge N-Gram Tokenizer
+
+The **edge n-gram tokenizer** first breaks text down into words whenever it encounters one of a list of specified
+characters, then it emits [N-grams](https://en.wikipedia.org/wiki/N-gram) of each word where the start of the N-gram is
+anchored to the beginning of the word.
+
+**Edge n-grams are useful for _search-as-you-type_ queries**.
+
+> 💡 When you need `search-as-you-type` for text which has a widely known order, such as movie or song titles, the completion suggester is a much more efficient choice than edge N-grams. Edge N-grams have the advantage when trying to autocomplete words that can appear in any order.
+
+
+
+
 
 
 #### Token Filters
@@ -1377,6 +1434,42 @@ The `ngram` tokenizer accepts the following parameters:
 
 
 ##### Custom Analyzer
+
+## REST API
+
+### Completion Suggester
+
+The **completion suggester** provides auto-complete/search-as-you-type functionality. This is a navigational feature to
+guide users to relevant results as they are typing, improving search precision. It is not meant for spell correction or
+did-you-mean functionality like the `term` or `phrase` suggesters.
+
+Ideally, auto-complete functionality should be as fast as a user types to provide instant feedback relevant to what a
+user has already typed in. Hence, completion suggester is optimized for speed. The suggester uses data structures that
+enable fast lookups, but are costly to build and are stored in-memory.
+
+#### Mapping
+
+To use this feature, specify a special mapping for this field, which indexes the field values for fast completions.
+
+```json
+PUT music
+{
+    "mappings": {
+        "properties": {
+            "suggest": {
+                "type": "completion"
+            },
+            "title": {
+                "type": "keyword"
+            }
+        }
+    }
+}
+```
+
+Mapping supports the following parameters:
+
+Enables position increments, If disabled and using stopwords analyzer, you could get a field starting with The Beatles, if you suggest for b. Note: You could also achieve this by indexing two inputs, Beatles and The Beatles, no need to change a simple analyzer, if you are able to enrich your data.
 
 ## Java API
 
