@@ -1050,7 +1050,328 @@ The output from the above is:
 
 #### Tokenizer
 
+A **tokenizer** receives a stream of characters, breaks it up into individual tokens (usually individual words), and
+outputs a stream of tokens. For instance, a [whitespace tokenizer](#whitespace-tokenizer) breaks text into tokens
+whenever it sees any whitespace. It would convert the text "Quick brown fox!" into the terms `[Quick, brown, fox!]`.
+
+The tokenizer is also responsible for recording the following:
+
+* Order or position of each term (used for phrase and word proximity queries)
+* Start and end character offsets of the original word which the term represents (used for highlighting search snippets).
+* Token type, a classification of each term produced, such as `<ALPHANUM>`, `<HANGUL>`, or `<NUM>`. Simpler analyzers
+  only produce the word token type.
+
+An analyzer must have exactly one tokenizer. Elasticsearch also has a number of built in tokenizers which can be used to
+build [custom analyzers](#custom-analyzer).
+
+##### Word Oriented Tokenizers
+
+The following tokenizers are usually used for tokenizing full text into individual words:
+
+* [Standard Tokenizer](#standard-tokenizer) divides text into terms on word boundaries, as defined by the
+  [Unicode Text Segmentation algorithm](https://unicode.org/reports/tr29/). It removes most punctuation symbols. It is
+  the best choice for most languages
+* [Letter Tokenizer](#letter-tokenizer) divides text into terms whenever it encounters a character which is not a letter
+* [Lowercase Tokenizer](#lowercase-tokenizer), like the letter tokenizer, divides text into terms whenever it encounters
+  a character which is not a letter, but it also lowercases all terms
+* [Whitespace Tokenizer](#whitespace-tokenizer) divides text into terms whenever it encounters any whitespace character
+* [UAX URL Email Tokenizer](#uax-url-email-tokenizer) is similar to the standard tokenizer except that it recognises
+  URLs and email addresses as single tokens.
+* [Classic Tokenizer](#classic-tokenizer) is a grammar based tokenizer for the English Language.
+Thai Tokenizer
+The thai tokenizer segments Thai text into words.
+
+###### Standard Tokenizer
+
+The **standard tokenizer** provides grammar based tokenization (based on the Unicode Text Segmentation algorithm, as
+specified in [Unicode Standard Annex #29](https://unicode.org/reports/tr29/)) and works well for most languages.
+
+```json
+POST _analyze
+{
+    "tokenizer": "standard",
+    "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+```
+
+The sentence above would produce the following terms:
+
+```
+[ The, 2, QUICK, Brown, Foxes, jumped, over, the, lazy, dog's, bone ]
+```
+
+The standard tokenizer accepts a parameter called `max_token_length`, which is the maximum token length. If a token
+exceeds this length then it is split at `max_token_length` intervals. Defaults to 255. For example
+
+```json
+PUT my-index-000001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                  "tokenizer": "my_tokenizer"
+                }
+            },
+            "tokenizer": {
+                "my_tokenizer": {
+                    "type": "standard",
+                    "max_token_length": 5
+                }
+            }
+        }
+    }
+}
+
+POST my-index-000001/_analyze
+{
+    "analyzer": "my_analyzer",
+    "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+```
+
+The example above produces the following terms:
+
+```
+[ The, 2, QUICK, Brown, Foxes, jumpe, d, over, the, lazy, dog's, bone ]
+```
+
+###### Letter Tokenizer
+
+The **letter tokenizer** breaks text into terms whenever it encounters a character which is not a letter. _It does a
+reasonable job for most European languages, but does a terrible job for some Asian languages_, where words are not
+separated by spaces.
+
+```json
+
+POST _analyze
+{
+  "tokenizer": "letter",
+  "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+```
+
+The sentence above produces the following terms:
+
+```
+[ The, QUICK, Brown, Foxes, jumped, over, the, lazy, dog, s, bone ]
+```
+
+###### Lowercase Tokenizer
+
+The **lowercase tokenizer**, like the [letter tokenizer](#letter-tokenizer) breaks text into terms whenever it
+encounters a character which is not a letter, but it also lowercases all terms. It is equivalent to the
+[letter tokenizer](#letter-tokenizer) combined with the [lowercase token filter](#lowercase-token-filter), but is more
+efficient as it performs both steps in a single pass.
+
+```json
+POST _analyze
+{
+  "tokenizer": "lowercase",
+  "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+```
+
+gives us
+
+```
+[ the, quick, brown, foxes, jumped, over, the, lazy, dog, s, bone ]
+```
+
+###### Whitespace Tokenizer
+
+The **whitespace tokenizer** breaks text into terms whenever it encounters a whitespace character. For example,
+
+```json
+POST _analyze
+{
+    "tokenizer": "whitespace",
+    "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+```
+
+produces
+
+```
+[ The, 2, QUICK, Brown-Foxes, jumped, over, the, lazy, dog's, bone. ]
+```
+
+The whitespace tokenizer accepts a parameter of `max_token_length`, which is the maximum token length. If a token
+exceeds this length then it is split at `max_token_length` intervals. Defaults to 255.
+
+###### UAX URL Email Tokenizer
+
+The **UAX URL Email tokenizer** similar to the [standard tokenizer](#standard-tokenizer) except that it recognises URLs
+and email addresses as single tokens.
+
+```json
+POST _analyze
+{
+    "tokenizer": "uax_url_email",
+    "text": "Email me at john.smith@global-international.com"
+}
+```
+
+results in
+
+```
+[Email, me, at, john.smith@global-international.com]
+```
+
+while the standard tokenizer would produce:
+
+```
+[Email, me, at, john.smith, global, international.com]
+```
+
+The `uax_url_email` tokenizer accepts the `max_token_length` parameter, which is the maximum token length. If a token
+exceeds this length then it is split at `max_token_length` intervals. Defaults to 255. For example
+
+```json
+PUT my-index-000001
+{
+  "settings": {
+      "analysis": {
+          "analyzer": {
+              "my_analyzer": {
+                  "tokenizer": "my_tokenizer"
+              }
+          },
+          "tokenizer": {
+              "my_tokenizer": {
+                  "type": "uax_url_email",
+                  "max_token_length": 5
+              }
+          }
+      }
+  }
+}
+
+POST my-index-000001/_analyze
+{
+    "analyzer": "my_analyzer",
+    "text": "john.smith@global-international.com"
+}
+```
+
+changes the previous result to
+
+```
+[john, smith, globa, l, inter, natio, nal.c, om]
+```
+
+###### Classic Tokenizer
+
+The **classic tokenizer** is a grammar based tokenizer that is good for English language documents. This tokenizer has
+heuristics for special treatment of acronyms, company names, email addresses, and internet host names. However, these
+rules do not always work, and the tokenizer doesn't work well for most languages other than English:
+
+* It splits words at most punctuation characters, removing punctuation. However, a dot not followed by whitespace is
+  considered part of a token
+* It splits words at hyphens, unless there is a number in the token, in which case the whole token is interpreted as a
+  product number and is not split
+* It recognizes email addresses and internet hostnames as one token
+
+```json
+POST _analyze
+{
+    "tokenizer": "classic",
+    "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+```
+
+breaks the sentence into 
+
+```
+[The, 2, QUICK, Brown, Foxes, jumped, over, the, lazy, dog's, bone]
+```
+
+The classic tokenizer can take `max_token_length` as a parameter, that is the maximum token length. If a token exceeds
+this length then it is split at `max_token_length` intervals. Defaults to 255. For instance
+
+```json
+PUT my-index-000001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "tokenizer": "my_tokenizer"
+                }
+            },
+            "tokenizer": {
+                "my_tokenizer": {
+                    "type": "classic",
+                    "max_token_length": 5
+                }
+            }
+        }
+    }
+}
+
+POST my-index-000001/_analyze
+{
+    "analyzer": "my_analyzer",
+    "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+```
+
+changes the output to
+
+```
+[The, 2, QUICK, Brown, Foxes, jumpe, d, over, the, lazy, dog's, bone]
+```
+
+##### Partial Word Tokenizers
+
+These tokenizers break up text or words into small fragments, for partial word matching:
+
+* [N-Gram Tokenizer](#n-gram-tokenizer) breaks up text into words when it sees any of a list of specified characters
+  (e.g. whitespace or punctuation), then it returns n-grams of each word: a sliding window of continuous letters, e.g.
+  `quick` → `[qu, ui, ic, ck]`
+  
+Edge N-Gram Tokenizer
+The edge_ngram tokenizer can break up text into words when it encounters any of a list of specified characters (e.g. whitespace or punctuation), then it returns n-grams of each word which are anchored to the start of the word, e.g. quick → [q, qu, qui, quic, quick].
+
+###### N-Gram Tokenizer
+
+The **n-gram tokenizer** breaks text down into words whenever it encounters one of a list of specified characters and
+emits N-grams of each word of the specified length.
+
+N-grams are like a sliding window that moves across the word - a continuous sequence of characters of the specified
+length. They are useful for querying languages that don't use spaces or that have long compound words, like German.
+
+With the default settings, for example, the ngram tokenizer treats the initial text as a single token and produces
+N-grams with _minimum length 1 and maximum length 2_:
+
+```json
+POST _analyze
+{
+  "tokenizer": "ngram",
+  "text": "Quick Fox"
+}
+```
+
+gives
+
+```
+[Q, Qu, u, ui, i, ic, c, ck, k, "k ", " ", " F", F, Fo, o, ox, x]
+```
+
+The `ngram` tokenizer accepts the following parameters:
+
+| Parameter            | Definition                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Default Value               |
+|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
+| `min_gram`           | Minimum length of characters in a gram                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | 1                           |
+| `max_gram`           | Maximum length of characters in a gram                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | 2                           |
+| `token_chars`        | Character classes that should be included in a token. Elasticsearch will split on characters that do not belong to the classes specified.<br />Character classes may be any of the following:<br />* letter - for example `a`, `b`, `ï` or `京`<br />* digit - for example 3 or 7<br />* whitespace - for example " " or "\n"<br />* punctuation - for example ! or "<br />* symbol - for example `$` or `√`<br />* custom - custom characters which need to be set using the `custom_token_chars` setting.  | `[]` (keep all characters). |
+| `custom_token_chars` | Custom characters that should be treated as part of a token. For example, setting this to `+-_` will make the tokenizer treat the plus, minus and underscore sign as part of a token.                                                                                                                                                                                                                                                                                                                       | N/A                         |
+
+
+
 #### Token Filters
+
+##### Lowercase Token Filter
 
 ##### Standard Analyzer
 
