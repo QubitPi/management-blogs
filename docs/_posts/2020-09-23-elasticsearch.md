@@ -681,9 +681,155 @@ Text analysis is performed by an **[analyzer](#analyzer)**, a set of rules that 
 Elasticsearch includes a default analyzer, called the **[standard analyzer](#standard-analyzer)**, which works well for most
 use cases right out of the box.
 
-#### Analyzer
+If you want to tailor your search experience, you can choose a different [built-in analyzer](#analyzer) or even
+configure a [custom one](#custom-analyzer). A custom analyzer gives you control over each step of the analysis process,
+including:
+
+* Changes to the text before tokenization
+* How text is converted to tokens
+* Normalization changes made to tokens before indexing or search
+
+### Analyzer
+
+An analyzer, whether built-in or custom, is just a package which contains three lower-level building blocks:
+
+* [character filters](#character-filters)
+* [tokenizers](#tokenizer), and
+* [token filters](#token-filters)
+
+The built-in analyzers pre-package these building blocks into analyzers suitable for different languages and types of
+text. Elasticsearch also exposes the individual building blocks so that they can be combined to define new custom
+analyzers.
+
+#### Character Filters
+
+A **character filter** receives the original text as a stream of characters and can transform the stream by adding,
+removing, or changing characters.
+
+An analyzer may have zero or more character filters, which are applied in order.
+
+Elasticsearch has a number of built in character filters which can be used to build
+[custom analyzers](#custom-analyzer).
+
+##### HTML Strip Character Filter
+
+Strips HTML elements from a text and replaces HTML entities with their decoded value (e.g, replaces `&amp;` with `&).
+
+This filter delegates to [Lucene's HTMLStripCharFilter](https://lucene.apache.org/core/8_9_0/analyzers-common/org/apache/lucene/analysis/charfilter/HTMLStripCharFilter.html)
+
+The following [analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html)
+request changes the text `<p>I&apos;m so <b>happy</b>!</p>` to `\nI'm so happy!\n`.
+
+```json
+GET /_analyze
+{
+  "tokenizer": "keyword",
+  "char_filter": ["html_strip"],
+  "text": "<p>I&apos;m so <b>happy</b>!</p>"
+}
+```
+
+The following
+[create index API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html) request
+configures a new [custom analyzer](#custom-analyzer)
+
+```json
+PUT /my-index-000001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "tokenizer": "keyword",
+                    "char_filter": ["html_strip"]
+                }
+            }
+        }
+    }
+}
+```
+
+###### Customize
+
+```json
+PUT my-index-000001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "tokenizer": "keyword",
+                    "char_filter": ["my_custom_html_strip_char_filter"]
+                }
+            },
+            "char_filter": {
+                "my_custom_html_strip_char_filter": {
+                    "type": "html_strip",
+                    "escaped_tags": ["b"]
+                }
+            }
+        }
+    }
+}
+```
+
+To customize the `html_strip` filter, duplicate it to create the basis for a new custom character filter. You can modify
+the filter using its configurable parameter `escaped_tags`, which is an of HTML elements without enclosing angle
+brackets (`<` `>`). The filter skips these HTML elements when stripping HTML from the text. For example, a value of
+`["p"]` skips the `<p>` HTML element.
+
+##### Mapping Character Filter
+
+The **mapping character filter** accepts a map of keys and values. Whenever it encounters a string of characters that is
+the same as a key, it replaces them with the value associated with that key.
+
+Matching is greedy; the longest pattern matching at a given point wins. Replacements are allowed to be the empty string.
+
+The mapping filter uses
+[Lucene's MappingCharFilter](https://lucene.apache.org/core/8_9_0/analyzers-common/org/apache/lucene/analysis/charfilter/MappingCharFilter.html).
+
+The following analyze API request uses the mapping filter to convert Hindu-Arabic numerals (٠١٢٣٤٥٦٧٨٩) into their
+Arabic-Latin equivalents (0123456789), changing the text My license plate is ٢٥٠١٥ to My license plate is 25015.
+
+```json
+GET /_analyze
+{
+    "tokenizer": "keyword",
+    "char_filter": [
+        {
+            "type": "mapping",
+            "mappings": [
+                "٠ => 0",
+                "١ => 1",
+                "٢ => 2",
+                "٣ => 3",
+                "٤ => 4",
+                "٥ => 5",
+                "٦ => 6",
+                "٧ => 7",
+                "٨ => 8",
+                "٩ => 9"
+            ]
+        }
+    ],
+    "text": "My license plate is ٢٥٠١٥"
+}
+```
+
+The filter produces the following text:
+
+```json
+[ My license plate is 25015 ]
+```
+
+#### Tokenizer
+
+#### Token Filters
 
 ##### Standard Analyzer
+
+
+##### Custom Analyzer
 
 ## Java API
 
