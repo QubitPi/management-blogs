@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Elasticsearch
+title: Elasticsearch Basics
 tags: [Elasticsearch]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/25-cover.png"
@@ -11,10 +11,18 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+Thi post is part of Elasticsearch series:
+
+* [Elasticsearch Basics](https://qubitpi.github.io/jersey-guide/2020/09/23/elasticsearch.html)
+* [Elasticsearch Performance](https://qubitpi.github.io/jersey-guide/2021/10/01/elasticsearch-performance.html)
+
+
 * TOC
 {:toc}
   
 ## Elasticsearch Mapping
+
+Each document is a collection of fields, which each have their own data type. When mapping your data, you create a mapping definition, which contains a list of fields that are pertinent to the document. A mapping definition also includes metadata fields, like the _source field, which customize how a document’s associated metadata is handled.
 
 A schema in Elasticsearch is a mapping that describes the fields in the JSON documents along with their data type, as
 well as how they should be indexed in the Lucene indexes that lie under the hood. Because of this, in Elasticsearch
@@ -522,6 +530,160 @@ GET logs/_search
     }
 }
 ```
+
+### Field Data Types
+
+Each field has a **field data type**, or **field type**. This type indicates the kind of data the field contains, such
+as strings or boolean values, and its intended use. For example, you can index strings to both **text** and **keyword**
+fields. However, text field values are [analyzed](#text-analysis) for full-text search while keyword strings are left as-is for filtering
+and sorting.
+
+Field types are grouped by **family**. Types in the same family support the same search functionality but may have
+different space usage or performance characteristics.
+
+One type family is **keyword**, which consists of
+
+* keyword
+* constant_keyword, and
+* wildcard field types.
+  
+Other type families have only a single field type. For example, the boolean type family consists of one field type:
+boolean.
+
+#### Text Type Family
+
+#### Object Field Type
+
+JSON documents are hierarchical in nature: the document may contain inner objects which, in turn, may contain inner
+objects themselves:
+
+```json
+PUT my-index-000001/_doc/1
+{ 
+    "region": "US",
+    "manager": { 
+        "age": 30,
+        "name": { 
+            "first": "John",
+            "last":  "Smith"
+        }
+    }
+}
+```
+
+Internally, this document is indexed as a simple, flat list of key-value pairs, something like this:
+
+```json
+{
+    "region":             "US",
+    "manager.age":        30,
+    "manager.name.first": "John",
+    "manager.name.last":  "Smith"
+}
+```
+
+An explicit mapping for the above document could look like this:
+
+```json
+PUT my-index-000001
+{
+    "mappings": {
+        "properties": { 
+            "region": {
+                "type": "keyword"
+            },
+            "manager": { 
+                "properties": {
+                    "age": {
+                        "type": "integer"
+                    },
+                    "name": { 
+                        "properties": {
+                            "first": {
+                                "type": "text"
+                            },
+                            "last": {
+                                "type": "text"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+#### Parameters for `object` Fields
+
+The following parameters are accepted by object fields:
+
+### Nested Field Type
+
+The **nested** type is a specialised version of the object data type that allows arrays of objects to be indexed in a way that they can be queried independently of each other.
+
+### Mapping Parameters
+
+The following mapping parameters are common to some or all field data types:
+
+#### analyzer
+
+> 📋 Only text fields support the analyzer mapping parameter.
+ 
+The analyzer parameter specifies the analyzer used for text analysis when indexing or searching a text field.
+
+## Text Analysis
+
+**Text analysis** is the process of converting unstructured text, like the body of an email or a product description,
+into a structured format that's optimized for search.
+
+Elasticsearch performs text analysis when indexing or searching [text](#text-type-family) fields.
+
+Text analysis enables Elasticsearch to perform full-text search, where the search returns all relevant results rather
+than just exact matches.
+
+If you search for "Quick fox jumps", you probably want the document that contains "A quick brown fox jumps over the lazy
+dog", and you might also want documents that contain related words like "fast fox or foxes leap".
+
+### Tokenization
+
+Analysis makes full-text search possible through **tokenization**: breaking a text down into smaller chunks, called
+**tokens**. In most cases, these tokens are individual words.
+
+If you index the phrase "the quick brown fox jumps" as a single string and the user searches for "quick fox", it isn't
+considered a match. However, if you tokenize the phrase and index each word separately, the terms in the query string
+can be looked up individually. This means they can be matched by searches for "quick fox", "fox brown", or other
+variations.
+
+#### Normalization
+
+Tokenization enables matching on individual terms, but each token is still matched literally. This means:
+
+* A search for "Quick" would not match "quick", even though you likely want either term to match the other
+* Although "fox" and "foxes" share the same root word, a search for foxes would not match fox or vice versa
+* A search for "jumps" would not match "leaps". While they do not share a root word, they are synonyms and have a
+  similar meaning.
+
+To solve these problems, text analysis can **normalize** these tokens into a standard format. This allows you to match
+tokens that are not exactly the same as the search terms, but similar enough to still be relevant. For example:
+
+* "Quick" can be lowercased: "quick"
+* "foxes" can be stemmed, or reduced to its root word: "fox".
+* "jump" and "leap" are synonyms and can be indexed as a single word: "jump"
+
+To ensure search terms match these words as intended, you can apply the same tokenization and normalization rules to the
+query string. For example, a search for "Foxes leap" can be normalized to a search for "fox jump".
+
+#### Customize Text Analysis
+
+Text analysis is performed by an **[analyzer](#analyzer)**, a set of rules that govern the entire process.
+
+Elasticsearch includes a default analyzer, called the **[standard analyzer](#standard-analyzer)**, which works well for most
+use cases right out of the box.
+
+#### Analyzer
+
+##### Standard Analyzer
 
 ## Java API
 

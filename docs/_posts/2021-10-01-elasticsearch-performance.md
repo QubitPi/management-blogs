@@ -11,17 +11,22 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+Thi post is part of Elasticsearch series:
+
+* [Elasticsearch Basics](https://qubitpi.github.io/jersey-guide/2020/09/23/elasticsearch.html)
+* [Elasticsearch Performance](https://qubitpi.github.io/jersey-guide/2021/10/01/elasticsearch-performance.html)
+
+* TOC
+{:toc}
+
 ##  Tune for Search Speed
 
 #### Give Memory to the Filesystem Cache
 
-Elasticsearch heavily relies on the filesystem cache in order to make search fast. In general, you should make sure that
-at least half the available memory goes to the filesystem cache so that Elasticsearch can keep hot regions of the index
-in physical memory.
-
-##### General Filesystem Caching
-
-
+Elasticsearch heavily relies on the
+[filesystem cache](https://qubitpi.github.io/jersey-guide/2021/10/02/filesystem-cache.html) in order to make search
+fast. In general, you should make sure that at least half the available memory goes to the filesystem cache so that
+Elasticsearch can keep hot regions of the index in physical memory.
 
 #### Use Faster Hardware
 
