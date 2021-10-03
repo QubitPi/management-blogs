@@ -1484,9 +1484,9 @@ These tokenizers break up text or words into small fragments, for partial word m
 * [N-Gram Tokenizer](#n-gram-tokenizer) breaks up text into words when it sees any of a list of specified characters
   (e.g. whitespace or punctuation), then it returns n-grams of each word: a sliding window of continuous letters, e.g.
   `quick` → `[qu, ui, ic, ck]`
-  
-Edge N-Gram Tokenizer
-The edge_ngram tokenizer can break up text into words when it encounters any of a list of specified characters (e.g. whitespace or punctuation), then it returns n-grams of each word which are anchored to the start of the word, e.g. quick → [q, qu, qui, quic, quick].
+* [Edge N-Gram Tokenizer](#edge-n-gram-tokenizer) breaks up text into words when it encounters any of a list of
+  specified characters (e.g. whitespace or punctuation), then it returns n-grams of each word which are anchored to the
+  start of the word, e.g. `quick` → `[q, qu, qui, quic, quick]`
 
 ###### N-Gram Tokenizer
 
@@ -1658,8 +1658,268 @@ POST my-index-00001/_analyze
 
 The example above produces the following terms:
 
+```json
+[Qu, Qui, Quic, Quick, Fo, Fox, Foxe, Foxes]
+```
 
+Although we recommend using the same analyzer at index time and at search time, in the case of the `edge_ngram`
+tokenizer, the advice is different. It only makes sense to use the `edge_ngram` tokenizer at index time, to ensure that
+partial words are available for matching in the index. At search time, just search for the terms the user has typed in,
+for instance: "Quick Fo".
 
+The example below shows how to set up a field for `search-as-you-type`.
+
+```json
+PUT my-index-00001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "autocomplete": {
+                    "tokenizer": "autocomplete",
+                    "filter": ["lowercase"]
+                },
+                "autocomplete_search": {
+                  "tokenizer": "lowercase"
+                }
+            },
+            "tokenizer": {
+              "autocomplete": {
+                "type": "edge_ngram",
+                "min_gram": 2,
+                "max_gram": 10,
+                "token_chars": ["letter"]
+              }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "title": {
+                "type": "text",
+                "analyzer": "autocomplete",
+                "search_analyzer": "autocomplete_search"
+            }
+        }
+    }
+}
+
+PUT my-index-00001/_doc/1
+{
+    "title": "Quick Foxes" // The autocomplete analyzer indexes the terms [qu, qui, quic, quick, fo, fox, foxe, foxes]
+}
+
+POST my-index-00001/_refresh
+
+GET my-index-00001/_search
+{
+    "query": {
+        "match": {
+            "title": {
+                "query": "Quick Fo", // The autocomplete_search analyzer searches for the terms [quick, fo], both of which appear in the index.
+                "operator": "and"
+            }
+        }
+    }
+}
+```
+
+> Note that the `max_gram` value for the index analyzer is 10, which limits indexed terms to 10 characters. Search terms
+> are not truncated, meaning that search terms longer than 10 characters may not match any indexed terms.
+
+##### Structured Text Tokenizers
+
+The following tokenizers are usually used with structured text like identifiers, email addresses, zip codes, and paths,
+rather than with full text:
+
+* [Keyword Tokenizer](#keyword-tokenizer) is a "noop" tokenizer that accepts whatever text it is given and outputs the
+  exact same text as a single term. It can be combined with token filters like [lowercase](#lowercase-token-filter) to
+  normalise the analysed terms
+* [Pattern Tokenizer](#pattern-tokenizer) uses a regular expression to either split text into terms whenever it matches
+  a word separator, or to capture matching text as terms.
+
+Simple Pattern Tokenizer
+The simple_pattern tokenizer uses a regular expression to capture matching text as terms. It uses a restricted subset of regular expression features and is generally faster than the pattern tokenizer.
+Char Group Tokenizer
+The char_group tokenizer is configurable through sets of characters to split on, which is usually less expensive than running regular expressions.
+Simple Pattern Split Tokenizer
+The simple_pattern_split tokenizer uses the same restricted regular expression subset as the simple_pattern tokenizer, but splits the input at matches rather than returning the matches as terms.
+Path Tokenizer
+The path_hierarchy tokenizer takes a hierarchical value like a filesystem path, splits on the path separator, and emits a term for each component in the tree, e.g. /foo/bar/baz → [/foo, /foo/bar, /foo/bar/baz ].
+
+###### Keyword Tokenizer
+
+The **keyword tokenizer** is a "noop" tokenizer that accepts whatever text it is given and outputs the exact same text
+as a single term. It can be combined with token filters to normalise output, e.g. lower-casing email addresses.
+
+```json
+POST _analyze
+{
+    "tokenizer": "keyword",
+    "text": "New York"
+}
+```
+
+produces
+
+```json
+[New York]
+```
+
+We can combine the keyword tokenizer with token filters to normalise structured data, such as product IDs or email
+addresses.
+
+For example, the following [analyze API](#analyze) request uses the keyword tokenizer and
+[lowercase filter](#lowercase-token-filter) to convert an email address to lowercase.
+
+```json
+POST _analyze
+{
+    "tokenizer": "keyword",
+    "filter": [ "lowercase" ],
+    "text": "john.SMITH@example.COM"
+}
+```
+
+The request produces the following token:
+
+```json
+[john.smith@example.com]
+```
+
+The keyword tokenizer accepts a parameter called `buffer_size`, which is the number of characters read into the term
+buffer in a single pass. Defaults to 256. The term buffer will grow by this size until all the text has been consumed.
+It is advisable not to change this setting.
+
+###### Pattern Tokenizer
+
+The **pattern tokenizer** uses a regular expression to either split text into terms whenever it matches a word
+separator, or to capture matching text as terms
+
+_The default pattern is `\W+`_, which splits text whenever it encounters non-word characters.
+
+> ⚠️ The pattern replace character filter uses
+> [Java Regular Expressions](https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html).
+>
+> A badly written regular expression could run very slowly or even throw a StackOverflowError and cause the node it is
+> running on to exit suddenly.
+>
+> Read more about
+> [pathological regular expressions and how to avoid them](https://www.regular-expressions.info/catastrophic.html).
+
+```json
+POST _analyze
+{
+    "tokenizer": "pattern",
+    "text": "The foo_bar_size's default is 5."
+}
+```
+
+The sentence above would produce the following terms:
+
+```json
+[The, foo_bar_size, s, default, is, 5]
+```
+
+The pattern tokenizer accepts the following parameters:
+
+| Parameter | Definition                                                                                                                                                                            | Default Value |
+|:---------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------:|
+| `pattern` | A [Java regular expression](https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html)                                                                                   | `\W+`         |
+| `flags`   | Java regular expression [flags](https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#field.summary). Flags should be pipe-separated, eg "CASE_INSENSITIVE|COMMENTS" |               |
+| `group`   | Which capture group to extract as tokens                                                                                                                                              | -1 (split)    |
+
+In this example, we configure the pattern tokenizer to break text into tokens when it encounters commas:
+
+```json
+PUT my-index-000001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "tokenizer": "my_tokenizer"
+                }
+            },
+            "tokenizer": {
+                "my_tokenizer": {
+                    "type": "pattern",
+                    "pattern": ","
+                }
+            }
+        }
+    }
+}
+
+POST my-index-000001/_analyze
+{
+    "analyzer": "my_analyzer",
+    "text": "comma,separated,values"
+}
+```
+
+The output will be
+
+```json
+[comma, separated, values]
+```
+
+In the next example, we configure the pattern tokenizer to capture values enclosed in double quotes (ignoring embedded
+escaped quotes `\"`). The regex itself looks like this:
+
+    "((?:\\"|[^"]|\\")*)"
+
+And reads as follows:
+
+* A literal "
+* Start capturing:
+  - A literal `\"` OR any character except `"`
+  - Repeat until no more characters match
+* A literal closing `"`
+
+When the pattern is specified in JSON, the `"` and `\` characters need to be escaped, so the pattern ends up being
+
+    \"((?:\\\\\"|[^\"]|\\\\\")+)\"
+
+```json
+PUT my-index-000001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "tokenizer": "my_tokenizer"
+                }
+            },
+            "tokenizer": {
+                "my_tokenizer": {
+                    "type": "pattern",
+                    "pattern": "\"((?:\\\\\"|[^\"]|\\\\\")+)\"",
+                    "group": 1
+                }
+            }
+        }
+    }
+}
+
+POST my-index-000001/_analyze
+{
+    "analyzer": "my_analyzer",
+    "text": "\"value\", \"value with embedded \\\" quote\""
+}
+```
+
+The result is
+
+    [value, value with embedded \" quote]
+
+###### Simple Pattern Tokenizer
+
+###### Char Group Tokenizer
+
+###### Simple Pattern Split Tokenizer
+
+###### Path Tokenizer
 
 #### Token Filters
 
@@ -1675,7 +1935,9 @@ The example above produces the following terms:
 
 ## REST API
 
-### Indexing
+### Index API
+
+#### Analyze
 
 #### Refresh
 
