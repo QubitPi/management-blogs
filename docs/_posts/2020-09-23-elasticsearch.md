@@ -1737,15 +1737,15 @@ rather than with full text:
   normalise the analysed terms
 * [Pattern Tokenizer](#pattern-tokenizer) uses a regular expression to either split text into terms whenever it matches
   a word separator, or to capture matching text as terms.
-
-Simple Pattern Tokenizer
-The simple_pattern tokenizer uses a regular expression to capture matching text as terms. It uses a restricted subset of regular expression features and is generally faster than the pattern tokenizer.
-Char Group Tokenizer
-The char_group tokenizer is configurable through sets of characters to split on, which is usually less expensive than running regular expressions.
-Simple Pattern Split Tokenizer
-The simple_pattern_split tokenizer uses the same restricted regular expression subset as the simple_pattern tokenizer, but splits the input at matches rather than returning the matches as terms.
-Path Tokenizer
-The path_hierarchy tokenizer takes a hierarchical value like a filesystem path, splits on the path separator, and emits a term for each component in the tree, e.g. /foo/bar/baz → [/foo, /foo/bar, /foo/bar/baz ].
+* [Simple Pattern Tokenizer](#simple-pattern-tokenizer) uses a regular expression to capture matching text as terms. It
+  uses a restricted subset of regular expression features and is generally faster than the pattern tokenizer.
+* [Char Group Tokenizer](#char-group-tokenizer) is configurable through sets of characters to split on, which is usually
+  less expensive than running regular expressions. 
+* [Simple Pattern Split Tokenizer](#simple-pattern-split-tokenizer) uses the same restricted regular expression subset
+  as the [simple pattern tokenizer](#simple-pattern-tokenizer), but splits the input at matches rather than returning
+  the matches as terms.
+* [Path Tokenizer](#path-tokenizer) takes a hierarchical value like a filesystem path, splits on the path separator, and
+  emits a term for each component in the tree, e.g. `/foo/bar/baz` → `[/foo, /foo/bar, /foo/bar/baz]`.
 
 ###### Keyword Tokenizer
 
@@ -1915,13 +1915,380 @@ The result is
 
 ###### Simple Pattern Tokenizer
 
+The **simple pattern tokenizer** uses a regular expression to capture matching text as terms. The set of regular
+expression features it supports is more limited than the [pattern tokenizer](#pattern-tokenizer), but the **tokenization
+is generally faster**.
+
+Unlike the [pattern tokenizer](#pattern-tokenizer), this tokenizer **does not** support splitting the input on a pattern
+match. To split on pattern matches using the same restricted regular expression subset, use the
+[simple pattern split](#simple-pattern-split-tokenizer) tokenizer.
+
+This tokenizer uses
+[Lucene regular expressions](https://lucene.apache.org/core/8_9_0/core/org/apache/lucene/util/automaton/RegExp.html).
+For an explanation of the supported features and syntax, see
+[Regular Expression Syntax](https://www.elastic.co/guide/en/elasticsearch/reference/current/regexp-syntax.html).
+
+_The default pattern is the empty string, which produces no terms. This tokenizer should always be configured with a
+non-default pattern, which is a
+[Lucene regular expression](https://lucene.apache.org/core/8_9_0/core/org/apache/lucene/util/automaton/RegExp.html)_.
+
+The example below configures the simple pattern tokenizer to produce terms that are three-digit numbers
+
+```json
+PUT my-index-000001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "tokenizer": "my_tokenizer"
+                }
+            },
+            "tokenizer": {
+                "my_tokenizer": {
+                    "type": "simple_pattern",
+                    "pattern": "[0123456789]{3}"
+                }
+            }
+        }
+    }
+}
+
+POST my-index-000001/_analyze
+{
+    "analyzer": "my_analyzer",
+    "text": "fd-786-335-514-x"
+}
+```
+
+It gives
+
+    [786, 335, 514]
+
 ###### Char Group Tokenizer
+
+The **char group tokenizer** breaks text into terms whenever it encounters a character which is in a defined set. It is
+mostly useful for cases where a simple custom tokenization is desired, and the overhead of use of the
+[pattern tokenizer](#pattern-tokenizer) is not acceptable.
+
+The char group tokenizer accepts two parameters:
+
+| Parameter           | Definition                                                                                                                                                                                                                                                     |
+|:-------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| `tokenize_on_chars` | A list of characters to tokenize the string on. Whenever a character from this list is encountered, a new token is started. This accepts either single characters like e.g. `-`, or character groups: `whitespace`, `letter`, `digit`, `punctuation`, `symbol` |
+| `max_token_length`  | The maximum token length. If a token exceeds this length then it is split at `max_token_length` intervals. Defaults to 255.                                                                                                                                    |
+
+```json
+POST _analyze
+{
+    "tokenizer": {
+        "type": "char_group",
+        "tokenize_on_chars": ["whitespace", "-", "\n"]
+    },
+    "text": "The QUICK brown-fox"
+}
+```
+
+returns
+
+```json
+{
+    "tokens": [
+        {
+            "token": "The",
+            "start_offset": 0,
+            "end_offset": 3,
+            "type": "word",
+            "position": 0
+        },
+        {
+            "token": "QUICK",
+            "start_offset": 4,
+            "end_offset": 9,
+            "type": "word",
+            "position": 1
+        },
+        {
+            "token": "brown",
+            "start_offset": 10,
+            "end_offset": 15,
+            "type": "word",
+            "position": 2
+        },
+        {
+            "token": "fox",
+            "start_offset": 16,
+            "end_offset": 19,
+            "type": "word",
+            "position": 3
+        }
+    ]
+  }
+```
 
 ###### Simple Pattern Split Tokenizer
 
+The **simple pattern split** tokenizer uses a regular expression to split the input into terms at pattern matches. The
+set of regular expression features it supports is more limited than the [pattern tokenizer](#pattern-tokenizer), but the
+tokenization is generally faster.
+
+This tokenizer does not produce terms from the matches themselves. To produce terms from matches using patterns in the
+same restricted regular expression subset, please use the [simple pattern tokenizer](#simple-pattern-tokenizer).
+
+This tokenizer uses
+[Lucene regular expressions](https://lucene.apache.org/core/8_9_0/core/org/apache/lucene/util/automaton/RegExp.html).
+For an explanation of the supported features and syntax, see
+[Regular Expression Syntax](https://www.elastic.co/guide/en/elasticsearch/reference/current/regexp-syntax.html).
+
+The default pattern is the empty string, which produces one term containing the full input. This tokenizer should always
+be configured with a non-default pattern, which is a
+[Lucene regular expression](https://lucene.apache.org/core/8_9_0/core/org/apache/lucene/util/automaton/RegExp.html).
+
+```json
+PUT my-index-000001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "tokenizer": "my_tokenizer"
+                }
+            },
+            "tokenizer": {
+                "my_tokenizer": {
+                    "type": "simple_pattern_split",
+                    "pattern": "_"
+                }
+            }
+        }
+    }
+}
+
+POST my-index-000001/_analyze
+{
+    "analyzer": "my_analyzer",
+    "text": "an_underscored_phrase"
+}
+```
+
+The example above produces these terms:
+
+    [an, underscored, phrase]
+
 ###### Path Tokenizer
 
+The **path hierarchy tokenizer** takes a hierarchical value like a filesystem path, splits by the path separator, and
+emits a term for each component in the tree.
+
+```json
+POST _analyze
+{
+    "tokenizer": "path_hierarchy",
+    "text": "/one/two/three"
+}
+```
+
+    [ /one, /one/two, /one/two/three ]
+
+The `path hierarchy` tokenizer accepts the following parameters:
+
+|               |                                                                                                                                                                                               |             |   |
+|:-------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------:|:---:|
+| `delimiter`   | The character to use as the path separator                                                                                                                                                    | `/`         |   |
+| `replacement` | An optional replacement character to use for the delimiter                                                                                                                                    | `delimiter` |   |
+| `buffer_size` | The number of characters read into the term buffer in a single pass. The term buffer will grow by this size until all the text has been consumed. It is advisable not to change this setting. | 1024        |   |
+| `reverse`     | If set to `true`, emits the tokens in reverse order                                                                                                                                           | `false`     |   |
+| `skip`        | The number of initial tokens to skip                                                                                                                                                          | 0           |   |
+
+```json
+PUT my-index-000001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "tokenizer": "my_tokenizer"
+                }
+            },
+            "tokenizer": {
+                "my_tokenizer": {
+                    "type": "path_hierarchy",
+                    "delimiter": "-",
+                    "replacement": "/",
+                    "skip": 2
+                }
+            }
+        }
+    }
+}
+
+POST my-index-000001/_analyze
+{
+    "analyzer": "my_analyzer",
+    "text": "one-two-three-four-five"
+}
+```
+
+    [ /three, /three/four, /three/four/five ]
+
+A common use-case for the `path_hierarchy` tokenizer is filtering results by file paths.
+
+```json
+PUT file-path-test
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "custom_path_tree": {
+                    "tokenizer": "custom_hierarchy"
+                },
+                "custom_path_tree_reversed": {
+                    "tokenizer": "custom_hierarchy_reversed"
+                }
+            },
+            "tokenizer": {
+                "custom_hierarchy": {
+                    "type": "path_hierarchy",
+                    "delimiter": "/"
+                },
+                "custom_hierarchy_reversed": {
+                    "type": "path_hierarchy",
+                    "delimiter": "/",
+                    "reverse": "true"
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "file_path": {
+                "type": "text",
+                "fields": {
+                    "tree": {
+                        "type": "text",
+                        "analyzer": "custom_path_tree"
+                    },
+                    "tree_reversed": {
+                        "type": "text",
+                        "analyzer": "custom_path_tree_reversed"
+                    }
+                }
+            }
+        }
+    }
+}
+
+POST file-path-test/_doc/1
+{
+    "file_path": "/User/alice/photos/2017/05/16/my_photo1.jpg"
+}
+
+POST file-path-test/_doc/2
+{
+    "file_path": "/User/alice/photos/2017/05/16/my_photo2.jpg"
+}
+
+POST file-path-test/_doc/3
+{
+    "file_path": "/User/alice/photos/2017/05/16/my_photo3.jpg"
+}
+
+POST file-path-test/_doc/4
+{
+    "file_path": "/User/alice/photos/2017/05/15/my_photo1.jpg"
+}
+
+POST file-path-test/_doc/5
+{
+    "file_path": "/User/bob/photos/2017/05/16/my_photo1.jpg"
+}
+```
+
+A search for a particular file path string against the text field matches all the example documents, with Bob's
+documents ranking highest due to bob also being one of the terms created by the standard analyzer boosting relevance for
+Bob's documents:
+
+```json
+GET file-path-test/_search
+{
+    "query": {
+        "match": {
+            "file_path": "/User/bob/photos/2017/05"
+        }
+    }
+}
+```
+
+It’s simple to match or filter documents with file paths that exist within a particular directory using the
+`file_path.tree` field.
+
+```json
+GET file-path-test/_search
+{
+    "query": {
+        "term": {
+            "file_path.tree": "/User/alice/photos/2017/05/16"
+        }
+    }
+}
+```
+
+With the reverse parameter for this tokenizer, it's also possible to match from the other end of the file path, such as
+individual file names or a deep level subdirectory. The following example shows a search for all files named
+"my_photo1.jpg" within any directory via the file_path.tree_reversed field
+
+```json
+GET file-path-test/_search
+{
+    "query": {
+        "term": {
+            "file_path.tree_reversed": {
+                "value": "my_photo1.jpg"
+            }
+        }
+    }
+}
+```
+
+Viewing the tokens generated with both forward and reverse is instructive in showing the tokens created for the same
+file path value.
+
+```json
+POST file-path-test/_analyze
+{
+    "analyzer": "custom_path_tree",
+    "text": "/User/alice/photos/2017/05/16/my_photo1.jpg"
+}
+
+POST file-path-test/_analyze
+{
+    "analyzer": "custom_path_tree_reversed",
+    "text": "/User/alice/photos/2017/05/16/my_photo1.jpg"
+}
+```
+
+It’s also useful to be able to filter with file paths when combined with other types of searches, such as this example
+looking for any files paths with 16 that also must be in Alice's photo directory.
+
+```json
+GET file-path-test/_search
+{
+    "query": {
+        "bool" : {
+            "must" : {
+                "match" : { "file_path" : "16" }
+            },
+            "filter": {
+                "term" : { "file_path.tree" : "/User/alice" }
+            }
+        }
+    }
+}
+```
+
 #### Token Filters
+
+
 
 ##### Lowercase Token Filter
 
