@@ -18,7 +18,7 @@ Thi post is part of Elasticsearch series:
 
 * TOC
 {:toc}
-  
+
 ## What is Elasticsearch
 
 Elasticsearch is the distributed search and analytics engine at the heart of the Elastic Stack. Logstash and Beats
@@ -118,6 +118,62 @@ operations performed on an index since the last refresh available for search. Yo
 By default, Elasticsearch periodically refreshes indices every second, but only on indices that have received one search
 request or more in the last 30 seconds. This is why we say that Elasticsearch has near real-time search: document
 changes are not visible to search immediately, but will become visible within this timeframe.
+
+### How Data is Retrieved
+
+#### Get Data by Query
+
+Querying
+
+```
+POST /my-index-000001/_search?from=40&size=20
+{
+    "query": {
+        "term": {
+            "user.id": "kimchy"
+        }
+    }
+}
+```
+
+Although Elasticsearch API also supports attaching query string as request body in GET, it is, however,
+[not recommended](https://stackoverflow.com/questions/978061/http-get-with-request-body#comment53906725_983458)
+
+> ⚠️ **Pay special attention to the `from` and `size` parameters**.
+> [**By default, searches return the top 10 matching hits**](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#paginate-search-results).
+> **Use `from` and `size` in order to page through a larger set of result**. We could also attach them in the JSON query
+>
+> ```
+> POST /my-index-000001/_search
+> {
+>     "from": 40,
+>     "size": 20,
+>     "query": {
+>         "term": {
+>             "user.id": "kimchy"
+>         }
+>     }
+> }```
+
+##### Query Parameters
+
+###### from
+
+(Optional, integer) Starting document offset. Defaults to 0.
+
+By default, you cannot page through more than 10,000 hits using the `from` and [`size`](#size) parameters. To page
+through more hits, use the
+[search_after](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#search-after)
+parameter.
+
+###### size
+
+(Optional, integer) Defines the number of hits to return. Defaults to **10**.
+
+By default, you cannot page through more than 10,000 hits using the [`from`](#from) and `size` parameters. To page
+through more hits, use the
+[search_after](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#search-after)
+parameter.
 
 ## Elasticsearch Mapping
 
@@ -1518,9 +1574,89 @@ anchored to the beginning of the word.
 
 **Edge n-grams are useful for _search-as-you-type_ queries**.
 
-> 💡 When you need `search-as-you-type` for text which has a widely known order, such as movie or song titles, the completion suggester is a much more efficient choice than edge N-grams. Edge N-grams have the advantage when trying to autocomplete words that can appear in any order.
+> 💡 When you need `search-as-you-type` for text which has a widely known order, such as movie or song titles, the
+> [completion suggester](#completion-suggester) is a much more efficient choice than edge N-grams. Edge N-grams have the
+> advantage when trying to autocomplete words that can appear in any order.
 
+```json
+POST _analyze
+{
+    "tokenizer": "edge_ngram",
+    "text": "Quick Fox"
+}
+```
 
+gives you
+
+```json
+[Q, Qu]
+```
+
+The `edge_ngram` tokenizer accepts the following parameters:
+
+* **`min_gram`** - Minimum length of characters in a gram. Defaults to 1.
+* **`max_gram`** - Maximum length of characters in a gram. Defaults to 2.
+  
+  The edge_ngram tokenizer's `max_gram` value limits the character length of tokens. When the `edge_ngram` tokenizer is
+  used with an index analyzer, this means search terms longer than the `max_gram` length may not match any indexed terms
+
+  For example, if the `max_gram` is 3, searches for "apple" won't match the indexed term "app".
+
+  To account for this, you can use the [truncate token filter](#truncate-token-filter) with a search analyzer to shorten
+  search terms to the `max_gram` character length. However, this could return irrelevant results.
+
+  For example, if the `max_gram` is 3 and search terms are truncated to three characters, the search term "apple" is
+  shortened to "app". This means searches for apple return any indexed terms matching "app", such as "apply", "snapped",
+  and "apple".
+
+* **`token_chars`** - Character classes that should be included in a token. Elasticsearch will split on characters that
+  do not belong to the classes specified. Defaults to `[]` (keep all characters).
+
+  Character classes may be any of the following:
+
+  - letter -  for example a, b, ï or 京
+  - digit - for example 3 or 7
+  - whitespace - for example " " or "\n"
+  - punctuation - for example ! or "
+  - symbol - for example $ or √
+  - custom - custom characters which need to be set using the `custom_token_chars` setting.
+
+* **`custom_token_chars`** - Custom characters that should be treated as part of a token. For example, setting this to
+  `+-_` will make the tokenizer treat the plus, minus and underscore sign as part of a token.
+
+In this example, we configure the `edge_ngram` tokenizer to treat letters and digits as tokens, and to produce grams
+with minimum length 2 and maximum length 10:
+
+```json
+PUT my-index-00001
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "my_analyzer": {
+                    "tokenizer": "my_tokenizer"
+                }
+            },
+            "tokenizer": {
+                "my_tokenizer": {
+                    "type": "edge_ngram",
+                    "min_gram": 2,
+                    "max_gram": 10,
+                    "token_chars": ["letter", "digit"]
+                }
+            }
+        }
+    }
+}
+
+POST my-index-00001/_analyze
+{
+    "analyzer": "my_analyzer",
+    "text": "2 Quick Foxes."
+}
+```
+
+The example above produces the following terms:
 
 
 
@@ -1529,13 +1665,13 @@ anchored to the beginning of the word.
 
 ##### Lowercase Token Filter
 
+##### Truncate Token Filter
+
 #### Built-in Analyzer
 
 ##### Stop Analyzer
 
 #### Custom Analyzer
-
-
 
 ## REST API
 
@@ -1549,6 +1685,18 @@ the refresh operation on the stream's backing indices. For more information abou
 
 ```
 POST /my-index-000001/_refresh
+```
+
+### Search API
+
+#### Search
+
+Returns search hits that match the query defined in the request.
+
+##### Get All Data by Index
+
+```
+GET /my-index-000001/_search
 ```
 
 ### Suggesters
@@ -1834,13 +1982,42 @@ Suggestions that share the longest prefix to the query `prefix` will be scored h
 
 The fuzzy query can take the following fuzzy parameters:
 
+| Parameter        | Definition                                                                                                                                                                                                                          | Default Value |
+|:----------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------:|
+| `fuzziness`      | [The fuzziness factor](https://www.elastic.co/guide/en/elasticsearch/reference/current/common-options.html#fuzziness)                                                                                                               | `AUTO`        |
+| `transpositions` | If set to `true`, transpositions are counted as one change instead of two                                                                                                                                                           | `true`        |
+| `min_length`     | Minimum length of the input before fuzzy suggestions are returned                                                                                                                                                                   | 3             |
+| `prefix_length`  | Minimum length of the input, which is not checked for fuzzy alternatives                                                                                                                                                            | 1             |
+| `unicode_aware`  | If set to `true`, all measurements (including fuzzy edit distance, transpositions, and lengths) are measured in Unicode code points instead of in bytes. This is slightly slower than raw bytes, so it is set to `false` by default | `false`       |
 
+> 📋 If you want to stick with the default values, but still use fuzzy, you can either use `fuzzy: {}` or `fuzzy: true`.
+
+##### Regex Queries
+
+The completion suggester also supports regex queries meaning you can express a prefix as a regular expression
+
+```json
+POST music/_search?pretty
+{
+    "suggest": {
+        "song-suggest": {
+            "regex": "n[ever|i]r",
+            "completion": {
+                "field": "suggest"
+            }
+        }
+    }
+}
+```
+
+The regex query can take the following regex parameters
+
+| Parameter                 | Definition                                                                                                                                                                                                                                                                                                                                                        | Default Value |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+| `flags`                   | Possible flags are `ALL`, `ANYSTRING`, `COMPLEMENT`, `EMPTY`, `INTERSECTION`, `INTERVAL`, or `NONE`. See [regexp-syntax](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-regexp-query.html) for their syntax                                                                                                                            | `ALL`         |
+| `max_determinized_states` | Regular expressions are dangerous because it's easy to accidentally create an innocuous looking one that requires an exponential number of internal determinized automaton states (and corresponding RAM and CPU) for Lucene to execute. Lucene prevents these using this setting. You can raise this limit to allow more complex regular expressions to execute. | 10000         |
 
 #### Context Suggester
-
-
-
-
 
 ## Java API
 
@@ -2163,72 +2340,3 @@ try (XContentParser parser = XContentFactory
     throw new IllegalStateException(message, exception);
 }
 ```
-
-## REST API
-
-#### Search
-
-Returns search hits that match the query defined in the request.
-
-##### Get All Data by Index
-
-```
-GET /my-index-000001/_search
-```
-
-#### Get Data by Query
-
-Querying
-
-```
-POST /my-index-000001/_search?from=40&size=20
-{
-    "query": {
-        "term": {
-            "user.id": "kimchy"
-        }
-    }
-}
-```
-
-Although Elasticsearch API also supports attaching query string as request body in GET, it is, however,
-[not recommended](https://stackoverflow.com/questions/978061/http-get-with-request-body#comment53906725_983458)
-
-> ⚠️ **Pay special attention to the `from` and `size` parameters**.
-> [**By default, searches return the top 10 matching hits**](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#paginate-search-results).
-> **Use `from` and `size` in order to page through a larger set of result**. We could also attach them in the JSON query
-> 
-> ```
-> POST /my-index-000001/_search
-> {
->     "from": 40,
->     "size": 20,
->     "query": {
->         "term": {
->             "user.id": "kimchy"
->         }
->     }
-> }```
-
-##### Get All Data
-
-##### Query Parameters
-
-###### from
-
-(Optional, integer) Starting document offset. Defaults to 0.
-
-By default, you cannot page through more than 10,000 hits using the `from` and [`size`](#size) parameters. To page
-through more hits, use the
-[search_after](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#search-after)
-parameter.
-
-###### size
-
-(Optional, integer) Defines the number of hits to return. Defaults to **10**.
-
-By default, you cannot page through more than 10,000 hits using the [`from`](#from) and `size` parameters. To page
-through more hits, use the
-[search_after](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#search-after)
-parameter.
-
