@@ -2,7 +2,7 @@
 layout: post
 title: Elasticsearch Basics
 tags: [Elasticsearch]
-color: rgb(250, 154, 133)
+color: rgb(0, 171, 229)
 feature-img: "assets/img/post-cover/25-cover.png"
 thumbnail: "assets/img/post-cover/25-cover.png"
 author: QubitPi
@@ -16,10 +16,109 @@ Thi post is part of Elasticsearch series:
 * [Elasticsearch Basics](https://qubitpi.github.io/jersey-guide/2020/09/23/elasticsearch.html)
 * [Elasticsearch Performance](https://qubitpi.github.io/jersey-guide/2021/10/01/elasticsearch-performance.html)
 
-
 * TOC
 {:toc}
   
+## What is Elasticsearch
+
+Elasticsearch is the distributed search and analytics engine at the heart of the Elastic Stack. Logstash and Beats
+facilitate collecting, aggregating, and enriching your data and storing it in Elasticsearch. Kibana enables you to
+interactively explore, visualize, and share insights into your data and manage and monitor the stack. Elasticsearch is
+where the indexing, search, and analysis magic happens.
+
+Elasticsearch provides near real-time search and analytics for all types of data. Whether you have structured or
+unstructured text, numerical data, or geospatial data, Elasticsearch can efficiently store and index it in a way that
+supports fast searches. You can go far beyond simple data retrieval and aggregate information to discover trends and
+patterns in your data. And as your data and query volume grows, the distributed nature of Elasticsearch enables your
+deployment to grow seamlessly right along with it.
+
+While not every problem is a search problem, Elasticsearch offers speed and flexibility to handle data in a wide variety
+of use cases:
+
+* **Add a search box to an app or website**
+* **Store and analyze logs, metrics, and security event data**
+* **Use machine learning to automatically model the behavior of your data in real time**
+* **Automate business workflows using Elasticsearch as a storage engine**
+* **Manage, integrate, and analyze spatial information using Elasticsearch as a geographic information system (GIS)**
+* **Store and process genetic data using Elasticsearch as a bioinformatics research tool**
+
+### How is Data Stored in Elasticsearch
+
+Elasticsearch is a distributed document store. Instead of storing information as rows of columnar data, Elasticsearch
+stores complex data structures that have been serialized as JSON documents. When you have multiple Elasticsearch nodes
+in a cluster, stored documents are distributed across the cluster and can be accessed immediately from any node.
+
+**When a document is stored, it is indexed and fully searchable in [near real-time](#near-real-time-search) - within 1
+second**. Elasticsearch uses a data structure called an **inverted index** that supports very fast full-text searches. An
+inverted index lists every unique word that appears in any document and identifies all of the documents each word occurs
+in.
+
+An index can be thought of as an optimized collection of documents and each document is a collection of fields, which
+are the key-value pairs that contain your data. By default, Elasticsearch indexes all data in every field and each
+indexed field has a dedicated, optimized data structure. For example, text fields are stored in inverted indices, and
+numeric and geo fields are stored in BKD trees. The ability to use the per-field data structures to assemble and return
+search results is what makes Elasticsearch so fast.
+
+Elasticsearch also has the ability to be schema-less, which means that documents can be indexed without explicitly
+specifying how to handle each of the different fields that might occur in a document. When dynamic mapping is enabled,
+Elasticsearch automatically detects and adds new fields to the index. This default behavior makes it easy to index and
+explore your data - just start indexing documents and Elasticsearch will detect and map booleans, floating point and
+integer values, dates, and strings to the appropriate Elasticsearch data types.
+
+Ultimately, however, you know more about your data and how you want to use it than Elasticsearch can. You can define
+rules to control dynamic mapping and explicitly define mappings to take full control of how fields are stored and
+indexed. Defining your own mappings enables you to:
+
+* Distinguish between full-text string fields and exact value string fields
+* Perform language-specific text analysis
+* Optimize fields for partial matching
+* Use custom date formats
+* Use data types such as `geo_point` and `geo_shape` that cannot be automatically detected
+
+**It is often useful to index the same field in different ways for different purposes**. For example, you might want to
+index a string field as both a text field for full-text search and as a keyword field for sorting or aggregating your
+data. Or, you might choose to use more than one language analyzer to process the contents of a string field that
+contains user input
+
+The analysis chain that is applied to a full-text field during indexing is also used at search time. When you query a
+full-text field, the query text undergoes the same analysis before the terms are looked up in the index
+
+#### Near Real-Time Search
+
+What defines near real-time search?
+
+[Lucene](https://qubitpi.github.io/jersey-guide/2020/09/24/lucene.html), the Java libraries on which Elasticsearch is
+based, introduced the concept of **per-segment search**. A segment is similar to an inverted index, but the word index
+in Lucene means "a collection of segments plus a commit point". After a commit, a new segment is added to the commit
+point and the buffer is cleared.
+
+Sitting between Elasticsearch and the disk is the
+[filesystem cache](https://qubitpi.github.io/jersey-guide/2021/10/02/filesystem-cache.html). Documents in the in-memory
+indexing buffer are written to a new segment. The new segment is written to the filesystem cache first (which is cheap)
+and only later is it flushed to disk (which is expensive). However, after a file is in the cache, it can be opened and
+read just like any other file.
+
+A Lucene index with new documents in the in-memory buffer:
+![Error loading lucene-in-memory-buffer.png]({{ "/assets/img/lucene-in-memory-buffer.png" | relative_url}})
+
+The buffer contents are written to a segment, which is searchable, but is not yet committed:
+![Error loading lucene-written-not-committed.png]({{ "/assets/img/lucene-written-not-committed.png" | relative_url}})
+
+Lucene allows new segments to be written and opened, making the documents they contain visible to search without
+performing a full commit. This is a much lighter process than a commit to disk, and can be done frequently without
+degrading performance.
+
+In Elasticsearch, this process of writing and opening a new segment is called a **refresh**. A refresh makes all
+operations performed on an index since the last refresh available for search. You can control refreshes through
+
+* Waiting for the refresh interval
+* Setting the [?refresh](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html) option
+* Using the [Refresh API](#refresh) to explicitly complete a refresh (`POST _refresh`)
+
+By default, Elasticsearch periodically refreshes indices every second, but only on indices that have received one search
+request or more in the last 30 seconds. This is why we say that Elasticsearch has near real-time search: document
+changes are not visible to search immediately, but will become visible within this timeframe.
+
 ## Elasticsearch Mapping
 
 Each document is a collection of fields, which each have their own data type. When mapping your data, you create a mapping definition, which contains a list of fields that are pertinent to the document. A mapping definition also includes metadata fields, like the _source field, which customize how a document’s associated metadata is handled.
@@ -1430,14 +1529,31 @@ anchored to the beginning of the word.
 
 ##### Lowercase Token Filter
 
-##### Standard Analyzer
+#### Built-in Analyzer
+
+##### Stop Analyzer
+
+#### Custom Analyzer
 
 
-##### Custom Analyzer
 
 ## REST API
 
-### Completion Suggester
+### Indexing
+
+#### Refresh
+
+A refresh makes recent operations performed on one or more indices available for search. For data streams, the API runs
+the refresh operation on the stream's backing indices. For more information about the refresh operation, see
+[Near real-time search](#near-real-time-search).
+
+```
+POST /my-index-000001/_refresh
+```
+
+### Suggesters
+
+#### Completion Suggester
 
 The **completion suggester** provides auto-complete/search-as-you-type functionality. This is a navigational feature to
 guide users to relevant results as they are typing, improving search precision. It is not meant for spell correction or
@@ -1447,7 +1563,7 @@ Ideally, auto-complete functionality should be as fast as a user types to provid
 user has already typed in. Hence, completion suggester is optimized for speed. The suggester uses data structures that
 enable fast lookups, but are costly to build and are stored in-memory.
 
-#### Mapping
+##### Mapping
 
 To use this feature, specify a special mapping for this field, which indexes the field values for fast completions.
 
@@ -1469,7 +1585,262 @@ PUT music
 
 Mapping supports the following parameters:
 
-Enables position increments, If disabled and using stopwords analyzer, you could get a field starting with The Beatles, if you suggest for b. Note: You could also achieve this by indexing two inputs, Beatles and The Beatles, no need to change a simple analyzer, if you are able to enrich your data.
+| Parameter                      | Definition                                                                                                                                                                                                                                                                                                                                                            | Default Value         |
+|--------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|
+| `analyzer`                     | The index analyzer to use, defaults to.                                                                                                                                                                                                                                                                                                                               | `simple`              |
+| `search_analyzer`              | The search analyzer to use                                                                                                                                                                                                                                                                                                                                            | `analyzer`            |
+| `preserve_separators`          | Whether or not the separators are preserved. If disabled, you could find a field starting with `Foo Fighters` if you suggest for `foof`.                                                                                                                                                                                                                              | `true`                |
+| `preserve_position_increments` | Enables position increments, If disabled and using stopwords analyzer, you could get a field starting with `The Beatles`, if you suggest for `b`.<br /> > Note: You could also achieve this by indexing two inputs, `Beatles` and `The Beatles`, no need to change a simple analyzer, if you are able to enrich your data.                                            | `true`                |
+| `max_input_length`             | Limits the length of a single input. This limit is only used at index time to reduce the total number of characters per input string in order to prevent massive inputs from bloating the underlying datastructure. Most use cases won't be influenced by the default value since prefix completions seldom grow beyond prefixes longer than a handful of characters. | 50 UTF-16 code points |
+
+##### Indexing
+
+You index suggestions like any other field. A suggestion is made of
+
+1. an **`input`** attribute and
+2. an optional **`weight`** attribute
+   
+An `input` is the expected text to be matched by a suggestion query and the `weight` determines how the suggestions will
+be scored. Indexing a suggestion is as follows:
+
+```json
+PUT music/_doc/1?refresh
+{
+    "suggest" : {
+        "input": ["Nevermind", "Nirvana"],
+        "weight" : 34
+    }
+}
+```
+
+The `input` can be an array of strings or just a string. This field is mandatory.
+
+> ⚠️ `input` value/values cannot contain the following UTF-16 control characters:
+> 
+> * `\u0000` (null)
+> * `\u001f` (information separator one)
+> * `\u001e` (information separator two)
+
+You can index multiple suggestions for a document as follows:
+
+```json
+PUT music/_doc/1?refresh
+{
+    "suggest": [{
+        "input": "Nevermind",
+        "weight": 10
+    },
+    {
+        "input": "Nirvana",
+        "weight": 3
+    }]
+}
+```
+
+We can also use the following shorthand form. Note that you can not specify a weight with suggestion(s) in the shorthand
+form.
+
+```json
+PUT music/_doc/1?refresh
+{
+    "suggest" : [ "Nevermind", "Nirvana" ]
+}
+```
+
+##### Querying
+
+Suggesting works as usual, except that you have to specify the suggest type as "completion". Suggestions are near
+real-time, which means new suggestions can be made visible by [refresh](#refresh) and documents once deleted are never
+shown. This request:
+
+```json
+POST music/_search?pretty
+{
+    "suggest": {
+        "song-suggest": {
+            "prefix": "nir",       // Prefix used to search for suggestions   
+            "completion": {        // Type of suggestions     
+                "field": "suggest" // Name of the field to search for suggestions in
+            }
+        }
+    }
+}
+```
+
+returns this response:
+
+```json
+{
+    "_shards" : {
+        "total" : 1,
+        "successful" : 1,
+        "skipped" : 0,
+        "failed" : 0
+    },
+    "hits": ...
+    "took": 2,
+    "timed_out": false,
+    "suggest": {
+        "song-suggest" : [{
+            "text" : "nir",
+            "offset" : 0,
+            "length" : 3,
+            "options" : [{
+                "text" : "Nirvana",
+                "_index": "music",
+                "_type": "_doc",
+                "_id": "1",
+                "_score": 1.0,
+                "_source": {
+                    "suggest": ["Nevermind", "Nirvana"]
+                }
+            }]
+        }]
+    }
+}
+```
+
+> ⚠️ `_source` metadata field must be enabled, which is the default behavior, to enable returning `_source` with
+> suggestions.
+
+The configured weight for a suggestion is returned as `_score`. The text field uses the input of your indexed
+suggestion. Suggestions return the full document `_source` by default. The size of the `_source` can impact performance
+due to disk fetch and network transport overhead. To save some network overhead, filter out unnecessary fields from the
+`_source` using
+[source filtering](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-fields.html#source-filtering)
+to minimize `_source` size. Note that the `_suggest` endpoint doesn't support source filtering but using suggest on the
+`_search` endpoint does:
+
+```json
+POST music/_search
+{
+    "_source": "suggest",            // Filter the source to return only the suggest field 
+    "suggest": {
+        "song-suggest": {
+            "prefix": "nir",
+            "completion": {
+                "field": "suggest", // Name of the field to search for suggestions in
+                "size": 5           // Number of suggestions to return
+            }
+        }
+    }
+}
+```
+
+Which should look like:
+
+```json
+{
+    "took": 6,
+    "timed_out": false,
+    "_shards": {
+        "total": 1,
+        "successful": 1,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 0,
+            "relation": "eq"
+        },
+        "max_score": null,
+        "hits": []
+    },
+    "suggest": {
+        "song-suggest": [{
+            "text": "nir",
+            "offset": 0,
+            "length": 3,
+            "options": [{
+                "text": "Nirvana",
+                "_index": "music",
+                "_type": "_doc",
+                "_id": "1",
+                "_score": 1.0,
+                "_source": {
+                  "suggest": ["Nevermind", "Nirvana"]
+                }
+            }]
+        }]
+    }
+}
+```
+
+The basic completion suggester query supports the following parameters:
+
+| Parameter         | Definition                                           | Rquired | Default |
+|:-----------------:|:----------------------------------------------------:|:-------:|:-------:|
+| `field`           | The name of the field on which to run the query      | Yes     | N/A     |
+| `size`            | The number of suggestions to return                  | No      | 5       |
+| `skip_duplicates` | Whether duplicate suggestions should be filtered out | No      | `false` |
+
+> 📋 The completion suggester considers all documents in the index. See [Context Suggester](#context-suggester) for an
+> explanation of how to query a subset of documents instead.
+
+> 📋
+In case of completion queries spanning more than one shard, the suggest is executed in two phases, where the last phase
+> fetches the relevant documents from shards, implying executing completion requests against a single shard is more
+> performant due to the document fetch overhead when the suggest spans multiple shards. To get best performance for
+> completions, it is recommended to index completions into a single shard index. In case of high heap usage due to shard
+> size, it is still recommended to break index into multiple shards instead of optimizing for completion performance.
+
+##### Skip Duplicate Suggestions
+
+Queries can return duplicate suggestions coming from different documents. It is possible to modify this behavior by
+setting `skip_duplicates` to `true`. When set, this option filters out documents with duplicate suggestions from the
+result.
+
+```json
+POST music/_search?pretty
+{
+    "suggest": {
+        "song-suggest": {
+            "prefix": "nor",
+            "completion": {
+                "field": "suggest",
+                "skip_duplicates": true
+            }
+        }
+    }
+}
+```
+
+> ⚠️ When set to true, this option can slow down search because more suggestions need to be visited to find the top N
+
+##### Fuzzy Queries
+
+The completion suggester also supports fuzzy queries - this means you can have a typo in your search and still get
+results back.
+
+```json
+POST music/_search?pretty
+{
+    "suggest": {
+        "song-suggest": {
+            "prefix": "nor",
+            "completion": {
+                "field": "suggest",
+                "fuzzy": {
+                    "fuzziness": 2
+                }
+            }
+        }
+    }
+}
+```
+
+Suggestions that share the longest prefix to the query `prefix` will be scored higher.
+
+The fuzzy query can take the following fuzzy parameters:
+
+
+
+#### Context Suggester
+
+
+
+
 
 ## Java API
 
