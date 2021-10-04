@@ -705,7 +705,85 @@ One type family is **keyword**, which consists of
 Other type families have only a single field type. For example, the boolean type family consists of one field type:
 boolean.
 
+#### Keyword Type Family
+
+##### Keyword Field Type
+
+###### Mapping Spec
+
+```json
+PUT my-index-000001
+{
+    "mappings": {
+        "properties": {
+            "tags": {
+                "type":  "keyword"
+            }
+        }
+    }
+}
+```
+
+> 💡 **Mapping numeric identifiers**
+>
+> Not all numeric data should be mapped as a [numeric](#numeric-field-types) field data type. Elasticsearch optimizes
+> numeric fields, such as integer or long, for [range](#range) queries. However, keyword fields are better for
+> [term](#term) and other [term-level](#term-level-queries) queries.
+> 
+> Identifiers, such as an ISBN or a product ID, are rarely used in range queries. However, they are often retrieved
+> using term-level queries.
+> 
+> Consider mapping a numeric identifier as a keyword if:
+> 
+> * You do not plan to search for the identifier data using [range](#range) queries. 
+> * Fast retrieval is important. term query searches on keyword fields are often faster than term searches on numeric
+>   fields.
+
+
+
+
+##### Wildcard Field Type
+
+###### Mapping Unstructured Content
+
+#### Numeric Field Types
+
 #### Text Type Family
+
+The text family includes the following field types:
+
+##### Text Field Type
+
+A field to index full-text values, such as the body of an email or the description of a product. These fields are
+analyzed, that is they are passed through an [analyzer](#text-analysis) to convert the string into a list of individual
+terms before being indexed. The analysis process allows Elasticsearch to **search for individual words within each full
+text field**. _Text fields are not used for sorting and seldom used for aggregations_ (although the
+[significant text aggregation](#significant-text) is a notable exception).
+
+_**Text fields are best suited for unstructured but human-readable content**_. If you need to index unstructured
+machine-generated content, see [Mapping unstructured content](#mapping-unstructured-content).
+
+_**If you need to index structured content such as email addresses, hostnames, status codes, or tags, it is likely that
+you should rather use a [keyword](#keyword-type-family) field**_.
+
+###### Mapping Spec
+
+```json
+PUT my-index-000001
+{
+    "mappings": {
+        "properties": {
+            "full_name": {
+                "type":  "text"
+            }
+        }
+    }
+}
+```
+
+###### Use a Field as Both Text and Keyword
+
+
 
 #### Object Field Type
 
@@ -786,6 +864,12 @@ The following mapping parameters are common to some or all field data types:
 > 📋 Only text fields support the analyzer mapping parameter.
  
 The analyzer parameter specifies the analyzer used for text analysis when indexing or searching a text field.
+
+## Aggregations
+
+### Bucket Aggregations
+
+#### Significant Text
 
 ## Text Analysis
 
@@ -2288,8 +2372,6 @@ GET file-path-test/_search
 
 #### Token Filters
 
-
-
 ##### Lowercase Token Filter
 
 ##### Truncate Token Filter
@@ -2299,6 +2381,14 @@ GET file-path-test/_search
 ##### Stop Analyzer
 
 #### Custom Analyzer
+
+## Query DSL
+
+### Term-Level Queries
+
+#### Range
+
+#### Term
 
 ## REST API
 
