@@ -175,7 +175,7 @@ through more hits, use the
 [search_after](https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html#search-after)
 parameter.
 
-## Elasticsearch Mapping
+## Mapping
 
 Each document is a collection of fields, which each have their own data type. When mapping your data, you create a mapping definition, which contains a list of fields that are pertinent to the document. A mapping definition also includes metadata fields, like the _source field, which customize how a document’s associated metadata is handled.
 
@@ -737,10 +737,16 @@ PUT my-index-000001
 > 
 > * You do not plan to search for the identifier data using [range](#range) queries. 
 > * Fast retrieval is important. term query searches on keyword fields are often faster than term searches on numeric
->   fields.
+>   fields
+> 
+> If you are unsure which to use, you can use a [multi-field](#fields) to map the data as both a keyword and a numeric data type.
 
+###### Parameters
 
-
+* [`boost`](#boost) - Mapping field-level query time boosting. Accepts a floating point number, defaults to 1.0
+* [doc_values](#doc_values) - Should the field be stored on disk in a column-stride fashion, so that it can later be
+  used for sorting, aggregations, or scripting? Accepts `true` (default) or `false`.
+* [`dimension`] - For internal use only. 
 
 ##### Wildcard Field Type
 
@@ -865,11 +871,274 @@ The following mapping parameters are common to some or all field data types:
  
 The analyzer parameter specifies the analyzer used for text analysis when indexing or searching a text field.
 
+#### boost
+
+Individual fields can be boosted automatically - count more towards the relevance score - at query time, with the boost
+parameter as follows:
+
+```json
+PUT my-index-000001
+{
+    "mappings": {
+        "properties": {
+            "title": {
+                "type": "text",
+                "boost": 2 // Matches on the title field will have twice the weight as those on the content field, which has the default boost of 1.0.
+            },
+            "content": {
+                "type": "text"
+            }
+        }
+    }
+}
+```
+
+> 📋 The boost is applied only for term queries (prefix, range and fuzzy queries are not boosted).
+
+> **Deprecated in 5.0.0**
+> 
+> ⚠️ Index time boost is deprecated. Instead, the field mapping boost is applied at query time. For indices created
+> before 5.0.0, the boost will still be applied at index time.
+
+You can achieve the same effect by using the boost parameter directly in the query, for instance the following query
+(with the index boost above):
+
+```json
+POST _search
+{
+    "query": {
+        "match": {
+            "title": {
+                "query": "quick brown fox"
+            }
+        }
+    }
+}
+```
+
+is equivalent to 
+
+```json
+POST _search
+{
+    "query": {
+        "match": {
+            "title": {
+                "query": "quick brown fox",
+                "boost": 2
+            }
+        }
+    }
+}
+```
+
+#### doc_values
+
+Most fields are [indexed](#index) by default, which makes them searchable. The inverted index allows queries to look up
+the search term in unique sorted list of terms, and from that immediately have access to the list of documents that
+contain the term.
+
+Sorting, aggregations, and access to field values in scripts requires a different data access pattern. Instead of
+looking up the term and finding documents, we need to be able to look up the document and find the terms that it has in
+a field.
+
+Doc values are the on-disk data structure, built at document index time, which makes this data access pattern possible.
+They store the same values as the `_source` but in a column-oriented fashion that is way more efficient for sorting and
+aggregations. Doc values are supported on almost all field types, with the notable exception of `text` and
+`annotated_text` fields.
+
+All fields which support doc values have them enabled by default. If you are sure that you don't need to sort or
+aggregate on a field, or access the field value from a script, you can disable doc values in order to save disk space:
+
+```json
+PUT my-index-000001
+{
+    "mappings": {
+        "properties": {
+            "status_code": { // The status_code field has doc_values enabled by default.
+                "type":       "keyword"
+            },
+            "session_id": { // The session_id has doc_values disabled, but can still be queried.
+                "type":       "keyword",
+                "doc_values": false
+            }
+        }
+    }
+}
+```
+
+> 📋 You cannot disable doc values for [wildcard](#wildcard-field-type) fields.
+
+#### eager_global_ordinals
+
+##### What are global ordinals
+
+To support aggregations and other operations that require looking up field values on a per-document basis, Elasticsearch
+uses a data structure called [doc values](#doc_values). Term-based field types such as `keyword` store their doc values
+using an ordinal mapping for a more compact representation. This mapping works by **assigning each term an incremental
+integer or _ordinal_ based on its lexicographic order. The field's doc values store only the ordinals for each
+document instead of the original terms, with a separate lookup structure to convert between ordinals and terms**.
+
+When used during aggregations, ordinals can greatly improve performance. As an example, the `terms` aggregation relies
+only on ordinals to collect documents into buckets at the shard-level, then converts the ordinals back to their original
+term values when combining results across shards.
+
+Each index segment defines its own ordinal mapping, but aggregations collect data across an entire shard. So to be able
+to use ordinals for shard-level operations like aggregations, Elasticsearch creates a unified mapping called
+**global ordinals**. The global ordinal mapping is built on top of segment ordinals, and works by maintaining a map from
+global ordinal to the local ordinal for each segment.
+
+Global ordinals are used if a search contains any of the following components:
+
+* Certain bucket aggregations on `keyword`, `ip`, and `flattened` fields. This includes `terms` aggregations as
+  mentioned above, as well as `diversified_sampler` and `significant_terms`
+* Bucket aggregations on text fields that require [`fielddata`]() to be enabled.
+
+#### index
+
+The `index` option controls whether field values are indexed. It accepts `true` or `false` and defaults to `true`.
+**Fields that are not indexed are not queryable**.
+
+#### fields
+
+_It is often useful to index the same field in different ways for different purposes_. This is the purpose of
+**multi-fields**. For instance, a string field could be mapped as a text field for full-text search, and as a keyword
+field for sorting or aggregations:
+
+##### Mapping Spec
+
+```json
+PUT my-index-000001
+{
+    "mappings": {
+        "properties": {
+            "city": {
+                "type": "text",
+                "fields": {
+                    "raw": {        // The city.raw field is a keyword version of the city field
+                        "type":  "keyword"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+```json
+PUT my-index-000001/_doc/1
+{
+    "city": "New York"
+}
+
+PUT my-index-000001/_doc/2
+{
+    "city": "York"
+}
+
+GET my-index-000001/_search
+{
+    "query": {
+        "match": {
+            "city": "york"          // The city field can be used for full text search.
+        }
+    },
+    "sort": {
+        "city.raw": "asc" 
+    },
+    "aggs": {
+        "Cities": {
+            "terms": {
+                "field": "city.raw" // The city.raw field can be used for sorting and aggregations
+            }
+        }
+    }
+}
+```
+
+You can add multi-fields to an existing field using the [update mapping API](#update-mapping).
+
+_A multi-field mapping is completely separate from the parent field's mapping. A multi-field doesn't inherit any mapping
+options from its parent field". Multi-fields don't change the original `_source` field.
+
+##### Multiple Fields with Multiple Analyzers
+
+Another use case of multi-fields is to analyze the same field in different ways for better relevance. For instance we
+could index a field with the [standard analyzer](#standard-analyzer) which breaks text up into words, and again with the
+[english analyzer](#english-analyzer) which stems words into their root form:
+
+```json
+PUT my-index-000001
+{
+    "mappings": {
+        "properties": {
+            "text": {                           // The text field uses the standard analyzer.
+                "type": "text",
+                "fields": {
+                    "english": {                // The text.english field uses the english analyzer.
+                        "type":     "text",
+                        "analyzer": "english"
+                    }
+                }
+            }
+        }
+    }
+}
+
+PUT my-index-000001/_doc/1
+{
+    "text": "quick brown fox"                   // Index two documents, one with fox and the other with foxes.
+} 
+
+PUT my-index-000001/_doc/2
+{
+    "text": "quick brown foxes"
+} 
+
+GET my-index-000001/_search
+{
+    "query": {
+        "multi_match": {
+            "query": "quick brown foxes",
+            "fields": ["text", "text.english"], // Query both the text and text.english fields,
+            "type": "most_fields"               // and combin the scores
+        }
+    }
+}
+```
+
+The `text` field contains the term "fox" in the first document and "foxes" in the second document. The `text.english`
+field contains "fox" for both documents, because "foxes" is stemmed to "fox".
+
+The query string is also analyzed by the standard analyzer for the text field, and by the english analyzer for the
+`text.english` field. The stemmed field allows a query for "foxes" to also match the document containing just "fox".
+This allows us to match as many documents as possible. By also querying the unstemmed text field, we improve the
+relevance score of the document which matches "foxes" exactly.
+
 ## Aggregations
+
+An aggregation summarizes your data as metrics, statistics, or other analytics. Aggregations help you answer questions
+like:
+
+* What's the average load time for my website?
+* Who are my most valuable customers based on transaction volume?
+* What would be considered a large file on my network?
+* How many products are in each product category?
+
+Elasticsearch organizes aggregations into three categories:
+
+* [Metric aggregations](#metrics-aggregations) that calculate metrics, such as a sum or average, from field values
+* [Bucket aggregations](#bucket-aggregations) that group documents into buckets, also called **bins**, based on field
+  values, ranges, or other criteria
+* [Pipeline aggregations](#pipeline-aggregations) that take input from other aggregations instead of documents or fields
 
 ### Bucket Aggregations
 
 #### Significant Text
+
+### Metrics Aggregations
+
+### Pipeline Aggregations
 
 ## Text Analysis
 
@@ -2382,6 +2651,14 @@ GET file-path-test/_search
 
 #### Custom Analyzer
 
+### Built-in Analyzer
+
+#### Language Analyzers
+
+##### English Analyzer
+
+#### Standard Analyzer
+
 ## Query DSL
 
 ### Term-Level Queries
@@ -2405,6 +2682,8 @@ the refresh operation on the stream's backing indices. For more information abou
 ```
 POST /my-index-000001/_refresh
 ```
+
+#### Update Mapping
 
 ### Search API
 
