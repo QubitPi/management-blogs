@@ -89,3 +89,10 @@ order, use
 
     convert *.jpg -scene 1 %d.png
    
+## svg File Processing
+
+Imagemagick seems to have limited capacities on svg. file processing. Here are some useful online tools:
+
+* [Encode SVG](https://base64.guru/converter/encode/image/svg)
+* [Decode SVG](https://base64.guru/converter/decode/image/svg)
+* [Resize SVG](https://www.iloveimg.com/resize-image/resize-svg#resize-options,pixels)
