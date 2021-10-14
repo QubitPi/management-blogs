@@ -9,8 +9,6 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
-Design principles makes software maintainable and ultimately boost team efficiency
-
 <!--more-->
 
 * TOC
@@ -26,7 +24,7 @@ Once the thread has delegated the task to the `ExecutorService`, the thread cont
 the execution of that task. The `ExecutorService` then executes the task concurrently, independently of the thread that
 submitted the task.
 
-## Java `ExecutorService` Example
+## Java ExecutorService Example
 
 Before we get too deep into the `ExecutorService`, let us look at a simple example:
 
@@ -48,7 +46,7 @@ pool with 10 threads executing tasks.
 Second, an anonymous implementation of the `Runnable` interface is passed to the `execute()` method. This causes the
 `Runnable` to be executed by one of the threads in the `ExecutorService`.
 
-## Creating an `ExecutorService`
+## Creating an ExecutorService
 
 How you create an `ExecutorService` depends on the implementation you use. However, you can use the Executors factory
 class to create `ExecutorService` instances too. Here are a few examples of creating an `ExecutorService`:
@@ -61,7 +59,7 @@ ExecutorService executorService2 = Executors.newFixedThreadPool(10);
 ExecutorService executorService3 = Executors.newScheduledThreadPool(10);
 ```
 
-## `ExecutorService` Usage
+## ExecutorService Usage
 
 There are a few different ways to delegate tasks for execution to an `ExecutorService`:
 
@@ -71,7 +69,7 @@ There are a few different ways to delegate tasks for execution to an `ExecutorSe
 - `invokeAny(...)`
 - `invokeAll(...)`
 
-### `execute(Runnable)`
+### execute(Runnable)
 
 The Java `ExecutorService` `execute(Runnable)` method takes a `java.lang.Runnable` object, and executes it
 asynchronously. Here is an example of executing a `Runnable` with an `ExecutorService`:
@@ -91,7 +89,7 @@ executorService.shutdown();
 There is no way of obtaining the result of the executed `Runnable`, if necessary. You will have to use a `Callable`
 for that.
 
-### `submit(Runnable)`
+### submit(Runnable)
 
 The Java `ExecutorService` `submit(Runnable)` method also takes a `Runnable` implementation, but returns a `Future`
 object. This `Future` object can be used to check if the `Runnable` has finished executing.
@@ -108,7 +106,7 @@ Future future = executorService.submit(new Runnable() {
 future.get();  //returns null if the task has finished correctly.
 ```
 
-### `submit(Callable)`
+### submit(Callable)
 
 The Java `ExecutorService` `submit(Callable)` method is similar to the `submit(Runnable)` method except it takes a Java
 `Callable` instead of a `Runnable`. The precise difference between a `Callable` and a `Runnable` is explained a bit
@@ -131,7 +129,7 @@ an `ExecutorService` Callable example:
     Object result = future.get();
 ```
 
-### `invokeAny()`
+### invokeAny()
 
 The `invokeAny()` method takes a collection of `Callable` objects, or subinterfaces of `Callable`. Invoking this method
 does not return a `Future`, but returns the result of one of the `Callable` objects. You have no guarantee about which
@@ -174,7 +172,7 @@ executorService.shutdown();
 This code example will print out, in log, the object returned by one of the `Callable`'s in the given collection. Being
 run for a few times, the result changes. Sometimes it is "Task 1", sometimes "Task 2" etc.
 
-### `invokeAll()`
+### invokeAll()
 
 The `invokeAll()` method invokes all of the `Callable` objects you pass to it in the collection passed as parameter.
 The `invokeAll()` returns a list of `Future` objects via which you can obtain the results of the executions of each
@@ -217,7 +215,7 @@ for(Future<String> future : futures){
 executorService.shutdown();
 ```
 
-### `Runnable` vs. `Callable`
+### Runnable vs. Callable
 
 The `Runnable` interface is very similar to the `Callable` interface. Both interfaces represents a task that can be
 executed concurrently by a thread or an `ExecutorService`. Both interfaces only has a single method. There is one small
@@ -256,32 +254,32 @@ You can cancel a task (`Runnable` or `Callable`) submitted to a Java `ExecutorSe
 on the `Future` returned when the task is submitted. Cancelling the task is only possible if the task has not yet
 started executing.
 
-## `ExecutorService` Shutdown
+## ExecutorService Shutdown
 
 When you are done using the Java `ExecutorService` you should shut it down, so the threads do not keep running. If your
 application is started via a `main()` method and your main thread exits your application, the application will keep
 running if you have an active `ExexutorService` in your application. The active threads inside this `ExecutorService`
 prevents the JVM from shutting down.
 
-### `shutdown()`
+### shutdown()
 
 To terminate the threads inside the `ExecutorService` you call its `shutdown()` method. The `ExecutorService` will not
 shut down immediately, but it will no longer accept new tasks, and once all threads have finished current tasks, the
 `ExecutorService` shuts down. All tasks submitted to the `ExecutorService` before `shutdown()` is called, are executed.
 
-### `shutdownNow()`
+### shutdownNow()
 
 If you want to shut down the `ExecutorService` immediately, you can call the `shutdownNow()` method. This will
 attempt to stop all executing tasks right away, and skips all submitted but non-processed tasks. There are no guarantees
 given about the executing tasks. Perhaps they stop, perhaps the execute until the end. It is a best effort attempt.
 
-### `awaitTermination()`
+### awaitTermination()
 
 The `ExecutorService` `awaitTermination()` method will block the thread calling it until either the `ExecutorService`
 has shutdown completely, or until a given time out occurs. The `awaitTermination()` method is typically called after
 calling `shutdown()` or `shutdownNow()`.
 
-## `ExecutorService` Implementations
+## ExecutorService Implementations
 
 The Java `ExecutorService` is very similar to a thread pool. In fact, the implementation of the `ExecutorService`
 interface present in the `java.util.concurrent` package is a thread pool implementation.
@@ -292,9 +290,9 @@ Since `ExecutorService` is an interface, you need its implementations in order t
 - `ThreadPoolExecutor`
 - `ScheduledThreadPoolExecutor`
 
-### `ThreadPoolExecutor`
+### ThreadPoolExecutor
 
-The `ThreadPoolExecutor` executes the given task (`Callable` or `Runnable`) using one of its internally pooled
+The ThreadPoolExecutor executes the given task (`Callable` or `Runnable`) using one of its internally pooled
 threads.
 
 The thread pool contained inside the `ThreadPoolExecutor` can contain a varying amount of threads. The number of
@@ -316,7 +314,7 @@ the queue until it reaches 100. When the queue is full new threads will be creat
 threads are in use and the queue is full tasks will be rejected. As the queue reduces, so does the number of active
 threads.
 
-##### Creating a `ThreadPoolExecutor`
+##### Creating a ThreadPoolExecutor
 
 The `ThreadPoolExecutor`has several constructors available. For instance:
 
@@ -338,13 +336,13 @@ ExecutorService threadPoolExecutor =
 However, unless you need to specify all these parameters explicitly for your `ThreadPoolExecutor`, it is often easier to
 use one of the factory methods in the `java.util.concurrent.Executors` class
 
-### `ScheduledExecutorService`
+### ScheduledExecutorService
 
 The `java.util.concurrent.ScheduledExecutorService` is an `ExecutorService` which can schedule tasks to run after a
 delay, or to execute repeatedly with a fixed interval of time in between each execution. Tasks are executed
 asynchronously by a worker thread, and not by the thread handing the task to the `ScheduledExecutorService`.
 
-#### `ScheduledExecutorService` Example
+#### ScheduledExecutorService Example
 
 Here is a simple `ScheduledExecutorService` example:
 
@@ -367,7 +365,7 @@ First a `ScheduledExecutorService` is created with 5 threads in. Then an anonymo
 interface is created and passed to the `schedule()` method. The two last parameters specify that the `Callable`
 should be executed after 5 seconds.
 
-#### `ScheduledExecutorService` Usage
+#### ScheduledExecutorService Usage
 
 Once you have created a `ScheduledExecutorService` you use it by calling one of its methods:
 
@@ -376,7 +374,7 @@ Once you have created a `ScheduledExecutorService` you use it by calling one of 
 - `scheduleAtFixedRate (Runnable, long initialDelay, long period, TimeUnit timeunit)`
 - `scheduleWithFixedDelay (Runnable, long initialDelay, long period, TimeUnit timeunit)`
 
-##### `schedule (Callable task, long delay, TimeUnit timeunit)`
+##### schedule (Callable task, long delay, TimeUnit timeunit)
 
 This method schedules the given `Callable` for execution after the given delay.
 
@@ -406,12 +404,12 @@ Object result = scheduledFuture.get();
 scheduledExecutorService.shutdown();
 ```
 
-##### `schedule (Runnable task, long delay, TimeUnit timeunit)`
+##### schedule (Runnable task, long delay, TimeUnit timeunit)
 
 This method works like the method version taking a `Callable` as parameter, except a `Runnable` cannot return a value,
 so the `ScheduledFuture.get()` method returns `null` when the task is finished.
 
-##### `scheduleAtFixedRate (Runnable, long initialDelay, long period, TimeUnit timeunit)`
+##### scheduleAtFixedRate (Runnable, long initialDelay, long period, TimeUnit timeunit)
 
 This method schedules a task to be executed periodically. The task is executed the first time after the initialDelay,
 and then recurringly every time the period expires.
@@ -422,7 +420,7 @@ task will continue to be executed until the `ScheduledExecutorService` is shut d
 If a task takes longer to execute than the period between its scheduled executions, the next execution will start after
 the current execution finishes. The scheduled task will not be executed by more than one thread at a time.
 
-##### `scheduleWithFixedDelay (Runnable, long initialDelay, long period, TimeUnit timeunit)`
+##### scheduleWithFixedDelay (Runnable, long initialDelay, long period, TimeUnit timeunit)
 
 This method works very much like `scheduleAtFixedRate()` except that the period is interpreted differently.
 
@@ -432,7 +430,7 @@ until the start of the next execution.
 In this method, however, the period is interpreted as the delay between the end of the previous execution, until the
 start of the next. The delay is thus between finished executions, not between the beginning of executions.
 
-#### `ScheduledExecutorService` Shutdown
+#### ScheduledExecutorService Shutdown
 
 Just like an `ExecutorService`, the `ScheduledExecutorService` needs to be shut down when you are finished using it. If
 not, it will keep the JVM running, even when all other threads have been shut down.
