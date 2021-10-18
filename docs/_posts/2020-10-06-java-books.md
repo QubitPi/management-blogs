@@ -64,6 +64,12 @@ unperishable passion to Java language*.
 * Service Design Patterns: Fundamental Design Solutions for SOAP/WSDL and RESTful Web Services
 * Agile Game Development with Scrum
 * [Growing Object-Oriented Software, Guided by Tests]({{ "/assets/pdf/The Addison-Wesley Signature Series/Growing Object-Oriented Software, Guided by Tests.pdf" | relative_url}})
+* Refactoring Databases: Evolutionary Database Design
+* Domain-Specific Languages
+* Leading Lean Software Development: Results Are Not the Point
+* More Agile Testing: Learning Journeys for the Whole Team
+* Xunit Test Patterns: Refactoring Test Code
+* Scrum Shortcuts Without Cutting Corners: Agile Tactics, Tools, & Tips
 
 ### [Robert C. Martin](http://cleancoder.com/products)'s Series
 
