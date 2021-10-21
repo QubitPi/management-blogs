@@ -36,6 +36,59 @@ OBJECT_MAPPER.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 
 ## Deserialization
 
+### Convert Empty String to Enum
+
+```java
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class Guis {
+
+public enum Context {
+    SDS,
+    NAVIGATION
+}
+
+public enum Layer {
+    Library,
+    Status,
+    Drivingdata
+}
+
+// client code
+String s = "{\"context\":\"\",\"layer\":\"Drivingdata\"}";
+ObjectMapper mapper = new ObjectMapper();
+Guis o = mapper.readValue(s, Guis.class);
+```
+
+This results in the error of 
+
+```
+Exception in thread "main" com.fasterxml.jackson.databind.exc.InvalidFormatException: Can not deserialize value of type cq.speech.rsi.api.Guis$Context from String "": value not one of declared Enum instance names: [SDS NAVIGATION] at [Source: {"context":"","layer":"Drivingdata"}; line: 1, column: 12] (through reference chain: cq.speech.rsi.api.Guis["context"])
+```
+
+We can use a factory that returns a null value if the string doesn't match an enum literal:
+
+```java
+public enum Context {
+    SDS,
+    NAVIGATION;
+
+    @JsonCreator
+    public static Context forName(String name) {
+        for(Context c: values()) {
+            if(c.name().equals(name)) { //change accordingly
+                return c;
+            }
+        }
+
+        return null;
+    }
+}
+```
+
+The `JsonCreator` annotation tells Jackson to call the method to get an instance for the string.
+
+Of course the implementation can change according to your logic, but this allows the use of `null values for the enum.
+
 ### Deserialise an Array of Objects
 
 ```java
