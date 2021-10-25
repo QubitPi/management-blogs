@@ -164,5 +164,23 @@ earlier**. A version that works is `2.0-M1-groovy-2.5` combined with, if needed,
             </plugin>
         </plugins>
     </build>
+```
 
+## Using Java 8 Stream Syntax in Groovy Spock
+
+### [Groovy Alternative of Java8's .map() Stream Operation](https://stackoverflow.com/a/47184709)
+
+The groovy version of 
+
+```java
+List<String> codes = events
+    .stream()
+    .map(event -> event.getCode())
+    .collect(Collectors.toList());
+```
+
+is as simple as
+
+```groovy
+events.collect { it.code }
 ```
