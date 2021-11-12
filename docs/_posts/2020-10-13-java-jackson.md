@@ -37,7 +37,51 @@ OBJECT_MAPPER.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 ### Specify Jackson to Only Use Fields
 
 Default Jackson behaviour uses both properties (getters and setters) and fields to serialize and deserialize to json. To
-use the fields as the canonical source of serialization **
+use the fields as the canonical source of serialization, we can do this on an individual class basis with the
+annotation:
+
+```java
+@JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
+```
+
+To make this global, 2 approaches shall work:
+
+#### Method 1
+
+Configure individual ObjectMappers like this:
+
+```java
+ObjectMapper mapper  = new ObjectMapper();
+mapper.setVisibility(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+```
+
+#### Method 2
+
+If you want a way to do this globally without worrying about the configuration of your `ObjectMapper`, you can create
+your own annotation:
+
+```java
+@JacksonAnnotationsInside
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.ANNOTATION_TYPE, ElementType.TYPE})
+@JsonAutoDetect(
+        getterVisibility = JsonAutoDetect.Visibility.NONE,
+        isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+        setterVisibility = JsonAutoDetect.Visibility.NONE,
+        fieldVisibility = JsonAutoDetect.Visibility.NONE,
+        creatorVisibility = JsonAutoDetect.Visibility.NONE
+)
+public @interface JsonExplicit {
+    
+    // intentionally left blank
+}
+```
+
+Now you just have to annotate your classes with `@JsonExplicit` and you're good to go!
 
 ## Deserialization
 
