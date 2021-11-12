@@ -60,8 +60,6 @@ MyService secondService;
 
 > Reference - https://stackoverflow.com/a/57248283
 
-#### @Resource vs @Autowired
-
 #### @Value
 
 `@Value` can be used for injecting values into fields in Spring-managed beans, and it **can be applied at the field or
@@ -129,6 +127,350 @@ public class Foo {
 }
 ```
 
+#### Conditional Beans with Spring Boot
+
+##### @ConditionalOnProperty
+
+The `@ConditionalOnProperty` annotation is probably the most commonly used conditional annotation in Spring Boot
+projects. It allows us to load beans conditionally depending on a certain environment property:
+
+```java
+@Configuration
+@ConditionalOnProperty(
+        value="module.enabled", 
+        havingValue = "true", 
+        matchIfMissing = true
+)
+class CrossCuttingConcernModule {
+    
+    ...
+}
+```
+
+The `CrossCuttingConcernModule` is loaded only if the `module.enabled` property has the value set to `true`. If the
+property is not set at all, it will still be loaded, because we have defined `matchIfMissing` as `true`. This way, we
+have created a module that is loaded **by default** until we decide otherwise.
+
+In the same way we might create other modules for cross-cutting concerns like security or scheduling that we might want
+to disable in a certain (test) environment.
+
+##### @ConditionalOnExpression
+
+If we have a more complex condition based on multiple properties, we can use `@ConditionalOnExpression`
+
+```java
+@Configuration
+@ConditionalOnExpression("${module.enabled:true} and ${module.submodule.enabled:true}")
+class SubModule {
+    
+    ...
+}
+```
+
+The `SubModule` is loaded only if both properties `module.enabled` and `module.submodule.enabled` have the value set to
+`true`. By appending `:true` to the properties we tell Spring to use `true` as a default value in the case the
+properties have not been set. We can use the full extend of the
+[Spring Expression Language](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#expressions).
+
+This way we can, for instance, create sub modules that should be disabled if the parent module is disabled, but can also
+be disabled if the parent module is enabled.
+
+##### @ConditionalOnBean
+
+Sometimes, we might want to load a bean only if a certain other bean is available in the application context:
+
+```java
+@Configuration
+@ConditionalOnBean(OtherModule.class)
+class DependantModule {
+    
+    ...
+}
+```
+
+The `DependantModule` is loaded only if there is a bean of class `OtherModule` in the application context. We could also
+define the bean name instead of the bean class.
+
+This way, we can define dependencies between certain modules, for example. One module is only loaded if a certain bean
+of another module is available.
+
+##### @ConditionalOnMissingBean
+
+Similarly, we can use `@ConditionalOnMissingBean` if we want to load a bean only if a certain other bean is not in the
+application context:
+
+```java
+@Configuration
+class OnMissingBeanModule {
+    
+    @Bean
+    @ConditionalOnMissingBean
+    DataSource dataSource() {
+        return new InMemoryDataSource();
+    }
+}
+```
+
+In this example, we inject an in-memory datasource into the application context if there is not already a datasource
+available. This is very similar to what Spring Boot does internally to provide an in-memory database in a test context.
+
+##### @ConditionalOnResource
+
+If we want to load a bean depending on the fact that a certain resource is available on the class path, we can use
+`@ConditionalOnResource`:
+
+```java
+@Configuration
+@ConditionalOnResource(resources = "/logback.xml")
+class LogbackModule {
+    
+    ...
+}
+```
+
+The `LogbackModule` is only loaded if the logback configuration file was found on the classpath. This way, we might
+create similar modules that are only loaded if their respective configuration file has been found.
+
+##### @ConditionalOnClass
+
+Load a bean only if a certain class is on the classpath:
+
+```java
+@Configuration
+@ConditionalOnClass(name = "this.clazz.does.not.Exist")
+class OnClassModule {
+    
+    ...
+}
+```
+
+##### @ConditionalOnMissingClass
+
+Load a bean only if a certain class is not on the classpath:
+
+```java
+@Configuration
+@ConditionalOnMissingClass(value = "this.clazz.does.not.Exist")
+class OnMissingClassModule {
+    
+    ...
+}
+```
+
+##### @ConditionalOnJndi
+
+Load a bean only if a certain resource is available via JNDI:
+
+```java
+@Configuration
+@ConditionalOnJndi("java:comp/env/foo")
+class OnJndiModule {
+    
+    ...
+}
+```
+
+##### @ConditionalOnJava
+
+Load a bean only if running a certain version of Java:
+
+```java
+@Configuration
+@ConditionalOnJava(JavaVersion.EIGHT)
+class OnJavaModule {
+    
+    ...
+}
+```
+
+##### @ConditionalOnSingleCandidate
+
+Similar to `@ConditionalOnBean`, but will only load a bean if a single candidate for the given bean class has been
+determined
+
+```java
+@Configuration
+@ConditionalOnSingleCandidate(DataSource.class)
+class OnSingleCandidateModule {
+    
+    ...
+}
+```
+
+##### @ConditionalOnWebApplication
+
+Load a bean only if we're running inside a web application:
+
+```java
+@Configuration
+@ConditionalOnWebApplication
+class OnWebApplicationModule {
+    
+    ...
+}
+```
+
+##### @ConditionalOnNotWebApplication
+
+Load a bean only if we're not running inside a web application:
+
+```java
+@Configuration
+@ConditionalOnNotWebApplication
+class OnNotWebApplicationModule {
+    
+    ...
+}
+```
+
+##### @ConditionalOnCloudPlatform
+
+Load a bean only if we’re running on a certain cloud platform:
+
+```java
+@Configuration
+@ConditionalOnCloudPlatform(CloudPlatform.CLOUD_FOUNDRY)
+class OnCloudPlatformModule {
+    
+    ...
+}
+```
+
+##### Custom Conditions
+
+Aside from the conditional annotations, we can create our own and combine multiple conditions with logical operators.
+
+###### Defining a Custom Condition
+
+Imagine we have some Spring beans that talk to the operating system natively. These beans should only be loaded if we're
+running the application on the respective operating system.
+
+Let's implement a condition that loads beans only if we're running the code on a unix machine. For this, we implement
+Spring's
+[`Condition`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/Condition.html)
+interface:
+
+```java
+class OnUnixCondition implements Condition {
+
+    @Override
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        return SystemUtils.IS_OS_LINUX;
+    }
+}
+```
+
+We simply use Apache Commons' `SystemUtils` class to determine if we're running on a unix-like system. If needed, we
+could include more sophisticated logic that uses information about the current application context (`ConditionContext`)
+or about the annotated class (`AnnotatedTypeMetadata`).
+
+The condition is now ready to be used in combination with Spring's `@Conditional` annotation:
+
+```java
+@Bean
+@Conditional(OnUnixCondition.class)
+UnixBean unixBean() {
+    return new UnixBean();
+}
+```
+
+###### Combining Conditions with "OR"
+
+If we want to combine multiple conditions into a single condition with the logical "OR" operator, we can extend
+`AnyNestedCondition`
+
+```java
+class OnWindowsOrUnixCondition extends AnyNestedCondition {
+
+    OnWindowsOrUnixCondition() {
+        super(ConfigurationPhase.REGISTER_BEAN);
+    }
+
+    @Conditional(OnWindowsCondition.class)
+    static class OnWindows { }
+
+    @Conditional(OnUnixCondition.class)
+    static class OnUnix { }
+}
+```
+
+Here, we have created a condition that is satisfied if the application runs on windows or unix.
+
+The `AnyNestedCondition` parent class will evaluate the `@Conditional` annotations on the methods and combine them using
+the OR operator.
+
+We can use this condition just like any other condition:
+
+```java
+@Bean
+@Conditional(OnWindowsOrUnixCondition.class)
+WindowsOrUnixBean windowsOrUnixBean() {
+    return new WindowsOrUnixBean();
+}
+```
+
+> ⚠️ Is your `AnyNestedCondition` or `AllNestedConditions` not working?
+>
+> Check the `ConfigurationPhase` parameter passed into `super()`. If you want to apply your combined condition to
+> `@Configuration` beans, use the value `PARSE_CONFIGURATION`. If you want to apply the condition to simple beans, use
+> `REGISTER_BEAN` as shown in the example above. Spring Boot needs to make this distinction so it can apply the
+> conditions at the right time during application context startup.
+
+###### Combining Conditions with AND
+
+If we want to combine conditions with "AND" logic, we can simply use multiple `@Conditional...` annotations on a single
+bean. They will automatically be combined with the logical "AND" operator so that if at least one condition fails, the
+bean will not be loaded:
+
+```java
+@Bean
+@ConditionalOnUnix
+@Conditional(OnWindowsCondition.class)
+WindowsAndUnixBean windowsAndUnixBean() {
+    return new WindowsAndUnixBean();
+}
+```
+
+This bean should never load, unless someone has created a Windows / Unix hybrid that I'm not aware of.
+
+Note that the `@Conditional` annotation cannot be used more than once on a single method or class. So, if we want to
+combine multiple annotations this way, we have to use custom `@ConditionalOn...` annotations, which do not have this
+restriction.
+
+Alternatively, if we want to combine conditions with AND into a single `@Conditional` annotation, we can extend Spring
+Boot's `AllNestedConditions` class which works exactly the same as `AnyNestedConditions` described above.
+
+###### Combining Conditions with NOT
+
+Similar to `AnyNestedCondition` and `AllNestedConditions`, we can extend `NoneNestedCondition` to only load beans if
+NONE of the combined conditions match.
+
+###### Defining a Custom @ConditionalOn… Annotation
+
+We can create a custom annotation for any condition. We simply need to meta-annotate this annotation with
+`@Conditional`:
+
+```java
+@Target({ ElementType.TYPE, ElementType.METHOD })
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Conditional(OnLinuxCondition.class)
+public @interface ConditionalOnUnix {
+    
+    // intentionally left blank
+}
+```
+
+Spring will evaluate this meta annotation when we annotate a bean with our new annotation:
+
+```java
+@Bean
+@ConditionalOnUnix
+LinuxBean linuxBean(){
+    return new LinuxBean();
+}
+```
+
 ### What is applicationContext.xml file?
 
 `applicationContext.xml` is effectively the same thing as `web.xml`. This file should be placed as
@@ -190,7 +532,7 @@ Once you have included the default configuration, you can use its values in your
 
 ### @Scheduled
 
-### Enable Support for Scheduling
+#### Enable Support for Scheduling
 
 To enable support for scheduling tasks and the @Scheduled annotation in Spring, we can use the Java enable-style
 annotation:
@@ -203,7 +545,7 @@ public class SpringConfig {
 }
 ```
 
-### Schedule a Task at Fixed Delay
+#### Schedule a Task at Fixed Delay
 
 Let's start by configuring a task to run after a fixed delay:
 
@@ -217,7 +559,7 @@ public void scheduleFixedDelayTask() {
 In this case, the duration between the end of the last execution and the start of the next execution is fixed. **The
 task always waits until the previous one is finished**.
 
-### Schedule a Task at a Fixed Rate
+#### Schedule a Task at a Fixed Rate
 
 Let's now execute a task at a fixed interval of time:
 
@@ -251,7 +593,7 @@ public class ScheduledFixedRateExample {
 
 Now this asynchronous task will be invoked each second, even if the previous task isn't done.
 
-### Schedule a Task With Initial Delay
+#### Schedule a Task With Initial Delay
 
 Next, let's schedule a task with a delay (in milliseconds):
 
@@ -266,7 +608,7 @@ public void scheduleFixedRateWithInitialDelayTask() {
 
 This option is convenient when the task has a setup that needs to be completed.
 
-### Schedule a Task Using Cron Expressions
+#### Schedule a Task Using Cron Expressions
 
 Sometimes delays and rates are not enough, and we need the flexibility of a cron expression to control the schedule of
 our tasks:
@@ -289,7 +631,7 @@ to change this timezone:
 @Scheduled(cron = "0 15 10 15 * ?", zone = "Europe/Paris")
 ```
 
-### Parameterizing the Schedule
+#### Parameterizing the Schedule
 
 Hardcoding these schedules is simple, but we usually need to be able to control the schedule without re-compiling and
 re-deploying the entire app.
@@ -309,7 +651,7 @@ files.
 
     @Scheduled(cron = "${cron.expression}")
 
-### Setting Delay or Rate Dynamically at Runtime
+#### Setting Delay or Rate Dynamically at Runtime
 
 Normally, all the properties of the `@Scheduled` annotation are resolved and initialized only once at Spring context
 startup. Therefore, it is not possbile to change the fixedDelay or fixedRate values at runtime when we use `@Scheduled`
