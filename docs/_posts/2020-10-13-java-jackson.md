@@ -277,3 +277,32 @@ which shows up as having error of duplicate annotation.
 "Null is always considered empty" - [Jackson's site](http://static.javadoc.io/com.fasterxml.jackson.core/jackson-annotations/2.7.1/com/fasterxml/jackson/annotation/JsonInclude.Include.html#NON_EMPTY)
 
 So the NON_EMPTY rule covers both cases.
+
+
+### Can not deserialize instance of java.lang.String out of START_OBJECT token
+
+In 
+
+```json
+{
+    "id": 2,
+    "socket": "0c317829-69bf-43d6-b598-7c0c550635bb",
+    "type": "getDashboard",
+    "data": {
+        "workstationUuid": "ddec1caa-a97f-4922-833f-632da07ffc11"
+    },
+    "reply": true
+}
+```
+
+which contains an element named `data` that has a JSON object as its value. When we try to deserialize the element named
+`workstationUuid` from that JSON object into this setter
+
+```java
+@JsonProperty("workstationUuid")
+public void setWorkstation(String workstationUUID) {
+```
+
+This won't work directly because Jackson sees a `JSON_OBJECT`, not a String.
+
+**Try "`toString`" the `data` before deserializing it**.
