@@ -34,6 +34,11 @@ For Jackson >2.0:
 OBJECT_MAPPER.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 ```
 
+### Specify Jackson to Only Use Fields
+
+Default Jackson behaviour uses both properties (getters and setters) and fields to serialize and deserialize to json. To
+use the fields as the canonical source of serialization **
+
 ## Deserialization
 
 ### Convert Empty String to Enum
