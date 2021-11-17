@@ -2669,6 +2669,10 @@ GET file-path-test/_search
 
 ## REST APIs
 
+### Getting Basic Elasticsearch Instance Info
+
+Simply hitting the web browser with the instance `IP:port`
+
 ### Document APIs
 
 #### Bulk API
