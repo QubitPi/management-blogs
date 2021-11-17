@@ -17,6 +17,7 @@ excerpt_separator: <!--more-->
 ## References
 
 * [Oracle Tutorial](https://www.oracletutorial.com/)
+* [Oracle and MySQL Compared](https://docs.oracle.com/cd/E12151_01/doc.150/e12155/oracle_mysql_compared.htm#CHDIIBJH)
 
 ## Shell
 
