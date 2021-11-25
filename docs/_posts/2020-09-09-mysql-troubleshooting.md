@@ -176,7 +176,7 @@ ORDER BY
     C.Content_DatePublished ASC
 ```
 
-### Loading Large File into Database Causes `MySQL Server has gone away`
+### Loading Large File into Database Causes "MySQL Server has gone away"
 
 According to https://dev.mysql.com/doc/refman/8.0/en/gone-away.html and personal experience, the most common reason is
 that you send a query to the server that is incorrect or [too large](#large-packet). If MySQL Server receives a packet
