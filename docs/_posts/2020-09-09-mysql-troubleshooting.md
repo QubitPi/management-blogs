@@ -13,6 +13,46 @@ excerpt_separator: <!--more-->
 
 * TOC
 {:toc}
+  
+#### I Forgot Password
+
+Let's say you want to login to MySQL shell as root, whose password is lost. You could do
+
+Stop and start mysql with --skip-grant-tables
+
+    service mysql.server stop
+    service mysql.server start --skip-grant-tables
+
+then connect to your mysqld without username/password
+
+    mysql
+
+Drop the user (e.g. `root`). After deleting the user, flush the mysql privileges. then create the user. Assuming we want
+to create the user root @ localhost, these would be the commands:
+
+    drop user admin@localhost;
+    flush privileges;
+    create user admin@localhost identified by 'foo'
+
+then we can login to mysql with the new password
+
+```bash
+$ mysql -h localhost -u root -pfoo
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.23 Homebrew
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>
+```
 
 ### [Implicit Default Handling](https://dev.mysql.com/doc/refman/8.0/en/data-type-defaults.html)
 
