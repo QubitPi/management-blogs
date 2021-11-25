@@ -20,8 +20,8 @@ Let's say you want to login to MySQL shell as root, whose password is lost. You 
 
 Stop and start mysql with --skip-grant-tables
 
-    service mysql.server stop
-    service mysql.server start --skip-grant-tables
+    mysql.server stop
+    mysql.server start --skip-grant-tables
 
 then connect to your mysqld without username/password
 
@@ -31,8 +31,12 @@ Drop the user (e.g. `root`). After deleting the user, flush the mysql privileges
 to create the user root @ localhost, these would be the commands:
 
     drop user admin@localhost;
-    flush privileges;
+    FLUSH PRIVILEGES;
     create user admin@localhost identified by 'foo'
+
+    UPDATE mysql.user SET Grant_priv='Y', Super_priv='Y' WHERE User='root';
+    FLUSH PRIVILEGES;
+    GRANT ALL ON *.* TO 'root'@'localhost';
 
 then we can login to mysql with the new password
 
