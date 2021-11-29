@@ -99,9 +99,11 @@ and only later is it flushed to disk (which is expensive). However, after a file
 read just like any other file.
 
 A Lucene index with new documents in the in-memory buffer:
+
 ![Error loading lucene-in-memory-buffer.png]({{ "/assets/img/lucene-in-memory-buffer.png" | relative_url}})
 
 The buffer contents are written to a segment, which is searchable, but is not yet committed:
+
 ![Error loading lucene-written-not-committed.png]({{ "/assets/img/lucene-written-not-committed.png" | relative_url}})
 
 Lucene allows new segments to be written and opened, making the documents they contain visible to search without
