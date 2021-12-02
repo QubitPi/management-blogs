@@ -69,7 +69,6 @@ It will output:
 [Employee{id=1, name='John'}, Employee{id=2, name='Alice'}]
 ```
 
-
 ### Convert Iterable to Stream
 
 ```java
@@ -84,4 +83,19 @@ StreamSupport.stream(iterable.spliterator(), false)
 List<Foo> collection = Arrays.stream(array)  //'array' is two-dimensional
         .flatMap(Arrays::stream)
         .collect(Collectors.toList());
+```
+
+
+### Preserve Order in Stream with collect
+
+Say we would like to process a list such as ["blah", "blah", "yep"] and get ["blah (2 times)", "yep"], we will collect
+them to a `LinkedHashMap` to get the expected result:
+
+```java
+return messages.stream()
+        .collect(groupingBy(Function.identity(), LinkedHashMap::new, summingInt(e -> 1)))
+        .entrySet()
+        .stream()
+        .map(e -> e.getKey()+(e.getValue() == 1 ? "" : " (" + e.getValue() +" times)"))
+        .collect(toList());
 ```
