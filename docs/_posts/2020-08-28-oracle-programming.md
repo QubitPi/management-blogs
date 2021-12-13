@@ -30,7 +30,7 @@ path(`script.sql`)
 
 ### Connecting to Oracle DB Instance From the Command Line
 
-#### (First Time) Install Oracle Instant Client and `sqlplus` using Homebrew
+#### (First Time) Install Oracle Instant Client and sqlplus using Homebrew
 
 1. Download the two files below from
    http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html. This is necessary because of Oracle licenses:
