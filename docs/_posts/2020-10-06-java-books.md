@@ -64,7 +64,7 @@ unperishable passion to Java language*.
 * Service Design Patterns: Fundamental Design Solutions for SOAP/WSDL and RESTful Web Services
 * Agile Game Development with Scrum
 * [Growing Object-Oriented Software, Guided by Tests]({{ "/assets/pdf/The Addison-Wesley Signature Series/Growing Object-Oriented Software, Guided by Tests.pdf" | relative_url}})
-* Refactoring Databases: Evolutionary Database Design
+* [Refactoring Databases: Evolutionary Database Design](https://www.martinfowler.com/articles/evodb.html)
 * Domain-Specific Languages
 * Leading Lean Software Development: Results Are Not the Point
 * More Agile Testing: Learning Journeys for the Whole Team

@@ -47,8 +47,61 @@ path(`script.sql`)
     sqlplus ${DBUSER}/${DBUSERPASSWORD}@//${HOST}:${PORT}/${SERVICE_NAME}
     
 where `SERVICE_NAME` is the same thing as "database name" as in MySQL terminology
-    
+
 ### Shell Commands
+
+#### Display UTF8
+
+Whenever a client program (such as `sqlplus`) connects to the database, it tells the database what characterset it is
+using. Some environments may have a very restricted characterset and use something like US7ASCII so they don't get
+anything that can upset them.
+
+As you can see in the following example, what is output by a query is dependent on the NLS_LANG setting of a client.
+
+```shell
+C:\>set NLS_LANG=.US7ASCII
+C:\>sqlplus ???/???@xe
+
+SQL*Plus: Release 10.2.0.1.0 - Production on Wed Nov 3 09:31:32 2010
+> select chr(193) from dual;
+
+C
+-
+?
+
+> quit
+
+C:\>set NLS_LANG=.AL32UTF8
+C:\>sqlplus ???/???@xe
+
+SQL*Plus: Release 10.2.0.1.0 - Production on Wed Nov 3 09:31:49 2010
+> select chr(193) from dual;
+
+C
+-
+┴
+```
+
+If your client is Windows, then try the above. If it is a unix(ish) platform, try
+
+```bash
+export NLS_LANG=.AL32UTF8
+```
+
+#### Spool SQL Query Output to HTML format in SQLPLUS Oracle
+
+In SQLPLUS:
+
+    set pages 500
+    SET MARKUP HTML ON
+    spool report1.html
+    Select * from hr.departments where department_id < 20;
+    spool off
+
+This would generate a "report1.html" file in the directory where SQLPLUS command was invoked and the file looks like
+the following:
+
+![Error loading sqlplus-html.png]({{ "/assets/img/sqlplus-html.png" | relative_url}})
 
 #### Show Tables
 
