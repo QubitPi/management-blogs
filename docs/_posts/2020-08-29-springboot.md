@@ -2,7 +2,7 @@
 layout: post
 title: Spring Boot References
 tags: [Spring Boot, Spring]
-color: rgb(0, 210, 0)
+color: rgb(66, 184, 44)
 feature-img: "assets/img/post-cover/1-cover.png"
 thumbnail: "assets/img/post-cover/1-cover.png"
 author: QubitPi
@@ -740,7 +740,7 @@ the TransactionInterceptor **commits/rolls back** the transaction accordingly.
 
 ###### "readOnly"
 
-If you don't explicitly set `eadOnly` attribute to `true`, you will have read/write transactions.
+If you don't explicitly set `readOnly` attribute to `true`, you will have read/write transactions.
 
 > 📋 It is always better to explicitly specify the `readOnly` attribute, as we have noticed some massive performance
 > improvements with Hibernate because of this.
