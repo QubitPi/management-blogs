@@ -710,6 +710,13 @@ dynamically at runtime by the `getDelay()` method.
 
 ## Spring Data JPA
 
+### Understanding Transaction in Spring
+
+Spring supports RDMBS transations by 2 approaches:
+
+1. **Programmatic Transactions** - Transaction management code needs to be explicitly written so as to commit when
+   everything is successful and rolling back if anything goes wrong. The transaction management code is tightly bound to the business logic in this case.
+
 ### Interface-based Projection
 
 Suppose we need to need to search for a person's profile as well as the number of vehicles that person owns. Those
