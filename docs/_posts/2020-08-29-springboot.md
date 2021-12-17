@@ -2,7 +2,7 @@
 layout: post
 title: Spring Boot References
 tags: [Spring Boot, Spring]
-color: rgb(30, 153, 50)
+color: rgb(0, 210, 0)
 feature-img: "assets/img/post-cover/1-cover.png"
 thumbnail: "assets/img/post-cover/1-cover.png"
 author: QubitPi
