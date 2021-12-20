@@ -16,6 +16,7 @@ excerpt_separator: <!--more-->
 
 * [VisualVM](https://visualvm.github.io/)
 * [jConsole](https://openjdk.java.net/tools/svc/jconsole/)
+* [Java Decompiler](http://java-decompiler.github.io/)
 
 ## The `jps` Utility
 

@@ -855,7 +855,7 @@ PUT my-index-000001
 }
 ```
 
-#### Parameters for `object` Fields
+#### Parameters for "object" Fields
 
 The following parameters are accepted by object fields:
 
