@@ -64,13 +64,6 @@ abstract class AbstractMigrator implements StaleDataTruncator {
     protected final String periodGranularity;
 
     AbstractStaleDataTruncator(final int numPeriods, @NotNull final String periodGranularity) {
-        if (numPeriods <= 0) {
-            log.warn(
-                    "{}: 'numPeriods' must be positive. Schedule task won't successfully execute!",
-                    this.getClass().getCanonicalName()
-            );
-        }
-
         this.numPeriods = numPeriods;
         this.periodGranularity = Objects.requireNonNull(periodGranularity, "periodGranularity");
     }
