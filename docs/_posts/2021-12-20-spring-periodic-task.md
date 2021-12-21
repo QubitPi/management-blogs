@@ -74,20 +74,9 @@ abstract class AbstractMigrator implements StaleDataTruncator {
         this.numPeriods = numPeriods;
         this.periodGranularity = Objects.requireNonNull(periodGranularity, "periodGranularity");
     }
-
-    abstract long getNumRecords();
-
-    @Async
+    
     @Override
-    @Scheduled(cron = "0 0 0 */1 * ?") // At 00:00:00am, every day starting on the 1st, every month
     public void run() {
-        long numRecordsBeforeMigration = getNumRecords();
-
-        if (numRecordsBeforeMigration <= 0) {
-            log.info("Migrating by recency - not enough data to truncate. Nothing will happen.");
-            return;
-        }
-
         migrateData(getExpiryDate());
     }
 
