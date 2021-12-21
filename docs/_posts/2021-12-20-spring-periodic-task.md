@@ -2,7 +2,7 @@
 layout: post
 title: Implementing Periodic Task for Webservice
 tags: [Webservice, Design]
-color: rgb(85, 85, 187)
+color: rgb(0, 196, 0)
 feature-img: "assets/img/post-cover/15-cover.png"
 thumbnail: "assets/img/post-cover/15-cover.png"
 author: QubitPi
