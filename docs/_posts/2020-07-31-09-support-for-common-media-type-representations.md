@@ -209,7 +209,7 @@ an the its client/server variants):
 
 * [ClientProperties.MOXY_JSON_FEATURE_DISABLE](https://eclipse-ee4j.github.io/jersey.github.io/apidocs/snapshot/jersey/org/glassfish/jersey/client/ClientProperties.html#MOXY_JSON_FEATURE_DISABLE)
 
-> 📋 A manual registration of any other Jersey JSON provider feature (except for Java API for
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) A manual registration of any other Jersey JSON provider feature (except for Java API for
 > [JSON Processing (JSON-P)](#java-api-for-json-processing-json-p)) disables the automated enabling and configuration of
 > `MoxyJsonFeature`.
 
@@ -382,7 +382,7 @@ or
 
 #### Configure and register
 
-> 📋 Note that there is a difference in namespaces between Jackson 1.x (`org.codehaus.jackson`) and Jackson 2.x
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) Note that there is a difference in namespaces between Jackson 1.x (`org.codehaus.jackson`) and Jackson 2.x
 > (`com.fasterxml.jackson`). 
 
 Jackson JSON processor could be controlled via providing a custom Jackson `ObjectMapper` instance. This could be handy
@@ -760,7 +760,7 @@ defines the name of the query parameter holding the name of the callback functio
 request). Value of `queryParam` defaults to `__callback` so even if you do not set the name of the query parameter
 yourself, client can always affect the result name of the wrapping JavaScript callback method. 
 
-> 📋 `queryParam` value (if set) always takes precedence over `callback` value.
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) `queryParam` value (if set) always takes precedence over `callback` value.
 
 Lets modify our example a little bit:
 

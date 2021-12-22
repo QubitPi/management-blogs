@@ -157,7 +157,7 @@ this by having external programs access your database via persistence layers
 
 ### Verify That a Database Refactoring Is Appropriate
 
-> 📋 A Software Dev team often comes with a separate DBA team. The following DB refactoring is discussed with the DBA
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) A Software Dev team often comes with a separate DBA team. The following DB refactoring is discussed with the DBA
 > team is present
 
 * **Does the refactoring make sense?** Perhaps the existing table structure is correct. It is common for developers to

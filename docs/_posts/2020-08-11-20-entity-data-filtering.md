@@ -435,7 +435,7 @@ as with the entity-filtering annotations, the processing of security annotations
   for the current user are automatically determined using the information from the provided `SecurityContext`
   (server-side only). 
 
-> 📋 Instances of security annotations (to be used for programmatically defined scopes either on client or server) can
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) Instances of security annotations (to be used for programmatically defined scopes either on client or server) can
 > be created using one of the methods in the
 > ***[SecurityAnnotations](https://eclipse-ee4j.github.io/jersey.github.io/apidocs/snapshot/jersey/org/glassfish/jersey/message/filtering/SecurityAnnotations.html)***
 > factory class that is part of the Jersey Entity Filtering API.

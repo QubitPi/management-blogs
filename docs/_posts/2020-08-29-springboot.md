@@ -742,7 +742,7 @@ the TransactionInterceptor **commits/rolls back** the transaction accordingly.
 
 If you don't explicitly set `readOnly` attribute to `true`, you will have read/write transactions.
 
-> 📋 It is always better to explicitly specify the `readOnly` attribute, as we have noticed some massive performance
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) It is always better to explicitly specify the `readOnly` attribute, as we have noticed some massive performance
 > improvements with Hibernate because of this.
 
 ###### "propagate"
@@ -845,7 +845,7 @@ PersonWithNumVehicles getPersonWithVehicleInfoBySsn(
 );
 ```
 
-> 📋 Note that `person` is the physical table name.
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) Note that `person` is the physical table name.
 
 > ⚠️ The return type of `PersonWithNumVehicles.getVehicleCount()` must be `int` because it is calculated using SQL
 `COUNT()` function. Using other types, such as `Long` will silently fail the query.
@@ -1248,7 +1248,7 @@ The following table describes the keywords supported for JPA and what a method c
 | False              | findByActiveFalse()                                       | `… where x.active = false`                                                |
 | IgnoreCase         | findByFirstnameIgnoreCase                                 | … where UPPER(x.firstname) = UPPER(?1)                                    |
 
-> 📋 `In` and `NotIn` also take any subclass of `Collection` as a parameter as well as arrays or varargs. For other
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) `In` and `NotIn` also take any subclass of `Collection` as a parameter as well as arrays or varargs. For other
 > syntactical versions of the same logical operator, check
 > [Repository query keywords](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords).
 
@@ -1384,7 +1384,7 @@ class RegisterRestControllerTest {
 }
 ```
 
-> 📋 `@ExtendWith`
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) `@ExtendWith`
 >
 > The @ExtendWith annotation to tells JUnit 5 to enable Spring support. As of Spring Boot 2.1, we no longer need to load
 > the SpringExtension because it's included as a meta annotation in the Spring Boot test annotations like

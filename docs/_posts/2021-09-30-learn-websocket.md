@@ -105,7 +105,7 @@ annotated endpoint, you decorate a Java class and some of its methods with the a
 mentioned previously. After you have created an endpoint, you deploy it to an specific URI in the application so that
 remote clients can connect to it.
 
-> 📋 In most cases, it is easier to create and deploy an annotated endpoint than a programmatic endpoint. This post
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) In most cases, it is easier to create and deploy an annotated endpoint than a programmatic endpoint. This post
 > provides a simple example of a programmatic endpoint, but it focuses on annotated endpoints.
 
 #### Creating and Deploying a WebSocket Endpoint
@@ -117,7 +117,7 @@ The process for creating and deploying a WebSocket endpoint is
 3. Add your business logic to the endpoint.
 4. Deploy the endpoint inside a web application.
 
-> 📋 As opposed to servlets, **WebSocket endpoints are instantiated multiple times**. **The container creates an
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) As opposed to servlets, **WebSocket endpoints are instantiated multiple times**. **The container creates an
 > instance of an endpoint per connection** to its deployment URI. Each instance is associated with one and only one
 > connection. This facilitates keeping user state for each connection and makes development easier, because there is
 > only one thread executing the code of an endpoint instance at any given time.

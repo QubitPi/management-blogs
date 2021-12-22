@@ -518,7 +518,7 @@ gremlin> g.V(1).out('knows').has('age', gt(30)).values('name') //7\
 ==>josh
 ```
 
-> 📋️ A `Traversal` is essentially an `Iterator` so if you have code like `x = g.V()`, the **`x` does not contain the
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}})️ A `Traversal` is essentially an `Iterator` so if you have code like `x = g.V()`, the **`x` does not contain the
 > results of the `g.V()` query**. Rather, that statement assigns an `Iterator` to `x`. To get your results, you would
 > then need to iterate through `x`. It is very important to understand this because in the context of the console typing
 > `g.V()` instantly returns a value. The console does some magic for you by noticing that `g.V()` returns an `Iterator`
@@ -946,7 +946,7 @@ The second composite graph index includes both keys. JanusGraph will use this in
 g.V().has('age', 30).has('name', 'hercules')
 ```
 
-> 📋 All keys of a composite graph index must be found in the query's equality conditions for the index to be hit. For
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) All keys of a composite graph index must be found in the query's equality conditions for the index to be hit. For
 > example, the following query cannot be answered with either of the indexes because it only contains a constraint on
 > "age" but not "name":
 >
@@ -1037,7 +1037,7 @@ Mixed indexes support [full-text search](#index-parameters-and-full-text-search)
 [Search Predicates and Data Types](https://docs.janusgraph.org/index-backend/search-predicates/) for a list of
 predicates supported by a specific indexing backend.
 
-> 📋 Unlike composite indexes, mixed indexes do not support uniqueness.
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) Unlike composite indexes, mixed indexes do not support uniqueness.
 
 ###### Adding Property Keys
 
@@ -1211,7 +1211,7 @@ mgmt.updateIndex(mgmt.getGraphIndex("byNameAndLabel"), SchemaAction.REINDEX).get
 mgmt.commit()
 ```
 
-> 📋 When a composite index with label restriction is defined as unique, the uniqueness constraint only applies to
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) When a composite index with label restriction is defined as unique, the uniqueness constraint only applies to
 > properties on vertices or edges for the specified label.
 
 ##### Composite v.s. Mixed Indexes
@@ -1298,7 +1298,7 @@ Multiple vertex-centric indexes can be built for the same edge label in order to
 traversals. JanusGraph query optimizer attempts to pick the most efficient index for any given traversal. Vertex-centric
 index **supports equality and range/interval constraints only**.
 
-> 📋 The property keys used in a vertex-centric index must have an explicitly defined data type (i.e. not
+> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) The property keys used in a vertex-centric index must have an explicitly defined data type (i.e. not
 > `Object.class`) which supports a native sort order, which means the keys must implement both `Comparable` and
 > `OrderPreservingSerializer` of their serializers. Those types include
 >
