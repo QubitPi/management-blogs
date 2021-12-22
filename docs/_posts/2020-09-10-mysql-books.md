@@ -13,8 +13,7 @@ excerpt_separator: <!--more-->
 
 * TOC
 {:toc}
-
-* [Database Systems - The Complete Book]({{ "/assets/pdf/database-systems-the-complete-book.pdf" | relative_url}})
+  
 * [High Performance MySQL]({{ "/assets/pdf/high-performance-mysql.pdf" | relative_url}})
     - Building Materialized Views in MySQL - [Flexviews](https://github.com/greenlion/swanhart-tools)
     - Changing Schema on the Flight - [Flexviews](https://github.com/greenlion/swanhart-tools)
