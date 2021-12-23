@@ -9,8 +9,10 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
-
 <!--more-->
+
+* TOC
+{:toc}
 
 ## Delete Namespace
 

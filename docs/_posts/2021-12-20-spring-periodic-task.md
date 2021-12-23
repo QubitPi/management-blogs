@@ -11,6 +11,9 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+* TOC
+{:toc}
+
 An application usually needs to deal with some "housekeeping" logic to make sure that the software runs stable. For
 example, an online chatting system might keep the most recent chatting data in a local memory or a nearby datastore and
 migrate those chatting history 2 years from now to a remote data-center for some Machine Learning processing.

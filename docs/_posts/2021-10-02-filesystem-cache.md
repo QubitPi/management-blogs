@@ -11,6 +11,9 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+* TOC
+{:toc}
+
 FS-Cache is a persistent local cache that can be used by file systems to take data retrieved from over the network and
 cache it on local disk. This helps minimize network traffic for users accessing data from a file system mounted over the network (for example, NFS).
 

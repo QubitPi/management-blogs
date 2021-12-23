@@ -11,6 +11,9 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+* TOC
+{:toc}
+
 ## Partial Mocks for Java 8 Interfaces with Default Methods
 
 When Spock 1.1 was released, it included a series of new features and improvements. One of them was the ability to

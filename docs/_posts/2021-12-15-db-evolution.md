@@ -11,6 +11,9 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+* TOC
+{:toc}
+
 ## Why Evolutionary Database Development?
 
 Instead of trying to design your database schema up front early in the project, you instead build it up throughout the
