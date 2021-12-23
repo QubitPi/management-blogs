@@ -1252,6 +1252,13 @@ The following table describes the keywords supported for JPA and what a method c
 > syntactical versions of the same logical operator, check
 > [Repository query keywords](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords).
 
+## Microservice
+
+### RestTemplate
+
+As of Spring Framework 5, alongside the WebFlux stack, Spring introduced a new HTTP client called
+[WebClient](https://www.baeldung.com/spring-5-webclient).
+
 ## Testing
 
 ### Testing MVC Web Controllers with Spring Boot and @WebMvcTest
