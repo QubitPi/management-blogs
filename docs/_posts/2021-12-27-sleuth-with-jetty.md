@@ -1,6 +1,6 @@
 ---
 layout: post
-title: [WIP] Distributed Tracing with Spring Cloud Sleuth and Spring Cloud Zipkin
+title: (WIP) Distributed Tracing with Spring Cloud Sleuth and Spring Cloud Zipkin
 tags: [Spring, Visualization, Tracing, Jetty]
 color: rgb(252, 57, 13)
 feature-img: "assets/img/post-cover/19-cover.png"
