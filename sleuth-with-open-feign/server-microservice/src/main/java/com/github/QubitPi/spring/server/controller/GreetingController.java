@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("greeting")
-class GreetingController {
+public class GreetingController {
 
     private static final Logger LOG = LoggerFactory.getLogger(GreetingController.class);
 
     @GetMapping(value = "/hello")
-    String getGreeting(@RequestHeader HttpHeaders headers) {
+    public String getGreeting(@RequestHeader HttpHeaders headers) {
         LOG.info("Received request");
         LOG.info("Headers={}", headers);
         return "Hello";

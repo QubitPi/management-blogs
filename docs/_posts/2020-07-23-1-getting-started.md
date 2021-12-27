@@ -295,7 +295,7 @@ about the whole communication:
 
 ## Creating a JavaEE Web Application
 
-To create a Web Application that can be packaged as WAR and deployed in a Servlet container follow a similar process to
+Creating a Web Application that can be packaged as WAR and deployed in a Servlet container follows a similar process to
 the one described in Section
 [Creating a New Project from Maven Archetype](#creating-a-new-project-from-maven-archetype). In addition to the
 Grizzly-based archetype, Jersey provides also a Maven archetype for creating web application skeletons. To create the
