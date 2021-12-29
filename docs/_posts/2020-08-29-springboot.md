@@ -708,6 +708,26 @@ Note that we annotate our `DynamicSchedulingConfig` with `@EnableScheduling` to 
 As a result, we scheduled the `TickService#tick` method to run it after each amount of delay, which is determined
 dynamically at runtime by the `getDelay()` method.
 
+### How to Specify Validation Group for @Valid?
+
+Suppose we have parameters in a controller `@RequestMapping` method:
+
+```java
+@ModelAttribute("myCandidate") @Valid Candidate myCandidate,
+BindingResult result
+```
+
+How do we explicit specify validation group for `myCandidate`?
+
+The standard java `@Valid` annotation doesn't support groups. However, Spring now includes an **`@Validated`**
+annotation which does the same job as `@Valid`, but allows you to specify which groups to use in the validation:
+
+```java
+@ModelAttribute("myCandidate") @Validated(UpdateGroup.class) Candidate myCandidate
+```
+
+Note that this annotation is only available in Spring 3.1 and newer.
+
 ## Spring Data JPA
 
 ### Understanding Transaction in Spring
@@ -1251,13 +1271,6 @@ The following table describes the keywords supported for JPA and what a method c
 > ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) `In` and `NotIn` also take any subclass of `Collection` as a parameter as well as arrays or varargs. For other
 > syntactical versions of the same logical operator, check
 > [Repository query keywords](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repository-query-keywords).
-
-## Microservice
-
-### RestTemplate
-
-As of Spring Framework 5, alongside the WebFlux stack, Spring introduced a new HTTP client called
-[WebClient](https://www.baeldung.com/spring-5-webclient).
 
 ## Testing
 

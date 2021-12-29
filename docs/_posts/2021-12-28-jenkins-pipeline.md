@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Jenkins Study Notes
+title: Jenkins Reference Guide
 tags: [Jenkins, CI/CD]
 color: rgb(22, 139, 185)
 feature-img: "assets/img/post-cover/20-cover.png"
@@ -34,7 +34,6 @@ of conditional statements without the restrictions of UI-based programming.
 So, taking our case as an example, the Pipeline looks like the following:
 
 ```
-Jenkinsfile (Declarative Pipeline)
 pipeline {
     agent any
     parameters {
