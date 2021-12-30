@@ -34,7 +34,6 @@ unperishable passion to Java language*.
 
 * [Java Generics](http://www.angelikalanger.com/GenericsFAQ/JavaGenericsFAQ.html)
 * [Java Practices](http://www.javapractices.com/home/HomeAction.do)
-* [Understanding Weak References](https://web.archive.org/web/20061130103858/http://weblogs.java.net/blog/enicholas/archive/2006/05/understanding_w.html){: .btn .btn--primary .btn--small}
 
 ## Architecture
 

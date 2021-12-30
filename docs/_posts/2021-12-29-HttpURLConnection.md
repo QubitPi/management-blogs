@@ -101,3 +101,41 @@ To close the connection, we can use the disconnect() method:
 ```java
 con.disconnect();
 ```
+
+## Sending Form Data
+
+### What is the Boundary in "multipart/form-data"?
+
+In the HTTP header, we see `Content-Type: multipart/form-data; boundary=???`. What the hell is this concept of
+"boundary" that appears in the header?
+
+If you want to send the following data to the web server:
+
+    name = John
+    age = 12
+
+using `application/x-www-form-urlencoded` would be like `name=John&age=12`
+
+As you can see, the server knows that parameters are separated by an ampersand `&`. If `&` is required for a parameter
+value then it must be encoded.
+
+So how does the server know where a parameter value starts and ends when it receives an HTTP request using
+`multipart/form-data`? Using the boundary, similar to `&`. For example:
+
+```
+--XXX
+Content-Disposition: form-data; name="name"
+
+John
+--XXX
+Content-Disposition: form-data; name="age"
+
+12
+--XXX--
+```
+
+In that case, the boundary value is `XXX`. You specify it in the Content-Type header so that the server knows how to
+split the data it receives. So you need to:
+
+* Use a value that won't appear in the HTTP data sent to the server.
+* Be consistent and use the same value everywhere in the request message.
