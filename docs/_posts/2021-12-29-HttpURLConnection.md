@@ -17,9 +17,9 @@ excerpt_separator: <!--more-->
 ## Why Would I Use a Low Level API like HttpURLConnection
 
 HttpURLConnection gives you the comprehensive control over your HTTP/HTTPS communication. For example (**and this is the
-reason I hate f\*\*king Spring so much), you will realize that Spring Boot `RestTempate` actually secretly overwrites your
-HTTP headers in the back, which might leave you 2 hours of stupid debugging session and make you look like a nuts, which
-results in  this post.
+reason I hate f\*\*king Spring so much**), you will realize that Spring Boot `RestTempate` actually secretly overwrites
+your HTTP headers in the back, which might leave you 2 hours of stupid debugging session and make you look like a nuts,
+which results in this post.
 
 The `HttpUrlConnection` class allows us to perform basic HTTP requests without the use of any additional libraries. All
 the classes that we need are part of the "java.net" package.
