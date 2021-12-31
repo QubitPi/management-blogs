@@ -368,3 +368,16 @@ ALTER TABLE BRANCH ADD CONSTRAINT UNIQUE_BRANCH_NAME UNIQUE (BRA_NAME);
 ```
 
 Note the `/` at the end of the query statement
+
+### Change varchar Column to CLOB
+
+Given that the operation of moving from a varchar column to a CLOB is disallowed, the most straightforward way would be
+to create a new column and move the data from the old column to the new column:
+
+```sql
+ALTER TABLE atable ADD (tmpdetails  CLOB);
+UPDATE atable SET tmpdetails=details;
+COMMIT;
+ALTER TABLE atable DROP COLUMN details;
+ALTER TABLE atable RENAME COLUMN tmpdetails TO details;
+```

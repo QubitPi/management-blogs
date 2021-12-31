@@ -155,7 +155,3 @@ Arguably, the `finalize()` method should never have been provided in the first p
 safer and more efficient to use, and eliminating `finalize()` would have made parts of the VM considerably simpler. But,
 they're also more work to implement, so I confess to still using `finalize()` most of the time. The good news is that at
 least you have a choice.
-
-
-
-
