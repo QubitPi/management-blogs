@@ -33,7 +33,7 @@ Bean Validation support in Jersey is provided as an extension module and needs t
 </dependency>
 ```
 
-> 📝 If you're not using Maven make sure to have also all the transitive dependencies (see
+> 📋 If you're not using Maven make sure to have also all the transitive dependencies (see
 > [jersey-bean-validation](https://eclipse-ee4j.github.io/jersey.github.io/project-info/2.31/jersey/project/jersey-bean-validation/dependencies.html))
 > on the classpath.
 
@@ -70,7 +70,7 @@ registration of Jersey Bean Validation integration module:
 2. ***[ServerProperties.FEATURE_AUTO_DISCOVERY_DISABLE](https://eclipse-ee4j.github.io/jersey.github.io/apidocs/snapshot/jersey/org/glassfish/jersey/server/ServerProperties.html#FEATURE_AUTO_DISCOVERY_DISABLE)***
 3. ***[ServerProperties.BV_FEATURE_DISABLE](https://eclipse-ee4j.github.io/jersey.github.io/apidocs/snapshot/jersey/org/glassfish/jersey/server/ServerProperties.html#BV_FEATURE_DISABLE)***
 
-> 📝 Jersey does not support Bean Validation on the client at the moment.
+> 📋 Jersey does not support Bean Validation on the client at the moment.
 
 ## Configuring Bean Validation Support
 
@@ -453,7 +453,7 @@ implementation and you can inject
 and [Validator](https://docs.jboss.org/hibernate/beanvalidation/spec/1.1/api/javax/validation/Validator.html) as
 required by Bean Validation spec.
 
-> 📝 Injected
+> 📋 Injected
 > [Configuration](https://docs.jboss.org/hibernate/beanvalidation/spec/1.1/api/javax/validation/Configuration.html),
 > [ValidatorFactory](https://docs.jboss.org/hibernate/beanvalidation/spec/1.1/api/javax/validation/ValidatorFactory.html),
 > and [Validator](https://docs.jboss.org/hibernate/beanvalidation/spec/1.1/api/javax/validation/Validator.html) do not
@@ -504,7 +504,7 @@ public class InjectingConstraintValidatorFactory implements ConstraintValidatorF
 }
 ```
 
-> 📝 This behaviour is likely to change in one of the next version of Jersey to remove the need of manually providing
+> 📋 This behaviour is likely to change in one of the next version of Jersey to remove the need of manually providing
 > support for injecting resources/providers from Jersey in your own `ConstraintValidatorFactory` implementation code.
 
 ## Error Reporting
@@ -537,7 +537,7 @@ and set this object (collection) as the new response entity which Jersey is able
 3. `application/xml`
 4. `application/json`
 
-> 📝 You need to register one of the JSON (JAXB) providers (e.g.
+> 📋 You need to register one of the JSON (JAXB) providers (e.g.
 > [MOXy](https://qubitpi.github.io/jersey-guide/2020/07/31/09-support-for-common-media-type-representations.html#jackson-1x-and-2x))
 > to marshall validation errors to JSON.
 

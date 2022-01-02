@@ -125,7 +125,7 @@ public Viewable get() {
 You can see that the resource class serves in this case also as the model. Producible media types are determined based
 on the `@Produces` annotation declared on the resource class, if any.
 
-> 📝️ In case of "resource class"-based implicit MVC view templates, the controller is also the model. In such case the
+> 📋️ In case of "resource class"-based implicit MVC view templates, the controller is also the model. In such case the
 > template reference `index` is special, it is the template reference associated with the controller instance itself. 
 
 In the following example, the MVC controller represented by a JAX-RS `@GET` sub-resource method, is also generated in
@@ -166,7 +166,7 @@ Jersey will then search all the registered template processors (see Section
 the absolute template reference further to a "processable" template reference. If a template processor is found then the
 "processable" template is processed using the supplied data model.
 
-> 📝️ If none or empty template reference is provided (either in `Viewable` or via `@Template`) then the `index`
+> 📋️ If none or empty template reference is provided (either in `Viewable` or via `@Template`) then the `index`
 > reference is assumed and all further processing is done for this value. 
 
 ### Absolute Template Reference
@@ -304,7 +304,7 @@ new ResourceConfig()
         .register( ... );
 ```
 
-> 📝️ Modules that uses capabilities of the base Jersey MVC module register `MvcFeature` automatically, so you don't need
+> 📋️ Modules that uses capabilities of the base Jersey MVC module register `MvcFeature` automatically, so you don't need
 > to register this feature explicitly in your code.
 
 Almost all of the MVC modules are further configurable and either contain a `*Properties` (e.g.
@@ -546,7 +546,7 @@ new ResourceConfig()
         .register( ... );
 ```
 
-> 📝️  In a typical set-up, projects using the Jersey MVC templating support would depend on the base module that
+> 📋️  In a typical set-up, projects using the Jersey MVC templating support would depend on the base module that
 > provides the API and SPI and a single templating engine module for the templating engine of your choice. These modules
 > need to be mentioned explicitly in your `pom.xml` file.
 
