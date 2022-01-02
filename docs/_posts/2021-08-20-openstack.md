@@ -155,7 +155,7 @@ types of workloads.
 Using native OpenStack tools can help improve performance. For example, you can use Telemetry to measure performance and
 the Orchestration service (heat) to react to changes in demand.
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) Orchestration requires special client configurations to integrate with Amazon Web Services. For other types of
+> 📔 Orchestration requires special client configurations to integrate with Amazon Web Services. For other types of
 > clouds, use CMP features.
 
 ###### Cloud resource deployment

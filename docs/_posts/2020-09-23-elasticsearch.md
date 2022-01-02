@@ -283,7 +283,7 @@ curl -XPOST ...:9200/my_index -d '{
 }'
 ```
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) For more details about index settings, please refer to
+> 📔 For more details about index settings, please refer to
 > https://www.elastic.co/guide/en/elasticsearch/reference/current/index-modules.html#index-modules-settings
 
 Another way of providing the mapping is using the [Put Mapping API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-put-mapping.html).
@@ -869,7 +869,7 @@ The following mapping parameters are common to some or all field data types:
 
 #### analyzer
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) Only text fields support the analyzer mapping parameter.
+> 📔 Only text fields support the analyzer mapping parameter.
  
 The analyzer parameter specifies the analyzer used for text analysis when indexing or searching a text field.
 
@@ -895,7 +895,7 @@ PUT my-index-000001
 }
 ```
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) The boost is applied only for term queries (prefix, range and fuzzy queries are not boosted).
+> 📔 The boost is applied only for term queries (prefix, range and fuzzy queries are not boosted).
 
 > **Deprecated in 5.0.0**
 > 
@@ -969,7 +969,7 @@ PUT my-index-000001
 }
 ```
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) You cannot disable doc values for [wildcard](#wildcard-field-type) fields.
+> 📔 You cannot disable doc values for [wildcard](#wildcard-field-type) fields.
 
 #### eager_global_ordinals
 
@@ -2945,10 +2945,10 @@ The basic completion suggester query supports the following parameters:
 | `size`            | The number of suggestions to return                  | No      | 5       |
 | `skip_duplicates` | Whether duplicate suggestions should be filtered out | No      | `false` |
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) The completion suggester considers all documents in the index. See [Context Suggester](#context-suggester) for an
+> 📔 The completion suggester considers all documents in the index. See [Context Suggester](#context-suggester) for an
 > explanation of how to query a subset of documents instead.
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}})
+> 📔
 In case of completion queries spanning more than one shard, the suggest is executed in two phases, where the last phase
 > fetches the relevant documents from shards, implying executing completion requests against a single shard is more
 > performant due to the document fetch overhead when the suggest spans multiple shards. To get best performance for
@@ -3012,7 +3012,7 @@ The fuzzy query can take the following fuzzy parameters:
 | `prefix_length`  | Minimum length of the input, which is not checked for fuzzy alternatives                                                                                                                                                            | 1             |
 | `unicode_aware`  | If set to `true`, all measurements (including fuzzy edit distance, transpositions, and lengths) are measured in Unicode code points instead of in bytes. This is slightly slower than raw bytes, so it is set to `false` by default | `false`       |
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) If you want to stick with the default values, but still use fuzzy, you can either use `fuzzy: {}` or `fuzzy: true`.
+> 📔 If you want to stick with the default values, but still use fuzzy, you can either use `fuzzy: {}` or `fuzzy: true`.
 
 ##### Regex Queries
 

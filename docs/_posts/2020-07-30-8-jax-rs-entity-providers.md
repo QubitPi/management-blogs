@@ -105,7 +105,7 @@ The `MyBean` is a JAXB-annotated POJO. In `GET` resource method we return the in
 Jersey runtime to serialize it into XML and write it as an entity body to the response output stream. We design a custom
 `MessageBodyWriter<T>` that can serialize this POJO into XML. See the following code sample:
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}}) Please note, that this is only a demonstration of how to write a custom entity provider. Jersey already contains
+> 📔 Please note, that this is only a demonstration of how to write a custom entity provider. Jersey already contains
 > default support for entity providers that can serialize JAXB beans into XML. 
 
 ```java
@@ -205,7 +205,7 @@ receives parameters with the same meaning as in `isWriteable` as well as a few a
 In addition to the parameters already introduced, the `writeTo` method also defines `httpHeaders` parameter, that
 contains HTTP headers associated with the outbound message.
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}})️ When a `MessageBodyWriter<T>` is invoked, the headers still can be modified in this point and any modification will
+> 📔️ When a `MessageBodyWriter<T>` is invoked, the headers still can be modified in this point and any modification will
 > be reflected in the outbound HTTP message being sent. The modification of headers must however happen before a first
 > byte is written to the supplied output stream. 
 
@@ -224,7 +224,7 @@ the size of the entity that would be then used for `"Content-Length"` response h
 configuration options of outbound entity buffering see the javadoc of
 [MessageProperties](https://eclipse-ee4j.github.io/jersey.github.io/apidocs/snapshot/jersey/org/glassfish/jersey/message/MessageProperties.html).
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}})️ You can disable the Jersey outbound entity buffering by setting the buffer size to 0.
+> 📔️ You can disable the Jersey outbound entity buffering by setting the buffer size to 0.
 
 #### Testing a `MessageBodyWriter<T>`
 
@@ -372,7 +372,7 @@ System.out.println(myBean);
 The code above registers `MyBeanMessageBodyReader` to the `Client` configuration using a `ClientBuilder` which means
 that the provider will be used for any `WebTarget` produced by the client instance.
 
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}})️ You could also register the JAX-RS entity (and any other) providers to individual `WebTarget` instances produced by
+> 📔️ You could also register the JAX-RS entity (and any other) providers to individual `WebTarget` instances produced by
 > the client. 
 
 Then, using the fluent chain of method invocations, a resource target pointing to our `MyResource` is defined, a HTTP
@@ -438,7 +438,7 @@ The algorithm executed by a JAX-RS runtime to select a proper `MessageBodyWriter
    to 500, and no entity and the client runtime MUST generate a `ProcessingException`. We have successfully found a
    provider, thus no exception is generated.
    
-> ![http://xyq.163.com/images/emote/105.gif]({{ "/assets/img/105.gif" | relative_url}})️ JAX-RS 2.0 is incompatible with JAX-RS 1.x in one step of the entity provider selection algorithm. JAX-RS 1.x
+> 📔️ JAX-RS 2.0 is incompatible with JAX-RS 1.x in one step of the entity provider selection algorithm. JAX-RS 1.x
 > defines sorting keys priorities in the Step 4 in exactly opposite order. So, in JAX-RS 1.x the keys are defined in the
 > order: primary media type, secondary type declaration distance where custom providers have always precedence to
 > internal providers. If you want to force Jersey to use the algorithm compatible with JAX-RS 1.x, setup the property

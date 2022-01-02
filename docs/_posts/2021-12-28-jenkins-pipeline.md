@@ -87,7 +87,7 @@ The parameters such as `num_test_threads` as defined through "This project is pa
 
 ![Error loading jenkins-parameter-config.png]({{ "/assets/img/jenkins-parameter-config.png" | relative_url}})
 
-> ![http://xyq.163.com/images/emote/32.gif]({{ "/assets/img/32.gif" | relative_url}}) Note that `num_test_threads` will
+> 📔 Note that `num_test_threads` will
 > be added to both this pipeline and the `external-gatekeeper-jenkins-job` in the same way presente above
 > 
 > All available parameter types (`$class`) can be found at https://javadoc.jenkins.io/hudson/model/ParameterValue.html
