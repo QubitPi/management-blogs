@@ -27,7 +27,7 @@ modules produced as part of Jersey project build are pushed to the
 Maven-based project as all the released (non-SNAPSHOT) Jersey dependencies are readily available without a need to
 configure a special maven repository to consume the Jersey modules.
 
-> 📔 In case you want to depend on the latest SNAPSHOT versions of Jersey modules, the following repository
+> 📝 In case you want to depend on the latest SNAPSHOT versions of Jersey modules, the following repository
 > configuration needs to be added to your Maven project pom:
 > ```xml
 > <snapshotRepository>
@@ -42,7 +42,7 @@ approach. We will now create a new Jersey project that runs on top of a [Grizzly
 container. We will use a Jersey-provided maven archetype. To create the project, execute the following Maven command in
 the directory where the new project should reside:
 
-> 📔 The complete source code of this section
+> 📝 The complete source code of this section
 > [is provided for reference](https://github.com/QubitPi/jersey-guide/tree/master/simple-service)
 
     mvn archetype:generate -DarchetypeGroupId=org.glassfish.jersey.archetypes -DarchetypeArtifactId=jersey-quickstart-grizzly2 -DarchetypeVersion=2.31

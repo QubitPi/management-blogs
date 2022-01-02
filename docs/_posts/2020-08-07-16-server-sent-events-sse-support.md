@@ -179,7 +179,7 @@ A client connecting to our SSE-enabled resource will receive the following data 
     
 Each message is received with a delay of one second. 
 
-> 📔 If you have worked with streams in JAX-RS, you may wonder what is the difference between
+> 📝 If you have worked with streams in JAX-RS, you may wonder what is the difference between
 > [ChunkedOutput](https://eclipse-ee4j.github.io/jersey.github.io/apidocs/snapshot/jersey/org/glassfish/jersey/server/ChunkedOutput.html)
 > and [StreamingOutput].
 >
@@ -358,7 +358,7 @@ event id field value is sent in the `Last-Event-ID` HTTP request header as part 
 SSE endpoint. Upon a receipt of such reconnect request, the SSE endpoint that supports this negotiation facility is
 expected to replay all missed events.
 
-> 📔 ***Note that SSE lost-event-negotiation facility is a best-effort mechanism which does not provide any guarantee
+> 📝 ***Note that SSE lost-event-negotiation facility is a best-effort mechanism which does not provide any guarantee
 > that all events would be delivered without a loss. You should therefore not rely on receiving every single event and
 > design your client application code accordingly.***
 
@@ -399,7 +399,7 @@ dependency to the *SSE media type module* the same way as for the JAX-RS SSE imp
 </dependency>
 ```
 
-> 📔 Prior to Jersey 2.8, you had to manually register
+> 📝 Prior to Jersey 2.8, you had to manually register
 > [SseFeature](https://eclipse-ee4j.github.io/jersey.github.io/apidocs/snapshot/jersey/org/glassfish/jersey/media/sse/SseFeature.html)
 > in your application. (The `SseFeature` is a feature that can be registered for both, the client and the server.) Since
 > Jersey 2.8, the feature gets automatically discovered and registered when Jersey SSE module is put on the
