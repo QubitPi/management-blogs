@@ -728,6 +728,34 @@ annotation which does the same job as `@Valid`, but allows you to specify which 
 
 Note that this annotation is only available in Spring 3.1 and newer.
 
+### Actuator
+
+##### Endpoints
+
+Actuator endpoints let you monitor and interact with your application. Spring Boot includes a number of built-in
+endpoints and lets you add your own. For example, the `health` endpoint provides basic application health information.
+
+> 📋 To learn more about the Actuator's endpoints and their request and response formats, see the separate
+> [API documentation](https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/)
+
+###### Listing the Scheduled Jobs Running in A Spring Boot Application?
+
+We would need to include Spring boot actuator as one of our dependencies. Then we can use the scheduledtasks endpoint to
+check the scheduled tasks:
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
+
+Just add the following to projects's `pom.xml`
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+The endpoint is available at "/actuator/scheduledtasks"
+
 ## Spring Data JPA
 
 ### Understanding Transaction in Spring
