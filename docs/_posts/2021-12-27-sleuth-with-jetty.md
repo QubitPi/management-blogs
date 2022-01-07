@@ -1,7 +1,7 @@
 ---
 layout: post
-title: (WIP) Distributed Tracing with Spring Cloud Sleuth and Spring Cloud Zipkin
-tags: [Spring, Visualization, Tracing, Jetty]
+title: Distributed Tracing with Spring Cloud Sleuth and Spring Cloud Zipkin
+tags: [Spring, Visualization, Tracing, Jetty, Sleuth, Zipkin]
 color: rgb(252, 57, 13)
 feature-img: "assets/img/post-cover/19-cover.png"
 thumbnail: "assets/img/post-cover/19-cover.png"
@@ -15,6 +15,9 @@ excerpt_separator: <!--more-->
 {:toc}
   
 ## Create a Deployable War File
+
+> 📋 The source code in this post is in
+> https://github.com/QubitPi/jersey-guide/tree/master/docs/assets/src/sleuth-with-open-feign
 
 The first step in producing a deployable war file is to provide a `SpringBootServletInitializer` subclass and override
 its `configure` method. Doing so makes use of Spring Framework's servlet 3.0 support and lets you configure your
@@ -93,12 +96,93 @@ Put the `tar.gz` file into a location of your choice as the intsall path and ext
     cd jetty-distribution-9.4.44.v20210927/webapps/
     mv /path/to/.war .
 
-Then rename the war file to "example.war" (You see why we do this through
-`jetty-distribution-9.4.44.v20210927/webapps/README.TXT`)
+Then rename the war file to "ROOT.war", the reason of which is so that the context path would be root context - `/`,
+which is a common industry standard.
+
+> 📋 Setting a Context Path
+> 
+> The context path is the prefix of a URL path that is used to select the context(s) to which an incoming request is
+> passed. Typically a URL in a Java servlet server is of the format
+> "http://hostname.com/contextPath/servletPath/pathInfo", where each of the path elements can be zero or more "/"
+> separated elements. If there is no context path, the context is referred to as the **root context**. The root context
+> must be configured as "/" but is reported as the empty string by the servlet
+> [API `getContextPath()` method](https://www.eclipse.org/jetty/).
+> 
+> How we set the context path depends on how we deploy the web application (or `ContextHandler`). In this case, we
+> configure the context path by **naming convention**:
+> 
+> If a web application is deployed using the WebAppProvider of the DeploymentManager without an XML IoC file, then **the
+> name of the WAR file is used to set the context path**:
+>
+> * If the WAR file is named "myapp.war", then the context will be deployed with a context path of `/myapp`
+> * **If the WAR file is named "ROOT.WAR" (or any case insensitive variation), then the context will be deployed with a
+>   context path of `/`**
+> If the WAR file is named "ROOT-foobar.war" (or any case insensitive variation), then the context will be deployed with
+> a context path of / and a
+> [virtual host](https://www.eclipse.org/jetty/documentation/jetty-9/index.html#configuring-virtual-hosts) of "foobar"
 
 ## Start the Webservice
 
     cd ../
     java -jar start.jar
 
-(**To be continued and polished...**)
+> 📋 To specify the port that container exposes for our app, we could use
+> 
+> ```bash
+> java -jar start.jar -Djetty.port=8081
+> ```
+
+## Firing The First Request
+
+Open up a browser and hit "http://localhost:8081/greeting-client/get-greeting"，then in the Jetty log we will see
+
+![Error loading sleuth-trace-id-example.png]({{ "/assets/img/sleuth-trace-id-exampley.png" | relative_url}})
+
+## Install Zipkin
+
+[Installing and standing up a Zipkin instance](https://zipkin.io/pages/quickstart.html) is very easy:
+
+    curl -sSL https://zipkin.io/quickstart.sh | bash -s
+    java -jar zipkin.jar
+
+```
+$ java -jar zipkin.jar
+
+                  oo
+                 oooo
+                oooooo
+               oooooooo
+              oooooooooo
+             oooooooooooo
+           ooooooo  ooooooo
+          oooooo     ooooooo
+         oooooo       ooooooo
+        oooooo   o  o   oooooo
+       oooooo   oo  oo   oooooo
+     ooooooo  oooo  oooo  ooooooo
+    oooooo   ooooo  ooooo  ooooooo
+   oooooo   oooooo  oooooo  ooooooo
+  oooooooo      oo  oo      oooooooo
+  ooooooooooooo oo  oo ooooooooooooo
+      oooooooooooo  oooooooooooo
+          oooooooo  oooooooo
+              oooo  oooo
+
+     ________ ____  _  _____ _   _
+    |__  /_ _|  _ \| |/ /_ _| \ | |
+      / / | || |_) | ' / | ||  \| |
+     / /_ | ||  __/| . \ | || |\  |
+    |____|___|_|   |_|\_\___|_| \_|
+
+:: version 2.23.16 :: commit b90f2b3 ::
+
+2022-01-07 19:46:44.577  INFO [/] 2705 --- [oss-http-*:9411] c.l.a.s.Server: Serving HTTP at /0:0:0:0:0:0:0:0:9411 - http://127.0.0.1:9411/
+```
+
+Hitting the "http://127.0.0.1:9411", we will see
+
+![Error loading zipkin-initial.png]({{ "/assets/img/zipkin-initial.png" | relative_url}})
+
+Now firing "http://localhost:8081/greeting-client/get-greeting" again, we will see 
+
+![Error loading zipkin-example.png]({{ "/assets/img/zipkin-example.png" | relative_url}})
