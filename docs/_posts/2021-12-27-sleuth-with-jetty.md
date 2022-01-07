@@ -140,6 +140,33 @@ Open up a browser and hit "http://localhost:8081/greeting-client/get-greeting"ï¼
 
 ## Install Zipkin
 
+[Zipkin](https://zipkin.io/) is a very efficient tool for distributed tracing in the microservices ecosystem.
+Distributed tracing, in general, is the latency measurement of each component in a distributed transaction where
+multiple microservices are invoked to serve a single business usecase.
+
+Distributed tracing is useful during debugging when lots of underlying systems are involved and the application becomes
+slow in any particular situation. In such cases, we first need to identify which underlying service is actually slow.
+Once the slow service is identified, we can work to fix that issue. Distributed tracing helps in identifying that slow
+component in the ecosystem.
+
+Zipkin was originally developed at Twitter, based on a concept of a Google paper that described Google's
+internally-built distributed app debugger - [dapper](https://research.google/pubs/pub36356/). It manages both the
+collection and lookup of this data. To use Zipkin, applications are instrumented to report timing data to it.
+
+If you are troubleshooting latency problems or errors in an ecosystem, you can filter or sort all traces based on the
+application, length of trace, annotation, or timestamp. By analyzing these traces, you can decide which components are
+not performing as per expectations, and you can fix them.
+
+Zipkin has 4 modules
+
+1. **Collector** - Once any component sends the trace data, it arrives to Zipkin collector daemon. Here _the trace data
+   is validated, stored, and indexed for lookups by the Zipkin collector_.
+2. **Storage** - This module store and index the lookup data in backend. Cassandra, ElasticSearch and MySQL are
+   supported.
+3. **Search** - This module provides a simple JSON API for finding and retrieving traces stored in backend. The primary
+   consumer of this API is the Web UI.
+4. **Web UI** - A very nice UI interface for viewing traces.
+
 [Installing and standing up a Zipkin instance](https://zipkin.io/pages/quickstart.html) is very easy:
 
     curl -sSL https://zipkin.io/quickstart.sh | bash -s
@@ -179,9 +206,23 @@ $ java -jar zipkin.jar
 2022-01-07 19:46:44.577  INFO [/] 2705 --- [oss-http-*:9411] c.l.a.s.Server: Serving HTTP at /0:0:0:0:0:0:0:0:9411 - http://127.0.0.1:9411/
 ```
 
+The command above starts the Zipkin server with the default configuration.
+
 Hitting the "http://127.0.0.1:9411", we will see
 
 ![Error loading zipkin-initial.png]({{ "/assets/img/zipkin-initial.png" | relative_url}})
+
+### Integrating Zipkin into Spring Sleuth
+
+To install Zipkin in the spring boot application, we need to add
+[Zipkin starter dependency](https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-zipkin):
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-zipkin</artifactId>
+</dependency>
+```
 
 Now firing "http://localhost:8081/greeting-client/get-greeting" again, we will see 
 
