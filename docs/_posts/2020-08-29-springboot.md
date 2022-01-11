@@ -735,6 +735,15 @@ Note that this annotation is only available in Spring 3.1 and newer.
 Actuator endpoints let you monitor and interact with your application. Spring Boot includes a number of built-in
 endpoints and lets you add your own. For example, the `health` endpoint provides basic application health information.
 
+You can
+[enable or disable](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.enabling)
+each individual endpoint and
+[expose them (make them remotely accessible) over HTTP or JMX](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.exposing).
+**An endpoint is considered to be available when it is both enabled and exposed**. The built-in endpoints are
+auto-configured only when they are available. Most applications choose exposure over HTTP, where the ID of the
+endpoint and a prefix of "/actuator" is mapped to a URL. For example, by default, the health endpoint is mapped to
+"/actuator/health".
+
 > 📋 To learn more about the Actuator's endpoints and their request and response formats, see the separate
 > [API documentation](https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/)
 
