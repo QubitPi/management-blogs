@@ -13,10 +13,29 @@ excerpt_separator: <!--more-->
 
 * TOC
 {:toc}
+  
+## Collecting Stream containing "null" to List 
+ 
+```java
+person.stream()
+        .sorted(Comparator.comparingInt(Person::getDriverLicense))
+        .collect(Collectors.toList());
+```
 
-## Stream Skills
+If this stream contains a kid who doesn't know how to drive, the `Collectors.toList()` might see a `null` value, which
+causes `NullPointerException`, because `Collectors.toList()` gives us a list implementation that doesn't permit `null`
+elements. `ArrayList`, however, permits `null` elements according to its JavaDoc. The solution them would be
 
-### Sorting
+```java
+person.stream()
+        .sorted(Comparator.comparingInt(Person::getDriverLicense))
+        .collect(Collectors.toCollection(ArrayList::new));
+```
+
+Note that the last line is changed so that the collect procedure returns an uer-specified list implementation, which is
+`ArrayList`
+
+## Sorting
 
 ```java
 public class User {
@@ -26,18 +45,19 @@ public class User {
 }
 
 final List<User> users = Arrays.asList(
-                  new User("C", 30),
-                  new User("D", 40),
-                  new User("A", 10),
-                  new User("B", 20),
-                  new User("E", 50));
+        new User("C", 30), 
+        new User("D", 40),
+        new User("A", 10), 
+        new User("B", 20), 
+        new User("E", 50)
+);
 
 List<User> sortedList = users.stream()
             .sorted(Comparator.comparingInt(User::getAge))
             .collect(Collectors.toList());
 ```
 
-### Remove Duplicates from a List of Objects based on Property
+## Remove Duplicates from a List of Objects based on Property
 
 You can get a stream from the List and put in in the TreeSet from which you provide a custom comparator that compares
 the property uniquely. Then if you really need a list you can put then back this collection into an ArrayList: 
@@ -69,7 +89,7 @@ It will output:
 [Employee{id=1, name='John'}, Employee{id=2, name='Alice'}]
 ```
 
-### Convert Iterable to Stream
+## Convert Iterable to Stream
 
 ```java
 StreamSupport.stream(iterable.spliterator(), false)
@@ -77,7 +97,7 @@ StreamSupport.stream(iterable.spliterator(), false)
         .moreStreamOps(...);
 ```
 
-### Convert Two Dimensional Array to List
+## Convert Two Dimensional Array to List
 
 ```java
 List<Foo> collection = Arrays.stream(array)  //'array' is two-dimensional
@@ -86,7 +106,7 @@ List<Foo> collection = Arrays.stream(array)  //'array' is two-dimensional
 ```
 
 
-### Preserve Order in Stream with collect
+## Preserve Order in Stream with collect
 
 Say we would like to process a list such as ["blah", "blah", "yep"] and get ["blah (2 times)", "yep"], we will collect
 them to a `LinkedHashMap` to get the expected result:
