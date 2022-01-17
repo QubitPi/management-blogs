@@ -1663,3 +1663,16 @@ other rows will be changed to "Dark Color".
 
 We could have richer modifications, other than 2-branch modification, using
 [CASE](https://www.w3schools.com/mysql/func_mysql_case.asp)
+
+## Migration
+
+### Copying Tables or Databases from One MySQL Server to Another
+
+We could use `mysqldump` to export the data from one MySQL instance and `mysql` command line utility to load it into
+another.
+
+Suppose we have a `person` table in "prod" database hosted in "192.168.1.100" and we would like to migrate this table
+data into a dev instance ("192.168.1.101") for testing purposes.
+
+    mysqldump --column-statistics=0 -u prod-user-name -pprodPassword -h 192.168.1.100 prod-database person --default-character-set=utf8 > dump.sql
+    mysql -u dev-user-name -pdevPwssword -h 192.168.1.101 --port=32228 dev-database < dump.sql
