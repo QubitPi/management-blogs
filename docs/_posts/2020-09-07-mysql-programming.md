@@ -1676,3 +1676,9 @@ data into a dev instance ("192.168.1.101") for testing purposes.
 
     mysqldump --column-statistics=0 -u prod-user-name -pprodPassword -h 192.168.1.100 prod-database person --default-character-set=utf8 > dump.sql
     mysql -u dev-user-name -pdevPwssword -h 192.168.1.101 --port=32228 dev-database < dump.sql
+
+> 📋 The `--column-statistics=0` is set so that it prevents runtime error of
+> 
+> ```
+> mysqldump: Couldn't execute. Unknown table 'column_statistics' in information_schema
+> ```
