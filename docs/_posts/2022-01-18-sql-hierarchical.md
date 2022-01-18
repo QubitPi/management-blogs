@@ -12,7 +12,7 @@ excerpt_separator: <!--more-->
 <!--more-->
 
 * TOC
-  {:toc}
+{:toc}
 
 Most users at one time or another have dealt with hierarchical data in a SQL database and no doubt learned that the
 management of hierarchical data is not what a relational database is intended for. The tables of a relational database
