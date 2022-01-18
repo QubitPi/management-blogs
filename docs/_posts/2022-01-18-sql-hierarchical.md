@@ -11,6 +11,9 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+* TOC
+  {:toc}
+
 Most users at one time or another have dealt with hierarchical data in a SQL database and no doubt learned that the
 management of hierarchical data is not what a relational database is intended for. The tables of a relational database
 are not hierarchical (like XML), but are simply a flat list. Hierarchical data has a parent-child relationship that is
