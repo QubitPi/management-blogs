@@ -2721,6 +2721,19 @@ Returns search hits that match the query defined in the request.
 GET /my-index-000001/_search
 ```
 
+##### Get Filtered Data
+
+```
+GET /my-index-000001/_search?from=40&size=20
+{
+    "query": {
+        "term": {
+            "user.id": "kimchy"
+        }
+    }
+}
+```
+
 ### Suggesters
 
 #### Completion Suggester
