@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The Difference Between Tree Depth and Height?
+title: Difference Between Tree Depth and Height
 tags: [Algorithm]
 color: rgb(244, 128, 34)
 feature-img: "assets/img/post-cover/27-cover.png"
