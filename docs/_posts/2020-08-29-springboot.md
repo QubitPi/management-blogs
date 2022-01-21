@@ -508,6 +508,117 @@ It is strongly recommended to have a look at the list of supported arguments tha
 inject to your handler methods:
 https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-arguments
 
+### Type-safe Configuration Properties
+
+Using the `@Value("${property}")` annotation to inject configuration properties can sometimes be cumbersome, especially
+if you are working with multiple properties or your data is hierarchical in nature. Spring Boot provides an alternative
+method of working with properties that lets strongly typed beans govern and validate the configuration of your
+application.
+
+> 📋 See also the [differences between `@Value` and type-safe configuration properties](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config.typesafe-configuration-properties.vs-value-annotation).
+
+#### JavaBean Properties Binding
+
+It is possible to bind a bean declaring standard JavaBean properties as shown in the following example:
+
+```java
+@ConfigurationProperties("my.service")
+public class MyProperties {
+
+    public static class Security {
+
+        private String username;
+        private String password;
+        private List<String> roles = new ArrayList<>(Collections.singleton("USER"));
+
+        // getters / setters...
+    }
+
+    private boolean enabled;
+    private InetAddress remoteAddress;
+    private final Security security = new Security();
+
+    // getters / setters...
+}
+```
+
+* The preceding POJO defines the following properties:
+* `my.service.enabled`, with a value of `false` by default.
+* `my.service.remote-address`, with a type that can be coerced from `String`.
+* `my.service.security.username`, with a nested "security" object whose name is determined by the name of the property.
+  In particular, the type is not used at all there and could have been, for example, "SecurityProperties".
+* `my.service.security.password`.
+* `my.service.security.roles`, with a collection of `String` that defaults to "USER".
+
+> 📋 The properties that map to `@ConfigurationProperties` classes available in Spring Boot, which are configured
+> through properties files, YAML files, environment variables, and other mechanisms, are public API but the accessors
+> (getters/setters) of the class itself are not meant to be used directly.
+
+#### Constructor Binding
+
+The example in the previous section can be rewritten in an immutable fashion as shown in the following example:
+
+```java
+@ConstructorBinding
+@ConfigurationProperties("my.service")
+public class MyProperties {
+
+    // fields...
+
+    public MyProperties(boolean enabled, InetAddress remoteAddress, Security security) {
+        this.enabled = enabled;
+        this.remoteAddress = remoteAddress;
+        this.security = security;
+    }
+
+    // getters...
+
+    public static class Security {
+
+        // fields...
+
+        public Security(String username, String password, @DefaultValue("USER") List<String> roles) {
+            this.username = username;
+            this.password = password;
+            this.roles = roles;
+        }
+
+        // getters...
+
+    }
+}
+```
+
+In this setup, the **`@ConstructorBinding`** annotation is used to indicate that constructor binding should be used.
+This means that the binder will expect to find a constructor with the parameters that you wish to have bound. If you are
+using Java 16 or later, constructor binding can be used with records. In this case, unless your record has multiple
+constructors, there is no need to use `@ConstructorBinding`.
+
+Nested members of a `@ConstructorBinding` class (such as `Security` in the example above) will also be bound through
+their constructor.
+
+Default values can be specified using **`@DefaultValue`** and the same conversion service will be applied to coerce the
+`String` value to the target type of a missing property. By default, if no properties are bound to `Security`, the
+`MyProperties` instance will contain a null value for security. If you wish you return a non-null instance of `Security`
+even when no properties are bound to it, you can use an empty `@DefaultValue` annotation to do so:
+
+```java
+public MyProperties(boolean enabled, InetAddress remoteAddress, @DefaultValue Security security) {
+    this.enabled = enabled;
+    this.remoteAddress = remoteAddress;
+    this.security = security;
+}
+```
+
+> ⚠️ To use constructor binding the class must be
+> [enabled using @EnableConfigurationProperties](#enabling-configurationproperties-annotated-types) or configuration
+> property scanning. You cannot use constructor binding with beans that are created by the regular Spring mechanisms
+> (for example `@Component` beans, beans created by using `@Bean` methods or beans loaded by using `@Import`)
+
+If you have more than one constructor for your class you can also use @ConstructorBinding directly on the constructor that should be bound.
+
+#### Enabling @ConfigurationProperties-annotated types
+
 ### Logging
 
 #### Use Default Logging Pattern
