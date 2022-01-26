@@ -615,7 +615,10 @@ public MyProperties(boolean enabled, InetAddress remoteAddress, @DefaultValue Se
 > property scanning. You cannot use constructor binding with beans that are created by the regular Spring mechanisms
 > (for example `@Component` beans, beans created by using `@Bean` methods or beans loaded by using `@Import`)
 
-If you have more than one constructor for your class you can also use @ConstructorBinding directly on the constructor that should be bound.
+> 📋 If you have more than one constructor for your class you can also use **`@ConstructorBinding`** directly on the
+> constructor that should be bound.
+
+> ⚠️ 
 
 #### Enabling @ConfigurationProperties-annotated types
 

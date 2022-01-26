@@ -1413,6 +1413,28 @@ In this example, the table customers is joined to itself using the following joi
 
 The `--default-character-set=utf8` option allows the UTF-8 character to be displayed properly in console
 
+#### How to Pass Password to mysql Command Line in a More "Secure" Way
+
+[Putting passwords on the command line](#connecting-to-mysql-from-the-command-line) is in-secure, because anyone with
+access to `/proc` can trivially read them as long as the program is running.
+
+The safest way would be to create a new [config file](https://dev.mysql.com/doc/refman/8.0/en/option-file-options.html)
+and pass it to `mysql` using either the `--defaults-file=` or `--defaults-extra-file=` command line option. The
+difference between the two is that the latter is read in addition to the default config files whereas with the former
+only the one file passed as the argument is used. The additional configuration file should contain something similar to:
+
+```
+[client]
+user=foo
+password=P@55w0rd
+```
+
+> 📋 Make sure that you secure this file.
+
+Then run:
+
+    mysql --defaults-extra-file=<path to the new config file> --default-character-set=utf8 -h HOSTNAMEORIP DATABASENAME
+
 ### Find databases containing a particular table in MySQL
 
 Let's say you would like to locate a table whose name is `foo`:
@@ -1599,6 +1621,8 @@ CREATE TABLE db1.table1 SELECT * FROM db2.table1
 ```
 
 ## Scripting
+
+
 
 ### Calling SQL Script File from Other SQL Script File
 
