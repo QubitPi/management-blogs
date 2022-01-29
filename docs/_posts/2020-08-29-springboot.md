@@ -618,9 +618,48 @@ public MyProperties(boolean enabled, InetAddress remoteAddress, @DefaultValue Se
 > 📋 If you have more than one constructor for your class you can also use **`@ConstructorBinding`** directly on the
 > constructor that should be bound.
 
-> ⚠️ 
+> ⚠️ The use of `java.util.Optional` with `@ConfigurationProperties` is not recommended as it is primarily intended for
+> use as a return type. As such, it is not well-suited to configuration property injection. For consistency with
+> properties of other types, if you do declare an `Optional` property and it has no value, null rather than an empty
+> `Optional` will be bound.
 
 #### Enabling @ConfigurationProperties-annotated types
+
+Spring Boot provides infrastructure to bind `@ConfigurationProperties` types and register them as beans. You can either
+enable configuration properties on a class-by-class basis or enable configuration property scanning that works in a
+similar manner to component scanning.
+
+Sometimes, classes annotated with `@ConfigurationProperties` might not be suitable for scanning, for example, if you're
+developing your own auto-configuration or you want to enable them conditionally. In these cases, specify the list of
+types to process using the `@EnableConfigurationProperties` annotation. This can be done on any `@Configuration` class,
+as shown in the following example:
+
+```java
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(SomeProperties.class)
+public class MyConfiguration {
+    
+    ...
+}
+```
+
+To use configuration property scanning, add the `@ConfigurationPropertiesScan` annotation to your application.
+Typically, it is added to the main application class that is annotated with `@SpringBootApplication` but it can be added
+to any `@Configuration` class. By default, scanning will occur from the package of the class that declares the
+annotation. If you want to define specific packages to scan, you can do so as shown in the following example:
+
+```java
+@SpringBootApplication
+@ConfigurationPropertiesScan({ "com.example.app", "com.example.another" })
+public class MyApplication {
+
+    ...
+}
+```
+
+
+
+
 
 ### Logging
 
