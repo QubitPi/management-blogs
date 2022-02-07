@@ -657,6 +657,11 @@ public class MyApplication {
 }
 ```
 
+> 📋 When the `@ConfigurationProperties` bean is registered using configuration property scanning or through
+> `@EnableConfigurationProperties`, the bean has a conventional name: <prefix>-<fqn>, where <prefix> is the environment key prefix specified in the @ConfigurationProperties annotation and <fqn> is the fully qualified name of the bean. If the annotation does not provide any prefix, only the fully qualified name of the bean is used.
+
+The bean name in the example above is com.example.app-com.example.app.SomeProperties.
+
 
 
 
@@ -1000,6 +1005,7 @@ By default, the only exceptions that cause a transaction to roll back are the un
    > ```
    >
    > This is happening because Hibernate JPA doesn’t support nested transactions.
+
 4. **Propagation.MANDATORY** requires an existing physical transaction or will cause an exception
 5. **Propagation.NEVER** states that no physical transaction should exist. If a physical transaction is found, then
    `NEVER` will cause an exception. The code inside `NEVER`, though, can open physical transactions with no problem.
@@ -1087,6 +1093,20 @@ Let's look at a simple repository method that returns active User entities from 
 @Query("SELECT u FROM User u WHERE u.status = 1")
 Collection<User> findAllActiveUsers();
 ```
+
+> ⚠️ JPQL doesn't support limiting results using `LIMIT` clause. When using native JPQL we should use `setMaxResults` to
+> limit the results.
+> 
+> We could use a `Pageable` argument instead of a `LIMIT` clause:
+>
+> ```java
+> @Query("SELECT s FROM Students s ORDER BY s.id DESC")
+> List<Students> getLastStudentDetails(Pageable pageable);
+> ```
+>
+> Then in your calling code do something like this (as explained here in the reference guide).
+>
+> `getLastStudentDetails(PageRequest.of(0,1));`
 
 #### Native
 
