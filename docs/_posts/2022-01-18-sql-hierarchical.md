@@ -83,7 +83,7 @@ easy to see that _FLASH_ is a child of _MP3 PLAYERS_, which is a child of _PORTA
 _ELECTRONICS_. While the adjacency list model can be dealt with fairly easily in client-side code, working with the
 model can be more problematic in pure SQL.
 
-## Retrieving a Full Tree
+### Retrieving a Full Tree
 
 The first common task when dealing with hierarchical data is the display of the entire tree, usually with some form of
 indentation. The most common way of doing this in pure SQL is through the use of a self-join:
