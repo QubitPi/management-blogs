@@ -1319,6 +1319,8 @@ It will display your table in row form instead of column form.
 
 ### JOIN
 
+![Error loading Visual_SQL_JOINS_V2.png!]({{ "/assets/img/Visual_SQL_JOINS_V2.png" | relative_url}})
+
 #### Self Join
 
 We know how to join a table to the other tables using "INNER JOIN", "LEFT JOIN", "RIGHT JOIN", or "CROSS JOIN" clause.
