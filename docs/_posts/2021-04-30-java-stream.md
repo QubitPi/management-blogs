@@ -14,6 +14,48 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
   
+## Combining a Collection of Predicates
+
+We chain a collection of Predicates by reducing them. In the following example, we have a list of predicates that we
+combined using `Predicate.and()`:
+
+```java
+@Test
+public void whenFilterListWithCollectionOfPredicatesUsingAnd_thenSuccess(){
+    List<Predicate<String>> allPredicates = new ArrayList<Predicate<String>>();
+    allPredicates.add(str -> str.startsWith("A"));
+    allPredicates.add(str -> str.contains("d"));        
+    allPredicates.add(str -> str.length() > 4);
+    
+    List<String> result = names.stream()
+        .filter(allPredicates.stream().reduce(x->true, Predicate::and))
+        .collect(Collectors.toList());
+    
+    assertEquals(1, result.size());
+    assertThat(result, contains("Alexander"));
+}
+```
+
+Note that we use our base identity as:
+
+```java
+x->true
+```
+
+That will be, however, different if we want to combine them using Predicate.or():
+
+```java
+@Test
+public void whenFilterListWithCollectionOfPredicatesUsingOr_thenSuccess(){
+    List<String> result = names.stream()
+        .filter(allPredicates.stream().reduce(x->false, Predicate::or))
+        .collect(Collectors.toList());
+    
+    assertEquals(2, result.size());
+    assertThat(result, contains("Adam","Alexander"));
+}
+```
+
 ## Collecting Stream containing "null" to List 
  
 ```java
