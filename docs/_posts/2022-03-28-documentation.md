@@ -9,6 +9,8 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
+You will be using your code in 6 months
+
 <!--more-->
 
 * TOC
