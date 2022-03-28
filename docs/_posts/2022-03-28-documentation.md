@@ -341,7 +341,7 @@ information across multiple sources.
 > A "publication" refers to a single, cohesive tool that readers use to consume documentation. It may be static or
 > interactive - digital or paper. Multiple publications may be created from a single source (such as web and PDF
 > versions of the same manual). Although rarer, multiple sources may be used to create a single publication. More
-> examples of publications include: API reference, man page, command line ``–help`` output, in-application help tips,
+> examples of publications include: API reference, man page, command line ``-help`` output, in-application help tips,
 > online tutorials, internal engineering manuals, and others too.
 
 #### Discoverable
@@ -427,4 +427,36 @@ Answering some questions may require the user to read multiple publications, whi
 
 ### Developer Documentation and APIs
 
+Clear, well-formatted, and detailed API documentation is the key for developers to quickly consume and implement your
+API. It is also key to helping developers understand what happens when an API call is made, and in the case of failure,
+understand what went wrong and how to fix it.
+
+From the perspective of a user, if a feature is not documented, it does not exist. If a feature is documented
+incorrectly, then it is broken. The best API documentation is often the result of a well designed API. Documentation
+cannot fix a poorly designed API. It is best to work on developing the API and the documentation concurrently.
+
+If your API already exists, automated reference documentation can be useful to document the API in its current state. If
+your API is still being implemented, API documentation can perform a vital function in the design process.
+
 #### Documentation-Driven Design
+
+If your API isn't built yet, you can create API documentation to help with the design process. The documentation-driven
+design philosophy comes down to this:
+
+> Documentation changes are cheap. Code changes are expensive.
+
+By designing your API through documentation, you can easily get feedback and iterate your design before development
+begins.
+
+Some API documentation formats have the added benefit of being machine-readable. These formats open the door to a
+multitude of additional tools that can help during the entire lifecycle of your API:
+
+* Create a mock server to help during the initial API design
+* Test your API before deployment to ensure that the API and the documentation matches
+* Create interactive documentation that allows developers to perform demo requests to your API
+
+#### Test-Driven Documentation
+
+Test-driven documentation aims to improve upon the typical approaches to automated documentation. It allows you to write
+the bulk of the documentation by hand while also ensuring its accuracy by using your API’s tests to generate some
+content.
