@@ -199,22 +199,22 @@ If you set up everything correctly, you should see output similar to this one:
 
 ```
 -------------------------------------------------------
- T E S T S
- -------------------------------------------------------
- Running tutorial.LinkedList_ESTest
- Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.192 sec
- Running tutorial.LinkedListIterator_ESTest
- Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.356 sec
- Running tutorial.Node_ESTest
- Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 sec
- Running tutorial.Stack_ESTest
- Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 sec
- Running tutorial.StackTest
- Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
+T E S T S
+-------------------------------------------------------
+Running tutorial.LinkedList_ESTest
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.192 sec
+Running tutorial.LinkedListIterator_ESTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.356 sec
+Running tutorial.Node_ESTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 sec
+Running tutorial.Stack_ESTest
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 sec
+Running tutorial.StackTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec
 
- Results :
+Results :
 
- Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 31, Failures: 0, Errors: 0, Skipped: 0
 ```
 
 #### Troubleshooting
