@@ -86,24 +86,24 @@ unzip Tutorial_Maven.zip
 cd Tutorial_Maven
 ```
 
+> Note that this example project currently has one dependency, which is JUnit to execute the tests. This is declared in
+> the `<dependency>` section of the project POM file:
+
+> ```xml
+> <project>
+>     ....
+>     <dependencies>
+>         <dependency>
+>             <groupId>junit</groupId>
+>             <artifactId>junit</artifactId>
+>             <version>4.12</version>
+>             <scope>test</scope>
+>         </dependency>
+>     </dependencies>
+> </project>
+> ```
+
 ##### Generating EvoSuite Tests with Maven
-
-This example project currently has one dependency, which is JUnit to execute the tests. This is declared in the
-`<dependency>` section of the project POM file:
-
-```xml
-<project>
-    ....
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-</project>
-```
 
 Let's tell Maven that we would like to use EvoSuite as part of our build, so we need to declare a build dependency on
 EvoSuite. Add the following snippet to the `pom.xml`:
