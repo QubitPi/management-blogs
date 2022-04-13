@@ -237,6 +237,8 @@ Next, change the version in POM from:
 <evosuiteversion>1.0.6</evosuiteversion>
 ``` 
 
+to
+
 ```xml
 <evosuiteversion>1.1.1-SNAPSHOT</evosuiteversion>
 ```
