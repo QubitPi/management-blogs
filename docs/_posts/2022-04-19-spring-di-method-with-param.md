@@ -1,8 +1,8 @@
 ---
 layout: post
 title:
-Spring - Dependency injection in @Bean method parameters
-tags: [CI/CD, Yahoo]
+Spring - Dependency injection in Bean method parameters
+tags: [Spring Boot, Dependency Injection]
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/34-cover.png"
 thumbnail: "assets/img/post-cover/34-cover.png"
