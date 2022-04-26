@@ -9,7 +9,7 @@ avatar: assets/img/logo.png                                       # Empty for no
 favicon: assets/favicon.ico                                           # Icon displayed in the tab
 
 # Header and footer text
-header_text: I belive in a future<br>where people never controls the machine or machine never dominates the human<br>
+header_text: I belive in a future<br>where people never controls the machine and machine never dominates the human<br>
   instead<br>they become happier together  # Change Blog header text
 header_feature_image: assets/img/title-image-cover.png
 footer_text: >
