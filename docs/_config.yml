@@ -9,7 +9,8 @@ avatar: assets/img/logo.png                                       # Empty for no
 favicon: assets/favicon.ico                                           # Icon displayed in the tab
 
 # Header and footer text
-header_text: 力量若达到极限<br>接着考验的便是人心  # Change Blog header text
+header_text: I belive in a future<br>where people never controls the machine or machine never dominates the human<br>
+  instead<br>they become happier together  # Change Blog header text
 header_feature_image: assets/img/title-image-cover.png
 footer_text: >
   Art illustration inspired by Artist <a href="https://www.artstation.com/mb0sco">Bogdan mB0sco</a>
