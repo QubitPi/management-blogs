@@ -87,7 +87,7 @@ At [download page](https://www.eclipse.org/jetty/download.php), pick up a `.tgz`
 
 ### Install Jetty
 
-Put the `tar.gz` file into a location of your choice as the intsall path and extract the Jetty binary using 
+Put the `tar.gz` file into a location of your choice as the install path and extract the Jetty binary using 
 
     tar -czvf jetty-distribution-9.4.44.v20210927.tar.gz
 
