@@ -265,7 +265,7 @@ The container extension module dependency to be added is:
 [Jetty](https://www.eclipse.org/jetty/) is a popular Servlet container and HTTP server. We will not look into Jetty's
 capabilities as a Servlet container (although Jersey is using it in its tests and examples), because there is nothing
 specific to Jetty when using a Servlet-based deployment model, which is extensively described later in
-["Servlet-based Deployment](#servlet-based-deployment) section. We will here only focus on describing how to use Jetty's
+[Servlet-based Deployment](#servlet-based-deployment) section. We will here only focus on describing how to use Jetty's
 HTTP server. 
 
 Jetty HTTP container supports injection of Jetty-specific `org.eclipse.jetty.server.Request` and
