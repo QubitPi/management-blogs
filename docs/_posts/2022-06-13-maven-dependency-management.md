@@ -12,7 +12,7 @@ excerpt_separator: <!--more-->
 <!--more-->
 
 * TOC
-  {:toc}
+{:toc}
 
 The dependency management section is a mechanism for centralizing dependency information. When you have a set of
 projects that inherit from a common parent, it's possible to put all information about the dependency in the common POM
