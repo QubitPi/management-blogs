@@ -9,6 +9,11 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
+<!--more-->
+
+* TOC
+  {:toc}
+
 The dependency management section is a mechanism for centralizing dependency information. When you have a set of
 projects that inherit from a common parent, it's possible to put all information about the dependency in the common POM
 and have simpler references to the artifacts in the child POMs. The mechanism is best illustrated through some examples. 
