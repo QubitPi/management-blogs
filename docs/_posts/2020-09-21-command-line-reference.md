@@ -120,7 +120,7 @@ Will generate 4 files:
 or
 
     echo '{"name":"Tom"}' | jq --indent 4
-  
+
 ## Linux
 
 ### Dealing with "command not found" Error
