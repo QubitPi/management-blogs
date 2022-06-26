@@ -14,20 +14,6 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-## [sed](https://www.gnu.org/software/sed/manual/sed.html)
-
-> [A good reference for sed](http://sed.sourceforge.net/local/docs/An_introduction_to_sed.html)
-
-### sed Pattern for Getting String Between Two Character Sequence
-
-For example, if we would like to extract email address from a string of
-`<some text> from=someuser@somedomain.com, <some text>`, which gives "someuser@somedomain.com", we could use
-
-```bash
-sed 's/.*from=\(.*\),.*/\1/' <<< "$s"
-someuser@somedomain.com
-```
-
 ## Graphviz
 
 ### Generate .png from .dot Source Code File
@@ -61,6 +47,189 @@ Example:
     }
 
 ![example]({{ "/assets/img/tree.png" | relative_url}})
+
+## grep
+
+### Grep TAB Character
+
+    grep $'\t'
+
+### Remove blank lines
+
+    grep -v '^$' input.txt > output.txt
+
+## find
+
+### Find And Delete
+
+    find . -type f -name 'file-pattern' -delete
+
+## [sed](https://www.gnu.org/software/sed/manual/sed.html)
+
+> [A good reference for sed](http://sed.sourceforge.net/local/docs/An_introduction_to_sed.html)
+
+### sed Pattern for Getting String Between Two Character Sequence
+
+For example, if we would like to extract email address from a string of
+`<some text> from=someuser@somedomain.com, <some text>`, which gives "someuser@somedomain.com", we could use
+
+```bash
+sed 's/.*from=\(.*\),.*/\1/' <<< "$s"
+someuser@somedomain.com
+```
+
+### Delete lines in a text file that contain a specific string
+
+To remove the line and print the output to standard out:
+
+    sed '/pattern to match/d' ./infile
+
+To modify the file directly:
+
+    sed -i '/pattern to match/d' ./infile
+
+To modify the file directly and create a backup:
+
+    sed -i.bak '/pattern to match/d' ./infile
+
+For Mac OS X users:
+
+    sed -i '' '/pattern/d' ./infile
+
+Merge Multiple Lines into One Single Line, space separated, in a file
+
+    sed -e '/^$/d' file| tr '\n' ' '
+
+### Trim
+
+    sed 's/^ *//;s/ *$//'
+
+Add a Prefix String to the Beginning of Each Line:
+
+    sed -e 's/^/prefix/' file
+    sed -i -e 's/^/prefix/' file         # If you want to edit the file in-place
+    sed -e 's/^/prefix/' file > file.new # If you want to create a new file
+
+If the prefix contains `/`, you can could replace the syntactic `/` with any other character. If prefix contains `/`,
+you can use any other characters not in prefix, or escape the `/`, so the `sed` command becomes
+
+    's#^#/opt/workdir#'
+    's/^/\/opt\/workdir/'
+
+### Add String After Each Line
+
+    sed -e 's/$/string after each line/'
+
+## sort
+
+### Remove Duplicate Lines
+
+    sort {file-name} | uniq
+
+### Sort Strings and Order by Duplicate Counts
+
+    cat data.txt | sort | uniq -c | sort -n
+
+### List Files Sorted by the Number of Lines
+
+    find /group/book/four/word/ -type f -exec wc -l {} + | sort -rn
+
+## tr
+
+### Replace character with another
+
+    cat data-file | tr char-to-be-replaced new-char
+
+### Lowercase a File
+
+    tr A-Z a-z < input
+
+## [awk](http://www.theunixschool.com/2012/06/awk-10-examples-to-group-data-in-csv-or.html)
+
+### Filtering Rows Based on Number of Columns
+
+    $ echo '0333 foo
+    >  bar
+    > 23243 qux' | awk 'NF==2{print}{}'
+    0333 foo
+    23243 qux
+
+Reverse the Order of a List of Words
+
+    echo $str | awk '{ for (i=NF; i>1; i--) printf("%s ",$i); print $1; }'
+
+### Extract Substring Before a Specified Character
+
+    awk -F: '{print $1}' # extract string before a colon
+
+Add Numbers in a File, each Line Containing a Number
+
+    cat file | awk '{ SUM += $1} END { print SUM }'
+
+## xargs
+
+Commands such as [grep](#grep) and [awk](#awk) can accept the standard input as a parameter, or argument by using a
+pipe. However, others such as `cp` and ``echo`` disregard the standard input stream and rely solely on the arguments
+found after the command. Additionally, under the Linux kernel before version 2.6.23, and under many other Unix-like
+systems, arbitrarily long lists of parameters cannot be passed to a command. `xargs` breaks the list of arguments
+into sub-lists small enough to be acceptable. For example, shell commands such as
+
+    rm `find /path -type f`
+
+may fail with an error message of `Argument list too long` (meaning that the `exec` system call's limit on the length of
+a command line was exceeded) if there are too many files in `/path`. However, the version below will not fail:
+
+    find /path -type f -print | xargs rm
+
+### Remove Leading And Trailing Spaces Around String
+
+    echo "   l o l  " | xargs
+
+### Count Lines of Code in a Directory Recursively
+
+    find . -name '*.java' | xargs wc -l
+
+## cut
+
+### Extract Substring Within Double Quotes
+
+    $ echo "substring" | cut -d '"' -f2
+    substring
+
+### Remove Anything After a Character(Inclusive)
+
+    $ echo "substring + ?" | cut -f1 -d"+"
+    substring
+
+### Extract Substring Before a Specified Character
+
+    cut -d: -f1 # extract string before a colon
+
+## CSV
+
+### GroupBy a CSV File
+
+    cut -d ',' -f 6,7 data.csv | tail -n +2 | awk -F, '{a[$1]+=$2;}END{for(i in a)print i", "a[i];}'
+
+- ``cut -d ',' -f first_column_idx,last_column_idx data.csv``: extract a subset of columns and rows from a CSV file
+- ``tail -n +2``: remove the header line(first line) in CSV file
+- ``awk -F, '{a[$1]+=$2;}END{for(i in a)print i", "a[i];}'``: find the sum of individual group records
+
+For example, suppose we have a data file of::
+
+    Date,Fruit Purchased,Num Purchased
+    2020-05-20,apple,10
+    2020-05-21,orange,10
+    2020-05-22,banana,5
+    2020-05-23,apple,10
+    2020-05-24,orange,5
+    2020-05-25,banana,10
+
+Running ``cut -d ',' -f 2,3 data.csv | tail -n +2 | awk -F, '{a[$1]+=$2;}END{for(i in a)print i", "a[i];}'`` gives::
+
+    apple, 20
+    banana, 15
+    orange, 15
 
 ## Remove Common Prefix of a Group of Files
 
