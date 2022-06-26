@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Docker
+title: Docker cAdvisor
 tags: [Docker]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/28-cover.png"
@@ -14,9 +14,7 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-## `docker stats` UI
-
-### [cAdvisor](https://github.com/google/cadvisor)
+## [cAdvisor](https://github.com/google/cadvisor) - The `docker stats` UI
 
 Although [cAdvisor](https://github.com/google/cadvisor) has some prelimilary (useful though) UI. It also offers
 
