@@ -35,7 +35,9 @@ Define CI Workflow on GitHub
 `git checkout` the branch that contains the docker image definition, i.e. Dockerfile, and add a new YAML file to the
 following path
 
-   <github-repo>/.github/workflows/<workflow-name>.yml
+```
+<github-repo>/.github/workflows/<workflow-name>.yml
+```
 
 The YAML file should contain the following workflow definition:
 
