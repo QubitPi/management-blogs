@@ -70,15 +70,19 @@ jobs:
         name: Login to DockerHub
         uses: docker/login-action@v2
         with:
+          {% raw %}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+          {% endraw %}
       -
         name: Build and push
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
+          {% endraw %}
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/<docker-image-name>:latest
+          {% endraw %}
 ```
 
 Push the YAML file onto GitHub. Every push to that branch afterwards will trigger the image build and push. 
