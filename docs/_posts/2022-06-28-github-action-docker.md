@@ -80,7 +80,7 @@ jobs:
         with:
           context: .
           push: true
-          {% endraw %}
+          {% raw %}
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/<docker-image-name>:latest
           {% endraw %}
 ```
