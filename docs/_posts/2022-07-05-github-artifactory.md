@@ -47,6 +47,7 @@ personal access token, you can assign the token different scopes depending on yo
 
 6. Give your token a descriptive name.
 
+
    ![Error loading token_description.png]({{ "/assets/img/token_description.png" | relative_url}})
 
 7. To give your token an expiration, select the **Expiration** drop-down menu, then click a default or use the calendar 
