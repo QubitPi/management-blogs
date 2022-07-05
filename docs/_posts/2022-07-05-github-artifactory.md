@@ -2,7 +2,7 @@
 layout: post
 title: GitHub Artifactory with Apache Maven Registry
 tags: [CI, Maven, Software Release]
-color: rgb(8, 86, 112)
+color: rgb(0, 196, 0)
 feature-img: "assets/img/post-cover/34-cover.png"
 thumbnail: "assets/img/post-cover/34-cover.png"
 author: QubitPi
@@ -175,7 +175,7 @@ jobs:
       - name: Publish package
         run: mvn --batch-mode deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          {% raw %}GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}{% endraw %}
 ```
 
 This workflow performs the following steps:
