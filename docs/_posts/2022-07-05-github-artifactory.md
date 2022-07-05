@@ -1,11 +1,10 @@
 ---
 layout: post
 title: GitHub Artifactory with Apache Maven Registry
-
-tags: [Testing]
+tags: [CI, Maven, Software Release]
 color: rgb(8, 86, 112)
-feature-img: "assets/img/post-cover/33-cover.png"
-thumbnail: "assets/img/post-cover/33-cover.png"
+feature-img: "assets/img/post-cover/34-cover.png"
+thumbnail: "assets/img/post-cover/34-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
