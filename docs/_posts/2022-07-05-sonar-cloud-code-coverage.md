@@ -14,8 +14,8 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-
-SonarCloud supports the reporting of test coverage as part of the analysis of your Java project.
+SonarCloud supports the reporting of test coverage as part of the analysis of your 
+Java project.
 
 However, SonarCloud does not produce the coverage report itself. Instead, we must set up a third-party tool to produce
 the report as part of your build process. You then need to configure your analysis to tell the SonarScanner where the 
