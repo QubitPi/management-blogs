@@ -13,7 +13,7 @@ A closure in Groovy is an open, anonymous, block of code that can take arguments
 variable. A closure may reference variables declared in its surrounding scope. In opposition to the formal definition of
 a closure, Closure in the Groovy language can also contain free variables which are defined outside of its surrounding 
 scope. While breaking the formal concept of a closure, it offers a variety of advantages which are described in this 
-chapter.
+post.
 
 <!--more-->
 
@@ -114,3 +114,53 @@ assert isEven.call(2) == true // or using "call"
 ```
 
 Unlike a method, **a closure always returns a value when called**.
+
+Parameters
+----------
+
+### Normal Parameters
+
+Parameters of closures follow the same principle as parameters of regular methods:
+
+* an optional type
+* a name
+* an optional default value
+
+Parameters are separated with commas:
+
+```groovy
+def closureWithOneArg = { str -> str.toUpperCase() }
+assert closureWithOneArg('groovy') == 'GROOVY'
+
+def closureWithOneArgAndExplicitType = { String str -> str.toUpperCase() }
+assert closureWithOneArgAndExplicitType('groovy') == 'GROOVY'
+
+def closureWithTwoArgs = { a,b -> a+b }
+assert closureWithTwoArgs(1,2) == 3
+
+def closureWithTwoArgsAndExplicitTypes = { int a, int b -> a+b }
+assert closureWithTwoArgsAndExplicitTypes(1,2) == 3
+
+def closureWithTwoArgsAndOptionalTypes = { a, int b -> a+b }
+assert closureWithTwoArgsAndOptionalTypes(1,2) == 3
+
+def closureWithTwoArgAndDefaultValue = { int a, int b=2 -> a+b }
+assert closureWithTwoArgAndDefaultValue(1) == 3
+```
+
+### Implicit Parameter
+
+**When a closure does not explicitly define a parameter list (using `->`), a closure always defines an implicit
+parameter, named `it`**. This means that the following
+
+```groovy
+def greeting = { "Hello, $it!" }
+assert greeting('Patrick') == 'Hello, Patrick!'
+```
+
+is stricly equivalent to
+
+```groovy
+def greeting = { it -> "Hello, $it!" }
+assert greeting('Patrick') == 'Hello, Patrick!'
+```
