@@ -3,8 +3,8 @@ layout: post
 title: The Metaphysics of Software Testing
 tags: [Testing]
 color: rgb(220, 73, 0)
-feature-img: "assets/img/post-cover/36-cover.png"
-thumbnail: "assets/img/post-cover/36-cover.png"
+feature-img: "assets/img/post-cover/1-cover.png"
+thumbnail: "assets/img/post-cover/1-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

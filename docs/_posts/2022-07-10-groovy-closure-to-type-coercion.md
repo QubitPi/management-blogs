@@ -3,7 +3,7 @@ layout: post
 title: Groovy Closure to Type Coercion
 tags: [Groovy, Testing]
 color: rgb(220, 73, 0)
-feature-img: "assets/img/post-cover/2-cover.png"
+feature-img: "assets/img/post-cover/3-cover.png"
 thumbnail: "assets/img/post-cover/3-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->

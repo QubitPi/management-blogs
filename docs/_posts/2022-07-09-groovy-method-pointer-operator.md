@@ -3,8 +3,8 @@ layout: post
 title: Groovy Method Pointer Operator
 tags: [Groovy, Testing]
 color: rgb(220, 73, 0)
-feature-img: "assets/img/post-cover/1-cover.png"
-thumbnail: "assets/img/post-cover/1-cover.png"
+feature-img: "assets/img/post-cover/2-cover.png"
+thumbnail: "assets/img/post-cover/2-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
