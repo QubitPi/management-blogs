@@ -340,9 +340,9 @@ mvn test -Djersey.test.host=myhost.org -Djersey.config.test.container.port=8080
 Tests might require some advanced client configuration. This is possible by overriding
 [configureClient(ClientConfig clientConfig)](https://github.com/eclipse-ee4j/jersey/blob/master/test-framework/core/src/main/java/org/glassfish/jersey/test/JerseyTest.java)
 method. Typical use case for this is registering more providers, such as
-[MessageBodyReader<T>](https://github.com/jakartaee/rest/blob/master/jaxrs-api/src/main/java/jakarta/ws/rs/ext/MessageBodyReader.java)s
+[`MessageBodyReader<T>`](https://github.com/jakartaee/rest/blob/master/jaxrs-api/src/main/java/jakarta/ws/rs/ext/MessageBodyReader.java)s
 or
-[MessageBodyWriter<T>](https://github.com/jakartaee/rest/blob/master/jaxrs-api/src/main/java/jakarta/ws/rs/ext/MessageBodyWriter.java)s,
+[`MessageBodyWriter<T>`](https://github.com/jakartaee/rest/blob/master/jaxrs-api/src/main/java/jakarta/ws/rs/ext/MessageBodyWriter.java)s,
 or enabling additional features.
 
 ### Accessing the Logged Test Records Programmatically
