@@ -3,8 +3,8 @@ layout: post
 title: Jersey Test Framework
 tags: [Jersey, Testing]
 color: rgb(244, 126, 54)
-feature-img: "assets/img/post-cover/4-cover.png"
-thumbnail: "assets/img/post-cover/4-cover.png"
+feature-img: "assets/img/post-cover/5-cover.png"
+thumbnail: "assets/img/post-cover/5-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
