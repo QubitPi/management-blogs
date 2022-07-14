@@ -82,33 +82,3 @@ unperishable passion to Java language*.
 ### Pattern-Oriented Software Architecture Series
 
 * [Pattern-Oriented Software Architecture - Volume 1, A System of Patterns]({{ "/assets/pdf/Pattern-Oriented%20Software%20Architecture%20-%20Volume%201,%20A%20System%20of%20Patterns.pdf" | relative_url}})
-
-### UML
-
-* [UML Distilled A Brief Guide to the Standard Object Modeling Language]({{ "/assets/pdf/UML%20Distilled%20A%20Brief%20Guide%20to%20the%20Standard%20Object%20Modeling%20Language.pdf" | relative_url}})
-    - [PlantUML]({{ "/assets/pdf/plantuml-guide.pdf" | relative_url}})
-    - [Aggregation vs Composition](https://softwareengineering.stackexchange.com/a/61527)
-* [UML Specification](https://www.omg.org/spec/UML)
-
-#### Sequence UML Diagram
-
-Sequence diagrams are probably the most important UML diagrams among not only the computer science community but also as
-design-level models for business application development. Lately, they have become popular in depicting business
-processes, because of their visually self-explanatory nature.
-
-As the name suggests, sequence diagrams describe the sequence of messages and interactions that happen between actors
-and objects. Actors or objects can be active only when needed or when another object wants to communicate with them. All
-communication is represented in a chronological manner.
-
-The best Sequence Diagram maker is [PlantUML](https://plantuml.com/):
-
-* Define Boundary Classes, Control Classes, and Entity Classes:
-  [https://stackoverflow.com/a/17028825](https://stackoverflow.com/a/17028825)
-* [The Hitchhiker's Guide to PlantUML](https://crashedmind.github.io/PlantUMLHitchhikersGuide/index.html)
-* [Integration with JIRA and Trello](https://drawio-app.com/uml-class-diagrams-in-draw-io/)
-
-##### Usage
-
-* Download JAR: https://plantuml.com/download
-* `brew install graphviz`(mac)
-* `java -jar plantuml.jar`
