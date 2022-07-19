@@ -414,7 +414,7 @@ http://tldp.org/LDP/abs/html/debugging.html#ASSERT :
 
 ### Testing a condition with an assert
 
-```shell script
+```
 #!/bin/bash
 # assert.sh
 
