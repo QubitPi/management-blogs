@@ -91,8 +91,7 @@ As you can see, the `next()` method is actually called before the first record i
 record. Similarly, when `next()` is called and returns `false`, the `ResultSet` is actually pointing after the last
 record.
 
-> **Note**
-> You cannot obtain the number of rows in a `ResultSet` except if you iterate all the way through it and count the
+> 📋 You cannot obtain the number of rows in a `ResultSet` except if you iterate all the way through it and count the
 > rows. However, if the `ResultSet` is forward-only, you cannot move backwards through it later. Even if you could move 
 > backwards, it would a slow way of counting the rows in the `ResultSet`. You are better off structuring your code so
 > that you do not need to know the number of records ahead of time
@@ -192,11 +191,9 @@ ResultSet Types
 
 A `ResultSet` can be of a certain **type**. The type determines some characteristics and abilities of the `ResultSet`.
 
-> **Warning**
-> Not all types are supported by all databases and JDBC drivers. You will have to check your database and JDBC driver to
-see if it supports the type you want to use. The **`DatabaseMetaData.supportsResultSetType(int type)`** method returns
-`true` or `false` depending on whether the given type is supported or not. The `DatabaseMetaData` class is covered in a
-later text.
+> ⚠️ Not all types are supported by all databases and JDBC drivers. You will have to check your database and JDBC driver
+> to see if it supports the type you want to use. The **`DatabaseMetaData.supportsResultSetType(int type)`** method
+> returns `true` or `false` depending on whether the given type is supported or not.
 
 At the time of writing there are three `ResultSet` types:
 
@@ -327,8 +324,7 @@ ResultSet Holdability
 The `ResultSet` **holdability** determines if a `ResultSet` is closed when the `commit()` method of the underlying 
 `connection` is called.
 
-> **Warning**
-> Not all holdability modes are supported by all databases and JDBC drivers. The
+> ⚠️ Not all holdability modes are supported by all databases and JDBC drivers. The
 > `DatabaseMetaData.supportsResultSetHoldability(int holdability)` returns `true` or `false` depending on whether the 
 > given holdability mode is supported or not
 
