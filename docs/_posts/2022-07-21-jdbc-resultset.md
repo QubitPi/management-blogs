@@ -252,8 +252,7 @@ ResultSet Concurrency
 
 The `ResultSet` concurrency determines whether the `ResultSet` can be updated, or only read.
 
-> **Warning**
-> Some databases and JDBC drivers support that the `ResultSet` is updated, but not all databases and JDBC drivers do.
+> ⚠️ Some databases and JDBC drivers support that the `ResultSet` is updated, but not all databases and JDBC drivers do.
 > The **`DatabaseMetaData.supportsResultSetConcurrency(int concurrency)`** method returns `true` or `false` depending on 
 > whether the given concurrency mode is supported or not
 
