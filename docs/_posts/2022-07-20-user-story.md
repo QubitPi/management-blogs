@@ -1,6 +1,6 @@
 ---
 layout: post
-title: User stories with Examples and a Template
+title: User Stories with Examples and a Template
 tags: [Product]
 color: rgb(0, 82, 204)
 feature-img: "assets/img/post-cover/9-cover.png"
