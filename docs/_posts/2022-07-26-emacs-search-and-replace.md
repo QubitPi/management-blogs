@@ -16,6 +16,6 @@ excerpt_separator: <!--more-->
 
 For query-replace on MacBook Pro 2017 with OSX Sierra, running built-in emacs in Terminal, use
 
-   <esc> % 
+    <esc> % 
 
 in sequence. If required (depending on keyboard layout), use simultaneous `< shift >` key to access the `%` sign.
