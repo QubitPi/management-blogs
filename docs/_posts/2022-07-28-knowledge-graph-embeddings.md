@@ -161,9 +161,3 @@ triple involves substituting the head or the tail (or both) of the triple with a
 The original triple and the corrupted triple are added in the training batch, and then the embeddings are updated, 
 optimizing a scoring function. At the end of the algorithm, the learned embeddings should have extracted the semantic 
 meaning from the triples and should correctly unseen true facts in the knowledge graph.
-
-KGE Models
-----------
-
-![Error loading kge-glance.png]({{ "/assets/img/kge-glance.png" | relative_url}})
-
