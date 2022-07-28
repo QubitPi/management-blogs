@@ -119,5 +119,14 @@ graph's entities and relations while preserving their semantic meaning. Leveragi
 knowledge graphs (KGs) can be used for various applications such as link prediction, triple classification, entity 
 recognition, clustering, and relation extraction.
 
-We start from a graph made of nodes and edges and we move to a vector space where each point represent a 
-concept and the position in the space of each point is semantically meaningful.
+We start from a graph made of nodes and edges; then we move to a vector space where each point represent a concept and 
+the position in the space of each point is semantically meaningful.
+
+Formal Definition of Knowledge Graph Embeddings (KGE)
+-----------------------------------------------------
+
+With the informal discussion above, we could present KGE in a rigorous definition
+
+### Definition
+
+A knowledge graph {\displaystyle {\mathcal {G}}=\{E,R,F\}}{\displaystyle {\mathcal {G}}=\{E,R,F\}} is a collection of entities {\displaystyle E}E, relations {\displaystyle R}R, and facts {\displaystyle F}F.[5] A fact is a triple {\displaystyle (h,r,t)\in F}{\displaystyle (h,r,t)\in F} that denotes a link {\displaystyle r\in R}r\in R between the head {\displaystyle h\in E}{\displaystyle h\in E} and the tail {\displaystyle t\in E}{\displaystyle t\in E} of the triple. Another notation that is often used in the literature to represent a triple (or fact) is {\displaystyle <head,relation,tail>}{\displaystyle <head,relation,tail>}. This notation is called resource description framework (RDF).[1][5] A knowledge graph represents the knowledge related to a specific domain; leveraging this structured representation, it is possible to infer a piece of new knowledge from it after some refinement steps.[6] However, nowadays, people have to deal with the sparsity of data and the computational inefficiency to use them in a real-world application.[3][7]
