@@ -90,9 +90,9 @@ graphs.
 
 #### Features
 
-* [Customization] You can enhance AmpliGraph-based estimators to create your custom knowledge graph embeddings framework.
-* [Support] It can run on both CPUs and GPUs to accelerate the training procedure.
-* [Less Code] Its APIs cut down on the code needed to anticipate code in knowledge graphs.
+* **Customization** You can enhance AmpliGraph-based estimators to create your custom knowledge graph embeddings framework.
+* **Support** It can run on both CPUs and GPUs to accelerate the training procedure.
+* **Less Code** Its APIs cut down on the code needed to anticipate code in knowledge graphs.
 
 #### Benefits
 
