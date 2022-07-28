@@ -130,7 +130,7 @@ With the informal discussion above, we could present KGE in a rigorous definitio
 ### Definition
 
 A knowledge graph $${\mathcal {G}}=\{E,R,F\}$$ is a collection of entities $$E$$, relations $$R$$, and facts $$F$$. A
-_fact_ is a triple $$(h,r,t)\in F$$ that denotes a link $$r\in R$$ between the head $h\in E$$ and the tail $$t\in E$$ of 
+_fact_ is a triple $$(h,r,t)\in F$$ that denotes a link $$r\in R$$ between the head $$h\in E$$ and the tail $$t\in E$$ of 
 the triple. Another notation that is often used in the literature to represent a triple (or fact) is $$<head,relation,tail>$$. This notation is called **resource description framework (RDF)**. A knowledge graph represents the knowledge related to a specific domain; leveraging this structured representation, it is possible to **infer a piece of new knowledge** from it after some refinement steps. However, nowadays, people have to deal with the sparsity of data and the computational inefficiency to use them in a real-world application.
 
 The embedding of a knowledge graph translates each entity and relation of a knowledge graph, $${\mathcal {G}}$$ into a vector of a given dimension $$d$$, called **embedding dimension**. In the general case, we can have different embedding dimensions for the entities $$d$$ and the relations $$k$$. The collection of embedding vectors for all the entities and relations in the knowledge graph are a more dense and efficient representation of the domain that can more easily be used for many different tasks.
@@ -147,9 +147,12 @@ A knowledge graph embedding is characterized by four different aspects:
 #### Embedding procedure
 
 All the different knowledge graph embedding models follow roughly the same procedure to learn the semantic meaning of
-the facts.
-
-First of all, to learn an embedded representation of a knowledge graph, the embedding vectors of the entities and 
-relations are initialized to random values. Then, starting from a training set until a stop condition is reached, the 
-algorithm continuously optimizes the embeddings. Usually, the stop condition is given by the overfitting over the
-training set. Each iteration samples a batch of size $$b$$ from the training set, and for each triple of the batch a random corrupted fact i.e., a triple that does not represent a true fact in the knowledge graph. The corruption of a triple involves substituting the head or the tail (or both) of the triple with another entity that makes the fact false. The original triple and the corrupted triple are added in the training batch, and then the embeddings are updated, optimizing a scoring function. At the end of the algorithm, the learned embeddings should have extracted the semantic meaning from the triples and should correctly unseen true facts in the knowledge graph.
+the facts. First of all, to learn an embedded representation of a knowledge graph, the embedding vectors of the entities 
+and relations are initialized to random values. Then, starting from a training set until a stop condition is reached,
+the algorithm continuously optimizes the embeddings. Usually, the stop condition is given by the overfitting over the
+training set. Each iteration samples a batch of size $$b$$ from the training set, and for each triple of the batch, a 
+random corrupted fact i.e., a triple that does not represent a true fact in the knowledge graph. The corruption of a 
+triple involves substituting the head or the tail (or both) of the triple with another entity that makes the fact false. 
+The original triple and the corrupted triple are added in the training batch, and then the embeddings are updated, 
+optimizing a scoring function. At the end of the algorithm, the learned embeddings should have extracted the semantic 
+meaning from the triples and should correctly unseen true facts in the knowledge graph.
