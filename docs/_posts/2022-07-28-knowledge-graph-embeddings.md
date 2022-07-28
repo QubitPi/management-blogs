@@ -129,4 +129,26 @@ With the informal discussion above, we could present KGE in a rigorous definitio
 
 ### Definition
 
-A knowledge graph {\displaystyle {\mathcal {G}}=\{E,R,F\}}{\displaystyle {\mathcal {G}}=\{E,R,F\}} is a collection of entities {\displaystyle E}E, relations {\displaystyle R}R, and facts {\displaystyle F}F.[5] A fact is a triple {\displaystyle (h,r,t)\in F}{\displaystyle (h,r,t)\in F} that denotes a link {\displaystyle r\in R}r\in R between the head {\displaystyle h\in E}{\displaystyle h\in E} and the tail {\displaystyle t\in E}{\displaystyle t\in E} of the triple. Another notation that is often used in the literature to represent a triple (or fact) is {\displaystyle <head,relation,tail>}{\displaystyle <head,relation,tail>}. This notation is called resource description framework (RDF).[1][5] A knowledge graph represents the knowledge related to a specific domain; leveraging this structured representation, it is possible to infer a piece of new knowledge from it after some refinement steps.[6] However, nowadays, people have to deal with the sparsity of data and the computational inefficiency to use them in a real-world application.[3][7]
+A knowledge graph $$ {\mathcal {G}}=\{E,R,F\}$$
+
+
+{\displaystyle {\mathcal {G}}=\{E,R,F\}} is a collection of entities {\displaystyle E}E, relations {\displaystyle R}R, and facts {\displaystyle F}F.[5] A fact is a triple {\displaystyle (h,r,t)\in F}{\displaystyle (h,r,t)\in F} that denotes a link {\displaystyle r\in R}r\in R between the head {\displaystyle h\in E}{\displaystyle h\in E} and the tail {\displaystyle t\in E}{\displaystyle t\in E} of the triple. Another notation that is often used in the literature to represent a triple (or fact) is {\displaystyle <head,relation,tail>}{\displaystyle <head,relation,tail>}. This notation is called resource description framework (RDF).[1][5] A knowledge graph represents the knowledge related to a specific domain; leveraging this structured representation, it is possible to infer a piece of new knowledge from it after some refinement steps.[6] However, nowadays, people have to deal with the sparsity of data and the computational inefficiency to use them in a real-world application.[3][7]
+
+A knowledge graph embedding is characterized by four different aspects:
+
+1. **Representation Space** The low-dimensional space in which the entities and relations are represented.
+2. **Scoring Function** A measure of the goodness of a triple embedded representation.
+3. **Encoding Models** The modality in which the embedded representation of the entities and relations interact with each  other.
+4. **Additional Information** Any additional information coming from the knowledge graph that can enrich the embedded 
+   representation. Usually, an ad hoc scoring function is integrated into the general scoring function for each 
+   additional information.
+
+#### Embedding procedure
+
+All the different knowledge graph embedding models follow roughly the same procedure to learn the semantic meaning of
+the facts.
+
+First of all, to learn an embedded representation of a knowledge graph, the embedding vectors of the entities and 
+relations are initialized to random values. Then, starting from a training set until a stop condition is reached, the 
+algorithm continuously optimizes the embeddings. Usually, the stop condition is given by the overfitting over the
+training set. Each iteration samples a batch of size {\displaystyle b} from the training set, and for each triple of the batch a random corrupted fact i.e., a triple that does not represent a true fact in the knowledge graph.[7] The corruption of a triple involves substituting the head or the tail (or both) of the triple with another entity that makes the fact false.[7] The original triple and the corrupted triple are added in the training batch, and then the embeddings are updated, optimizing a scoring function.[5][7] At the end of the algorithm, the learned embeddings should have extracted the semantic meaning from the triples and should correctly unseen true facts in the knowledge graph.[5]
