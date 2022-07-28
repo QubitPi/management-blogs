@@ -99,9 +99,8 @@ representations of nodes and edges automatically. This is what graph representat
 does. It could be carried out using a number of ways right using a number of uh tools. we could use existing mainstream 
 architectures such as convolutional neural networks or RNNs.
 
-But the problem is that graphs are definitely more complex than these models are designed to handle. This is why the community came up with graph representation
-learning. It's an area
-that includes a number of methods models that learn
+But the problem is that graphs are definitely more complex than these models are designed to handle. This is why the 
+community came up with graph representation learning. It's an area that includes a number of methods models that learn
 representations of nodes and edges.
 
 ![Error loading kge-grl.png]({{ "/assets/img/kge-grl.png" | relative_url}})
@@ -133,7 +132,13 @@ A knowledge graph $${\mathcal {G}}=\{E,R,F\}$$ is a collection of entities $$E$$
 _fact_ is a triple $$(h,r,t)\in F$$ that denotes a link $$r\in R$$ between the head $$h\in E$$ and the tail $$t\in E$$ of 
 the triple. Another notation that is often used in the literature to represent a triple (or fact) is $$<head,relation,tail>$$. This notation is called **resource description framework (RDF)**. A knowledge graph represents the knowledge related to a specific domain; leveraging this structured representation, it is possible to **infer a piece of new knowledge** from it after some refinement steps. However, nowadays, people have to deal with the sparsity of data and the computational inefficiency to use them in a real-world application.
 
-The embedding of a knowledge graph translates each entity and relation of a knowledge graph, $${\mathcal {G}}$$ into a vector of a given dimension $$d$$, called **embedding dimension**. In the general case, we can have different embedding dimensions for the entities $$d$$ and the relations $$k$$. The collection of embedding vectors for all the entities and relations in the knowledge graph are a more dense and efficient representation of the domain that can more easily be used for many different tasks.
+The embedding of a knowledge graph translates each entity and relation of a knowledge graph, $${\mathcal {G}}$$ into a 
+vector of a given dimension $$d$$, called **embedding dimension**. In the general case, we can have different embedding 
+dimensions for the entities $$d$$ and the relations $$k$$. The collection of embedding vectors for all the entities and 
+relations in the knowledge graph are a more dense and efficient representation of the domain that can more easily be
+used for many different tasks.
+
+![Error loading kge-kge.png]({{ "/assets/img/kge-kge.png" | relative_url}})
 
 A knowledge graph embedding is characterized by four different aspects:
 
@@ -156,3 +161,9 @@ triple involves substituting the head or the tail (or both) of the triple with a
 The original triple and the corrupted triple are added in the training batch, and then the embeddings are updated, 
 optimizing a scoring function. At the end of the algorithm, the learned embeddings should have extracted the semantic 
 meaning from the triples and should correctly unseen true facts in the knowledge graph.
+
+KGE Models
+----------
+
+![Error loading kge-glance.png]({{ "/assets/img/kge-glance.png" | relative_url}})
+
