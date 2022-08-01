@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Machine Learning - Concept Learning
-tags: [Machine Learning, Concept Learning, Find-S]
+tags: [Machine Learning, Concept Learning, FIND-S]
 color: rgb(0, 204, 0)
 feature-img: "assets/img/post-cover/13-cover.png"
 thumbnail: "assets/img/post-cover/13-cover.png"
@@ -66,16 +66,16 @@ hypothesis representation. Most practical learning tasks involve very large, som
 Machine Learning, hence, is interested in being capable of efficiently searching very large or infinite hypothesis
 spaces, to find the hypotheses that best fit the training data, which we shall discuss next
 
-### Find-S Search Algorithm
+### FIND-S Search Algorithm
 
 #### General-to-Specific Ordering of Hypotheses
 
 > Definition: Let $$h_j$$ and $$h_k$$ be boolean-valued functions defined over $$X$$. Then $$h_j$$ is
-> more-general-than-or-equal-to $$h_k$$ (written $$h_j \geq_g h_k$$) if and only if
+> **more-general-than-or-equal-to** $$h_k$$ (written $$h_j \geq_g h_k$$) if and only if
 > 
 > $$ (\forall x \in X)[(h_k(x) = 1) \rightarrow (h_j(x) = 1)] $$
 
-#### Find-S: Finding A Maximally Specific Hypothesis
+#### FIND-S: Finding A Maximally Specific Hypothesis
 
 How can we use the more-general-than partial ordering to organize the search for a hypothesis consistent with the
 observed training examples? One way is to begin with the most specific possible hypothesis in H, then generalize this 
@@ -83,7 +83,7 @@ hypothesis each time it fails to cover an observed positive training example:
 
 > 1. Initialize $$h$$ to the most specific hypothesis in $$H$$
 > 
-> $$ h \leftarrow {$$\emptyset$$, $$\emptyset$$, $$\emptyset$$, ..., $$\emptyset$$} $$
+> $$ h \leftarrow {\emptyset, \emptyset, \emptyset, ..., \emptyset} $$
 >
 > 2. For each _positive_ training instance $$x$$:
    * For each attribute constraint $$a_i$$, in $$h$$:
@@ -91,13 +91,61 @@ hypothesis each time it fails to cover an observed positive training example:
      - Else replace $$a_i$$, in $$h$$ by the next more general constraint that is satisfied by $$x$$
 > 3. Output hypothesis $$h$$
 
-The Find-S algorithm simply ignores every negative exampleIn the general case, as long as we assume that the hypothesis 
+The FIND-S algorithm simply ignores every negative exampleIn the general case, as long as we assume that the hypothesis 
 space $$H$$ contains a hypothesis that describes the true target concept $$c$$ and that the training data contains no 
-errors, then the current hypothesis h can never require a revision in response to a negative example.
+errors, then the current hypothesis $$h$$ can never require a revision in response to a negative example.
 
-The Find-S algorithm illustrates one way in which the more-general-than partial ordering can be used to organize the 
+The FIND-S algorithm illustrates one way in which the more-general-than partial ordering can be used to organize the 
 search for an acceptable hypothesis. The search moves from hypothesis to hypothesis, searching from the most specific to 
 progressively more general hypotheses along one chain of the partial ordering
 
-> **Find-S is guaranteed to output the most specific hypothesis within H that is consistent with the positive training 
-> examples**.
+> **FIND-S is guaranteed to output the most specific hypothesis within $$H$$ that is consistent with the positive
+> training examples**.
+
+### Version Spaces and the Candidate-Elimination Algorithm
+
+The Candidate-Elimination Algorithm addresses several of the limitations of FIND-S. Notice that although FIND-S outputs
+a hypothesis from $$H$$, that is consistent with the training examples, this is just one of many hypotheses from $$H$$ 
+that might fit the training data equally well. The key idea in the Candidate-Elimination Algorithm is to _output a 
+description of the set of all hypotheses consistent with the training examples_
+
+The Candidate-Elimination Algorithm represents the set of all hypotheses consistent with the observed training examples. 
+This subset of all hypotheses is called the **version space** with respect to the hypothesis space $$H$$ and the
+training examples $$D$$
+
+#### The LIST-THEN-ELIMINATE Algorithm
+
+> 1. VersionSpace $$\leftarrow$$ a list containing every hypothesis in $$H$$
+> 2. For each training example, $$\langle x, c(x) \rangle$$
+>    * remove from VersionSpace any hypothesis h for which h(x) # c(x)
+> 3. Output the list of hypotheses in VersionSpace
+
+In principle, the LIST-THEN-ELIMINATE Algorithm can be applied whenever the hypothesis space H is finite
+
+#### The Candidate-Elimination Algorithm
+
+The Candidate-Elimination Algorithm works on the same principle as the LIST-THEN-ELIMINATE Algorithm. However, it
+employs a much more compact representation of the version space.
+
+> 1. Initialize $$G$$ to the set of maximally general hypotheses in $$H$$
+> 2. 
+> 3. Initialize $$S$$ to the set of maximally specific hypotheses in $$H$$
+For each training example d, do
+0 If d is a positive example
+Remove from G any hypothesis inconsistent with d ,
+0 For each hypothesis s in S that is not consistent with d ,-
+0 Remove s from S
+0 Add to S all minimal generalizations h of s such that
+0 h is consistent with d, and some member of G is more general than h
+0 Remove from S any hypothesis that is more general than another hypothesis in S
+0 If d is a negative example
+0 Remove from S any hypothesis inconsistent with d
+For each hypothesis g in G that is not consistent with d
+Remove g from G
+0 Add to G all minimal specializations h of g such that
+0 h is consistent with d, and some member of S is more specific than h
+0 Remove from G any hypothesis that is less general than another hypothesis in G
+
+
+> Practical applications of the Candidate-Elimination Algorithm and FIND-S algorithms are limited by the fact that they
+> both perform poorly when given noisy training data.
