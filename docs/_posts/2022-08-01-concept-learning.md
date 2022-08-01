@@ -92,8 +92,10 @@ hypothesis each time it fails to cover an observed positive training example:
      - Else replace $$a_i$$, in $$h$$ by the next more general constraint that is satisfied by $$x$$
 > 3. Output hypothesis $$h$$
 
+The Find-S algorithm simply ignores every negative exampleIn the general case, as long as we assume that the hypothesis 
+space $$H$$ contains a hypothesis that describes the true target concept $$c$$ and that the training data contains no 
+errors, then the current hypothesis h can never require a revision in response to a negative example.
 
-In the general case, as long as we assume that the hypothesis space H
-contains a hypothesis that describes the true target concept c and that the training
-data contains no errors, then the current hypothesis h can never require a revision
-in response to a negative example.
+The Find-S algorithm illustrates one way in which the more-general-than partial ordering can be used to organize the 
+search for an acceptable hypothesis. The search moves from hypothesis to hypothesis, searching from the most specific to 
+progressively more general hypotheses along one chain of the partial ordering
