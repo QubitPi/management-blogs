@@ -66,7 +66,6 @@ hypothesis representation. Most practical learning tasks involve very large, som
 Machine Learning, hence, is interested in being capable of efficiently searching very large or infinite hypothesis
 spaces, to find the hypotheses that best fit the training data, which we shall discuss next
 
-
 ### Find-S Search Algorithm
 
 #### General-to-Specific Ordering of Hypotheses
@@ -99,3 +98,6 @@ errors, then the current hypothesis h can never require a revision in response t
 The Find-S algorithm illustrates one way in which the more-general-than partial ordering can be used to organize the 
 search for an acceptable hypothesis. The search moves from hypothesis to hypothesis, searching from the most specific to 
 progressively more general hypotheses along one chain of the partial ordering
+
+> **Find-S is guaranteed to output the most specific hypothesis within H that is consistent with the positive training 
+> examples**.
