@@ -128,23 +128,24 @@ The Candidate-Elimination Algorithm works on the same principle as the LIST-THEN
 employs a much more compact representation of the version space.
 
 > 1. Initialize $$G$$ to the set of maximally general hypotheses in $$H$$
-> 2. 
-> 3. Initialize $$S$$ to the set of maximally specific hypotheses in $$H$$
-For each training example d, do
-0 If d is a positive example
-Remove from G any hypothesis inconsistent with d ,
-0 For each hypothesis s in S that is not consistent with d ,-
-0 Remove s from S
-0 Add to S all minimal generalizations h of s such that
-0 h is consistent with d, and some member of G is more general than h
-0 Remove from S any hypothesis that is more general than another hypothesis in S
-0 If d is a negative example
-0 Remove from S any hypothesis inconsistent with d
-For each hypothesis g in G that is not consistent with d
-Remove g from G
-0 Add to G all minimal specializations h of g such that
-0 h is consistent with d, and some member of S is more specific than h
-0 Remove from G any hypothesis that is less general than another hypothesis in G
+>    ($$ G_0 \leftarrow {\langle ?, ?, ..., ? \rangle} $$)
+> 2. Initialize $$S$$ to the set of maximally specific hypotheses in $$H$$
+>    ($$ S_0 \leftarrow {\langle \emptyset, \emptyset, ..., \emptyset \rangle} $$)
+> For each training example $$d$$, do
+>   * If $$d$$ is a positive example
+>     - Remove from $$G$$ any hypothesis inconsistent with $$d$$,
+>     - For each hypothesis $$s$$ in $$S$$ that is not consistent with $$d$$
+>       * Remove $$s$$ from $$S$$
+>       * Add to $$S$$ all minimal generalizations $$h$$ of $$s$$ such that $$h$$ is consistent with $$d$$, and some 
+>         member of $$G$$ is more general than $$h$$
+>       * Remove from $$S$$ any hypothesis that is more general than another hypothesis in $$S$$
+>   * If $$d$$ is a negative example
+>     - Remove from $$S$$ any hypothesis inconsistent with $$d$$
+>     - For each hypothesis $$g$$ in $$G$$ that is not consistent with $$d$$
+>       * Remove $$g$$ from $$G$$
+>       * Add to $$G$$ all minimal specializations $$h$$ of $$g$$ such that $$h$$ is consistent with $$d$$, and some 
+>         member of $$S$$ is more specific than $$h$$
+>       * Remove from $$G$$ any hypothesis that is less general than another hypothesis in $$G$$
 
 
 > Practical applications of the Candidate-Elimination Algorithm and FIND-S algorithms are limited by the fact that they
