@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Machine Learning - Concept Learning
-tags: [Machine Learning, Concept Learning]
+tags: [Machine Learning, Concept Learning, Find-S]
 color: rgb(220, 36, 34)
 feature-img: "assets/img/post-cover/13-cover.png"
 thumbnail: "assets/img/post-cover/13-cover.png"
@@ -26,18 +26,18 @@ Definition
 > This is, given:
 >
 > * Instances set of instances, **$$X$$**, each described by the attributes
->   * $$A1$$, with possible values of {$$?$$, $$\emptyset$$, a specific value,}
->   * $$A2$$, with possible values of {$$?$$, $$\emptyset$$, a specific value,} 
->   * $$A3$$, with possible values of {$$?$$, $$\emptyset$$, a specific value,}
+>   * $$a_1$$, with possible values of {$$?$$, $$\emptyset$$, a specific value}
+>   * $$a_2$$, with possible values of {$$?$$, $$\emptyset$$, a specific value} 
+>   * $$a_3$$, with possible values of {$$?$$, $$\emptyset$$, a specific value}
 >   * ...
 > 
-> * and Hypotheses _$$H$$_: Each hypothesis is described by a conjunction of constraints on the attributes A1, A2, A3, ...,
->   each of the constraints may be "?" (any value is acceptable), $$\emptyset$$ (no value is acceptable), or a specific
->   value
+> * and Hypotheses _$$H$$_: Each hypothesis is described by a conjunction of constraints on the attributes $$a_1$$,
+>   $$a_2$$, $$a_3$$, ..., each of the constraints may be "?" (any value is acceptable), $$\emptyset$$ (no value is 
+>   acceptable), or a specific value
 > * Target concept $$c : X \rightarrow {0, 1}$$
-> * Training examples _D_: Positive and negative examples of the target function (see Table 2.1).
+> * Training examples $$D$$: Positive and negative examples of the target function
 >
-> Determine (i.e. Learn) hypothesis _h_ in _H_ such that $$h(x) = c(x)$$ for all x in X.
+> Determine (i.e. Learn) hypothesis $$h$$ in $$H$$ such that $$h(x) = c(x)$$ for all $$x$$ in $$X$$.
 
 When learning the target concept, the learner is presented a set of training examples, each consisting of an instance
 $$x$$ from $$X$$, along with its target concept value $$c(x)$$. Instances for which $$c(x) = 1$$ are called **positive 
@@ -57,8 +57,21 @@ data. This is the **fundamental assumption of inductive learning**
 > large set of training examples will also approximate the target function well over other unobserved examples.
 
 
+Concept Learning as Search
+--------------------------
+
+Concept learning can be viewed as the task of searching through a large space of hypotheses implicitly defined by the 
+hypothesis representation. Most practical learning tasks involve very large, sometimes infinite, hypothesis spaces.
+
+Machine Learning, hence, is interested in being capable of efficiently searching very large or infinite hypothesis
+spaces, to find the hypotheses that best fit the training data, which we shall discuss next
 
 
+### Find-S Search Algorithm
 
-Concept learning can be viewed as the task of searching through a large space of
-hypotheses implicitly defined by the hypothesis representation
+#### General-to-Specific Ordering of Hypotheses
+
+> Definition: Let $$h_j$$ and $$h_k$$ be boolean-valued functions defined over $$X$$. Then $$h_j$$ is
+> more-general-than-or-equal-to $$h_k$$ (written $$h_j \geq_g h_k$$) if and only if
+> 
+> $$ (\forall x \in X)[(h_k(x) = 1) \rightarrow (h_j(x) = 1)] $$
