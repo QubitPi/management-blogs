@@ -38,3 +38,10 @@ Definition
 > * Training examples _D_: Positive and negative examples of the target function (see Table 2.1).
 >
 > Determine hypothesis _h_ in _H_ such that $$h(x) = c(x)$$ for all x in X.
+
+When learning the target concept, the learner is presented a set of training examples, each consisting of an instance
+$$x$$ from $$X$$, along with its target concept value $$c(x)$$. Instances for which $$c(x) = 1$$ are called **positive 
+examples**, or members of the target concept. Instances for which $$c(x) = 0$$ are called **negative examples**, or
+nonmembers of the target concept.  We will often write the ordered pair $$\langle x, c(x) \rangle$$ to describe the 
+training example consisting of the instance $$x$$ and its target concept value $$c(x)$$. We use the symbol $$D$$ to
+denote the set of available training examples
