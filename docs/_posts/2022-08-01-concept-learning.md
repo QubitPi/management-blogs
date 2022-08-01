@@ -131,6 +131,7 @@ employs a much more compact representation of the version space.
 >    ($$ G_0 \leftarrow {\langle ?, ?, ..., ? \rangle} $$)
 > 2. Initialize $$S$$ to the set of maximally specific hypotheses in $$H$$
 >    ($$ S_0 \leftarrow {\langle \emptyset, \emptyset, ..., \emptyset \rangle} $$)
+> 
 > For each training example $$d$$, do
 >   * If $$d$$ is a positive example
 >     - Remove from $$G$$ any hypothesis inconsistent with $$d$$,
