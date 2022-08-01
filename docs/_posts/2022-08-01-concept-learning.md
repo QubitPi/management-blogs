@@ -83,7 +83,7 @@ hypothesis each time it fails to cover an observed positive training example:
 
 > 1. Initialize $$h$$ to the most specific hypothesis in $$H$$
 > 
->     $$ h \leftarrow {$$\emptyset$$, $$\emptyset$$, $$\emptyset$$, ..., $$\emptyset$$} $$
+> $$ h \leftarrow {$$\emptyset$$, $$\emptyset$$, $$\emptyset$$, ..., $$\emptyset$$} $$
 >
 > 2. For each _positive_ training instance $$x$$:
    * For each attribute constraint $$a_i$$, in $$h$$:
