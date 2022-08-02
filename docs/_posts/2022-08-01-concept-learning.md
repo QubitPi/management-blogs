@@ -117,7 +117,7 @@ training examples $$D$$
 
 > 1. VersionSpace $$\leftarrow$$ a list containing every hypothesis in $$H$$
 > 2. For each training example, $$\langle x, c(x) \rangle$$
->    * remove from VersionSpace any hypothesis h for which h(x) # c(x)
+>    * remove from VersionSpace any hypothesis h for which h(x) \ne c(x)
 > 3. Output the list of hypotheses in VersionSpace
 
 In principle, the LIST-THEN-ELIMINATE Algorithm can be applied whenever the hypothesis space H is finite
