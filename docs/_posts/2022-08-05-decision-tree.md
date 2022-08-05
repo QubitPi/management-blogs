@@ -64,11 +64,12 @@ the algorithm, specialized to learning boolean-valued functions (i.e., concept l
 >    2. The decision attribute for Root $$\leftarrow$$ $$A$$
 >    3. For each possible value, $$v_i$$, of $$A$$,
 >       * Add a new tree branch below Root, corresponding to the test $$A$$ = $$v_i$$
->       * Let $$examples_v_i$$ be the subset of "examples" that have value $$v_i$$ for $$A$$
->       * If $$examples_v_i$$ is empty
+>       * Let $$examples_{v_i}$$ be the subset of "examples" that have value $$v_i$$ for $$A$$
+>       * If $$examples_{v_i}$$ is empty
 >         - then below this new branch add a leaf node with label = most common value of "targe_tattribute" attribute in
 >           "examples"
->         - else below this new branch add the subtree ID3($$examples_v_i$$, "targe_tattribute", "attributes" - $${A}$$)
+>         - else below this new branch add the subtree
+>           ID3($$examples_{v_i}$$, "targe_tattribute", "attributes" - $${A}$$)
 > * End
 > * Return Root
 
@@ -92,7 +93,7 @@ in $$S$$
 If the target attribute can take on $$c$$ different values, then the entropy of $$S$$ relative to this c-wise 
 classification is defined as
 
-$$ Entropy(S) \equiv \sum_{i = 1}^{c} -p_i \log_2 p_i
+$$ Entropy(S) \equiv \sum_{i = 1}^{c} -p_i \log_2 p_i $$
 
 where $$p_i$$ is the proportion of $$S$$ belonging to class $$i$$. 
 
@@ -119,9 +120,9 @@ available attributes.
 
 #### Avoiding Overfitting the Data
 
-> Given a hypothesis space $$H$$, a hypothesis $$h$$ \in $$H$$ is said to &&overfit&& the training data if there exists
-> some alternative hypothesis $$h'$$ \in $$H$$, such that $$h$$ has smaller error than $$h'$$ over the training
-> examples, but $$h'$$ has a smaller error than $$h$$ over the entire distribution of instances.
+> Given a hypothesis space $$H$$, a hypothesis $$h \in H$$ is said to **overfit** the training data if there exists some
+> alternative hypothesis $$h' \in H$$, such that $$h$$ has smaller error than $$h'$$ over the training examples, but 
+> $$h'$$ has a smaller error than $$h$$ over the entire distribution of instances.
 
 Overfitting is a significant practical difficulty for decision tree learning and many other learning methods. There are 
 several approaches to avoiding overfitting in decision tree learning. These can be grouped into two classes
