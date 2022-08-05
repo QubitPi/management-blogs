@@ -162,6 +162,8 @@ brew install Graphviz
 
 ### Example
 
+![Error loading iris-decision-tree.png]({{ "/assets/img/iris-decision-tree.png" | relative_url}})
+
 Using the [Iris dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set), we can construct a tree as follows:
 
 ```python
@@ -204,8 +206,8 @@ classifier = classifier.fit(X, Y)
 
 we have a training dataset of 2 training examples, each of which has 2 feature values: 
 
-1. `[0, 0]` - $$A1_{v_1} = 0$$, $$A2_{v_1} = 0$$
-2. `[1, 1]` - $$A1_{v_2} = 1$$, $$A2_{v_2} = 1$$
+1. `[0, 0]`: $$A1_{v_1} = 0$$, $$A2_{v_1} = 0$$
+2. `[1, 1]`: $$A1_{v_2} = 1$$, $$A2_{v_2} = 1$$
 
 and a vector of labels `y` which says `[0, 0]` is classified as 0 and `[1, 1]` is classified as 1.
 
