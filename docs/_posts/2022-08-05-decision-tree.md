@@ -72,6 +72,7 @@ the algorithm, specialized to learning boolean-valued functions (i.e., concept l
 >           ID3($$examples_{v_i}$$, "targe_tattribute", "attributes" - $${A}$$)
 > * End
 > * Return Root
+\* The best attribute is the one with the highest [information gain](#which-attribute-is-the-best-classifier)
 
 ### Which Attribute Is the Best Classifier?
 
