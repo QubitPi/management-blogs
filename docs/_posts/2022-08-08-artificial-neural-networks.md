@@ -17,10 +17,10 @@ functions from examples.
 
 <!--more-->
 
-![Error loading ann-deep-nn.png]({{ "/assets/img/ann-deep-nn.png" | relative_url}})
-
 * TOC
 {:toc}
+
+![Error loading ann-deep-nn.png]({{ "/assets/img/ann-deep-nn.png" | relative_url}})
 
 ANN learning is well-suited to problems in which the training data corresponds to _noisy, complex sensor data, such as 
 inputs from cameras and microphones_. It is also applicable to problems for which more symbolic representations are
