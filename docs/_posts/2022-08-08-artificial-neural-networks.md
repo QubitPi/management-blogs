@@ -360,3 +360,20 @@ where
 
 $$ \sigma(\mathit{y}) = \frac{1}{1 + \exp^{-\mathit{y}}} $$
 
+$$\sigma$$ is often called the **sigmoid function** or, alternatively, the **logistic function**
+
+> 📋 Note that the output of sigmoid function ranges between 0 and 1. Because it maps a very large input domain
+> to a small range of outputs, it is often referred to as the **squashing function** of the unit
+
+The sigmoid function doesn't always have to be in the form stated above as long as it keeps the property that its
+derivative is easily expressed. For example, in this particular form, we can easily see
+
+$$ \frac{\mathit{d\sigma(y)}}{\mathit{dy}} = \sigma(\mathit{y})(1 - \sigma(\mathit{y})) $$
+
+Other differentiable functions, such as $$\frac{1}{1 + \exp^{-\mathit{ky}}}$$ where $$\mathit{k}$$ is some positive
+constant, and $$tanh$$ are sometimes used instead
+
+### The Backpropagation Algorithm
+
+
+
