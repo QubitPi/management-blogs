@@ -235,3 +235,5 @@ where
 
 $$ \Delta \mathit{w}_\mathit{i} = -\eta\frac{\partial \mathit{E}}{\partial \mathit{w}_\mathit{i}} $$
 
+It is clear then that the steepest descent is achieved by altering each component
+$$\mathit{w_i}$$, of $$\vec{\mathit{w}}$$ in proportion to $$\frac{\partial \mathit{E}}{\partial \mathit{w_i}}$$.
