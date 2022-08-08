@@ -30,7 +30,7 @@ results of comparable accuracy
 Perceptrons
 -----------
 
-One type of ANN system is based on a unit called a perceptron, illustrated in figure below:
+One type of ANN system is based on a unit called a **perceptron**, illustrated in figure below:
 
 ![Error loading ann-a-perceptron.png]({{ "/assets/img/ann-a-perceptron.png" | relative_url}})
 
@@ -41,7 +41,7 @@ output $$o(x_1, ... , x_n)$$ computed by the perceptron is
 $$
 o(x_1, ..., x_n) = 
     \begin{cases}
-        1 \ if w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0 \\
+        1 \ if \ w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0 \\
         -1 \ otherwise
     \end{cases}
 
@@ -62,7 +62,7 @@ where
 $$
 sgn(y) =
     \begin{cases}
-        1 \ if y > 0 \\
+        1 \ if \ y > 0 \\
         -1 \ otherwise
     \end{cases}
 
@@ -133,8 +133,8 @@ will generally be interested in learning multilayer networks of threshold units.
 We begin by understanding how to learn the weights for a single perceptron using two fundamental algorithms that provide
 basis for learning networks of many units:
 
-1. the **Perceptron Rule**
-2. the **Delta Rule**
+1. the [**Perceptron Rule**](#perceptron-rule)
+2. the [**Delta Rule**](#gradient-descent-and-the-delta-rule)
 
 #### Perceptron Rule
 
@@ -156,7 +156,25 @@ which weights are changed at each step. It is usually set to some small value (e
 as the number of weight-tuning iterations increases
 
 > The above learning procedure can be proven to converge within a finite number of applications of the perceptron
-> training rule to a weight vector that correctly classifies all training examples, provided the training examples are 
-> linearly separable and provided a sufficiently small $$\eta$$ is usedIf the data are not linearly separable,
+> training rule to a weight vector that correctly classifies all training examples, provided _the training examples are 
+> linearly separable_ and provided a sufficiently small $$\eta$$ is used. If the data are not linearly separable,
 > convergence is not assured
 
+#### Gradient Descent and the Delta Rule
+
+A second training rule, called the **delta rule**, is designed to overcome the difficulty of the
+[Perceptron Rule](#perceptron-rule) when the training examples are not linearly separable. The key idea behind the delta 
+rule is to use gradient descent to search the hypothesis space of possible weight vectors to find the weights that best 
+fit the training examples
+
+The delta training rule is best understood by considering the task of training an **unthresholded perceptron**; that is,
+a _linear_ unit for which the output $$o$$ is given by
+
+$$ o(\vec{x}) = \vec{w} \cdot \vec{x} $$
+
+In order to derive a weight learning rule for linear units, let us begin by specifying a measure for the **training
+error** of a hypothesis (weight vector), relative to the training examples
+
+$$ E(\vec{w}) \equiv \frac{1}{2} \sum_{d in D} (t_d - o_d)^2 $$
+
+where D
