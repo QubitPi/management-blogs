@@ -68,7 +68,7 @@ sgn(y) =
 
 $$
 
-Learning a perceptron involves choosing values fro the weights $$\mathit{w}_0, ..., \mathit{w}_n$$. The space
+Learning a perceptron involves choosing values for the weights $$\mathit{w}_0, ..., \mathit{w}_n$$. The space
 $$\mathit{H}$$ of candidate hypotheses considered in perceptron learning, therefore, is the set of all possible 
 real-values weight vectors
 
