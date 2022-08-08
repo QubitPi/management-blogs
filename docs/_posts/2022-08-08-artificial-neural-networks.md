@@ -13,7 +13,9 @@ Information-processing abilities of biological neural systems have been thought 
 processes operating on representations that are distributed over many neurons in human brain. One motivation for 
 Artificial Neural Networks (ANNs) systems is to capture this kind of highly parallel computation based on distributed 
 representations. ANN provide a general, practical method for learning real-valued, discrete-valued, and vector-valued 
-functions from examples. 
+functions from examples.
+
+![Error loading ann-deep-nn.png]({{ "/assets/img/ann-deep-nn.png" | relative_url}})
 
 <!--more-->
 
@@ -37,9 +39,9 @@ the result is greater than some threshold and -1 otherwise. More precisely, give
 output $$o(x_1, ... , x_n)$$ computed by the perceptron is
 
 $$
-
+o(x_1, ..., x_n) = 
 \begin{cases}
-    1 if w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0
+    1 if w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0 \\
     -1 otherwise
 \end{cases}
 
@@ -58,9 +60,9 @@ $$ o(\vec{x}) = sgn(\vec{w} \cdot \vec{x}) $$
 where
 
 $$
-
+sgn(y) =
 \begin{cases}
-    1 if y > 0
+    1 if y > 0 \\
     -1 otherwise
 \end{cases}
 
@@ -69,7 +71,7 @@ $$
 Learning a perceptron involves choosing values fro the weights $$w_0, ..., w_n$$. The space $$\mathit{H}$$ of candidate
 hypotheses considered in perceptron learning, therefore, is the set of all possible real-values weight vectors
 
-$$ H = \{\vec{w} | \vec{W} \in : \mathfrak{R}^{n + 1}\} $$
+$$ H = \{\vec{\mathbf{w}} | \vec{w} \in : \mathfrak{R}^{n + 1}\} $$
 
 ### Representational Power of Perceptrons
 
@@ -89,6 +91,8 @@ A single perceptron can be used to represent many boolean functions. For example
 (true) and -1 (false), then one example way to use a two-dimensional input perceptron to implement the AND function is
 to set the weights $$w_0 = -0.8$$, and $$w_1 = w_2 = 0.5$$:
 
+<div align="center">
+
 | **$$x_1$$** | **$$x_2$$** | **$$y$$** | **$$syn(y)$$** |
 |:-----------:|:-----------:|:---------:|:--------------:|
 |      1      |      1      |    0.2    |       1        |
@@ -96,9 +100,11 @@ to set the weights $$w_0 = -0.8$$, and $$w_1 = w_2 = 0.5$$:
 |      1      |      0      |   -0.3    |       -1       |
 |      0      |      1      |   -0.3    |       -1       |
 
-
+</div>
 
 This perceptron can be made to represent the OR function instead by altering the threshold to $$w_0 = -0.3$$:
+
+<div align="center">
 
 | **$$x_1$$** | **$$x_2$$** | **$$y$$** | **$$syn(y)$$** |
 |:-----------:|:-----------:|:---------:|:--------------:|
@@ -106,6 +112,8 @@ This perceptron can be made to represent the OR function instead by altering the
 |      0      |      0      |   -0.3    |       -1       |
 |      1      |      0      |    0.2    |       1        |
 |      0      |      1      |    0.2    |       1        |
+
+</div>
 
 > In fact, AND and OR can be viewed as special cases of m-of-n functions: that is, functions where at least m of the n 
 > inputs to the perceptron must be true. The OR function corresponds to m = 1 and the AND function to m = n. Any m-of-n
