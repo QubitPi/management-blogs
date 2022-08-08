@@ -338,3 +338,25 @@ _unthresholded_ linear combination of inputs.
 
 Multilayer Networks & The Backpropagation Algorithm
 ---------------------------------------------------
+
+Single perceptrons, as we've discuessed so far, can only express linear decision surfaces. In contrast, the kind of 
+multilayer networks learned by the Backpropagation algorithm are capable of expressing a rich variety of **nonlinear
+decision surfaces**.
+
+What type of unit shall we use as the basis for constructing multilayer networks? One solution is the **sigmoid unit** -
+a unit very much like a perceptron, but based on a smoothed, differentiable threshold function
+
+The sigmoid unit is illustrated in figure below
+
+![Error loading ann-sigmoid-threshold-unit.png]({{ "/assets/img/ann-sigmoid-threshold-unit.png" | relative_url}})
+
+Like the perceptron, the sigmoid unit first computes a linear combination of its inputs, then applies a threshold to
+the result. In the case of the sigmoid unit, however, the threshold output is a continuous function of its input. More 
+precisely, the sigmoid unit computes its output $$\mathit{o}$$ as
+
+$$ \mathit{o} = \sigma(\mathit{\vec{w}} \cdot \mathit{\ved{x}}) $$
+
+where
+
+$$ \sigma(\mathit{y}) = \frac{1}{1 + \exp^{-\mathit{y}}} $$
+
