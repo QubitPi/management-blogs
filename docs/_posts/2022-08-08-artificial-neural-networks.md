@@ -183,5 +183,26 @@ difference between the target output $$t_d$$ and the linear unit output $$o_d$$,
 
 ##### Visualizing the Hypothesis Space
 
+To understand the gradient descent algorithm, it is helpful to visualize the entire hypothesis space of possible weight 
+vectors and their associated $$E$$ values, as illustrated in this figure:
+
 ![Error loading ann-gradient-descent-hypothesis-space.png]({{ "/assets/img/ann-gradient-descent-hypothesis-space.png" | relative_url}})
 
+The axes $$w_0$$ and $$w_1$$ represent possible values for the two weights of a simple linear unit. The $$w_0, w_1$$
+plane therefore represents the entire hypothesis space. The vertical axis indicates the error $$E$$ relative to some
+fixed set of training examples. The error surface shown in the figure thus summarizes the desirability of every weight 
+vector in the hypothesis space (we desire a hypothesis with minimum error). Given the way in which we chose to
+define $$E$$ (half the summation of the square difference between target and linear unit output), for linear units this 
+error surface must always be parabolic with a single global minimum. The specific parabola will depend, of course, on
+the particular set of training examples.
+
+**Gradient descent search determines a weight vector that minimizes $$E$$ by starting with an arbitrary initial weight 
+vector, then repeatedly modifying it in small steps. At each step, the weight vector is altered in the direction that 
+produces [_the steepest descent_](#derivation-of-the-gradient-descent-rule) along the error surface depicted in figure 
+above. This process continues until the global minimum error is reached.
+
+#### Derivation of the Gradient Descent Rule
+
+The direction of the steepest descent along the error surface can be found by computing the derivative of $$E$$ with
+respect to each component of the vector $$\vec{w}$$. This vector derivative is called the **gradient of $$E$$ with
+respect to $$\vec{w}$$**, written as $$\nabla E(\vec{w})$$
