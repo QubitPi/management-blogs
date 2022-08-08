@@ -65,3 +65,5 @@ sgn(y) = \begin{cases}
 \end{cases}
 
 $$
+
+Learning a perceptron involves choosing values fro the weights $w_0, ..., w_n$. The space $$\mathit{H}$$
