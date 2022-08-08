@@ -177,4 +177,11 @@ error** of a hypothesis (weight vector), relative to the training examples
 
 $$ E(\vec{w}) \equiv \frac{1}{2} \sum_{d in D} (t_d - o_d)^2 $$
 
-where D
+where $$D$$ is the set of training examples; $$t_d$$ is the target output for training example $$d$$, and $$o_d$$ is the 
+output of the linear unit for training example $$d$$. By this definition, $$E(\vec{w})$$ is simply half the squared 
+difference between the target output $$t_d$$ and the linear unit output $$o_d$$, summed over all training examples
+
+##### Visualizing the Hypothesis Space
+
+![Error loading ann-gradient-descent-hypothesis-space.png]({{ "/assets/img/ann-gradient-descent-hypothesis-space.png" | relative_url}})
+
