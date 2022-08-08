@@ -137,8 +137,6 @@ basis for learning networks of many units:
 1. the [**Perceptron Rule**](#perceptron-rule)
 2. the [**Delta Rule**](#gradient-descent-and-the-delta-rule)
 
-#### Perceptron Rule
-
 One way to learn an acceptable weight vector is to begin with random weights, then iteratively apply the perceptron to 
 each training example, modifying the perceptron weights whenever it misclassifies an example. This process is repeated, 
 iterating through the training examples as many times as needed until the perceptron classifies all training examples 
@@ -161,7 +159,7 @@ as the number of weight-tuning iterations increases
 > linearly separable_ and provided a sufficiently small $$\mathit{\eta}$$ is used. If the data are not linearly separable,
 > convergence is not assured
 
-#### Gradient Descent and the Delta Rule
+### Gradient Descent and the Delta Rule
 
 A second training rule, called the **delta rule**, is designed to overcome the difficulty of the
 [Perceptron Rule](#perceptron-rule) when the training examples are not linearly separable. The key idea behind the delta 
@@ -183,7 +181,7 @@ output of the linear unit for training example $$d$$. By this definition, $$\mat
 half the squared difference between the target output $$t_d$$ and the linear unit output $$o_d$$, summed over **all**
 training examples
 
-##### Visualizing the Hypothesis Space
+#### Visualizing the Hypothesis Space
 
 To understand the gradient descent algorithm, it is helpful to visualize the entire hypothesis space of possible weight 
 vectors and their associated $$\mathit{E}$$ values, as illustrated in this figure:
@@ -259,7 +257,7 @@ which gives us the following algorithm
 > 2. Until the termination condition is met, do
 >    * Initialize each $$\Delta\mathit{w_i}$$ to zero
 >    * For each $$\left< \vec{\mathit{x}}, \mathit{t} \right>$$ in training_examples, do
->      - Input the instance $$\vec{\mathit{x}}$$ to the unit and compute the output $$\mathit{o}$$
+>      - Input the instance $$\vec{\mathit{x}}\ $$ to the unit and compute the output $$\mathit{o}$$
 >      - For each linear unit weight $$\mathit{w_i}$$, calculate $$ \Delta\mathit{w_i} \leftarrow \Delta\mathit{w_i} + \mathit{\eta}(\mathit{t - o})\mathit{x_i} $$
 >      - For each linear unit weight $$\mathit{w_i}$$, compute $$ \mathit{w_i} \leftarrow \mathit{w_i} + \Delta\mathit{w_i} $$
 
@@ -284,3 +282,12 @@ descent are
 
 One common variation on gradient descent intended to alleviate these difficulties is called **Incremental Gradient 
 Descent**, or alternatively **Stochastic Gradient Descent**.
+
+The idea of Stochastic Gradient Descent is instead of computing weight updates after summing over _all_ the training 
+examples in D, it approximates this gradient descent search by updating weights incrementally, following the calculation 
+of the error for _each individual_ example. The weight update rule then changes:
+
+$$ \Delta \mathit{w_i} = \mathit{\eta} \sum_{\mathit{d} \in \mathit{D}} (\mathit{t_d} - \mathit{o_d}) \mathit{x_{id}} \Rightarrow \Delta \mathit{w_i} = \mathit{\eta} (\mathit{t} - \mathit{o}) \mathit{x_{i}}$$
+
+
+
