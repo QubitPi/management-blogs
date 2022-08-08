@@ -36,16 +36,13 @@ A perceptron takes a vector of real-valued inputs, calculates a linear combinati
 the result is greater than some threshold and -1 otherwise. More precisely, given inputs $$x_1$$ through $$x_n$$, the
 output $$o(x_1, ... , x_n)$$ computed by the perceptron is
 
-$$
-
+```math
 o(x_1, ... , x_n) =
-
     \begin{cases}
         1 if w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0
         -1 otherwise
     \end{cases}
-
-$$
+```
 
 where each $$w_i$$ is a real-valued constant, or weight, that determines the contribution of input $$x_i$$ to the 
 perceptron output. Notice the quantity ($$-w_O$$) is a threshold that the weighted combination of inputs
@@ -55,22 +52,48 @@ If we add an additional constant input $$x_0 = 1$$, allowing us to write the equ
 $$\sum_{i = 0}^{n} w_ix_i > 0$$ or, in vector form, as $$\vec{w} \cdot \vec{x} > 0$$, we will be able to write the
 perceptron function as
 
-$$ o(\vex{x}) = sgn(\vec{w} \cdot \vec{x}) $$
+```math
+o(\vex{x}) = sgn(\vec{w} \cdot \vec{x})
+```
 
 where
 
-$$
-
+```math
 sgn(y) =
-
     \begin{cases}
         1 if y > 0
         -1 otherwise
     \end{cases}
-
-$$
+```
 
 Learning a perceptron involves choosing values fro the weights $$w_0, ..., w_n$$. The space $$\mathit{H}$$ of candidate
 hypotheses considered in perceptron learning, therefore, is the set of all possible real-values weight vectors
 
 $$ H = \{\vec{w} | \vec{W} \in : \mathfrak{R}^{n + 1}\} $$
+
+### Representational Power of Perceptrons
+
+We can view the perceptron as representing a **hyperplane decision surface** in the n-dimensional space of instances
+(i.e., points). The perceptron outputs a 1 for instances lying on one side of the hyperplane and outputs a -1 for
+instances lying on the other side, as illustrated in figure below
+
+![Error loading ann-n-dimensional-hyperplan-space.png]({{ "/assets/img/ann-n-dimensional-hyperplan-space.png" | relative_url}})
+
+The equation for this decision hyperplane is $$\vec{w} \cdot \vec{x} = 0$$. Of course, some sets of positive and negative 
+examples cannot be separated by any hyperplane. Those that can be separated are called **linearly separable** sets of 
+examples.
+
+#### Representing AND & OR Function
+
+A single perceptron can be used to represent many boolean functions. For example, if we assume boolean values of 1
+(true) and -1 (false), then one example way to use a two-dimensional input perceptron to implement the AND function is
+to set the weights $$w_0 = -3$$, and $$w_1 = w_2 = 0.5$$:
+
+
+
+
+
+
+
+This perceptron can be made to represent the OR
+function instead by altering the threshold to wo = -.3.
