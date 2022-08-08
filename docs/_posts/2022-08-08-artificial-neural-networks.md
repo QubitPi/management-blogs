@@ -257,7 +257,7 @@ which gives us the following algorithm
 > 2. Until the termination condition is met, do
 >    * Initialize each $$\Delta\mathit{w_i}$$ to zero
 >    * For each $$\left< \vec{\mathit{x}}, \mathit{t} \right>$$ in training_examples, do
->      - Input the instance $$\vec{\mathit{x}}\ $$ to the unit and compute the output $$\mathit{o}$$
+>      - Input the instance $$\vec{\mathit{x}}$$ to the unit and compute the output $$\mathit{o}$$
 >      - For each linear unit weight $$\mathit{w_i}$$, calculate $$ \Delta\mathit{w_i} \leftarrow \Delta\mathit{w_i} + \mathit{\eta}(\mathit{t - o})\mathit{x_i} $$
 >      - For each linear unit weight $$\mathit{w_i}$$, compute $$ \mathit{w_i} \leftarrow \mathit{w_i} + \Delta\mathit{w_i} $$
 
@@ -287,7 +287,43 @@ The idea of Stochastic Gradient Descent is instead of computing weight updates a
 examples in D, it approximates this gradient descent search by updating weights incrementally, following the calculation 
 of the error for _each individual_ example. The weight update rule then changes:
 
-$$ \Delta \mathit{w_i} = \mathit{\eta} \sum_{\mathit{d} \in \mathit{D}} (\mathit{t_d} - \mathit{o_d}) \mathit{x_{id}} \Rightarrow \Delta \mathit{w_i} = \mathit{\eta} (\mathit{t} - \mathit{o}) \mathit{x_{i}}$$
+$$ \Delta \mathit{w_i} = \mathit{\eta} \sum_{\mathit{d} \in \mathit{D}} (\mathit{t_d} - \mathit{o_d}) \mathit{x_{id}} \Rightarrow \Delta \mathit{w_i} = \mathit{\eta_d} (\mathit{t_d} - \mathit{o_d}) \mathit{x_{i}}$$
 
+The modified algorithm becomes
 
+> GRADIENT-DESCENT(training_examples, $$\mathit{\eta}$$)
+>
+> * _Each training example is a pair of the form $$\left< \vec{\mathit{x}}, \mathit{t} \right>$$, where
+    >   $$\vec{\mathit{x}}$$ is the vector of input values, and $$\mathit{t}$$ is the target output value. $$\mathit{\eta}$$ is the
+    >   learning rate (e.g. 0.5)._
+>
+> 1. Initialize each $$\mathit{w_i}$$ to some small random value
+> 2. Until the termination condition is met, do
+>    * Initialize each $$\Delta\mathit{w_i}$$ to zero
+>    * For each $$\left< \vec{\mathit{x}}, \mathit{t} \right>$$ in training_examples, do
+>      - Input the instance $$\vec{\mathit{x}}$$ to the unit and compute the output $$\mathit{o}$$
+>      - For each linear unit weight $$\mathit{w_i}$$, calculate $$ \mathit{w_i} \leftarrow \mathit{w_i} + \mathit{\eta_d} (\mathit{t_d} - \mathit{o_d}) \mathit{x_{i}} $$
 
+One way to view this stochastic gradient descent is to consider a distinct error function $$\mathit{E_d(\vec{w})}$$ or
+each individual training example $$\mathit{d}$$ as follows
+
+$$ \mathit{E_d(\vec{w})} = \frac{1}{2}(\mathit{t_d} - \mathit{o_d})^2} $$
+
+Stochastic gradient descent iterates over the training examples $$\mathit{d}$$ in $$\mathit{D}$$, _at each iteration_ 
+altering the weights according to the gradient with respect to $$\mathit{E_d(\vec{w})}$$. The sequence of these weight 
+updates, when iterated over all training examples, provides a reasonable approximation to descending the gradient with
+respect to our original error function  $$\mathit{E(\vec{w})}$$. By making the value of $$\mathit{\eta}$$ sufficiently 
+small, stochastic gradient descent can be made to approximate true gradient descent arbitrarily closely
+
+> The key differences between standard gradient descent and stochastic gradient descent are:
+>
+> * In standard gradient descent, the error is summed over all examples before updating weights, whereas in stochastic 
+>   gradient descent weights are updated upon examining each training example.
+> * Summing over multiple examples in standard gradient descent requires more computation per weight update step. On the 
+>   other hand, because it uses the true gradient, standard gradient descent is often used with a larger step size per 
+>   weight update than stochastic gradient descent.
+> * In cases where there are multiple local minima with respect to $$\mathit{E(\vec{w})}$$, stochastic gradient descent 
+>   can sometimes avoid falling into these local minima because it uses the various $$\nabla\mathit{E_d(\vec{w})}$$
+>   rather than $$\nabla\mathit{E(\vec{w})}$$ to guide its search.
+
+Both stochastic and standard gradient descent methods are commonly used in practice.
