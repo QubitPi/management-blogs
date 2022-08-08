@@ -250,8 +250,8 @@ which gives us the following algorithm
 > GRADIENT-DESCENT(training_examples, $$\mathit{\eta}$$)
 >
 > * _Each training example is a pair of the form $$\left< \vec{\mathit{x}}, \mathit{t} \right>$$, where
->   $$\vec{\mathit{x}}$$ is the vector of input values, and $$\mathit{t}$$ is the target output value. $$\mathit{\eta}$$ is the
->   learning rate (e.g. 0.5)._
+>   $$\vec{\mathit{x}}$$ is the vector of input values, and $$\mathit{t}$$ is the target output value. $$\mathit{\eta}$$ 
+>   is the learning rate (e.g. 0.5)._
 > 
 > 1. Initialize each $$\mathit{w_i}$$ to some small random value
 > 2. Until the termination condition is met, do
@@ -294,8 +294,8 @@ The modified algorithm becomes
 > GRADIENT-DESCENT(training_examples, $$\mathit{\eta}$$)
 >
 > * _Each training example is a pair of the form $$\left< \vec{\mathit{x}}, \mathit{t} \right>$$, where
-    >   $$\vec{\mathit{x}}$$ is the vector of input values, and $$\mathit{t}$$ is the target output value. $$\mathit{\eta}$$ is the
-    >   learning rate (e.g. 0.5)._
+>   $$\vec{\mathit{x}}$$ is the vector of input values, and $$\mathit{t}$$ is the target output value. $$\mathit{\eta}$$ 
+>   is the learning rate (e.g. 0.5)._
 >
 > 1. Initialize each $$\mathit{w_i}$$ to some small random value
 > 2. Until the termination condition is met, do
