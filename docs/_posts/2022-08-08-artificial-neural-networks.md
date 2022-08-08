@@ -36,13 +36,18 @@ A perceptron takes a vector of real-valued inputs, calculates a linear combinati
 the result is greater than some threshold and -1 otherwise. More precisely, given inputs $$x_1$$ through $$x_n$$, the
 output $$o(x_1, ... , x_n)$$ computed by the perceptron is
 
-```math
+$$
+
+\begin{equation}
+
 o(x_1, ... , x_n) =
     \begin{cases}
         1 if w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0
         -1 otherwise
     \end{cases}
-```
+\end{equation}
+
+$$
 
 where each $$w_i$$ is a real-valued constant, or weight, that determines the contribution of input $$x_i$$ to the 
 perceptron output. Notice the quantity ($$-w_O$$) is a threshold that the weighted combination of inputs
@@ -52,19 +57,27 @@ If we add an additional constant input $$x_0 = 1$$, allowing us to write the equ
 $$\sum_{i = 0}^{n} w_ix_i > 0$$ or, in vector form, as $$\vec{w} \cdot \vec{x} > 0$$, we will be able to write the
 perceptron function as
 
-```math
-o(\vex{x}) = sgn(\vec{w} \cdot \vec{x})
-```
+$$
+
+\[ o(\vex{x}) = sgn(\vec{w} \cdot \vec{x}) \]
+
+$$
 
 where
 
-```math
+$$
+
+\begin{equation}
+
 sgn(y) =
     \begin{cases}
         1 if y > 0
         -1 otherwise
     \end{cases}
-```
+
+\end{equation}
+
+$$
 
 Learning a perceptron involves choosing values fro the weights $$w_0, ..., w_n$$. The space $$\mathit{H}$$ of candidate
 hypotheses considered in perceptron learning, therefore, is the set of all possible real-values weight vectors
@@ -87,13 +100,29 @@ examples.
 
 A single perceptron can be used to represent many boolean functions. For example, if we assume boolean values of 1
 (true) and -1 (false), then one example way to use a two-dimensional input perceptron to implement the AND function is
-to set the weights $$w_0 = -3$$, and $$w_1 = w_2 = 0.5$$:
+to set the weights $$w_0 = -0.8$$, and $$w_1 = w_2 = 0.5$$:
+
+| **$x_1$** | **$x_2$** | **$y$** | **$syn(y)$** |
+|:---------:|:---------:|:-------:|:------------:|
+| 1         | 1         |   0.2   |      1       |
+| 0         | 0         |  -0.8   |      -1      |
+| 1         | 0         |  -0.3   |      -1      |
+| 0         | 1         |  -0.3   |      -1      |
 
 
 
+This perceptron can be made to represent the OR function instead by altering the threshold to $w_0 = -0.3$:
 
+| **$x_1$** | **$x_2$** | **$y$** | **$syn(y)$** |
+|:---------:|:---------:|:-------:|:------------:|
+| 1         | 1         |   0.7   |      1       |
+| 0         | 0         |  -0.3   |      -1      |
+| 1         | 0         |   0.2   |      1       |
+| 0         | 1         |   0.2   |      1       |
 
-
-
-This perceptron can be made to represent the OR
-function instead by altering the threshold to wo = -.3.
+In fact, AND and OR can
+be viewed as special cases of m-of-n functions: that is, functions where at least
+m of the n inputs to the perceptron must be true. The OR function corresponds to
+rn = 1 and the AND function to m = n. Any m-of-n function is easily represented
+using a perceptron by setting all input weights to the same value (e.g., 0.5) and
+then setting the threshold wo accordingly
