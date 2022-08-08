@@ -395,6 +395,13 @@ weight values for all the units in the network. The algorithm below outlines the
 the Backpropagation algorithm for feedforward networks containing **two** layers of sigmoid units, with _units at each 
 layer connected to all units from the preceding layer_.
 
+The algorithm begins by constructing a network with the desired number of hidden and output units and initializing all 
+network weights to small random values. Given this fixed network structure, the main loop of the algorithm then
+repeatedly iterates over the training examples. For each training example, it applies the network to the example, 
+calculates the error of the network output for this example, computes the gradient with respect to the error on this
+example, then updates all weights in the network. This gradient descent step is iterated (often thousands of times,
+using the same training examples multiple times) until the network performs acceptably well
+
 > Backpropagation(training_examples, $$\eta$$, $$\mathit{n_{in}}$$, $$\mathit{n_{out}}$$, $$\mathit{n_{hidden}}$$)
 > 
 > * Each training example is a pair of the form $$\left< \vec{\mathit{x}}, \mathit{\vec{t}} \right>$$, where
@@ -432,6 +439,23 @@ layer connected to all units from the preceding layer_.
 >
 >           $$ \mathit{w_{ji}} = \eta\delta_{\mathit{j}}\mathit{x_{ji}} $$
 
+> 📋 The algorithm updates weights incrementally, following the presentation of each training example. This corresponds
+> to a stochastic approximation to gradient descent
+
+The weight-update loop in Backpropagation maybe e iterated thousands of times in a typical application. A variety of 
+termination conditions can be used to halt the procedure. One may choose to halt after a fixed number of iterations
+through the loop, or once the error on the training examples falls below some threshold, or once the error on a separate 
+validation set of examples meets some criterion. The choice of termination criterion is an important one, because too
+few iterations can fail to reduce error sufficiently, and too many can lead to overfitting the training data
+
 One major difference in the case of multilayer networks is that the error surface can have multiple local minima, in 
 contrast to the single-minimum parabolic error surface, which means that gradient descent, in this case, is guaranteed 
 only to converge toward some local minimum
+
+#### Variations
+
+Because Backpropagation is such a widely used algorithm, many variations have been developed. Perhaps the most common is 
+to alter the weight-update rule. For example, one approach is making the weight update on the _n_-th iteration depend 
+partially on the update that occurred during the _(n - 1)_-th iteration:
+
+$$ \Delta\mathit{w_ji(n)} = \mathit{\eta\delta_j x_{ji} + \alpha\delta w_{ji}(n - 1)} $$
