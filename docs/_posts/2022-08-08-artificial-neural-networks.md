@@ -38,7 +38,7 @@ output $$o(x_1, ... , x_n)$$ computed by the perceptron is
 
 $$
 
-\begin{cases}
+o(x_1, ... , x_n) = \begin{cases}
 c \colon \{1, \dots, n\} \rightarrow \{1, \dots, n\} \text{ such that}\\      
 c(a_i) = a_{i+1}  \text{ for $1\le i<l$}\\
 c(a_l) = a_1
