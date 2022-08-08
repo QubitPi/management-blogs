@@ -39,9 +39,8 @@ output $$o(x_1, ... , x_n)$$ computed by the perceptron is
 $$
 
 o(x_1, ... , x_n) = \begin{cases}
-c \colon \{1, \dots, n\} \rightarrow \{1, \dots, n\} \text{ such that}\\      
-c(a_i) = a_{i+1}  \text{ for $1\le i<l$}\\
-c(a_l) = a_1
+    1 if w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0
+    -1 otherwise
 \end{cases}
 
 $$
@@ -50,3 +49,4 @@ where each $$w_i$$ is a real-valued constant, or weight, that determines the con
 perceptron output. Notice the quantity ($$-w_O$$) is a threshold that the weighted combination of inputs
 $$w_1x_1 + ... + w_nx_n$$ must surpass in order for the perceptron to output a 1.
 
+If we add an additional constant input $$x_0 = 1$$, allowing us to write the equation above as 
