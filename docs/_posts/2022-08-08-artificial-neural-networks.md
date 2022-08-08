@@ -389,3 +389,29 @@ $$
 
 where "outputs" is the set of output units in the network, and $$\mathit{t_{kd}}$$ and $$\mathit{o_{kd}}$$ are the
 target and output values associated with the _k_-th output unit and training example $$\mathit{d}$$.
+
+The learning problem faced by Backpropagation Algorithm is to search a large hypothesis space defined by all possible 
+weight values for all the units in the network
+
+> Backpropagation(training_examples, $$\eta$$, $$\mathit{n_{in}}$$, $$\mathit{n_{out}}$$, $$\mathit{n_{hidden}}$$)
+> 
+> * Each training example is a pair of the form $$\left< \vec{\mathit{x}}, \mathit{\vec{t}} \right>$$, where
+>   $$\vec{\mathit{x}}$$ is the vector of the network input values, and $$\vec{\mathit{t}}$$ the vector of target
+>   network output values
+> * $$\eta$$ is the learning rate (e.g. 0.5)
+> * $$\mathit{n_{in}}$$ is the number of network inputs
+> * $$\mathit{n_{out}}$$ is the number of output units
+> * $$\mathit{n_{hidden}}$$ is the number of units in the hidden layer
+> * The input from unit $$\mathit{i}$$ into unit $$\mathit{j}$$ is denoted as $$\mathit{x_{ji}}$$ and the weight from
+>   unit $$\mathit{i}$$ to unit $$\mathit{j}$$ is denoted as $$\mathit{w_{ji}}$$
+> 
+> 1. Create a feed-forward network with $$\mathit{n_{in}}$$ number of inputs, $$\mathit{n_{hidden}}$$ number of hidden
+>    units, and $$\mathit{n_{out}}$$ number of output units.
+> 2. Initialize all network weights to small random numbers (e.g. between -0.5 to 0.5)
+> 3. Until the termination condition is met, do
+>    * For each $$\left< \vec{\mathit{x}}, \mathit{\vec{t}} \right>$$ in training_examples, do
+>      - _Propagate the input forward through the network_:
+>        1. Input the instance $$\vec{\mathit{x}}$$ to the network and compute the output $$\mathit{o_u}$$ of ever unit
+>           $$\mathit{u}$$ in the network
+>      - _Propagate the errors backward through the network_:
+>        2. For each network output unit 
