@@ -175,7 +175,7 @@ $$ o(\vec{\mathit{x}}) = \vec{\mathit{w}} \cdot \vec{\mathit{x}} $$
 In order to derive a weight learning rule for linear units, let us begin by specifying a measure for the **training
 error** of a hypothesis (weight vector), relative to the training examples
 
-$$ \mathit{E}(\vec{\mathit{w}}) \equiv \frac{1}{2} \sum_{d in D} (t_d - o_d)^2 $$
+$$ \mathit{E}(\vec{\mathit{w}}) \equiv \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} (t_d - o_d)^2 $$
 
 where $$D$$ is the set of training examples; $$t_d$$ is the target output for training example $$d$$, and $$o_d$$ is the 
 output of the linear unit for training example $$d$$. By this definition, $$\mathit{E}(\vec{\mathit{w}})$$ is simply half the squared 
@@ -203,20 +203,20 @@ above. This process continues until the global minimum error is reached.
 
 #### Derivation of the Gradient Descent Rule
 
-The direction of the steepest descent along the error surface can be found by computing the derivative of $$\mathit{E}$$ with
-respect to each component of the vector $$\vec{\mathit{w}}$$. This vector derivative is called the **gradient of $$\mathit{E}$$ with
-respect to $$\vec{\mathit{w}}$$**, written as $$\nabla \mathit{E}(\vec{\mathit{w}})$$
+The direction of the steepest descent along the error surface can be found by computing the derivative of $$\mathit{E}$$ 
+with respect to each component of the vector $$\vec{\mathit{w}}$$. This vector derivative is called the **gradient of 
+$$\mathit{E}$$ with respect to $$\vec{\mathit{w}}$$**, written as $$\nabla \mathit{E}(\vec{\mathit{w}})$$
 
 $$
 
-\nabla \mathit{E}(\vec{\mathit{w}}) \equiv \left[ \frac{\partial \mathit{E}}{\partial \mathit{w}_0}, \frac{\partial \mathit{E}}{\partial \mathit{w}_1}, ..., \frac{\partial \mathit{E}}{\partial \mathit{w}_n} \right]
+\nabla \mathit{E}(\vec{\mathit{w}}) \equiv \left[ \frac{\partial \mathit{E}}{\partial \mathit{w_0}}, \frac{\partial \mathit{E}}{\partial \mathit{w_1}}, ..., \frac{\partial \mathit{E}}{\partial \mathit{w}_\mathit{n}} \right]
 
 $$
 
-> Notice $$\nabla \mathit{E}(\vec{w})$$ is itself a vector, whose components are the partial derivatives of $$\mathit{E}$$ with respect to
+> Notice $$\nabla \mathit{E}(\vec{\mathit{w}})$$ is itself a vector, whose components are the partial derivatives of $$\mathit{E}$$ with respect to
 > each of the $$\mathit{w}_\mathit{i}$$. **When interpreted as a vector in weight space, the gradient specifies the direction that
 > produces the steepest increase in $$\mathit{E}$$. The negative of this vector therefore gives the direction of the steepest
-> decrease.
+> decrease**.
 
 Since the gradient specifies the direction of steepest increase of $$\mathit{E}$$, the training rule for gradient
 descent is
@@ -236,4 +236,21 @@ where
 $$ \Delta \mathit{w}_\mathit{i} = -\eta\frac{\partial \mathit{E}}{\partial \mathit{w}_\mathit{i}} $$
 
 It is clear then that the steepest descent is achieved by altering each component
-$$\mathit{w_i}$$, of $$\vec{\mathit{w}}$$ in proportion to $$\frac{\partial \mathit{E}}{\partial \mathit{w_i}}$$.
+$$\mathit{w_i}$$, of $$\vec{\mathit{w}}$$ in proportion to $$\frac{\partial \mathit{E}}{\partial \mathit{w_i}}$$, which
+can be caldulated as follows
+
+$$
+
+\frac{\partial \mathit{E}}{\partial \mathit{w_i}}
+&= \frac{\partial}{\partial \mathit{w_i}} \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} (\mathit(t_d) - \mathit{o_d})^2
+&= \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} \frac{\partial}{\partial \mathit{w_i}} (\mathit(t_d) - \mathit{o_d})^2
+&= \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} 2(\mathit(t_d) - \mathit{o_d}) \frac{\partial}{\partial \mathit{w_i}} (\mathit(t_d) - \mathit{o_d})
+&= \sum_{\mathit{d} \in \mathit{D}} (\mathit(t_d) - \mathit{o_d}) \frac{\partial}{\partial \mathit{w_i}} (\mathit(t_d) - \vec{\mathit{w} \cdot \vec{\mathit{x_d}}})
+&= \sum_{\mathit{d} \in \mathit{D}} (\mathit(t_d) - \mathit{o_d}) (-\mathit{x_{id}})
+
+$$
+
+$$ \Delta \mathit{w_i} = \eta \sum_{\mathit{d} \in \mathit{D}} (\mathit(t_d) - \mathit{o_d}) \mathit{x_{id}} $$
+
+which gives us the following algorithm
+
