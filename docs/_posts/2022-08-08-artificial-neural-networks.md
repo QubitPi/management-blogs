@@ -307,7 +307,7 @@ The modified algorithm becomes
 One way to view this stochastic gradient descent is to consider a distinct error function $$\mathit{E_d(\vec{w})}$$ or
 each individual training example $$\mathit{d}$$ as follows
 
-$$ \mathit{E_d(\vec{w})} = \frac{1}{2}(\mathit{t_d} - \mathit{o_d})^2} $$
+$$ \mathit{E_d(\vec{w})} = \frac{1}{2}(\mathit{t_d} - \mathit{o_d})^2 $$
 
 Stochastic gradient descent iterates over the training examples $$\mathit{d}$$ in $$\mathit{D}$$, _at each iteration_ 
 altering the weights according to the gradient with respect to $$\mathit{E_d(\vec{w})}$$. The sequence of these weight 
