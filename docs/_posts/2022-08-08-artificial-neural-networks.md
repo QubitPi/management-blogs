@@ -71,7 +71,7 @@ $$
 Learning a perceptron involves choosing values fro the weights $$w_0, ..., w_n$$. The space $$\mathit{H}$$ of candidate
 hypotheses considered in perceptron learning, therefore, is the set of all possible real-values weight vectors
 
-$$ H = \{\vec{\mathbf{w}} | \vec{w} \in : \mathfrak{R}^{n + 1}\} $$
+$$ H = \{\vec{\mathit{w}} | \vec{w} \in : \mathfrak{R}^{n + 1}\} $$
 
 ### Representational Power of Perceptrons
 
