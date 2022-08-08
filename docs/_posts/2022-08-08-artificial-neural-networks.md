@@ -415,4 +415,17 @@ weight values for all the units in the network
 >           $$\mathit{u}$$ in the network
 >      - _Propagate the errors backward through the network_:
 >        2. For each network output unit $$\mathit{k}$$, calculate its error term $$\delta_\mathit{k}$$ 
->           $$ \delta_\mathit{k} \rightarrow \mathit{o_k(1 - o_k)(t_k - o_l)}$$
+>        
+>           $$ \delta_\mathit{k} \leftarrow \mathit{o_k(1 - o_k)(t_k - o_l)}$$
+> 
+>        3. For each hidden unit $$\mathit{h}$$, calculate its error term $$\delta_\mathit{h}$$
+> 
+>           $$ \delta_\mathit{h} \leftarrow \mathit{o_h(1 - o_h)}\sum_{\mathit{k \in \text{outputs}}}\mathit{w_{kh}\delta_k} $$
+> 
+>        4. Update each network weight $$\mathit{w_{ji}}$$
+> 
+>           $$ \mathit{w_{ji}} \leftarrow \mathit{w_{ji}} + \Delta\mathit{w_{ji}} $$
+> 
+>           where
+>
+>           $$ \mathit{w_{ji}} = \eta\delta_{\mathit{j}}\mathit{x_{ji}} $$
