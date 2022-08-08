@@ -20,12 +20,12 @@ functions from examples.
 * TOC
 {:toc}
 
-![Error loading ann-deep-nn.png]({{ "/assets/img/ann-deep-nn.png" | relative_url}})
-
 ANN learning is well-suited to problems in which the training data corresponds to _noisy, complex sensor data, such as 
 inputs from cameras and microphones_. It is also applicable to problems for which more symbolic representations are
 often used, such as the decision tree learning tasks. In these cases ANN and decision tree learning often produce
 results of comparable accuracy
+
+![Error loading ann-deep-nn.png]({{ "/assets/img/ann-deep-nn.png" | relative_url}})
 
 Perceptrons
 -----------
@@ -336,5 +336,5 @@ the error in the _thresholded_ perceptron output, whereas the latter updates wei
 _unthresholded_ linear combination of inputs.
 
 
-Multilayer Networks and The Backpropagation Algorithm
------------------------------------------------------
+Multilayer Networks & The Backpropagation Algorithm
+---------------------------------------------------
