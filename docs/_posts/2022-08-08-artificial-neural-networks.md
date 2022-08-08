@@ -281,7 +281,13 @@ updating each weight $$\mathit{w_i}$$wi by adding $$\Delta\mathit{w_i}$$, then r
 #### Stochastic Approximation to Gradient Descent
 
 The key practical difficulties in applying gradient
-descent are (1) converging to a local minimum can sometimes be quite slow (i.e.,
-it can require many thousands of gradient descent steps), and (2) if there are
-multiple local minima in the error surface, then there is no guarantee that the
-procedure will find the global minimum.
+descent are
+
+1. converging to a local minimum can sometimes be quite slow (i.e., it can require many thousands of gradient descent 
+   steps), and
+2. if there are multiple local minima in the error surface, then there is no guarantee that the procedure will find the 
+   global minimum.
+
+One common variation on gradient descent intended to alleviate these difficulties
+is called **incremental gradient descent**, or alternatively **stochastic gradient
+descent**.
