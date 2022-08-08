@@ -458,7 +458,7 @@ Because Backpropagation is such a widely used algorithm, many variations have be
 to alter the weight-update rule. For example, one approach is making the weight update on the _n_-th iteration depend 
 partially on the update that occurred during the _(n - 1)_-th iteration:
 
-$$ \Delta\mathit{w_ji(n)} = \mathit{\eta\delta_j x_{ji} + \alpha\delta w_{ji}(n - 1)} $$
+$$ \Delta\mathit{w_ji(n)} = \mathit{\eta\delta_j x_{ji} + \alpha\Delta w_{ji}(n - 1)} $$
 
 where $$0 < \alpha < 1$$ is a constant called **momentum**. The second term on the right of the equation is called the 
 **momentum term**. To see the effect of this momentum term, consider that the gradient descent search trajectory is 
@@ -471,9 +471,26 @@ search in regions where the gradient is unchanging, thereby speeding convergence
 #### Learning in Arbitrary Acyclic Networks
 
 To generalize the [two-layer network backpropagation algorithm](#the-backpropagation-algorithm) to feedforward
-networks of _arbitrary_ depth, we only need to change the procedure for computing $$\delta$$. In general, the
+networks of _arbitrary depth_, we only need to change the procedure for computing $$\delta$$. In general, the
 $$\delta_{\mathit{r}}$$ value for a unit $$\mathit{r}$$ in layer $$\mathit{m}$$ is computed from the $$\delta$$ value
 at the next deeper layer $$\mathit{m} + 1$$: 
 
 $$ \delta_{\mathit{r}} = \mathit{o_r(1 - o_r)}\sum_{\mathit{s \in \text{layer} (m + 1)}} \mathit{w_{sr}\delta_s} $$
+
+> 📋 Note that this is the generalization of
+> $$ \delta_\mathit{h} \leftarrow \mathit{o_h(1 - o_h)}\sum_{\mathit{k \in \text{outputs}}}\mathit{w_{kh}\delta_k} $$
+> in the two-layer algorithm
+
+It is equally straightforward to generalize the algorithm to any _directed acyclic graph_, regardless of whether the 
+network units are arranged in uniform layers as we have assumed up to now. In the case that they are not, the rule for
+calculating $$\delta$$ for any internal unit (i.e., any unit that is not an output) is
+
+$$ \delta_{\mathit{r}} = \mathit{o_r(1 - o_r)}\sum_{\mathit{s \in \text{Downstream}(r)}} \mathit{w_{sr}\delta_s} $$
+
+where Downstream(r) is the set of units immediately downstream from unit $$\mathit{r}$$ in the network: that is, all
+units whose inputs include the output of unit $$\mathit{r}$$
+
+##### Derivation of the Backpropagation Rule for Arbitrary Acyclic Networks
+
+### Remarks of the Backpropagation Algorithm
 
