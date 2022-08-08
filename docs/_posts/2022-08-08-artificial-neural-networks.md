@@ -414,4 +414,5 @@ weight values for all the units in the network
 >        1. Input the instance $$\vec{\mathit{x}}$$ to the network and compute the output $$\mathit{o_u}$$ of ever unit
 >           $$\mathit{u}$$ in the network
 >      - _Propagate the errors backward through the network_:
->        2. For each network output unit 
+>        2. For each network output unit $$\mathit{k}$$, calculate its error term $$\delta_\mathit{k}$$ 
+>           $$ \delta_\mathit{k} \rightarrow \mathit{o_k(1 - o_k)(t_k - o_l)}$$
