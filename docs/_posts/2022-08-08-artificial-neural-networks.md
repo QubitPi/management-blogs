@@ -354,7 +354,7 @@ Like the perceptron, the sigmoid unit first computes a linear combination of its
 the result. In the case of the sigmoid unit, however, the threshold output is a continuous function of its input. More 
 precisely, the sigmoid unit computes its output $$\mathit{o}$$ as
 
-$$ \mathit{o} = \sigma(\mathit{\vec{w}} \cdot \mathit{\ved{x}}) $$
+$$ \mathit{o} = \sigma(\mathit{\vec{w}} \cdot \mathit{\vec{x}}) $$
 
 where
 
@@ -375,5 +375,17 @@ constant, and $$tanh$$ are sometimes used instead
 
 ### The Backpropagation Algorithm
 
+The Backpropagation algorithm learns the weights for a multilayer network, given a network with a fixed set of units and 
+interconnections
 
+Because we are considering networks with multiple output units rather than single units as before, we begin by
+redefining $$\mathit{E}$$ to sum the errors over all of the network output unit
 
+$$
+
+\mathit{E(\vec{w})} \equiv \frac{1}{2}\sum_{\mathit{d \in D}}\sum_{\mathit{k \in \text{outputs}}}(\mathit{t_{kd} - o_{kd}})^2
+
+$$
+
+where "outputs" is the set of output units in the network, and $$\mathit{t_{kd}}$$ and $$\mathit{o_{kd}}$$ are the
+target and output values associated with the _k_-th output unit and training example $$\mathit{d}$$.
