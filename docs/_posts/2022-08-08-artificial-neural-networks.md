@@ -47,13 +47,13 @@ o(\mathit{x}_1, ..., \mathit{x}_n) =
 
 $$
 
-where each $$\mathit{w}_\mathit{i}$$ is a real-valued constant, or weight, that determines the contribution of input $$\mathit{x}_\mathit{i}$$ to the 
-perceptron output. Notice the quantity ($$-\mathit{w}_O$$) is a threshold that the weighted combination of inputs
-$$\mathit{w}_1\mathit{x}_1 + ... + \mathit{w}_n\mathit{x}_n$$ must surpass in order for the perceptron to output a 1.
+where each $$\mathit{w}_\mathit{i}$$ is a real-valued constant, or weight, that determines the contribution of input 
+$$\mathit{x}_\mathit{i}$$ to the perceptron output. Notice the quantity ($$-\mathit{w}_O$$) is a threshold that the 
+weighted combination of inputs $$\mathit{w}_1\mathit{x}_1 + ... + \mathit{w}_n\mathit{x}_n$$ must surpass in order for
+the perceptron to output a 1.
 
 If we add an additional constant input $$\mathit{x}_0 = 1$$, allowing us to write the equation above as
-$$\sum_{i = 0}^{n} \mathit{w}_\mathit{i}\mathit{x}_\mathit{i} > 0$$ or, in vector form, as $$\vec{\mathit{w}} \cdot \vec{\mathit{x}} > 0$$, we will be able to write the
-perceptron function as
+$$\sum_{i = 0}^{n} \mathit{w}_\mathit{i}\mathit{x}_\mathit{i} > 0$$ or, in vector form, as $$\vec{\mathit{w}} \cdot \vec{\mathit{x}} > 0$$, we will be able to write the perceptron function as
 
 $$ o(\vec{\mathit{x}}) = sgn(\vec{\mathit{w}} \cdot \vec{\mathit{x}}) $$
 
@@ -68,8 +68,9 @@ sgn(y) =
 
 $$
 
-Learning a perceptron involves choosing values fro the weights $$\mathit{w}_0, ..., \mathit{w}_n$$. The space $$\mathit{H}$$ of candidate
-hypotheses considered in perceptron learning, therefore, is the set of all possible real-values weight vectors
+Learning a perceptron involves choosing values fro the weights $$\mathit{w}_0, ..., \mathit{w}_n$$. The space
+$$\mathit{H}$$ of candidate hypotheses considered in perceptron learning, therefore, is the set of all possible 
+real-values weight vectors
 
 $$ H = \{\vec{\mathit{w}} | \vec{\mathit{w}} \in : \mathfrak{R}^{n + 1}\} $$
 
@@ -114,8 +115,8 @@ This perceptron can be made to represent the OR function instead by altering the
 
 Perceptrons can represent all of the primitive boolean functions AND, OR, NAND ($$\neg AND$$), and NOR ($$\neg OR$$). 
 Some boolean functions, however, cannot be represented by a single perceptron, such as the XOR function
-whose value is 1 if and only if $$\mathit{x}_1 \ne \mathit{x}_2$$. Note the set of linearly nonseparable training examples shown in
-figure(b) above corresponds to this XOR function
+whose value is 1 if and only if $$\mathit{x}_1 \ne \mathit{x}_2$$. Note the set of linearly nonseparable training
+examples shown in figure(b) above corresponds to this XOR function
 
 The ability of perceptrons to represent AND, OR, NAND, and NOR is important because _every_ boolean function can be 
 represented by some network of interconnected units based on these primitives. In fact, every boolean function can
@@ -178,8 +179,9 @@ error** of a hypothesis (weight vector), relative to the training examples
 $$ \mathit{E}(\vec{\mathit{w}}) \equiv \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} (t_d - o_d)^2 $$
 
 where $$D$$ is the set of training examples; $$t_d$$ is the target output for training example $$d$$, and $$o_d$$ is the 
-output of the linear unit for training example $$d$$. By this definition, $$\mathit{E}(\vec{\mathit{w}})$$ is simply half the squared 
-difference between the target output $$t_d$$ and the linear unit output $$o_d$$, summed over all training examples
+output of the linear unit for training example $$d$$. By this definition, $$\mathit{E}(\vec{\mathit{w}})$$ is simply
+half the squared difference between the target output $$t_d$$ and the linear unit output $$o_d$$, summed over all
+training examples
 
 ##### Visualizing the Hypothesis Space
 
@@ -188,18 +190,18 @@ vectors and their associated $$\mathit{E}$$ values, as illustrated in this figur
 
 ![Error loading ann-gradient-descent-hypothesis-space.png]({{ "/assets/img/ann-gradient-descent-hypothesis-space.png" | relative_url}})
 
-The axes $$\mathit{w}_0$$ and $$\mathit{w}_1$$ represent possible values for the two weights of a simple linear unit. The $$\mathit{w}_0, \mathit{w}_1$$
-plane therefore represents the entire hypothesis space. The vertical axis indicates the error $$\mathit{E}$$ relative to some
-fixed set of training examples. The error surface shown in the figure thus summarizes the desirability of every weight 
-vector in the hypothesis space (we desire a hypothesis with minimum error). Given the way in which we chose to
-define $$\mathit{E}$$ (half the summation of the square difference between target and linear unit output), for linear units this 
-error surface must always be parabolic with a single global minimum. The specific parabola will depend, of course, on
-the particular set of training examples.
+The axes $$\mathit{w}_0$$ and $$\mathit{w}_1$$ represent possible values for the two weights of a simple linear unit.
+The $$\mathit{w}_0, \mathit{w}_1$$ plane therefore represents the entire hypothesis space. The vertical axis indicates
+the error $$\mathit{E}$$ relative to some fixed set of training examples. The error surface shown in the figure thus 
+summarizes the desirability of every weight vector in the hypothesis space (we desire a hypothesis with minimum error). 
+Given the way in which we chose to define $$\mathit{E}$$ (half the summation of the square difference between target and 
+linear unit output), for linear units this error surface must always be parabolic with a single global minimum. The 
+specific parabola will depend, of course, on the particular set of training examples.
 
-**Gradient descent search determines a weight vector that minimizes $$\mathit{E}$$ by starting with an arbitrary initial weight 
-vector, then repeatedly modifying it in small steps. At each step, the weight vector is altered in the direction that 
-produces [_the steepest descent_](#derivation-of-the-gradient-descent-rule) along the error surface depicted in figure 
-above. This process continues until the global minimum error is reached.
+Gradient descent search determines a weight vector that minimizes $$\mathit{E}$$ by starting with an arbitrary initial 
+weight vector, then repeatedly modifying it in small steps. At each step, the weight vector is altered in the direction 
+that produces [_the steepest descent_](#derivation-of-the-gradient-descent-rule) along the error surface depicted in
+figure above. This process continues until the global minimum error is reached.
 
 #### Derivation of the Gradient Descent Rule
 
@@ -241,16 +243,30 @@ can be caldulated as follows
 
 $$
 
-\frac{\partial \mathit{E}}{\partial \mathit{w_i}}
-&= \frac{\partial}{\partial \mathit{w_i}} \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} (\mathit(t_d) - \mathit{o_d})^2
-&= \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} \frac{\partial}{\partial \mathit{w_i}} (\mathit(t_d) - \mathit{o_d})^2
-&= \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} 2(\mathit(t_d) - \mathit{o_d}) \frac{\partial}{\partial \mathit{w_i}} (\mathit(t_d) - \mathit{o_d})
-&= \sum_{\mathit{d} \in \mathit{D}} (\mathit(t_d) - \mathit{o_d}) \frac{\partial}{\partial \mathit{w_i}} (\mathit(t_d) - \vec{\mathit{w} \cdot \vec{\mathit{x_d}}})
-&= \sum_{\mathit{d} \in \mathit{D}} (\mathit(t_d) - \mathit{o_d}) (-\mathit{x_{id}})
+\frac{\partial \mathit{E}}{\partial \mathit{w_i}} &= \frac{\partial}{\partial \mathit{w_i}} \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} (\mathit{t_d} - \mathit{o_d})^2 \\
+&= \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} \frac{\partial}{\partial \mathit{w_i}} (\mathit{t_d} - \mathit{o_d})^2 \\
+&= \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} 2(\mathit(t_d) - \mathit{o_d}) \frac{\partial}{\partial \mathit{w_i}} (\mathit{t_d} - \mathit{o_d}) \\
+&= \sum_{\mathit{d} \in \mathit{D}} (\mathit(t_d) - \mathit{o_d}) \frac{\partial}{\partial \mathit{w_i}} (\mathit{t_d} - \vec{\mathit{w} \cdot \vec{\mathit{x_d}}}) \\
+&= \sum_{\mathit{d} \in \mathit{D}} (\mathit{t_d} - \mathit{o_d}) (-\mathit{x_{id}})
 
 $$
 
-$$ \Delta \mathit{w_i} = \eta \sum_{\mathit{d} \in \mathit{D}} (\mathit(t_d) - \mathit{o_d}) \mathit{x_{id}} $$
+$$ \Delta \mathit{w_i} = \eta \sum_{\mathit{d} \in \mathit{D}} (\mathit{t_d} - \mathit{o_d}) \mathit{x_{id}} $$
 
 which gives us the following algorithm
+
+> GRADIENT-DESCENT(training_examples, $$\eta$$)
+>
+> * _Each training example is a pair of the form $$\left< \vec{\mathit{x}}, \mathit{t} \right>$$, where
+>   $$\vec{\mathit{x}}$$ is the vector of input values, and $$\mathit{t}$$ is the target output value. $$\eta$$ is the
+>   learning rate (e.g. 0.5)._
+> 
+> 1. Initialize each $$\mathit{w_i}$$ to some small random value
+> 2. Until the termination condition is met, do
+>    * Initialize each $$\Delta\mathit{w_i}$$ to zero
+>    * For each $$\left< \vec{\mathit{x}}, \mathit{t} \right>$$ in training_examples, do
+>      - Input the instance $$\vec{\mathit{x}}$$ to the unit and compute the output $$\mathit{o}$$
+>      - For each linear unit weight $$\mathit{w_i}$$, calculate $$ \Delta\mathit{w_i} \leftarrow \Delta\mathit{w_i} + \eta(\mathit{t - o})\mathit{x_i} $$
+>      - For each linear unit weight $$\mathit{w_i}$$, compute $$ \mathit{w_i} \leftarrow \mathit{w_i} + \Delta\mathit{w_i} $$
+
 
