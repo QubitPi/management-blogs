@@ -392,7 +392,8 @@ target and output values associated with the _k_-th output unit and training exa
 
 The learning problem faced by Backpropagation Algorithm is to search a large hypothesis space defined by all possible 
 weight values for all the units in the network. The algorithm below outlines the stochastic gradient descent version of
-the Backpropagation algorithm for feedforward networks containing **two** layers of sigmoid units. 
+the Backpropagation algorithm for feedforward networks containing **two** layers of sigmoid units, with _units at each 
+layer connected to all units from the preceding layer_.
 
 > Backpropagation(training_examples, $$\eta$$, $$\mathit{n_{in}}$$, $$\mathit{n_{out}}$$, $$\mathit{n_{hidden}}$$)
 > 
@@ -431,3 +432,6 @@ the Backpropagation algorithm for feedforward networks containing **two** layers
 >
 >           $$ \mathit{w_{ji}} = \eta\delta_{\mathit{j}}\mathit{x_{ji}} $$
 
+One major difference in the case of multilayer networks is that the error surface can have multiple local minima, in 
+contrast to the single-minimum parabolic error surface, which means that gradient descent, in this case, is guaranteed 
+only to converge toward some local minimum
