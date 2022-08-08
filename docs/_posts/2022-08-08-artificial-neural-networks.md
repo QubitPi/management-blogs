@@ -459,3 +459,21 @@ to alter the weight-update rule. For example, one approach is making the weight 
 partially on the update that occurred during the _(n - 1)_-th iteration:
 
 $$ \Delta\mathit{w_ji(n)} = \mathit{\eta\delta_j x_{ji} + \alpha\delta w_{ji}(n - 1)} $$
+
+where $$0 < \alpha < 1$$ is a constant called **momentum**. The second term on the right of the equation is called the 
+**momentum term**. To see the effect of this momentum term, consider that the gradient descent search trajectory is 
+analogous to that of a (momentumless) ball rolling down the error surface. The effect of $$\alpha$$ is to add momentum 
+that tends to keep the ball rolling in the same direction from one iteration to the next. This can sometimes have the 
+effect of keeping the ball rolling through small local minima in the error surface, or along flat regions in the surface 
+where the ball would stop if there were no momentum. It also has the effect of gradually increasing the step size of the 
+search in regions where the gradient is unchanging, thereby speeding convergence.
+
+#### Learning in Arbitrary Acyclic Networks
+
+To generalize the [two-layer network backpropagation algorithm](#the-backpropagation-algorithm) to feedforward
+networks of _arbitrary_ depth, we only need to change the procedure for computing $$\delta$$. In general, the
+$$\delta_{\mathit{r}}$$ value for a unit $$\mathit{r}$$ in layer $$\mathit{m}$$ is computed from the $$\delta$$ value
+at the next deeper layer $$\mathit{m} + 1$$: 
+
+$$ \delta_{\mathit{r}} = \mathit{o_r(1 - o_r)}\sum_{\mathit{s \in \text{layer} (m + 1)}} \mathit{w_{sr}\delta_s} $$
+
