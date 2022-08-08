@@ -72,7 +72,7 @@ Learning a perceptron involves choosing values fro the weights $$\mathit{w}_0, .
 $$\mathit{H}$$ of candidate hypotheses considered in perceptron learning, therefore, is the set of all possible 
 real-values weight vectors
 
-$$ H = \{\vec{\mathit{w}} | \vec{\mathit{w}} \in : \mathfrak{R}^{n + 1}\} $$
+$$ \mathit{H} = \{\vec{\mathit{w}} | \vec{\mathit{w}} \in : \mathfrak{R}^{n + 1}\} $$
 
 ### Representational Power of Perceptrons
 
