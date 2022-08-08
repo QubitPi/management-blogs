@@ -40,10 +40,10 @@ output $$o(x_1, ... , x_n)$$ computed by the perceptron is
 
 $$
 o(x_1, ..., x_n) = 
-\begin{cases}
-    1 if w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0 \\
-    -1 otherwise
-\end{cases}
+    \begin{cases}
+        1 if w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0 \\
+        -1 otherwise
+    \end{cases}
 
 $$
 
@@ -61,10 +61,10 @@ where
 
 $$
 sgn(y) =
-\begin{cases}
-    1 if y > 0 \\
-    -1 otherwise
-\end{cases}
+    \begin{cases}
+        1 if y > 0 \\
+        -1 otherwise
+    \end{cases}
 
 $$
 
