@@ -242,13 +242,13 @@ $$\mathit{w_i}$$, of $$\vec{\mathit{w}}$$ in proportion to $$\frac{\partial \mat
 can be caldulated as follows
 
 $$
-
+\begin{align*}
 \frac{\partial \mathit{E}}{\partial \mathit{w_i}} &= \frac{\partial}{\partial \mathit{w_i}} \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} (\mathit{t_d} - \mathit{o_d})^2 \\
 &= \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} \frac{\partial}{\partial \mathit{w_i}} (\mathit{t_d} - \mathit{o_d})^2 \\
 &= \frac{1}{2} \sum_{\mathit{d} \in \mathit{D}} 2(\mathit{t_d} - \mathit{o_d}) \frac{\partial}{\partial \mathit{w_i}} (\mathit{t_d} - \mathit{o_d}) \\
 &= \sum_{\mathit{d} \in \mathit{D}} (\mathit{t_d} - \mathit{o_d}) \frac{\partial}{\partial \mathit{w_i}} (\mathit{t_d} - \vec{\mathit{w}} \cdot \vec{\mathit{x_d}}) \\
 &= \sum_{\mathit{d} \in \mathit{D}} (\mathit{t_d} - \mathit{o_d}) (-\mathit{x_{id}})
-
+\end{align*}
 $$
 
 $$ \Delta \mathit{w_i} = \eta \sum_{\mathit{d} \in \mathit{D}} (\mathit{t_d} - \mathit{o_d}) \mathit{x_{id}} $$
@@ -269,4 +269,19 @@ which gives us the following algorithm
 >      - For each linear unit weight $$\mathit{w_i}$$, calculate $$ \Delta\mathit{w_i} \leftarrow \Delta\mathit{w_i} + \eta(\mathit{t - o})\mathit{x_i} $$
 >      - For each linear unit weight $$\mathit{w_i}$$, compute $$ \mathit{w_i} \leftarrow \mathit{w_i} + \Delta\mathit{w_i} $$
 
+To summarize, the gradient descent algorithm for training linear units is starting by picking an initial random weight 
+vector, then applying the linear unit to all training examples, then compute $$\Delta\mathit{w_i}$$ for each weight,
+updating each weight $$\mathit{w_i}$$wi by adding $$\Delta\mathit{w_i}$$, then repeat this process
 
+> Note that the learning rate $$\eta$$ has to be sufficiently small If it is too large, the gradient descent search runs 
+> the risk of overstepping the minimum in the error surface rather than settling into it. For this reason, one common 
+> modification to the algorithm is to gradually reduce the value of $$\eta$$ as the number of gradient descent steps
+> grows.
+
+#### Stochastic Approximation to Gradient Descent
+
+The key practical difficulties in applying gradient
+descent are (1) converging to a local minimum can sometimes be quite slow (i.e.,
+it can require many thousands of gradient descent steps), and (2) if there are
+multiple local minima in the error surface, then there is no guarantee that the
+procedure will find the global minimum.
