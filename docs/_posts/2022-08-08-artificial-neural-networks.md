@@ -135,3 +135,20 @@ input weight.
 
 Because networks of threshold units can represent a rich variety of functions and because single units alone cannot, we 
 will generally be interested in learning multilayer networks of threshold units.
+
+### The Perceptron Training Rule
+
+We begin by understanding how to learn the weights for a single perceptron using two fundamental algorithms that provide
+basis for learning networks of many units:
+
+1. the **Perceptron Rule**
+2. the **Delta Rule**
+
+#### Perceptron Rule
+
+One way to learn an acceptable weight vector is to begin with random weights, then iteratively apply the perceptron to 
+each training example, modifying the perceptron weights whenever it misclassifies an example. This process is
+repeated, iterating through the training examples as many times as needed until
+the perceptron classifies all training examples correctly. Weights are modified at
+each step according to the perceptron training rule, which revises the weight wi
+associated with input xi according to the rule
