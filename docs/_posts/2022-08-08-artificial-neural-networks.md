@@ -93,20 +93,20 @@ A single perceptron can be used to represent many boolean functions. For example
 to set the weights $$\mathit{w}_0 = -0.8$$, and $$\mathit{w}_1 = \mathit{w}_2 = 0.5$$:
 
 | **$$\mathit{x}_1$$** | **$$\mathit{x}_2$$** | **$$y$$** | **$$syn(y)$$** |
-|:-----------:|:-----------:|:---------:|:--------------:|
-|      1      |      1      |    0.2    |       1        |
-|      0      |      0      |   -0.8    |       -1       |
-|      1      |      0      |   -0.3    |       -1       |
-|      0      |      1      |   -0.3    |       -1       |
+|:--------------------:|:--------------------:|:---------:|:--------------:|
+|          1           |          1           |    0.2    |       1        |
+|          0           |          0           |   -0.8    |       -1       |
+|          1           |          0           |   -0.3    |       -1       |
+|          0           |          1           |   -0.3    |       -1       |
 
 This perceptron can be made to represent the OR function instead by altering the threshold to $$\mathit{w}_0 = -0.3$$:
 
 | **$$\mathit{x}_1$$** | **$$\mathit{x}_2$$** | **$$y$$** | **$$syn(y)$$** |
-|:-----------:|:-----------:|:---------:|:--------------:|
-|      1      |      1      |    0.7    |       1        |
-|      0      |      0      |   -0.3    |       -1       |
-|      1      |      0      |    0.2    |       1        |
-|      0      |      1      |    0.2    |       1        |
+|:--------------------:|:--------------------:|:---------:|:--------------:|
+|          1           |          1           |    0.7    |       1        |
+|          0           |          0           |   -0.3    |       -1       |
+|          1           |          0           |    0.2    |       1        |
+|          0           |          1           |    0.2    |       1        |
 
 > In fact, AND and OR can be viewed as special cases of m-of-n functions: that is, functions where at least m of the n 
 > inputs to the perceptron must be true. The OR function corresponds to m = 1 and the AND function to m = n. Any m-of-n
