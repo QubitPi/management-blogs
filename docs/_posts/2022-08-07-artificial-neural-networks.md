@@ -45,3 +45,8 @@ c(a_l) = a_1
 \end{cases}
 
 $$
+
+where each $$w_i$$ is a real-valued constant, or weight, that determines the contribution of input $$x_i$$ to the 
+perceptron output. Notice the quantity ($$-w_O$$) is a threshold that the weighted combination of inputs
+$$w_1x_1 + ... + w_nx_n$$ must surpass in order for the perceptron to output a 1.
+
