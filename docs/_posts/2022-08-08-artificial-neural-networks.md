@@ -15,9 +15,9 @@ Artificial Neural Networks (ANNs) systems is to capture this kind of highly para
 representations. ANN provide a general, practical method for learning real-valued, discrete-valued, and vector-valued 
 functions from examples.
 
-![Error loading ann-deep-nn.png]({{ "/assets/img/ann-deep-nn.png" | relative_url}})
-
 <!--more-->
+
+![Error loading ann-deep-nn.png]({{ "/assets/img/ann-deep-nn.png" | relative_url}})
 
 * TOC
 {:toc}
