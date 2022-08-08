@@ -49,4 +49,19 @@ where each $$w_i$$ is a real-valued constant, or weight, that determines the con
 perceptron output. Notice the quantity ($$-w_O$$) is a threshold that the weighted combination of inputs
 $$w_1x_1 + ... + w_nx_n$$ must surpass in order for the perceptron to output a 1.
 
-If we add an additional constant input $$x_0 = 1$$, allowing us to write the equation above as 
+If we add an additional constant input $$x_0 = 1$$, allowing us to write the equation above as
+$$\sum_{i = 0}^{n} w_ix_i > 0$$ or, in vector form, as $$\vec{w} \cdot \vec{x} > 0$$, we will be able to write the
+perceptron function as
+
+$$ o(\vex{x}) = sgn(\vec{w} \cdot \vec{x}) $$
+
+where
+
+$$
+
+sgn(y) = \begin{cases}
+    1 if y > 0
+    -1 otherwise
+\end{cases}
+
+$$
