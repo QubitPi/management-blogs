@@ -35,27 +35,27 @@ One type of ANN system is based on a unit called a **perceptron**, illustrated i
 ![Error loading ann-a-perceptron.png]({{ "/assets/img/ann-a-perceptron.png" | relative_url}})
 
 A perceptron takes a vector of real-valued inputs, calculates a linear combination of these inputs, then outputs a 1 if
-the result is greater than some threshold and -1 otherwise. More precisely, given inputs $$x_1$$ through $$x_n$$, the
-output $$o(x_1, ... , x_n)$$ computed by the perceptron is
+the result is greater than some threshold and -1 otherwise. More precisely, given inputs $$\mathit{x}_1$$ through $$\mathit{x}_n$$, the
+output $$o(\mathit{x}_1, ... , \mathit{x}_n)$$ computed by the perceptron is
 
 $$
-o(x_1, ..., x_n) = 
+o(\mathit{x}_1, ..., \mathit{x}_n) = 
     \begin{cases}
-        1 \ if \ w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0 \\
+        1 \ if \ \mathit{w}_0 + \mathit{w}_1\mathit{x}_1 + \mathit{w}_2\mathit{x}_2 + ... + \mathit{w}_n\mathit{x}_n > 0 \\
         -1 \ otherwise
     \end{cases}
 
 $$
 
-where each $$w_i$$ is a real-valued constant, or weight, that determines the contribution of input $$x_i$$ to the 
-perceptron output. Notice the quantity ($$-w_O$$) is a threshold that the weighted combination of inputs
-$$w_1x_1 + ... + w_nx_n$$ must surpass in order for the perceptron to output a 1.
+where each $$\mathit{w}_i$$ is a real-valued constant, or weight, that determines the contribution of input $$\mathit{x}_i$$ to the 
+perceptron output. Notice the quantity ($$-\mathit{w}_O$$) is a threshold that the weighted combination of inputs
+$$\mathit{w}_1\mathit{x}_1 + ... + \mathit{w}_n\mathit{x}_n$$ must surpass in order for the perceptron to output a 1.
 
-If we add an additional constant input $$x_0 = 1$$, allowing us to write the equation above as
-$$\sum_{i = 0}^{n} w_ix_i > 0$$ or, in vector form, as $$\vec{w} \cdot \vec{x} > 0$$, we will be able to write the
+If we add an additional constant input $$\mathit{x}_0 = 1$$, allowing us to write the equation above as
+$$\sum_{i = 0}^{n} \mathit{w}_i\mathit{x}_i > 0$$ or, in vector form, as $$\vec{\mathit{w}} \cdot \vec{\mathit{x}} > 0$$, we will be able to write the
 perceptron function as
 
-$$ o(\vec{x}) = sgn(\vec{w} \cdot \vec{x}) $$
+$$ o(\vec{\mathit{x}}) = sgn(\vec{\mathit{w}} \cdot \vec{\mathit{x}}) $$
 
 where
 
@@ -68,10 +68,10 @@ sgn(y) =
 
 $$
 
-Learning a perceptron involves choosing values fro the weights $$w_0, ..., w_n$$. The space $$\mathit{H}$$ of candidate
+Learning a perceptron involves choosing values fro the weights $$\mathit{w}_0, ..., \mathit{w}_n$$. The space $$\mathit{H}$$ of candidate
 hypotheses considered in perceptron learning, therefore, is the set of all possible real-values weight vectors
 
-$$ H = \{\vec{\mathit{w}} | \vec{w} \in : \mathfrak{R}^{n + 1}\} $$
+$$ H = \{\vec{\mathit{w}} | \vec{\mathit{w}} \in : \mathfrak{R}^{n + 1}\} $$
 
 ### Representational Power of Perceptrons
 
@@ -81,7 +81,7 @@ instances lying on the other side, as illustrated in figure below
 
 ![Error loading ann-n-dimensional-hyperplan-space.png]({{ "/assets/img/ann-n-dimensional-hyperplan-space.png" | relative_url}})
 
-The equation for this decision hyperplane is $$\vec{w} \cdot \vec{x} = 0$$. Of course, some sets of positive and negative 
+The equation for this decision hyperplane is $$\vec{\mathit{w}} \cdot \vec{\mathit{x}} = 0$$. Of course, some sets of positive and negative 
 examples cannot be separated by any hyperplane. Those that can be separated are called **linearly separable** sets of 
 examples.
 
@@ -89,18 +89,18 @@ examples.
 
 A single perceptron can be used to represent many boolean functions. For example, if we assume boolean values of 1
 (true) and -1 (false), then one example way to use a two-dimensional input perceptron to implement the AND function is
-to set the weights $$w_0 = -0.8$$, and $$w_1 = w_2 = 0.5$$:
+to set the weights $$\mathit{w}_0 = -0.8$$, and $$\mathit{w}_1 = \mathit{w}_2 = 0.5$$:
 
-| **$$x_1$$** | **$$x_2$$** | **$$y$$** | **$$syn(y)$$** |
+| **$$\mathit{x}_1$$** | **$$\mathit{x}_2$$** | **$$y$$** | **$$syn(y)$$** |
 |:-----------:|:-----------:|:---------:|:--------------:|
 |      1      |      1      |    0.2    |       1        |
 |      0      |      0      |   -0.8    |       -1       |
 |      1      |      0      |   -0.3    |       -1       |
 |      0      |      1      |   -0.3    |       -1       |
 
-This perceptron can be made to represent the OR function instead by altering the threshold to $$w_0 = -0.3$$:
+This perceptron can be made to represent the OR function instead by altering the threshold to $$\mathit{w}_0 = -0.3$$:
 
-| **$$x_1$$** | **$$x_2$$** | **$$y$$** | **$$syn(y)$$** |
+| **$$\mathit{x}_1$$** | **$$\mathit{x}_2$$** | **$$y$$** | **$$syn(y)$$** |
 |:-----------:|:-----------:|:---------:|:--------------:|
 |      1      |      1      |    0.7    |       1        |
 |      0      |      0      |   -0.3    |       -1       |
@@ -110,11 +110,11 @@ This perceptron can be made to represent the OR function instead by altering the
 > In fact, AND and OR can be viewed as special cases of m-of-n functions: that is, functions where at least m of the n 
 > inputs to the perceptron must be true. The OR function corresponds to m = 1 and the AND function to m = n. Any m-of-n
 > function is easily represented using a perceptron by setting all input weights to the same value (e.g., 0.5) and
-> then setting the threshold $$w_0$$ accordingly
+> then setting the threshold $$\mathit{w}_0$$ accordingly
 
 Perceptrons can represent all of the primitive boolean functions AND, OR, NAND ($$\neg AND$$), and NOR ($$\neg OR$$). 
 Some boolean functions, however, cannot be represented by a single perceptron, such as the XOR function
-whose value is 1 if and only if $$x_1 \ne x_2$$. Note the set of linearly nonseparable training examples shown in
+whose value is 1 if and only if $$\mathit{x}_1 \ne \mathit{x}_2$$. Note the set of linearly nonseparable training examples shown in
 figure(b) above corresponds to this XOR function
 
 The ability of perceptrons to represent AND, OR, NAND, and NOR is important because _every_ boolean function can be 
@@ -141,14 +141,14 @@ basis for learning networks of many units:
 One way to learn an acceptable weight vector is to begin with random weights, then iteratively apply the perceptron to 
 each training example, modifying the perceptron weights whenever it misclassifies an example. This process is repeated, 
 iterating through the training examples as many times as needed until the perceptron classifies all training examples 
-correctly. Weights are modified at each step according to the perceptron training rule, which revises the weight $$w_i$$
-associated with input $$x_i$$ according to the rule
+correctly. Weights are modified at each step according to the perceptron training rule, which revises the weight $$\mathit{w}_i$$
+associated with input $$\mathit{x}_i$$ according to the rule
 
-$$ w_i \leftarrow w_i + \Delta w_i $$
+$$ \mathit{w}_i \leftarrow \mathit{w}_i + \Delta \mathit{w}_i $$
 
 where
 
-$$ \Delta w_i = \eta (t - o) x_i $$
+$$ \Delta \mathit{w}_i = \eta (t - o) \mathit{x}_i $$
 
 Here $$t$$ is the target output for the current training example, $$o$$ is the output generated by the perceptron, and
 $$\eta$$ is a positive constant called the **learning rate**. The role of the learning rate is to moderate the degree to 
@@ -170,39 +170,67 @@ fit the training examples
 The delta training rule is best understood by considering the task of training an **unthresholded perceptron**; that is,
 a _linear_ unit for which the output $$o$$ is given by
 
-$$ o(\vec{x}) = \vec{w} \cdot \vec{x} $$
+$$ o(\vec{\mathit{x}}) = \vec{\mathit{w}} \cdot \vec{\mathit{x}} $$
 
 In order to derive a weight learning rule for linear units, let us begin by specifying a measure for the **training
 error** of a hypothesis (weight vector), relative to the training examples
 
-$$ E(\vec{w}) \equiv \frac{1}{2} \sum_{d in D} (t_d - o_d)^2 $$
+$$ \mathit{E}(\vec{\mathit{w}}) \equiv \frac{1}{2} \sum_{d in D} (t_d - o_d)^2 $$
 
 where $$D$$ is the set of training examples; $$t_d$$ is the target output for training example $$d$$, and $$o_d$$ is the 
-output of the linear unit for training example $$d$$. By this definition, $$E(\vec{w})$$ is simply half the squared 
+output of the linear unit for training example $$d$$. By this definition, $$\mathit{E}(\vec{\mathit{w}})$$ is simply half the squared 
 difference between the target output $$t_d$$ and the linear unit output $$o_d$$, summed over all training examples
 
 ##### Visualizing the Hypothesis Space
 
 To understand the gradient descent algorithm, it is helpful to visualize the entire hypothesis space of possible weight 
-vectors and their associated $$E$$ values, as illustrated in this figure:
+vectors and their associated $$\mathit{E}$$ values, as illustrated in this figure:
 
 ![Error loading ann-gradient-descent-hypothesis-space.png]({{ "/assets/img/ann-gradient-descent-hypothesis-space.png" | relative_url}})
 
-The axes $$w_0$$ and $$w_1$$ represent possible values for the two weights of a simple linear unit. The $$w_0, w_1$$
-plane therefore represents the entire hypothesis space. The vertical axis indicates the error $$E$$ relative to some
+The axes $$\mathit{w}_0$$ and $$\mathit{w}_1$$ represent possible values for the two weights of a simple linear unit. The $$\mathit{w}_0, \mathit{w}_1$$
+plane therefore represents the entire hypothesis space. The vertical axis indicates the error $$\mathit{E}$$ relative to some
 fixed set of training examples. The error surface shown in the figure thus summarizes the desirability of every weight 
 vector in the hypothesis space (we desire a hypothesis with minimum error). Given the way in which we chose to
-define $$E$$ (half the summation of the square difference between target and linear unit output), for linear units this 
+define $$\mathit{E}$$ (half the summation of the square difference between target and linear unit output), for linear units this 
 error surface must always be parabolic with a single global minimum. The specific parabola will depend, of course, on
 the particular set of training examples.
 
-**Gradient descent search determines a weight vector that minimizes $$E$$ by starting with an arbitrary initial weight 
+**Gradient descent search determines a weight vector that minimizes $$\mathit{E}$$ by starting with an arbitrary initial weight 
 vector, then repeatedly modifying it in small steps. At each step, the weight vector is altered in the direction that 
 produces [_the steepest descent_](#derivation-of-the-gradient-descent-rule) along the error surface depicted in figure 
 above. This process continues until the global minimum error is reached.
 
 #### Derivation of the Gradient Descent Rule
 
-The direction of the steepest descent along the error surface can be found by computing the derivative of $$E$$ with
-respect to each component of the vector $$\vec{w}$$. This vector derivative is called the **gradient of $$E$$ with
-respect to $$\vec{w}$$**, written as $$\nabla E(\vec{w})$$
+The direction of the steepest descent along the error surface can be found by computing the derivative of $$\mathit{E}$$ with
+respect to each component of the vector $$\vec{\mathit{w}}$$. This vector derivative is called the **gradient of $$\mathit{E}$$ with
+respect to $$\vec{\mathit{w}}$$**, written as $$\nabla \mathit{E}(\vec{\mathit{w}})$$
+
+$$
+
+\nabla \mathit{E}(\vec{\mathit{w}}) \equiv \left[ \frac{\partial \mathit{E}}{\partial \mathit{w}_0}, \frac{\partial \mathit{E}}{\partial \mathit{w}_1}, ..., \frac{\partial \mathit{E}}{\partial \mathit{w}_n} \right]
+
+$$
+
+> Notice $$\nabla \mathit{E}(\vec{w})$$ is itself a vector, whose components are the partial derivatives of $$\mathit{E}$$ with respect to
+> each of the $$\mathit{w}_i$$. **When interpreted as a vector in weight space, the gradient specifies the direction that
+> produces the steepest increase in $$\mathit{E}$$. The negative of this vector therefore gives the direction of the steepest
+> decrease.
+
+Since the gradient specifies the direction of steepest increase of $$\mathit{E}$$, the training rule for gradient
+descent is
+
+$$ \vec{\mathit{w}} \leftarrow \vec{\mathit{w}} + \Delta \vec{\mathit{w}} $$
+
+where
+
+$$ \Delta \vec{\mathit{w}} = -\eta\nabla \mathit{E}(\vec{\mathit{w}}) $$
+
+In its component form:
+
+$$ \mathit{w}_i \leftarrow \mathit{w}_i + \Delta \mathit{w}_i $$
+
+where
+
+$$ \Delta \mathit{w}_i = -\eta\frac{\partial \mathit{E}}{\partial \mathit{w}_i} $$
