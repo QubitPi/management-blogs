@@ -391,7 +391,8 @@ where "outputs" is the set of output units in the network, and $$\mathit{t_{kd}}
 target and output values associated with the _k_-th output unit and training example $$\mathit{d}$$.
 
 The learning problem faced by Backpropagation Algorithm is to search a large hypothesis space defined by all possible 
-weight values for all the units in the network
+weight values for all the units in the network. The algorithm below outlines the stochastic gradient descent version of
+the Backpropagation algorithm for feedforward networks containing **two** layers of sigmoid units. 
 
 > Backpropagation(training_examples, $$\eta$$, $$\mathit{n_{in}}$$, $$\mathit{n_{out}}$$, $$\mathit{n_{hidden}}$$)
 > 
@@ -429,3 +430,4 @@ weight values for all the units in the network
 >           where
 >
 >           $$ \mathit{w_{ji}} = \eta\delta_{\mathit{j}}\mathit{x_{ji}} $$
+
