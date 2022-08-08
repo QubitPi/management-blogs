@@ -38,14 +38,10 @@ output $$o(x_1, ... , x_n)$$ computed by the perceptron is
 
 $$
 
-\begin{equation}
-
-o(x_1, ... , x_n) =
-    \begin{cases}
-        1 if w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0
-        -1 otherwise
-    \end{cases}
-\end{equation}
+\begin{cases}
+    1 if w_0 + w_1x_1 + w_2x_2 + ... + w_nx_n > 0
+    -1 otherwise
+\end{cases}
 
 $$
 
@@ -57,25 +53,16 @@ If we add an additional constant input $$x_0 = 1$$, allowing us to write the equ
 $$\sum_{i = 0}^{n} w_ix_i > 0$$ or, in vector form, as $$\vec{w} \cdot \vec{x} > 0$$, we will be able to write the
 perceptron function as
 
-$$
-
-\[ o(\vex{x}) = sgn(\vec{w} \cdot \vec{x}) \]
-
-$$
+$$ o(\vec{x}) = sgn(\vec{w} \cdot \vec{x}) $$
 
 where
 
 $$
 
-\begin{equation}
-
-sgn(y) =
-    \begin{cases}
-        1 if y > 0
-        -1 otherwise
-    \end{cases}
-
-\end{equation}
+\begin{cases}
+    1 if y > 0
+    -1 otherwise
+\end{cases}
 
 $$
 
@@ -102,27 +89,41 @@ A single perceptron can be used to represent many boolean functions. For example
 (true) and -1 (false), then one example way to use a two-dimensional input perceptron to implement the AND function is
 to set the weights $$w_0 = -0.8$$, and $$w_1 = w_2 = 0.5$$:
 
-| **$x_1$** | **$x_2$** | **$y$** | **$syn(y)$** |
-|:---------:|:---------:|:-------:|:------------:|
-| 1         | 1         |   0.2   |      1       |
-| 0         | 0         |  -0.8   |      -1      |
-| 1         | 0         |  -0.3   |      -1      |
-| 0         | 1         |  -0.3   |      -1      |
+| **$$x_1$$** | **$$x_2$$** | **$$y$$** | **$$syn(y)$$** |
+|:-----------:|:-----------:|:---------:|:--------------:|
+|      1      |      1      |    0.2    |       1        |
+|      0      |      0      |   -0.8    |       -1       |
+|      1      |      0      |   -0.3    |       -1       |
+|      0      |      1      |   -0.3    |       -1       |
 
 
 
-This perceptron can be made to represent the OR function instead by altering the threshold to $w_0 = -0.3$:
+This perceptron can be made to represent the OR function instead by altering the threshold to $$w_0 = -0.3$$:
 
-| **$x_1$** | **$x_2$** | **$y$** | **$syn(y)$** |
-|:---------:|:---------:|:-------:|:------------:|
-| 1         | 1         |   0.7   |      1       |
-| 0         | 0         |  -0.3   |      -1      |
-| 1         | 0         |   0.2   |      1       |
-| 0         | 1         |   0.2   |      1       |
+| **$$x_1$$** | **$$x_2$$** | **$$y$$** | **$$syn(y)$$** |
+|:-----------:|:-----------:|:---------:|:--------------:|
+|      1      |      1      |    0.7    |       1        |
+|      0      |      0      |   -0.3    |       -1       |
+|      1      |      0      |    0.2    |       1        |
+|      0      |      1      |    0.2    |       1        |
 
-In fact, AND and OR can
-be viewed as special cases of m-of-n functions: that is, functions where at least
-m of the n inputs to the perceptron must be true. The OR function corresponds to
-rn = 1 and the AND function to m = n. Any m-of-n function is easily represented
-using a perceptron by setting all input weights to the same value (e.g., 0.5) and
-then setting the threshold wo accordingly
+> In fact, AND and OR can be viewed as special cases of m-of-n functions: that is, functions where at least m of the n 
+> inputs to the perceptron must be true. The OR function corresponds to m = 1 and the AND function to m = n. Any m-of-n
+> function is easily represented using a perceptron by setting all input weights to the same value (e.g., 0.5) and
+> then setting the threshold $$w_0$$ accordingly
+
+Perceptrons can represent all of the primitive boolean functions AND, OR, NAND ($$\neg AND$$), and NOR ($$\neg OR$$). 
+Some boolean functions, however, cannot be represented by a single perceptron, such as the XOR function
+whose value is 1 if and only if $$x_1 \ne x_2$$. Note the set of linearly nonseparable training examples shown in
+figure(b) above corresponds to this XOR function
+
+The ability of perceptrons to represent AND, OR, NAND, and NOR is important because _every_ boolean function can be 
+represented by some network of interconnected units based on these primitives. In fact, every boolean function can
+be represented by some network of perceptrons only two levels deep, in which the inputs are fed to multiple units, and
+the outputs of these units are then input to a second, final stage. One way is to represent the boolean function in 
+disjunctive normal form (i.e., as the disjunction (OR) of a set of conjunctions (ANDs) of the inputs and their
+negations). Note that the input to an AND perceptron can be negated simply by changing the sign of the corresponding
+input weight.
+
+Because networks of threshold units can represent a rich variety of functions and because single units alone cannot, we 
+will generally be interested in learning multilayer networks of threshold units.
