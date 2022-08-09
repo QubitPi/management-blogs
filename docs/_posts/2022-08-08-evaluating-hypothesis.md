@@ -40,7 +40,7 @@ Estimating Hypothesis Accuracy
 > encountering each instance in $$\mathit{X}$$. The learning task is to learn the target concept or target function
 > $$\mathit{f}$$ by considering a space $$\mathit{H}$$ of possible hypotheses. Training examples of the target function 
 > $$\mathit{f}$$ are provided to the learner by a trainer who draws each instance independently, according to the 
-> distribution $$\mathcal{D}$$, and who then forwards the instance $\mathit{x}$ along with its correct target value 
+> distribution $$\mathcal{D}$$, and who then forwards the instance $$\mathit{x}$$ along with its correct target value 
 > $$\mathit{f(x)}$$ to the learner.
 
 Within this general setting we are interested in the following two questions:
@@ -81,3 +81,13 @@ distribution $$\mathcal{D}$$
 > $$\mathit{h}$$ will misclassify an instance drawn at random according to $$\mathcal{D}$$
 > 
 > $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f(x)} \neq \mathit{h(x) \right] $$
+> 
+> where $$\underset{\mathit{x \in \mathcal{D}}}{\text{Pr}}$$ means that the probability is taken over the instance
+> distribution \mathcal{D}
+
+**What we usually wish to know is the true error $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ of the hypothesis, because
+this is the error we can expect when applying the hypothesis to future examples. All we can measure, however, is the
+sample error $$\text{error}_\mathit{S}\mathit{(h)}$$ of the hypothesis for the data sample $$\mathit{S}$$ that we happen
+to have in hand. The main question is "How good an estimate of $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ is provided by
+$$\text{error}_\mathit{S}\mathit{(h)}$$?"
+
