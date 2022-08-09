@@ -542,5 +542,34 @@ ANN with TensorFlow
 -------------------
 
 
-Convolutional Neural Network
-----------------------------
+Convolutional Neural Network (CNN/ConvNets)
+-------------------------------------------
+
+A typical CNN looks like this:
+
+![Error loading cnn-simple-example.png]({{ "/assets/img/cnn-simple-example.png" | relative_url}})
+
+Confused? Do not go to Google TensorFlow page because you are guaranteed to get lost further there. Instead, keep
+reading this section and I'm sure you will be happy.
+
+There are four main operations in the ConvNet shown in figure above, which we will being discussing separately:
+
+1. Convolution
+2. Non Linearity (ReLU)
+3. Pooling or Sub Sampling
+4. Classification (Fully Connected Layer)
+
+These operations are the basic building blocks of _every_ Convolutional Neural Network, so understanding how these work
+is an important step to developing a sound understanding of ConvNets. We will try to understand the intuition behind
+each of these operations below.
+
+### An Image is a Matrix of Pixel Values
+
+Essentially, every image can be represented as a matrix of pixel values.
+
+![Error loading every-img-is-a-matrix-of-px-values.gif]({{ "/assets/img/every-img-is-a-matrix-of-px-values.gif" | relative_url}})
+
+
+### Putting it all together – Training using Backpropagation
+
+As discussed above, the Convolution + Pooling layers act as Feature Extractors from the input image while Fully Connected layer acts as a classifier.
