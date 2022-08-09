@@ -460,7 +460,7 @@ Because Backpropagation is such a widely used algorithm, many variations have be
 to alter the weight-update rule. For example, one approach is making the weight update on the _n_-th iteration depend 
 partially on the update that occurred during the _(n - 1)_-th iteration:
 
-$$ \Delta\mathit{w_ji(n)} = \mathit{\eta\delta_j x_{ji} + \alpha\Delta w_{ji}(n - 1)} $$
+$$ \Delta\mathit{w_{ji}(n)} = \mathit{\eta\delta_j x_{ji} + \alpha\Delta w_{ji}(n - 1)} $$
 
 where $$0 < \alpha < 1$$ is a constant called **momentum**. The second term on the right of the equation is called the 
 **momentum term**. To see the effect of this momentum term, consider that the gradient descent search trajectory is 
@@ -517,16 +517,22 @@ from the local minimum with respect to this single weight.
 A second perspective on local minima can be gained by considering the manner in which network weights evolve as the
 number of training iterations increases. Notice that if network weights are initialized to values near zero, then during 
 early gradient descent steps the network will represent a very smooth function that is approximately linear in its
-inputs. This is because the sigmoid threshold function itself is approximately linear when the weights are close to zero 
-(see the plot of the sigmoid function in Figure 4.6). Only after the weights have had time to grow will they reach a
-point where they can represent highly nonlinear network functions. One might expect more local minima to exist in the
-region of the weight space that represents these more complex functions. One hopes that by the time the weights reach
-this point they have already moved close enough to the global minimum that even local minima in this region are
-acceptable.
+inputs. This is because the sigmoid threshold function itself is approximately linear when the weights are close to
+zero. Only after the weights have had time to grow will they reach a point where they can represent highly nonlinear 
+network functions. One might expect more local minima to exist in the region of the weight space that represents these 
+more complex functions. One hopes that by the time the weights reach this point they have already moved close enough to 
+the global minimum that even local minima in this region are acceptable.
 
 Common heuristics to attempt to alleviate the problem of local minima include:
 
-* Add a [momentum](#updating-weight-with-momentum) term to the weight-update rule as described in Equation
-  (4.18). Momentum can sometimes carry the gradient descent procedure
-  through narrow local minima (though in principle it can also carry it through
-  narrow global minima into other local minima!).
+* Add a [momentum](#updating-weight-with-momentum) term to the weight-update rule. Momentum can sometimes carry the 
+  gradient descent procedure through narrow local minima (though in principle it can also carry it through narrow global 
+  minima into other local minima!).
+* Use stochastic gradient descent rather than true gradient descent. The stochastic approximation to gradient descent
+  effectively descends a different error surface for each training example, relying on the average of these to
+  approximate the gradient with respect to the full training set. These different error surfaces typically will have 
+  different local minima, making it less likely that the process will get stuck in any one of them.
+* Train multiple networks using the same data, but initializing each network with different random weights. If the 
+  different training efforts lead to different local minima, then the network with the best performance over a separate 
+  validation data set can be selected. Alternatively, all networks can be retained and treated as a "committee" of 
+  networks whose output is the (possibly weighted) average of the individual network outputs.
