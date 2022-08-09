@@ -88,7 +88,7 @@ distribution $$\mathcal{D}$$
 > with respect to target function $$\mathit{f(x)}$$ and distribution $$\mathcal{D}$$ is the probability that
 > $$\mathit{h}$$ will misclassify an instance drawn at random according to $$\mathcal{D}$$
 > 
-> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f(x)} != \mathit{h(x)} \right] $$
+> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f\ (x)} != \mathit{h(x)} \right] $$
 > 
 > where $$\underset{\mathit{x \in \mathcal{D}}}{\text{Pr}}$$ means that the probability is taken over the instance
 > distribution $$\mathcal{D}$$
@@ -106,7 +106,7 @@ error over a sample $$\mathit{S}$$ where
 
 * the sample $$\mathit{S}$$ contains $$\mathit{n}$$ examples drawn independent of one another, and independent of 
   $$\mathit{h}$$, according to the probability distribution $$\mathcal{D}$$
-* $$\mathit{n} \ge 30$$
+* $$\mathit{n} \ge 30$$ for approximation to look good
 * hypothesis $$\mathit{h}$$ commits $$\mathit{r}$$ errors over these $$\mathit{n}$$ examples (i.e., $$\text{error}_\mathit{S}\mathit{(h)} = \mathit{\frac{r}{n}}$$).
 
 Under these conditions, statistical theory allows us to make the following assertions:

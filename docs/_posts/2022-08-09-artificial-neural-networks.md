@@ -454,6 +454,8 @@ only to converge toward some local minimum
 
 #### Variations
 
+##### Updating Weight with Momentum
+
 Because Backpropagation is such a widely used algorithm, many variations have been developed. Perhaps the most common is 
 to alter the weight-update rule. For example, one approach is making the weight update on the _n_-th iteration depend 
 partially on the update that occurred during the _(n - 1)_-th iteration:
@@ -521,3 +523,10 @@ point where they can represent highly nonlinear network functions. One might exp
 region of the weight space that represents these more complex functions. One hopes that by the time the weights reach
 this point they have already moved close enough to the global minimum that even local minima in this region are
 acceptable.
+
+Common heuristics to attempt to alleviate the problem of local minima include:
+
+* Add a [momentum](#updating-weight-with-momentum) term to the weight-update rule as described in Equation
+  (4.18). Momentum can sometimes carry the gradient descent procedure
+  through narrow local minima (though in principle it can also carry it through
+  narrow global minima into other local minima!).
