@@ -91,3 +91,13 @@ sample error $$\text{error}_\mathit{S}\mathit{(h)}$$ of the hypothesis for the d
 to have in hand. The main question is "How good an estimate of $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ is provided by
 $$\text{error}_\mathit{S}\mathit{(h)}$$?"
 
+### True Error for Discrete-Valued Hypotheses
+
+We can answer the question above for $$\mathit{h}$$ that is a discrete-valued hypothesis based on its observed sample
+error over a sample $$\mathit{S}$$ where
+
+* the sample $$\mathit{S}$$ contains $$\mathit{n}$$ examples drawn independent of one another, and independent of 
+  $$\mathit{h}$$, according to the probability distribution $$\mathcal{D}$$
+* $$\mathit{n} \ge 30$$
+* hypothesis $$\mathit{h}$$ commits $$\mathit{r}$$ errors over these $$\mathit{n}$$ examples (i.e., $$\text{error}_\mathit{S}\mathit{(h)}$$ = \mathit{\frac{r}{n}}).
+
