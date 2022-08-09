@@ -719,6 +719,14 @@ the Fully Connected layer is to use these features for classifying the input ima
 training dataset**. For example, the image classification task we set out to perform has four possible outputs as shown
 in figure below:
 
+![Error loading cnn-fully-connected-layer-examp.png]({{ "/assets/img/cnn-fully-connected-layer-examp.png" | relative_url}})
+
+Apart from classification, adding a fully-connected layer is also a (usually) cheap way of learning non-linear 
+combinations of these features. Most of the features from convolutional and pooling layers may be good for the
+classification task, but combinations of those features might be even better.
+
+The sum of output probabilities from the fully connected layer is 1. This is ensured by using the Softmax as the 
+activation function.
 
 
 
