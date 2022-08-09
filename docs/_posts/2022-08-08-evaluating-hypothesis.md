@@ -110,6 +110,24 @@ Under these conditions, statistical theory allows us to make the following asser
    $$ \text{error}_{\mathit{S}}\mathit{(h)} \pm 1.96\sqrt{\frac{\text{error}_\mathit{S}\mathit{(h)}\left( 1 - \text{error}_\mathit{S}\mathit{(h)} \right)}{\mathit{n}}} $$
 
 The expression above for the 95% confidence interval can be generalized to any desired confidence level. The constant
-1.96 is used in case we desire a 95% confidence interval. A different constant, Z_N, is used to calculate the N% confidence
-interval. The general expression for approximate N% confidence intervals
-for errorv(h) is
+1.96 is used in case we desire a 95% confidence interval. A different constant, $$\mathit{z_N}$$, is used to calculate
+the _N_% confidence interval. The general expression for approximate _N_% confidence intervals
+for $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ is
+
+$$ \text{error}_{\mathit{S}}\mathit{(h)} \pm \mathit{z_N}\sqrt{\frac{\text{error}_\mathit{S}\mathit{(h)}\left( 1 - \text{error}_\mathit{S}\mathit{(h)} \right)}{\mathit{n}}} $$
+
+where the constant $$\mathit{z_N}$$ is chosen depending on the desired confidence level, using the values of
+$$\mathit{z_N}$$ given in table below
+
+| **Confidence Level _N_%**     | 50%  | 68%  | 80%  | 90%  | 95%  | 98%  | 99%  |
+|:-----------------------------:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
+| **Constant $$\mathit{z_N}$$** | 0.67 | 1.00 | 1.28 | 1.64 | 1.96 | 2.33 | 2.58 |
+
+> ⚠️ It is important to keep in mind that the generalized equation above applies only to discrete-valued hypotheses,
+> that it assumes the sample $$\mathit{S}$$ is drawn at random using the same distribution from which future data will
+> be drawn, and that it assumes the data is independent of the hypothesis being tested. We should also keep in mind that
+> the expression provides only an approximate confidence interval, though the approximation is quite good when the
+> sample contains at least 30 examples, and $$\text{error}_\mathit{S}\mathit{(h)}$$ is NOT too close to 0 or 1. A more 
+> accurate rule of thumb is that the above approximation works well when
+> 
+> $$ \mathit{n} \times \text{error}_\mathit{S}\mathit{(h)}\left( 1 - \text{error}_\mathit{S}\mathit{(h)} \right) \ge 5 $$
