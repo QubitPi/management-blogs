@@ -545,14 +545,14 @@ ANN with TensorFlow
 Convolutional Neural Network (CNN/ConvNets)
 -------------------------------------------
 
-A typical CNN looks like this:
+A typical CNN looks like this
 
 ![Error loading cnn-simple-example.png]({{ "/assets/img/cnn-simple-example.png" | relative_url}})
 
-Confused? Do not go to Google TensorFlow page because you are guaranteed to get lost further there. Instead, keep
-reading this section and I'm sure you will be happy.
+The structure classifies an input image into four categories: dog, cat, boat or bird. For example, on receiving a boat 
+image as input, the network correctly assigns the highest probability for boat (0.94) among all four categories.
 
-There are four main operations in the ConvNet shown in figure above, which we will being discussing separately:
+There are four main operations in the ConvNet shown in figure above, which we will being discussing next:
 
 1. [Convolution](#the-convolution-step)
 2. Non Linearity ([ReLU](#non-linearity-relu)
@@ -770,6 +770,55 @@ output a probability for each class (for a new image, the output probabilities a
 have been optimized to correctly classify all the previous training examples). If our training set is large enough, the 
 network will (hopefully) generalize well to new images and classify them into correct categories.
 
+**In general, the more convolution steps we have, the more complicated features our network will be able to learn to 
+recognize**. For example, in image classification a ConvNet may learn to detect edges from raw pixels in the first
+layer, then use the edges to detect simple shapes in the second layer, and then use these shapes to find higher-level 
+features, such as facial shapes in higher layers:
+
+![Error loading cnn-facial-detection-example.png]({{ "/assets/img/cnn-facial-detection-example.png" | relative_url}})
+
 ### Visualizing Convolutional Neural Networks
 
+Let's take a look at how CNN works for an input of "8". Please note that the following visualizations do not show the
+ReLU operation.
 
+![Error loading cnn-8-visualization-example.png]({{ "/assets/img/cnn-8-visualization-example.png" | relative_url}})
+
+The input image contains 1024 pixels (32x32 image) and the first convolution layer is formed by convolution of six 
+unique 5x5 (stride 1) filters with the input image (Using six different filters produces a feature map of depth six).
+
+Convolutional layer 1 is followed by pooling layer 1 that performs 2×2 max pooling (with stride 2) over the six feature 
+maps from convolution layer 1.
+
+Pooling layer 1 is followed by 16 5×5 (stride 1) convolutional filters, which are next followed by pooling layer 2 with
+2×2 max pooling (with stride 2). 
+
+We then have three fully-connected layers:
+
+1. 120 neurons in the first layer
+2. 100 neurons in the second layer
+3. 10 neurons in the third layer (the **output layer**) corresponding to the 10 digits
+
+### Other ConvNet Architectures
+
+The structure presented above is the famous **LeNet Architecture** (1990s), which is one of the very first convolutional 
+neural networks that propelled the field of Deep Learning. This pioneering
+[work by Yann LeCun](http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf) was used mainly for character recognition
+tasks such as reading zip codes, digits, etc.
+
+There have been several new architectures proposed in the recent years which are improvements over the LeNet, but they
+all use the main concepts.
+
+* **AlexNet (2012)** In 2012, Alex Krizhevsky (and others) released
+  [AlexNet]({{ "/assets/pdf/AlexNet.pdf" | relative_url}}) which was a deeper and much wider version of the LeNet. It
+  was a significant breakthrough with respect to the previous approaches and the current widespread application of CNNs 
+  can be attributed to this work.
+* [**ZF Net (2013)**](https://arxiv.org/abs/1311.2901) An improvement on AlexNet by tweaking the architecture 
+  hyperparameters.
+* [**GoogLeNet (2014)**](https://arxiv.org/abs/1409.4842) A Convolutional Network from Szegedy et al. at Google. Its
+  main contribution was the development of an Inception Module that dramatically reduced the number of parameters in the 
+  network (4M, compared to AlexNet with 60M).
+* [**VGGNet (2014)**](http://www.robots.ox.ac.uk/~vgg/research/very_deep/)
+* [**ResNets (2015)**](https://arxiv.org/abs/1512.03385) The state of the art CNN models and are the default choice for 
+  using ConvNets in practice (as of May 2016).
+* [DenseNet (August 2016)](https://arxiv.org/abs/1608.06993) The DenseNet has been shown to obtain significant improvements over previous state-of-the-art architectures on five highly competitive object recognition benchmark tasks. Check out the Torch implementation [here](https://github.com/liuzhuang13/DenseNet).
