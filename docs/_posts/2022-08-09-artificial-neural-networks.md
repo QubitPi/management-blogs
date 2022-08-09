@@ -770,15 +770,6 @@ output a probability for each class (for a new image, the output probabilities a
 have been optimized to correctly classify all the previous training examples). If our training set is large enough, the 
 network will (hopefully) generalize well to new images and classify them into correct categories.
 
+### Visualizing Convolutional Neural Networks
 
 
-
-
-
-
-
-
-
-### Putting it all together – Training using Backpropagation
-
-As discussed above, the **Convolution + Pooling layers act as Feature Extractors from the input image while Fully Connected layer acts as a classifier**.
