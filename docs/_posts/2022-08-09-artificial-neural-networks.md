@@ -741,7 +741,7 @@ class and 0 for other three classes, i.e.
 
 ![Error loading cnn-boat-classification-example.png]({{ "/assets/img/cnn-boat-classification-example.png" | relative_url}})
 
-The overall training process of the convolution neural network may be summarized empirically as below:
+The overall training process of the convolution neural network may be summarized **empirically** as below:
 
 > 1. Initialize all filters and parameters/weights with random values
 > 2. The network takes a training image as input, goes through the forward propagation step (convolution, ReLU, and 
