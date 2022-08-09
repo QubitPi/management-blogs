@@ -69,7 +69,7 @@ the fraction of $$\mathit{S}$$ that it misclassifies:
 > $$ \text{error}_\mathit{S}\mathit{(h)} \equiv \frac{1}{n}\sum_{\mathit{x \in S}}\delta(\mathit{f(x)}, \mathit{h(x)}) $$
 > 
 > where $$\mathit{x}$$ is the number of examples in $$\mathit{S}$$, and the quantity
-> $$\delta(\mathit{f(x)}, \mathit{h(x)})$$ is 1 if $$\mathit{f(x)} \neq \mathit{h(x)}$$, and 0 otherwise
+> $$\delta(\mathit{f(x)}, \mathit{h(x)})$$ is 1 if $$\mathit{f(x)} \ne \mathit{h(x)}$$, and 0 otherwise
 
 The **true error** of a hypothesis is the probability that it will misclassify a instance randomly drawn from the
 distribution $$\mathcal{D}$$
@@ -80,7 +80,7 @@ distribution $$\mathcal{D}$$
 > with respect to target function $$\mathit{f(x)}$$ and distribution $$\mathcal{D}$$ is the probability that
 > $$\mathit{h}$$ will misclassify an instance drawn at random according to $$\mathcal{D}$$
 > 
-> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f(x)} \neq \mathit{h(x) \right] $$
+> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f(x)} \ne \mathit{h(x)} \right] $$
 > 
 > where $$\underset{\mathit{x \in \mathcal{D}}}{\text{Pr}}$$ means that the probability is taken over the instance
 > distribution \mathcal{D}
@@ -99,7 +99,7 @@ error over a sample $$\mathit{S}$$ where
 * the sample $$\mathit{S}$$ contains $$\mathit{n}$$ examples drawn independent of one another, and independent of 
   $$\mathit{h}$$, according to the probability distribution $$\mathcal{D}$$
 * $$\mathit{n} \ge 30$$
-* hypothesis $$\mathit{h}$$ commits $$\mathit{r}$$ errors over these $$\mathit{n}$$ examples (i.e., $$\text{error}_\mathit{S}\mathit{(h)}$$ = \mathit{\frac{r}{n}}).
+* hypothesis $$\mathit{h}$$ commits $$\mathit{r}$$ errors over these $$\mathit{n}$$ examples (i.e., $$\text{error}_\mathit{S}\mathit{(h)} = \mathit{\frac{r}{n}}$$).
 
 Under these conditions, statistical theory allows us to make the following assertions:
 
@@ -109,3 +109,7 @@ Under these conditions, statistical theory allows us to make the following asser
 
    $$ \text{error}_{\mathit{S}}\mathit{(h)} \pm 1.96\sqrt{\frac{\text{error}_\mathit{S}\mathit{(h)}\left( 1 - \text{error}_\mathit{S}\mathit{(h)} \right)}{\mathit{n}}} $$
 
+The expression above for the 95% confidence interval can be generalized to any desired confidence level. The constant
+1.96 is used in case we desire a 95% confidence interval. A different constant, Z_N, is used to calculate the N% confidence
+interval. The general expression for approximate N% confidence intervals
+for errorv(h) is
