@@ -49,3 +49,24 @@ Within this general setting we are interested in the following two questions:
    the distribution $\mathcal{D}$, what is the best estimate of the accuracy of $$\mathit{h}$$ over future instances
    drawn from the same distribution?
 2. What is the probable error in this accuracy estimate?
+
+### Sample Error and True Error
+
+To answer these questions, we need to distinguish carefully between two notions of accuracy or, equivalently, error.
+
+1. The error rate of the hypothesis over the sample of data that is available, namely the **sample error**
+2. The error rate of the hypothesis over the entire unknown distribution $\mathcal{D}$ of examples, which is called the
+   **true error**
+
+The _sample error_ of a hypothesis with respect to some sample $$\mathit{S}$$ of instances drawn from $$\mathit{X}$$ is
+the fraction of $$\mathit{S}$$ that it misclassifies:
+
+> **Definition**
+> 
+> The **sample error**, denoted as $$\text{error}_\mathit{s}\mathit{(h)}$$, of hypothesis $$\mathit{h}$$ with respect to
+> target function $$\mathit{f(x)}$$ and data sample $$\mathit{S}$$ is
+> 
+> $$ \text{error}_\mathit{s}\mathit{(h)} \equiv \frac{1}{n}\sum_{\mathit{x \in S}}\delta(\mathit{f(x)}, \mathit{h(x)}) $$
+> 
+> where $$\mathit{x}$$ is the number of examples in $$\mathit{S}$$, and the quantity
+> $$\delta(\mathit{f(x)}, \mathit{h(x)})$$ is 1 if $$\mathit{f(x)} \neq \mathit{h(x)}$$, and 0 otherwise
