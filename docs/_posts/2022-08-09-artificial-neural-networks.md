@@ -580,9 +580,20 @@ in the matrix will range from 0 to 255, with zero indicating black and 255 indic
 
 ### The Convolution Step
 
-ConvNets derive their name from the “convolution” operator. The primary purpose of Convolution in case of a ConvNet is to extract features from the input image. Convolution preserves the spatial relationship between pixels by learning image features using small squares of input data. We will not go into the mathematical details of Convolution here, but will try to understand how it works over images.
+ConvNets derive their name from the **[convolution operator](https://en.wikipedia.org/wiki/Convolution)**. **The primary 
+purpose of convolution in case of a ConvNet is to extract features from the input image**. Convolution preserves the 
+spatial relationship between pixels by learning image features using small squares of input data. We will not go into the 
+mathematical details of convolution here, but will try to understand how it works over images.
 
+As we discussed above, every image can be considered as a matrix of pixel values. Consider a 5 x 5 image whose pixel 
+values are only 0 and 1 (note that for a grayscale image, pixel values range from 0 to 255, the green matrix below is a 
+special case where pixel values are only 0 and 1):
 
+<div align="center">
+
+![Error loading cnn-example-image.png]({{ "/assets/img/cnn-example-image.png" | relative_url}})
+
+</div>
 
 ### Putting it all together – Training using Backpropagation
 
