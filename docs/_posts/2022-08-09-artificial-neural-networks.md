@@ -589,27 +589,15 @@ As we discussed above, every image can be considered as a matrix of pixel values
 values are only 0 and 1 (note that for a grayscale image, pixel values range from 0 to 255, the green matrix below is a 
 special case where pixel values are only 0 and 1):
 
-<div align="center">
-
 ![Error loading cnn-example-image.png]({{ "/assets/img/cnn-example-image.png" | relative_url}})
-
-</div>
 
 Also, consider another 3 x 3 matrix as shown below:
 
-<div align="center">
-
 ![Error loading cnn-3-by-3-matrix.png]({{ "/assets/img/cnn-3-by-3-matrix.png" | relative_url}})
-
-</div>
 
 Then, the convolution of the 5 x 5 image and the 3 x 3 matrix can be computed as shown in the animation in figure below:
 
-<div align="center">
-
 ![Error loading cnn-convolution.gif]({{ "/assets/img/cnn-convolution.gif" | relative_url}})
-
-</div>
 
 Take a moment to understand how the computation above is being done. We slide the orange matrix over our original image 
 (green) by 1 pixel (also called "stride") and for every position, we compute element wise multiplication (between the
