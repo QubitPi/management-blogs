@@ -567,7 +567,7 @@ each of these operations below.
 
 Essentially, every image can be represented as a matrix of pixel values:
 
-![Error loading every-img-is-a-matrix-of-px-values.gif]({{ "/assets/img/every-img-is-a-matrix-of-px-values.gif" | relative_url}})
+![Error loading cnn-every-img-is-a-matrix-of-px-values.gif]({{ "/assets/img/cnn-every-img-is-a-matrix-of-px-values.gif" | relative_url}})
 
 **[Channel](https://en.wikipedia.org/wiki/Channel_(digital_image))** is a conventional term used to refer to a certain 
 component of an image. An image from a standard digital camera will have three channels - red, green and blue - you can 
