@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Machine Learning - Artificial Neural Networks
-tags: [Machine Learning, Artificial Neural Networks, ANN]
+tags: [Machine Learning, Artificial Neural Networks, ANN, CNN, ConvNet, Convolutional Neural Networks]
 color: rgb(0, 204, 0)
 feature-img: "assets/img/post-cover/15-cover.png"
 thumbnail: "assets/img/post-cover/15-cover.png"
