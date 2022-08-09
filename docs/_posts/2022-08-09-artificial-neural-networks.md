@@ -555,9 +555,9 @@ reading this section and I'm sure you will be happy.
 There are four main operations in the ConvNet shown in figure above, which we will being discussing separately:
 
 1. [Convolution](#the-convolution-step)
-2. Non Linearity (ReLU)
-3. Pooling or Sub Sampling
-4. Classification (Fully Connected Layer)
+2. Non Linearity ([ReLU](#non-linearity-relu)
+3. [Pooling](#the-pooling-step) or Sub Sampling
+4. Classification ([Fully Connected Layer](#fully-connected-layer))
 
 These operations are the basic building blocks of _every_ Convolutional Neural Network, so understanding how these work
 is an important step to developing a sound understanding of ConvNets. We will try to understand the intuition behind
@@ -619,11 +619,11 @@ perform operations such as Edge Detection, Sharpen and Blur just by changing the
 before the [convolution operation](https://en.wikipedia.org/wiki/Kernel_(image_processing)) - this means that
 **different filters can detect different features from an image**
 
-![Error cnn-different-filter.png]({{ "/assets/img/cnn-different-filter.png" | relative_url}})
+![Error loading cnn-different-filter.png]({{ "/assets/img/cnn-different-filter.png" | relative_url}})
 
 Another good way to understand the convolution operation is by looking at the animation below:
 
-![Error cnn-city-example.gif]({{ "/assets/img/cnn-city-example.gif" | relative_url}})
+![Error loading cnn-city-example.gif]({{ "/assets/img/cnn-city-example.gif" | relative_url}})
 
 A filter (with red outline) slides over the input image (convolution operation) to produce a feature map. The
 convolution of another filter (with the green outline), over the same image gives a different feature map as shown. It
@@ -641,9 +641,88 @@ convolution step is performed:
 
 * **Depth**: Depth corresponds to the number of filters we use for the convolution operation. In the network shown in Figure 7, we are performing convolution of the original boat image using three distinct filters, thus producing three different feature maps as shown. You can think of these three feature maps as stacked 2d matrices, so, the ‘depth’ of the feature map would be three.
 
-  ![Error cnn-depth-example.png]({{ "/assets/img/cnn-depth-example.png" | relative_url}})
+  ![Error loading cnn-depth-example.png]({{ "/assets/img/cnn-depth-example.png" | relative_url}})
 
-* 
+* **Stride**: Stride is the number of pixels by which we slide our filter matrix over the input matrix. When the stride
+  is 1 then we move the filters one pixel at a time. When the stride is 2, then the filters jump 2 pixels at a time as
+  we slide them around. Having a larger stride will produce smaller feature maps.
+* **Zero-padding**: Sometimes, it is convenient to pad the input matrix with zeros around the border, so that we can
+  apply the filter to bordering elements of our input image matrix. A nice feature of zero padding is that it allows us
+  to control the size of the feature maps. Adding zero-padding is also called **wide convolution**, and not using
+  zero-padding would be a **narrow convolution**.
+
+### Non Linearity (ReLU)
+
+An additional operation called **ReLU** is used after every convolution operation . ReLU stands for **Rectified Linear 
+Unit** and is a _non-linear operation_. Its output is given by:
+
+![Error loading cnn-ReLU.png]({{ "/assets/img/cnn-ReLU.png" | relative_url}})
+
+ReLU is an element wise operation (applied per pixel) and replaces all negative pixel values in the feature map by zero. 
+**The purpose of ReLU is to introduce non-linearity** in ConvNet, since most of the real-world data we would want our 
+ConvNet to learn would be non-linear and convolution, however, is a linear operation - element wise matrix
+multiplication and addition, so we account for non-linearity by introducing a non-linear function like ReLU).
+
+The ReLU operation can be visualized the picture below. It shows the ReLU operation applied to one feature map. The
+output feature map here is also referred to as the **rectified feature map**.
+
+![Error loading cnn-ReLu-example.png]({{ "/assets/img/cnn-ReLu-example.png" | relative_url}})
+
+Other non linear functions such as **tanh** or **sigmoid** can also be used instead of ReLU, but ReLU has been found to 
+perform better in most situations.
+
+### The Pooling Step
+
+**Spatial Pooling** (also called **subsampling** or **downsampling**) reduces the dimensionality of each feature map but 
+retains the most important information. Spatial Pooling can be of different types: Max, Average, Sum etc.
+
+In case of Max Pooling, we define a spatial neighborhood (for example, a 2×2 window) and take the largest element from
+the rectified feature map within that window. Instead of taking the largest element we could also take the average 
+(Average Pooling) or sum of all elements in that window. In practice, Max Pooling has been shown to work better.
+
+The figure below shows an example of Max Pooling operation on a rectified feature map (obtained after convolution + ReLU 
+operation) by using a 2×2 window
+
+![Error loading cnn-pooling-example.png]({{ "/assets/img/cnn-pooling-example.png" | relative_url}})
+
+We slide our 2 x 2 window by 2 strides and take the maximum value in each region, which reduces the dimensionality of
+our feature map.
+
+In the network shown below, pooling operation is applied separately to each feature map (notice that we get three output 
+maps from three input maps this time).
+
+![Error loading cnn-group-pooling-example.png]({{ "/assets/img/cnn-group-pooling-example.png" | relative_url}})
+
+This picture shows the visual effect of pooling on a rectified feature map:
+
+![Error loading cnn-pooling-visual-example.png]({{ "/assets/img/cnn-pooling-visual-example.png" | relative_url}})
+
+**The purpose of pooling is to progressively reduce the spatial size of the input representation**. In particular,
+pooling
+
+* makes the input representations (feature dimension) smaller and more manageable
+* reduces the number of parameters and computations in the network, therefore, controlling overfitting
+* makes the network invariant to small transformations, distortions and translations in the input image (a small 
+  distortion in input will not change the output of pooling - since we take the maximum / average value in a local 
+  neighborhood).
+* helps us arrive at an almost scale invariant representation of our image (the exact term is "equivariant"). This is
+  very powerful since we can detect objects in an image no matter where they are located
+
+### Fully Connected Layer
+
+The Fully Connected layer is a traditional Multi Layer Perceptron that uses a softmax activation function in the output 
+layer (other classifiers like SVM can also be used, but will stick to softmax for now). The term "Fully Connected"
+implies the fact that every neuron in the previous layer is connected to every neuron on the next layer.
+
+The output from the convolutional and pooling layers represent high-level features of the input image. **The purpose of 
+the Fully Connected layer is to use these features for classifying the input image into various classes based on the 
+training dataset**. For example, the image classification task we set out to perform has four possible outputs as shown
+in figure below:
+
+
+
+
+
 
 
 
