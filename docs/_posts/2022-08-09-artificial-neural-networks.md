@@ -554,7 +554,7 @@ reading this section and I'm sure you will be happy.
 
 There are four main operations in the ConvNet shown in figure above, which we will being discussing separately:
 
-1. Convolution
+1. [Convolution](#the-convolution-step)
 2. Non Linearity (ReLU)
 3. Pooling or Sub Sampling
 4. Classification (Fully Connected Layer)
@@ -565,9 +565,23 @@ each of these operations below.
 
 ### An Image is a Matrix of Pixel Values
 
-Essentially, every image can be represented as a matrix of pixel values.
+Essentially, every image can be represented as a matrix of pixel values:
 
 ![Error loading every-img-is-a-matrix-of-px-values.gif]({{ "/assets/img/every-img-is-a-matrix-of-px-values.gif" | relative_url}})
+
+**[Channel](https://en.wikipedia.org/wiki/Channel_(digital_image))** is a conventional term used to refer to a certain 
+component of an image. An image from a standard digital camera will have three channels - red, green and blue - you can 
+imagine those as three 2D-matrices stacked over each other (one for each color), each having pixel values in the range 0 
+to 255.
+
+A **[grayscale](https://en.wikipedia.org/wiki/Grayscale) image**, on the other hand, has just one channel. For now, we 
+will only consider grayscale images, so we will have a single 2D matrix representing an image. The value of each pixel
+in the matrix will range from 0 to 255, with zero indicating black and 255 indicating white.
+
+### The Convolution Step
+
+ConvNets derive their name from the “convolution” operator. The primary purpose of Convolution in case of a ConvNet is to extract features from the input image. Convolution preserves the spatial relationship between pixels by learning image features using small squares of input data. We will not go into the mathematical details of Convolution here, but will try to understand how it works over images.
+
 
 
 ### Putting it all together – Training using Backpropagation
