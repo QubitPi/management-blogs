@@ -101,3 +101,11 @@ error over a sample $$\mathit{S}$$ where
 * $$\mathit{n} \ge 30$$
 * hypothesis $$\mathit{h}$$ commits $$\mathit{r}$$ errors over these $$\mathit{n}$$ examples (i.e., $$\text{error}_\mathit{S}\mathit{(h)}$$ = \mathit{\frac{r}{n}}).
 
+Under these conditions, statistical theory allows us to make the following assertions:
+
+1. Given no other information, the most probable value of $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ is
+   $$\text{error}_\mathit{S}\mathit{(h)}$$
+2. With approximately 95% probability, the true error $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ lies in the interval
+
+   $$ \text{error}_{\mathit{S}}\mathit{(h)} \pm 1.96\sqrt{\frac{\text{error}_\mathit{S}\mathit{(h)}\left( 1 - \text{error}_\mathit{S}\mathit{(h)} \right)}{\mathit{n}}} $$
+
