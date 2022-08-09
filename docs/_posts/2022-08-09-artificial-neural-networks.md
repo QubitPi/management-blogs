@@ -494,3 +494,30 @@ units whose inputs include the output of unit $$\mathit{r}$$
 
 ### Remarks of the Backpropagation Algorithm
 
+#### Convergence and Local Minima
+
+As shown above, the Backpropagation Algorithm implements a gradient descent search through the space of possible network 
+weights, iteratively reducing the error $$\mathit{E}$$ between the training example target values and the network
+outputs. Because the error surface for multilayer networks may contain many different local minima, gradient descent can 
+become trapped in any of these. As a result, Backpropagation Algorithm ultilayer networks is only guaranteed to converge 
+toward some local minimum in E and not necessarily to the global minimum error.
+
+Despite the lack of assured convergence to the global minimum error, Backpropagation is a highly effective function 
+approximation method in practice. In many practical applications the problem of local minima has not been found to
+be as severe as one might fear.
+
+To develop some intuition here, consider that networks with large numbers of weights correspond to error surfaces in
+very high dimensional spaces (one dimension per weight). When gradient descent falls into a local minimum with respect
+to one of these weights, it will not necessarily be in a local minimum with respect to the other weights. In fact, the
+more weights in the network, the more dimensions that might provide "escape routes" for gradient descent to fall away
+from the local minimum with respect to this single weight.
+
+A second perspective on local minima can be gained by considering the manner in which network weights evolve as the
+number of training iterations increases. Notice that if network weights are initialized to values near zero, then during 
+early gradient descent steps the network will represent a very smooth function that is approximately linear in its
+inputs. This is because the sigmoid threshold function itself is approximately linear when the weights are close to zero 
+(see the plot of the sigmoid function in Figure 4.6). Only after the weights have had time to grow will they reach a
+point where they can represent highly nonlinear network functions. One might expect more local minima to exist in the
+region of the weight space that represents these more complex functions. One hopes that by the time the weights reach
+this point they have already moved close enough to the global minimum that even local minima in this region are
+acceptable.

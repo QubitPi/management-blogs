@@ -77,7 +77,7 @@ the fraction of $$\mathit{S}$$ that it misclassifies:
 > $$ \text{error}_\mathit{S}\mathit{(h)} \equiv \frac{1}{n}\sum_{\mathit{x \in S}}\delta(\mathit{f(x)}, \mathit{h(x)}) $$
 > 
 > where $$\mathit{x}$$ is the number of examples in $$\mathit{S}$$, and the quantity
-> $$\delta(\mathit{f(x)}, \mathit{h(x)})$$ is 1 if $$\mathit{f(x)} ≠ \mathit{h(x)}$$, and 0 otherwise
+> $$\delta(\mathit{f(x)}, \mathit{h(x)})$$ is 1 if $$\mathit{f(x)} != \mathit{h(x)}$$, and 0 otherwise
 
 The **true error** of a hypothesis is the probability that it will misclassify a instance randomly drawn from the
 distribution $$\mathcal{D}$$
@@ -88,10 +88,10 @@ distribution $$\mathcal{D}$$
 > with respect to target function $$\mathit{f(x)}$$ and distribution $$\mathcal{D}$$ is the probability that
 > $$\mathit{h}$$ will misclassify an instance drawn at random according to $$\mathcal{D}$$
 > 
-> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f(x)} ≠ \mathit{h(x)} \right] $$
+> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f(x)} != \mathit{h(x)} \right] $$
 > 
 > where $$\underset{\mathit{x \in \mathcal{D}}}{\text{Pr}}$$ means that the probability is taken over the instance
-> distribution \mathcal{D}
+> distribution $$\mathcal{D}$$
 
 **What we usually wish to know is the true error $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ of the hypothesis**, because
 this is the error we can expect when applying the hypothesis to future examples. All we can measure, however, is the
