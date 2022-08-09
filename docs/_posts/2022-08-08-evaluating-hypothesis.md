@@ -9,6 +9,14 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
+In many cases it is important to evaluate the performance of learned hypotheses as precisely as possible. One reason is 
+simply to understand whether to use the hypothesis. For instance, when learning from a limited-size database indicating
+the effectiveness of different medical treatments, it is important to understand as precisely as possible the accuracy
+of the learned hypotheses. A second reason is that evaluating hypotheses is an integral component of many learning
+methods. For example, in post-pruning decision trees to avoid overfitting, we must evaluate the impact of possible
+pruning steps on the accuracy of the resulting decision tree. Therefore it is important to understand the likely errors 
+inherent in estimating the accuracy of the pruned and unpruned tree.
+
 <!--more-->
 
 Estimating the accuracy of a hypothesis is relatively straightforward when data is plentiful. However, when we must
