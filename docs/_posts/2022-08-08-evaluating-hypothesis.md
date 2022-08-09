@@ -36,17 +36,17 @@ Estimating Hypothesis Accuracy
 > 
 > There is some space of possible instances $$\mathit{X}$$ over which various target functions may be defined. We assume
 > that different instances in $$\mathit{X}$$ may be encountered with different frequencies. A convenient way to model
-> this is to assume there is some unknown probability distribution $\mathcal{D}$ that defines the probability of 
+> this is to assume there is some unknown probability distribution $$\mathcal{D}$$ that defines the probability of 
 > encountering each instance in $$\mathit{X}$$. The learning task is to learn the target concept or target function
 > $$\mathit{f}$$ by considering a space $$\mathit{H}$$ of possible hypotheses. Training examples of the target function 
 > $$\mathit{f}$$ are provided to the learner by a trainer who draws each instance independently, according to the 
-> distribution $\mathcal{D}$, and who then forwards the instance $\mathit{x}$ along with its correct target value 
+> distribution $$\mathcal{D}$$, and who then forwards the instance $\mathit{x}$ along with its correct target value 
 > $$\mathit{f(x)}$$ to the learner.
 
 Within this general setting we are interested in the following two questions:
 
 1. Given a hypothesis $$\mathit{h}$$ and a data sample containing $$\mathit{n}$$ examples drawn at random according to
-   the distribution $\mathcal{D}$, what is the best estimate of the accuracy of $$\mathit{h}$$ over future instances
+   the distribution $$\mathcal{D}$$, what is the best estimate of the accuracy of $$\mathit{h}$$ over future instances
    drawn from the same distribution?
 2. What is the probable error in this accuracy estimate?
 
@@ -55,7 +55,7 @@ Within this general setting we are interested in the following two questions:
 To answer these questions, we need to distinguish carefully between two notions of accuracy or, equivalently, error.
 
 1. The error rate of the hypothesis over the sample of data that is available, namely the **sample error**
-2. The error rate of the hypothesis over the entire unknown distribution $\mathcal{D}$ of examples, which is called the
+2. The error rate of the hypothesis over the entire unknown distribution $$\mathcal{D}$$ of examples, which is called the
    **true error**
 
 The _sample error_ of a hypothesis with respect to some sample $$\mathit{S}$$ of instances drawn from $$\mathit{X}$$ is
