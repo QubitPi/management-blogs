@@ -536,3 +536,11 @@ Common heuristics to attempt to alleviate the problem of local minima include:
   different training efforts lead to different local minima, then the network with the best performance over a separate 
   validation data set can be selected. Alternatively, all networks can be retained and treated as a "committee" of 
   networks whose output is the (possibly weighted) average of the individual network outputs.
+
+
+ANN with TensorFlow
+-------------------
+
+
+Convolutional Neural Network
+----------------------------
