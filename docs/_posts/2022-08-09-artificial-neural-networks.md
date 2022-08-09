@@ -580,7 +580,7 @@ in the matrix will range from 0 to 255, with zero indicating black and 255 indic
 
 ### The Convolution Step
 
-ConvNets derive their name from the **[convolution operator](https://en.wikipedia.org/wiki/Convolution)**. **The primary 
+ConvNets derive their name from the **[convolution](https://en.wikipedia.org/wiki/Convolution) operator**. **The primary 
 purpose of convolution in case of a ConvNet is to extract features from the input image**. Convolution preserves the 
 spatial relationship between pixels by learning image features using small squares of input data. We will not go into the 
 mathematical details of convolution here, but will try to understand how it works over images.
@@ -595,6 +595,70 @@ special case where pixel values are only 0 and 1):
 
 </div>
 
+Also, consider another 3 x 3 matrix as shown below:
+
+<div align="center">
+
+![Error loading cnn-3-by-3-matrix.png]({{ "/assets/img/cnn-3-by-3-matrix.png" | relative_url}})
+
+</div>
+
+Then, the convolution of the 5 x 5 image and the 3 x 3 matrix can be computed as shown in the animation in figure below:
+
+<div align="center">
+
+![Error loading cnn-convolution.gif]({{ "/assets/img/cnn-convolution.gif" | relative_url}})
+
+</div>
+
+Take a moment to understand how the computation above is being done. We slide the orange matrix over our original image 
+(green) by 1 pixel (also called "stride") and for every position, we compute element wise multiplication (between the
+two matrices) and add the multiplication outputs to get the final integer which forms a single element of the output 
+matrix (pink). Note that the 3×3 matrix "sees" only a part of the input image in each stride.
+
+In CNN terminology, the 3×3 matrix is called a **filter** or **kernel** or **feature detector** and the matrix formed by 
+sliding the filter over the image and computing the dot product is called the **Convolved Feature** or **Activation
+Map** or the **Feature Map**. It is important to note that filters acts as feature detectors from the original input
+image.
+
+It is evident from the animation above that different values of the filter matrix will produce different feature maps
+for the same input image. As an example, consider the following input image:
+
+![Error loading cnn-example-base-image.png]({{ "/assets/img/cnn-example-base-image.png" | relative_url}})
+
+In the table below, we can see the effects of convolution of the above image with different filters. As shown, we can 
+perform operations such as Edge Detection, Sharpen and Blur just by changing the numeric values of our filter matrix 
+before the [convolution operation](https://en.wikipedia.org/wiki/Kernel_(image_processing)) - this means that
+**different filters can detect different features from an image**
+
+![Error cnn-different-filter.png]({{ "/assets/img/cnn-different-filter.png" | relative_url}})
+
+Another good way to understand the convolution operation is by looking at the animation below:
+
+![Error cnn-city-example.gif]({{ "/assets/img/cnn-city-example.gif" | relative_url}})
+
+A filter (with red outline) slides over the input image (convolution operation) to produce a feature map. The
+convolution of another filter (with the green outline), over the same image gives a different feature map as shown. It
+is important to note that the convolution operation captures the local dependencies in the original image. Also notice
+how these two different filters generate different feature maps from the same original image. Remember that the image
+and the two filters above are just numeric matrices as we have discussed above.
+
+In practice, a **CNN learns the values of these filters on its own during the training process** (although we still need 
+to specify parameters such as number of filters, filter size, architecture of the network etc. before the training 
+process). The more number of filters we have, the more image features get extracted and the better our network becomes
+at recognizing patterns in unseen images.
+
+The size of the feature map (convolved feature) is controlled by three parameters what we need to decide before the 
+convolution step is performed:
+
+* **Depth**: Depth corresponds to the number of filters we use for the convolution operation. In the network shown in Figure 7, we are performing convolution of the original boat image using three distinct filters, thus producing three different feature maps as shown. You can think of these three feature maps as stacked 2d matrices, so, the ‘depth’ of the feature map would be three.
+
+  ![Error cnn-depth-example.png]({{ "/assets/img/cnn-depth-example.png" | relative_url}})
+
+* 
+
+
+
 ### Putting it all together – Training using Backpropagation
 
-As discussed above, the Convolution + Pooling layers act as Feature Extractors from the input image while Fully Connected layer acts as a classifier.
+As discussed above, the **Convolution + Pooling layers act as Feature Extractors from the input image while Fully Connected layer acts as a classifier**.
