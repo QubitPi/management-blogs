@@ -93,11 +93,11 @@ distribution $$\mathcal{D}$$
 > where $$\underset{\mathit{x \in \mathcal{D}}}{\text{Pr}}$$ means that the probability is taken over the instance
 > distribution \mathcal{D}
 
-**What we usually wish to know is the true error $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ of the hypothesis, because
+**What we usually wish to know is the true error $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ of the hypothesis**, because
 this is the error we can expect when applying the hypothesis to future examples. All we can measure, however, is the
 sample error $$\text{error}_\mathit{S}\mathit{(h)}$$ of the hypothesis for the data sample $$\mathit{S}$$ that we happen
-to have in hand. The main question is "How good an estimate of $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ is provided by
-$$\text{error}_\mathit{S}\mathit{(h)}$$?"
+to have in hand. The main question is "**How good an estimate of $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ is provided
+by $$\text{error}_\mathit{S}\mathit{(h)}$$?**"
 
 ### True Error for Discrete-Valued Hypotheses
 
