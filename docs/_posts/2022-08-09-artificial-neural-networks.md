@@ -728,6 +728,51 @@ classification task, but combinations of those features might be even better.
 The sum of output probabilities from the fully connected layer is 1. This is ensured by using the Softmax as the 
 activation function.
 
+### Putting It All together - Training Using Backpropagation
+
+As discussed above, **the convolution + pooling layers act as feature extractors from the input image while fully
+connected layer acts as a classifier**.
+
+To start with Backpropagation algorithm, let's take an image of boat as an example, the target probability is 1 for Boat 
+class and 0 for other three classes, i.e.
+
+* Input Image = Boat
+* Target Vector = [0, 0, 1, 0]
+
+![Error loading cnn-boat-classification-example.png]({{ "/assets/img/cnn-boat-classification-example.png" | relative_url}})
+
+The overall training process of the convolution neural network may be summarized empirically as below:
+
+> 1. Initialize all filters and parameters/weights with random values
+> 2. The network takes a training image as input, goes through the forward propagation step (convolution, ReLU, and 
+>    pooling operations along with forward propagation in the fully connected layer) and finds the output probabilities 
+>    for each class.
+>    * Let's say the output probabilities for the boat image above are `[0.2, 0.4, 0.1, 0.3]`
+>    * Since weights are randomly assigned for the first training example, output probabilities are also random.
+> 3. Calculate the total error at the output layer (summation over all 4 classes): Total Error =
+>    ∑ ½ (target probability - output probability)²
+> 4. Use Backpropagation to calculate the gradients of the error with respect to all weights in the network and use 
+>    gradient descent to update all filter values/weights and parameter values to minimize the output error
+>    * The weights are adjusted in proportion to their contribution to the total error.
+>    * When the same image is input again, output probabilities becomes, for example, `[0.1, 0.1, 0.7, 0.1]`, which is 
+>      closer to the target vector `[0, 0, 1, 0]`.
+>    * This means that the network has _learnt_ to classify this particular image correctly by adjusting its 
+>      weights/filters such that the output error is reduced
+>    * Parameters like number of filters, filter sizes, architecture of the network etc. have all been _fixed_ and do
+>      not change during training process; only the values of the filter matrix and connection weights get updated.
+> 5. Repeat steps 2-4 with all images in the training set.
+
+The steps above train the ConvNet - this essentially means that all the weights and parameters of the ConvNet have now 
+been optimized to correctly classify images from the training set.
+
+When a new (unseen) image is input into the ConvNet, the network would go through the forward propagation step and
+output a probability for each class (for a new image, the output probabilities are calculated using the weights which
+have been optimized to correctly classify all the previous training examples). If our training set is large enough, the 
+network will (hopefully) generalize well to new images and classify them into correct categories.
+
+
+
+
 
 
 
