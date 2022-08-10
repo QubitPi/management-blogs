@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Machine Learning - Artificial Neural Networks
-tags: [Machine Learning, Artificial Neural Networks, ANN, CNN, ConvNet, Convolutional Neural Networks]
+tags: [Machine Learning, Artificial Neural Networks, ANN, CNN, ConvNet, Convolutional Neural Networks, Neural Networks]
 color: rgb(0, 204, 0)
 feature-img: "assets/img/post-cover/15-cover.png"
 thumbnail: "assets/img/post-cover/15-cover.png"
@@ -79,7 +79,7 @@ class Neuron(object):
 > [review](https://physics.ucsd.edu/neurophysics/courses/physics_171/annurev.neuro.28.061604.135703.pdf), or more
 > recently this [review](http://www.sciencedirect.com/science/article/pii/S0959438814000130) if you are interested.
 
-### Feedforward Neural Network
+### Feed-forward Neural Network
 
 The feedforward neural network was the first and the simplest type of artificial neural network. It contains multiple 
 neurons (nodes) arranged in **layers**. Units from adjacent layers have connections or edges between them. All these 
@@ -182,6 +182,72 @@ parameters for every single neuron, leading to a high total number of parameters
 ### Single Neuron as a Linear Classifier
 
 TBA
+
+
+Neural Network Architectures
+----------------------------
+
+**Neural Networks as neurons in graphs**. Neural Networks are modeled as collections of neurons that are connected in an 
+acyclic graph. In other words, the outputs of some neurons can become inputs to other neurons. Instead of an amorphous 
+blobs of connected neurons, Neural Network models are often organized into distinct layers of neurons. For regular
+neural networks, the most common layer type is the **fully-connected layer** in which neurons between two adjacent
+layers are fully pairwise connected, but neurons within a single layer share no connections. Below are two example
+neural network topologies that use a stack of fully-connected layers:
+
+![Error loading ann-eg-neural-network.png]({{ "/assets/img/ann-eg-neural-network.png" | relative_url}})
+
+> 📋 **Naming conventions**
+> 
+> when we say "N-layer" neural network, we do not count the input layer. Therefore, a single-layer neural network
+> describes a network with no hidden layers (input directly mapped to output). In that sense, you can sometimes hear 
+> people say that logistic regression or SVMs are simply a special case of single-layer Neural Networks. You may also 
+> hear these networks interchangeably referred to as "Artificial Neural Networks" (ANN) or "Multi-Layer Perceptrons" 
+> (MLP). Many people do not like the analogies between Neural Networks and real brains and prefer to refer to neurons as 
+> units.
+
+Unlike all layers in a neural nnetwork, the output layer neurons most commonly do not have an activation function (or
+you can think of them as having a linear identity activation function). This is because the last output layer is usually 
+taken to represent the class scores (e.g. in classification), which are arbitrary real-valued numbers, or some kind of 
+real-valued target (e.g. in regression).
+
+The two metrics that people commonly use to measure the size of neural networks are the number of neurons, or more commonly the **number of parameters**. Working with the two example networks in the above picture:
+
+* The first network (left) has 4 + 2 = 6 neurons (not counting the inputs), (3 x 4) + (4 x 2) = 20 weights and 4 + 2 = 6 
+  biases, for a total of 26 learnable parameters.
+* The second network (right) has 4 + 4 + 1 = 9 neurons, (3 x 4) + (4 x 4) + (4 x 1) = 12 + 16 + 4 = 32 weights and
+  4 + 4 + 1 = 9 biases, for a total of 41 learnable parameters.
+
+Modern [convolutional networks](#convolutional-neural-network-cnnconvnets) contain on orders of 100 million parameters 
+and are usually made up of approximately 10-20 layers (hence **deep learning**). 
+
+### Example feed-forward computation
+
+Working with the example three-layer neural network in the diagram above
+
+![Error loading ann-3-layer-network-eg.png]({{ "/assets/img/ann-3-layer-network-eg.png" | relative_url}})
+
+Each neuron from the input layer outputs a number, forming a 3 x 1 matrix
+
+$$
+
+\begin{matrix}
+\mathit{x_1} \\
+\mathit{x_2} \\
+\mathit{x_3}
+\end{matrix}
+
+$$.
+
+
+```python
+# forward-pass of a 3-layer neural network:
+f = lambda x: 1.0/(1.0 + np.exp(-x)) # activation function (use sigmoid)
+x = np.random.randn(3, 1) # random input vector of three numbers (3 rows x 1 col)
+h1 = f(np.dot(W1, x) + b1) # calculate first hidden layer activations (4 x 1)
+h2 = f(np.dot(W2, h1) + b2) # calculate second hidden layer activations (4 x 1)
+out = np.dot(W3, h2) + b3 # output neuron (1x1)
+```
+
 
 
 Perceptrons
