@@ -88,7 +88,7 @@ distribution $$\mathcal{D}$$
 > with respect to target function $$\mathit{f(x)}$$ and distribution $$\mathcal{D}$$ is the probability that
 > $$\mathit{h}$$ will misclassify an instance drawn at random according to $$\mathcal{D}$$
 > 
-> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f\ (x)} != \mathit{h(x)} \right] $$
+> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f\ (x)} \neq \mathit{h(x)} \right] $$
 > 
 > where $$\underset{\mathit{x \in \mathcal{D}}}{\text{Pr}}$$ means that the probability is taken over the instance
 > distribution $$\mathcal{D}$$
@@ -139,3 +139,4 @@ $$\mathit{z_N}$$ given in table below
 > accurate rule of thumb is that the above approximation works well when
 > 
 > $$ \mathit{n} \times \text{error}_\mathit{S}\mathit{(h)}\left( 1 - \text{error}_\mathit{S}\mathit{(h)} \right) \ge 5 $$
+
