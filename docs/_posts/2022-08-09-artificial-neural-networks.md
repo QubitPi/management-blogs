@@ -27,8 +27,13 @@ results of comparable accuracy
 
 ![Error loading ann-deep-nn.png]({{ "/assets/img/ann-deep-nn.png" | relative_url}})
 
+
+
+
 Perceptrons
 -----------
+
+> **[Perceptron is a neural network with a single neuron](https://stats.stackexchange.com/a/419776/365124)**.
 
 One type of ANN system is based on a unit called a **perceptron**, illustrated in figure below:
 
@@ -544,6 +549,10 @@ ANN with TensorFlow
 
 Convolutional Neural Network (CNN/ConvNets)
 -------------------------------------------
+
+ConvNet architectures make the explicit assumption that the inputs are images, which allows us to encode certain 
+properties into the architecture. These then make the forward function more efficient to implement and vastly reduce the 
+amount of parameters in the network.
 
 A typical CNN looks like this
 
