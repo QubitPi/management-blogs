@@ -294,17 +294,17 @@ $$
 \end{bmatrix} =
 
 \begin{bmatrix}
-\mathit{w_{11}^{\text{hidden layer 1}}}\mathit{x_1} & \mathit{w_{21}^{\text{hidden layer 1}}}\mathit{x_2} & \mathit{w_{31}^{\text{hidden layer 1}}}\mathit{x_3} \\
-\mathit{w_{12}^{\text{hidden layer 1}}}\mathit{x_1} & \mathit{w_{22}^{\text{hidden layer 1}}}\mathit{x_2} & \mathit{w_{32}^{\text{hidden layer 1}}}\mathit{x_3} \\
-\mathit{w_{13}^{\text{hidden layer 1}}}\mathit{x_1} & \mathit{w_{23}^{\text{hidden layer 1}}}\mathit{x_2} & \mathit{w_{33}^{\text{hidden layer 1}}}\mathit{x_3} \\
-\mathit{w_{14}^{\text{hidden layer 1}}}\mathit{x_1} & \mathit{w_{24}^{\text{hidden layer 1}}}\mathit{x_2} & \mathit{w_{34}^{\text{hidden layer 1}}}\mathit{x_3}
+\mathit{w_{11}^{\text{hidden layer 1}}}\mathit{x_1} + \mathit{w_{21}^{\text{hidden layer 1}}}\mathit{x_2} + \mathit{w_{31}^{\text{hidden layer 1}}}\mathit{x_3} \\
+\mathit{w_{12}^{\text{hidden layer 1}}}\mathit{x_1} + \mathit{w_{22}^{\text{hidden layer 1}}}\mathit{x_2} + \mathit{w_{32}^{\text{hidden layer 1}}}\mathit{x_3} \\
+\mathit{w_{13}^{\text{hidden layer 1}}}\mathit{x_1} + \mathit{w_{23}^{\text{hidden layer 1}}}\mathit{x_2} + \mathit{w_{33}^{\text{hidden layer 1}}}\mathit{x_3} \\
+\mathit{w_{14}^{\text{hidden layer 1}}}\mathit{x_1} + \mathit{w_{24}^{\text{hidden layer 1}}}\mathit{x_2} + \mathit{w_{34}^{\text{hidden layer 1}}}\mathit{x_3}
 \end{bmatrix}
 
 $$
 
 
-Similarly, $$\mathit{W_2}$$ would be a `4 x 4` matrix that stores the connections of the second hidden layer, and 
-$$\mathit{W_3}$$ a `1 x 4` matrix for the last (output) layer. The full forward pass of this 3-layer neural network is 
+Similarly, $$\mathit{W_2}$$ would be a 4 x 4 matrix that stores the connections of the second hidden layer, and 
+$$\mathit{W_3}$$ a 1 x 4 matrix for the last (output) layer. The full forward pass of this 3-layer neural network is
 then simply three matrix multiplications, interwoven with the application of the activation function:
 
 ```python
@@ -336,9 +336,30 @@ continuous function $$\mathit{f\ (x)}$$ and some ϵ > 0, there exists a neural n
 layer (with a reasonable choice of non-linearity, e.g. sigmoid) such that ∀x,∣f(x) - g(x)∣ < ϵ. In other words, the 
 neural network can approximate any continuous function.
 
-_If one hidden layer suffices to approximate any function, why use more layers and go deeper?_ The fact that a two-layer
-neural network is a universal approximator is, while mathematically cute, a relatively weak and useless statement in 
-practice. In one dimension, the "sum of indicator bumps" function g(x)=∑ici𝟙(ai<x<bi) where a,b,c are parameter vectors is also a universal approximator, but noone would suggest that we use this functional form in Machine Learning. Neural Networks work well in practice because they compactly express nice, smooth functions that fit well with the statistical properties of data we encounter in practice, and are also easy to learn using our optimization algorithms (e.g. gradient descent). Similarly, the fact that deeper networks (with multiple hidden layers) can work better than a single-hidden-layer networks is an empirical observation, despite the fact that their representational power is equal.
+As an aside, in practice it is often the case that 3-layer neural networks will outperform 2-layer nets, but going even 
+deeper (4,5,6-layer) rarely helps much more. This is in stark contrast to Convolutional Networks, where depth has been 
+found to be an extremely important component for a good recognition system (e.g. on order of 10 learnable layers). One 
+argument for this observation is that images contain hierarchical structure (e.g. faces are made up of eyes, which are 
+made up of edges, etc.), so several layers of processing make intuitive sense for this data domain.
+
+The full story is, of course, much more involved and a topic of much recent research. If you are interested in these 
+topics we recommend for further reading:
+
+* [Deep Learning](http://www.deeplearningbook.org/) book in press by Bengio, Goodfellow, Courville, in particular
+  [Chapter 6.4](http://www.deeplearningbook.org/contents/mlp.html).
+* [Do Deep Nets Really Need to be Deep?](http://arxiv.org/abs/1312.6184)
+* [FitNets: Hints for Thin Deep Nets](http://arxiv.org/abs/1412.6550)
+
+### Setting Number of Layers and Their Sizes
+
+How do we decide on what architecture to use when faced with a practical problem? Should we use no hidden layers? One 
+hidden layer? Two hidden layers? How large should each layer be? First, note that as we increase the size and number of 
+layers in a Neural Network, the capacity of the network increases. That is, the space of representable functions grows 
+since the neurons can collaborate to express many different functions. For example, suppose we had a binary 
+classification problem in two dimensions. We could train three separate neural networks, each with one hidden layer of 
+some size and obtain the following classifiers:
+
+
 
 
 
