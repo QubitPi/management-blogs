@@ -1197,3 +1197,11 @@ all use the main concepts.
 * [**ResNets (2015)**](https://arxiv.org/abs/1512.03385) The state of the art CNN models and are the default choice for 
   using ConvNets in practice (as of May 2016).
 * [**DenseNet (August 2016)**](https://arxiv.org/abs/1608.06993) The DenseNet has been shown to obtain significant improvements over previous state-of-the-art architectures on five highly competitive object recognition benchmark tasks. Check out the Torch implementation [here](https://github.com/liuzhuang13/DenseNet).
+
+
+Additional Resources
+--------------------
+
+* [deeplearning.net tutorial](http://www.deeplearning.net/tutorial/mlp.html) with Theano
+* [ConvNetJS](http://cs.stanford.edu/people/karpathy/convnetjs/) demos for intuitions
+* [Michael Nielsen's tutorials](http://neuralnetworksanddeeplearning.com/chap1.html)
