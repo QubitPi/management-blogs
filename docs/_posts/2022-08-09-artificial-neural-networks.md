@@ -179,6 +179,10 @@ case of this form. The Maxout neuron therefore enjoys all the benefits of a ReLU
 saturation) and does not have its drawbacks (dying ReLU). However, unlike the ReLU neurons it doubles the number of 
 parameters for every single neuron, leading to a high total number of parameters.
 
+### Single Neuron as a Linear Classifier
+
+TBA
+
 
 Perceptrons
 -----------
