@@ -101,6 +101,17 @@ In a feedforward network, the information moves in only one direction from the i
 any) and to the output nodes. There are no cycles or loops in the network (this property of feedforward networks is 
 different from Recurrent Neural Networks in which the connections between the nodes form a cycle).
 
+### Commonly Used Activation Functions
+
+Every activation function (or **non-linearity**) takes a single number and performs a certain fixed mathematical operation
+on it. There are several activation functions we may employ in practice
+
+![Error loading ann-sigmoid-tanh.png]({{ "/assets/img/ann-sigmoid-tanh.png" | relative_url}})
+
+#### Sigmoid
+
+The sigmoid non-linearity has the mathematical form $$σ(x)=1/(1+e^{-x})$$ and is shown in the image above on the left. As alluded to in the previous section, it takes a real-valued number and “squashes” it into range between 0 and 1. In particular, large negative numbers become 0 and large positive numbers become 1. The sigmoid function has seen frequent use historically since it has a nice interpretation as the firing rate of a neuron: from not firing at all (0) to fully-saturated firing at an assumed maximum frequency (1). In practice, the sigmoid non-linearity has recently fallen out of favor and it is rarely ever used. It has two major drawbacks:
+
 
 Perceptrons
 -----------
