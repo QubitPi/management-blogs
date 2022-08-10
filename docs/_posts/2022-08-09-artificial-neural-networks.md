@@ -161,6 +161,24 @@ and cons to using the ReLUs:
   entire training dataset) if the learning rate is set too high. With a proper setting of the learning rate this is less 
   frequently an issue.
 
+#### Leaky ReLU
+
+Leaky ReLUs are one attempt to fix the "dying ReLU" problem. Instead of the function being zero when $$\mathit{x < 0}$$,
+a leaky ReLU will instead have a small positive slope (of 0.01, or so). Some people report success with this form of 
+activation function, but the results are not always consistent. The slope in the negative region can also be made into a 
+parameter of each neuron, as seen in **PReLU** neurons, introduced in [Delving Deep into Rectifiers](https://arxiv.org/abs/1502.01852). However, the consistency of the benefit across tasks is unclear at the moment.
+
+#### Maxout
+
+Other types of units have been proposed that _do not have the functional form $$\mathit{f\ (w^Tx + b)}$$, in which a 
+non-linearity is applied on the dot product between the weights and the data_. One relatively popular choice is the
+Maxout neuron (introduced recently by [Goodfellow et al.](https://arxiv.org/abs/1302.4389)) that generalizes the ReLU
+and its leaky version. The Maxout neuron computes the function
+$$\max(\mathit{f\ (w_1^Tx + b_1)}, \mathit{f\ (w_2^Tx + b_2)})$$. Notice that both ReLU and Leaky ReLU are a special 
+case of this form. The Maxout neuron therefore enjoys all the benefits of a ReLU unit (linear regime of operation, no 
+saturation) and does not have its drawbacks (dying ReLU). However, unlike the ReLU neurons it doubles the number of 
+parameters for every single neuron, leading to a high total number of parameters.
+
 
 Perceptrons
 -----------
