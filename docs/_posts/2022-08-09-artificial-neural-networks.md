@@ -70,6 +70,15 @@ class Neuron(object):
             return firing_rate
 ```
 
+> ⚠️ It it important to stress that this model of a biological neuron is very coarse. for example, there are many
+> different types of neurons, each with different properties. The dendrites in biological neurons perform complex 
+> nonlinear computations. The synapses are not just a single weight, they are a complex non-linear dynamical system. The 
+> exact timing of the output spikes in many systems is known to be important, suggesting that the rate code
+> approximation may not hold. Due to all these and many other simplifications, be prepared to hear groaning sounds from 
+> anyone with some neuroscience background if you draw analogies between Neural Networks and real brains. See this
+> [review](https://physics.ucsd.edu/neurophysics/courses/physics_171/annurev.neuro.28.061604.135703.pdf), or more
+> recently this [review](http://www.sciencedirect.com/science/article/pii/S0959438814000130) if you are interested.
+
 ### Feedforward Neural Network
 
 The feedforward neural network was the first and the simplest type of artificial neural network. It contains multiple 
