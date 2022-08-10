@@ -43,7 +43,55 @@ nervous system and they are connected with approximately $$10^14$$ ~ $$10^15$$ *
 
 ![Error loading ann-biological-neuron-vs-computational-neuron.png]({{ "/assets/img/ann-biological-neuron-vs-computational-neuron.png" | relative_url}})
 
-The diagram above shows a cartoon drawing of a biological neuron (left) and a common mathematical model (right). Each neuron receives input signals from its dendrites and produces output signals along its (single) **axon**. The axon eventually branches out and connects via synapses to dendrites of other neurons. In the computational model of a neuron, the signals that travel along the axons (e.g. $$\mathit{x_0}$$) interact multiplicatively (e.g. \mathit{w_0x_0}) with the dendrites of the other neuron based on the synaptic strength at that synapse (e.g. $$\mathit{w_0}$$). The idea is that the synaptic strengths (the weights $$\mathit{w}$$) are learnable and control the strength of influence (and its direction: excitory (positive weight) or inhibitory (negative weight)) of one neuron on another. In the basic model, the dendrites carry the signal to the cell body where they all get summed. If the final sum is above a certain threshold, the neuron can fire, sending a spike along its axon. In the computational model, we assume that the **precise timings of the spikes do not matter, and that only the frequency of the firing communicates information**. Based on this rate code interpretation, **we model the firing rate of the neuron with the activation function $$\mathit{f}$$**, which represents the frequency of the spikes along the axon. Historically, a _common choice of activation function is the **sigmoid function σ**_, since it takes a real-valued input (the signal strength after the sum) and squashes it to range between 0 and 1. We will see details of these activation functions later in this section.
+The diagram above shows a cartoon drawing of a biological neuron (left) and a common mathematical model (right). Each 
+neuron receives input signals from its dendrites and produces output signals along its (single) **axon**. The axon 
+eventually branches out and connects via synapses to dendrites of other neurons. In the computational model of a neuron, 
+the signals that travel along the axons (e.g. $$\mathit{x_0}$$) interact multiplicatively (e.g. \mathit{w_0x_0}) with
+the dendrites of the other neuron based on the synaptic strength at that synapse (e.g. $$\mathit{w_0}$$). The idea is
+that the synaptic strengths (the weights $$\mathit{w}$$) are learnable and control the strength of influence (and its 
+direction: excitory (positive weight) or inhibitory (negative weight)) of one neuron on another. In the basic model, the 
+dendrites carry the signal to the cell body where they all get summed. If the final sum is above a certain threshold,
+the neuron can fire, sending a spike along its axon. In the computational model, we assume that the **precise timings of 
+the spikes do not matter, and that only the frequency of the firing communicates information**. Based on this rate code 
+interpretation, **we model the firing rate of the neuron with the activation function $$\mathit{f}$$**, which represents 
+the frequency of the spikes along the axon. Historically, a _common choice of activation function is the **sigmoid 
+function σ**_, since it takes a real-valued input (the signal strength after the sum) and squashes it to range between 0 
+and 1. We will see details of these activation functions later in this section.
+
+An example code for a single forward-propagating neuron might look as follows:
+
+```python
+class Neuron(object):
+      # ... 
+      def forward(self, inputs):
+            """ assume inputs and weights are 1-D numpy arrays and bias is a number """
+            cell_body_sum = np.sum(inputs * self.weights) + self.bias
+            firing_rate = 1.0 / (1.0 + math.exp(-cell_body_sum)) # sigmoid activation function
+            return firing_rate
+```
+
+### Feedforward Neural Network
+
+The feedforward neural network was the first and the simplest type of artificial neural network. It contains multiple 
+neurons (nodes) arranged in **layers**. Units from adjacent layers have connections or edges between them. All these 
+connections have weights associated with them. For example.
+
+![Error loading ann-exmaple-feedforward.png]({{ "/assets/img/ann-exmaple-feedforward.png" | relative_url}})
+
+A feedforward neural network can consist of three types of units:
+
+1. **Input Units** The input units provide information from the outside world to the network and are together referred
+   to as the "input layer"
+2. **Hidden Units** The hidden units have no direct connection with the outside world (hence the name "hidden"). They 
+   perform computations and transfer information from the input units to the output units. A collection of hidden units
+   forms a "hidden layer". A feedforward network, however, will have an input layer and a single output layer only
+3. **Output Units** The output units are collectively referred to as the "output layer" and are responsible for 
+   computations and transferring information from the network to the outside world.
+
+In a feedforward network, the information moves in only one direction from the input nodes, through the hidden nodes (if 
+any) and to the output nodes. There are no cycles or loops in the network (this property of feedforward networks is 
+different from Recurrent Neural Networks in which the connections between the nodes form a cycle).
+
 
 Perceptrons
 -----------
