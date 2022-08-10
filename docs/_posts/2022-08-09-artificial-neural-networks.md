@@ -39,7 +39,7 @@ non-linearity into the output of a neuron. This is important because most real w
 like neurons to learn these non-linear representations.
 
 The basic computational unit of the brain is a neuron. Approximately 86 billion neurons can be found in the human
-nervous system and they are connected with approximately $$10^14$$ ~ $$10^15$$ **synapses**.
+nervous system and they are connected with approximately $$10^{14}$$ ~ $$10^{15}$$ **synapses**.
 
 ![Error loading ann-biological-neuron-vs-computational-neuron.png]({{ "/assets/img/ann-biological-neuron-vs-computational-neuron.png" | relative_url}})
 
