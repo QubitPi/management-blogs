@@ -106,15 +106,55 @@ different from Recurrent Neural Networks in which the connections between the no
 Every activation function (or **non-linearity**) takes a single number and performs a certain fixed mathematical operation
 on it. There are several activation functions we may employ in practice
 
-![Error loading ann-sigmoid-tanh.png]({{ "/assets/img/ann-sigmoid-tanh.png" | relative_url}})
-
 #### Sigmoid
 
-The sigmoid non-linearity has the mathematical form $$σ(x)=1/(1+e^{-x})$$ and is shown in the image above on the left. it takes a real-valued number and "squashes" it into range between 0 and 1. In particular, large negative numbers become 0 and large positive numbers become 1. The sigmoid function has seen frequent use historically since it has a nice interpretation as the firing rate of a neuron: from not firing at all (0) to fully-saturated firing at an assumed maximum frequency (1). In practice, the sigmoid non-linearity has recently fallen out of favor and it is rarely ever used. It has two major drawbacks:
+The sigmoid non-linearity has the mathematical form $$σ(x)=1/(1+e^{-x})$$ and is shown in the image below on the left. it takes a real-valued number and "squashes" it into range between 0 and 1. In particular, large negative numbers become 0 and large positive numbers become 1. The sigmoid function has seen frequent use historically since it has a nice interpretation as the firing rate of a neuron: from not firing at all (0) to fully-saturated firing at an assumed maximum frequency (1). In practice, the sigmoid non-linearity has recently fallen out of favor and it is rarely ever used. It has two major drawbacks:
 
-1. Sigmoids saturate and kill gradients. A very undesirable property of the sigmoid neuron is that when the neuron's activation saturates at either tail of 0 or 1, the gradient at these regions is almost zero. During backpropagation, this (local) gradient will be multiplied to the gradient of this gate's output for the whole objective. Therefore, if the local gradient is very small, it will effectively "kill" the gradient and almost no signal will flow through the neuron to its weights and recursively to its data. Additionally, one must pay extra caution when initializing the weights of sigmoid neurons to prevent saturation. For example, if the initial weights are too large then most neurons would become saturated and the network will barely learn.
-2. Sigmoid outputs are not zero-centered. This is undesirable since neurons in later layers of processing in a neural network would be receiving data that is not zero-centered. This has implications on the dynamics during gradient descent, because if the data coming into a neuron is always positive, then the gradient on the weights will, during backpropagation, become either all be positive, or all negative (depending on the gradient of the whole expression $$\mathit{f}$$). This could introduce undesirable zig-zagging dynamics in the gradient updates for the weights. However, notice that once these gradients are added up across a batch of data the final update for the weights can have variable signs, somewhat mitigating this issue. Therefore, this is an inconvenience but it has less severe consequences compared to the saturated activation problem above.
+1. Sigmoids saturate and kill gradients. A very undesirable property of the sigmoid neuron is that when the neuron's 
+   activation saturates at either tail of 0 or 1, the gradient at these regions is almost zero. During backpropagation, 
+   this (local) gradient will be multiplied to the gradient of this gate's output for the whole objective. Therefore, if 
+   the local gradient is very small, it will effectively "kill" the gradient and almost no signal will flow through the 
+   neuron to its weights and recursively to its data. Additionally, one must pay extra caution when initializing the 
+   weights of sigmoid neurons to prevent saturation. For example, if the initial weights are too large then most neurons 
+   would become saturated and the network will barely learn.
+2. Sigmoid outputs are not zero-centered. This is undesirable since neurons in later layers of processing in a neural 
+   network would be receiving data that is not zero-centered. This has implications on the dynamics during gradient 
+   descent, because if the data coming into a neuron is always positive, then the gradient on the weights will, during 
+   backpropagation, become either all be positive, or all negative (depending on the gradient of the whole expression 
+   $$\mathit{f}$$). This could introduce undesirable zig-zagging dynamics in the gradient updates for the weights. 
+   However, notice that once these gradients are added up across a batch of data the final update for the weights can
+   have variable signs, somewhat mitigating this issue. Therefore, this is an inconvenience but it has less severe 
+   consequences compared to the saturated activation problem above.
 
+![Error loading ann-sigmoid-tanh.png]({{ "/assets/img/ann-sigmoid-tanh.png" | relative_url}})
+
+#### Tanh
+
+The tanh non-linearity is shown on the image above on the right. It squashes a real-valued number to the range `[-1, 1]`. 
+Like the sigmoid neuron, its activations saturate, but unlike the sigmoid neuron its output is zero-centered. Therefore, 
+in practice the _tanh non-linearity is always preferred to the sigmoid nonlinearity_. Also note that the tanh neuron is 
+simply a scaled sigmoid neuron, in particular the following holds: tanh(x)=2σ(2x) - 1.
+
+#### ReLU
+
+![Error loading ann-relu.png]({{ "/assets/img/ann-relu.png" | relative_url}})
+
+The Rectified Linear Unit has become very popular in the last few years. It computes the function
+$$\mathit{f(x) = \max (0, x)}$$. In other words, the activation is simply thresholded at zero. There are several pros
+and cons to using the ReLUs:
+
+* ✅ It was found to greatly accelerate (a factor of 6 in
+  [Krizhevsky et al](http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf)) the convergence of stochastic gradient
+  descent compared to the sigmoid/tanh functions. It is argued that this is due to its linear, non-saturating form.
+* ✅ Compared to tanh/sigmoid neurons that involve expensive operations (exponentials, etc.), the ReLU can be
+  implemented by simply thresholding a matrix of activations at zero.
+* ❌ Unfortunately, ReLU units can be fragile during training and can "die". For example, a large gradient flowing
+  through a ReLU neuron could cause the weights to update in such a way that the neuron will never activate on any 
+  datapoint again. If this happens, then the gradient flowing through the unit will forever be zero from that point on. 
+  That is, the ReLU units can irreversibly die during training since they can get knocked off the data manifold. For 
+  instance, you may find that as much as 40% of your network can be "dead" (i.e. neurons that never activate across the 
+  entire training dataset) if the learning rate is set too high. With a proper setting of the learning rate this is less 
+  frequently an issue.
 
 
 Perceptrons
