@@ -151,9 +151,7 @@ Basics of Sampling Theory
 
 In our case, the property of interest is that $$\mathit{h}$$ misclassifies the example.
 
-### ???
-
-#### Random Variable
+### Random Variable
 
 We collect a random sample $$\mathit{S}$$ of $$\mathit{n}$$ independently drawn instances from the distribution
 $$\mathcal{D}$$, and then measure the sample error $$\text{error}_\mathit{S}\mathit{(h)}$$. If we were to repeat this 
@@ -163,7 +161,7 @@ differences in the makeup of the various $$\mathit{S_i}$$. We say in such cases 
 $$\text{error}_\mathit{S}\mathit{(h)}$$, the outcome of the _i_-th such experiment, is a **random variable**. The value
 of random variable is the observed outcome of a random experiment
 
-#### Binomial Distribution
+### Binomial Distribution
 
 Imagine that we were to run $$\mathit{k}$$ such random experiments, measuring the random variables
 $$\text{error}_\mathit{S_1}\mathit{(h)}$$, $$\text{error}_\mathit{S_2}\mathit{(h)}$$, ...,
