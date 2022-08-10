@@ -36,6 +36,7 @@ inputs from some other units, or from an external source and computes an output.
 **weight**, which is assigned _on the basis of its relative importance to other inputs_. The unit applies an
 **activation function** to the weighted sum of its inputs
 
+![Error loading ann-biological-neuron-vs-computational-neuron.png]({{ "/assets/img/ann-biological-neuron-vs-computational-neuron.png" | relative_url}})
 
 Perceptrons
 -----------
