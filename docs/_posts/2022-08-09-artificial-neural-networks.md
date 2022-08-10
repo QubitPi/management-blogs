@@ -28,6 +28,13 @@ results of comparable accuracy
 ![Error loading ann-deep-nn.png]({{ "/assets/img/ann-deep-nn.png" | relative_url}})
 
 
+Neurons
+-------
+
+The basic unit of computation in a neural network is the **neuron**, often called a **node** or **unit**. It receives 
+inputs from some other units, or from an external source and computes an output. Each input has an associated
+**weight**, which is assigned _on the basis of its relative importance to other inputs_. The unit applies an
+**activation function** to the weighted sum of its inputs
 
 
 Perceptrons
