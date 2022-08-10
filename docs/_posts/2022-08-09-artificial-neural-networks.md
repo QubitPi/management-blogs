@@ -205,8 +205,8 @@ neural network topologies that use a stack of fully-connected layers:
 > (MLP). Many people do not like the analogies between Neural Networks and real brains and prefer to refer to neurons as 
 > units.
 
-Unlike all layers in a neural nnetwork, the output layer neurons most commonly do not have an activation function (or
-you can think of them as having a linear identity activation function). This is because the last output layer is usually 
+Unlike all layers in a neural network, the output layer neurons most commonly do not have an activation function (or you
+can think of them as having a linear identity activation function). This is because the last output layer is usually 
 taken to represent the class scores (e.g. in classification), which are arbitrary real-valued numbers, or some kind of 
 real-valued target (e.g. in regression).
 
@@ -236,7 +236,21 @@ $$
 \mathit{x_3}
 \end{matrix}
 
-$$.
+$$
+
+When each input neron connects to another in hidden layer 1, every connection implies a connection strength,
+$$\mathit{w_{jk}^l}$$, empirically, denoting the weights between _k_-th unit from layer $$\mathit{(l - 1)}$$ and _j_-th 
+nunit from layer $$\mathit{l}$$. The strength of all connections is encoded in a 4 x 3 matrix:
+
+$$
+
+\mathit{w_{11}^{\text{hidden layer 1}}} & \mathit{w_{21}^{\text{hidden layer 1}}} & \mathit{w_{31}^{\text{hidden layer 1}}} \\
+\mathit{w_{12}^{\text{hidden layer 1}}} & \mathit{w_{22}^{\text{hidden layer 1}}} & \mathit{w_{32}^{\text{hidden layer 1}}} \\
+\mathit{w_{13}^{\text{hidden layer 1}}} & \mathit{w_{23}^{\text{hidden layer 1}}} & \mathit{w_{33}^{\text{hidden layer 1}}} \\
+\mathit{w_{14}^{\text{hidden layer 1}}} & \mathit{w_{24}^{\text{hidden layer 1}}} & \mathit{w_{34}^{\text{hidden layer 1}}} \\
+\end{matrix}
+
+$$
 
 
 ```python
