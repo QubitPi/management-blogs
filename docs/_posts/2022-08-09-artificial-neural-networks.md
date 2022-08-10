@@ -46,9 +46,9 @@ nervous system and they are connected with approximately $$10^{14}$$ ~ $$10^{15}
 The diagram above shows a cartoon drawing of a biological neuron (left) and a common mathematical model (right). Each 
 neuron receives input signals from its dendrites and produces output signals along its (single) **axon**. The axon 
 eventually branches out and connects via synapses to dendrites of other neurons. In the computational model of a neuron, 
-the signals that travel along the axons (e.g. $$\mathit{x_0}$$) interact multiplicatively (e.g. \mathit{w_0x_0}) with
-the dendrites of the other neuron based on the synaptic strength at that synapse (e.g. $$\mathit{w_0}$$). The idea is
-that the synaptic strengths (the weights $$\mathit{w}$$) are learnable and control the strength of influence (and its 
+the signals that travel along the axons (e.g. $$\mathit{x_0}$$) interact multiplicatively (e.g. $$\mathit{w_0x_0}$$)
+with the dendrites of the other neuron based on the synaptic strength at that synapse (e.g. $$\mathit{w_0}$$). The idea
+is that the synaptic strengths (the weights $$\mathit{w}$$) are learnable and control the strength of influence (and its 
 direction: excitory (positive weight) or inhibitory (negative weight)) of one neuron on another. In the basic model, the 
 dendrites carry the signal to the cell body where they all get summed. If the final sum is above a certain threshold,
 the neuron can fire, sending a spike along its axon. In the computational model, we assume that the **precise timings of 
