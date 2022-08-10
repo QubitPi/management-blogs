@@ -77,7 +77,7 @@ the fraction of $$\mathit{S}$$ that it misclassifies:
 > $$ \text{error}_\mathit{S}\mathit{(h)} \equiv \frac{1}{n}\sum_{\mathit{x \in S}}\delta(\mathit{f(x)}, \mathit{h(x)}) $$
 > 
 > where $$\mathit{x}$$ is the number of examples in $$\mathit{S}$$, and the quantity
-> $$\delta(\mathit{f(x)}, \mathit{h(x)})$$ is 1 if $$\mathit{f(x)} != \mathit{h(x)}$$, and 0 otherwise
+> $$\delta(\mathit{f(x)}, \mathit{h(x)})$$ is 1 if $$\mathit{[f\ (x) ⍯ h(x)]}$$, and 0 otherwise
 
 The **true error** of a hypothesis is the probability that it will misclassify a instance randomly drawn from the
 distribution $$\mathcal{D}$$
@@ -88,7 +88,7 @@ distribution $$\mathcal{D}$$
 > with respect to target function $$\mathit{f(x)}$$ and distribution $$\mathcal{D}$$ is the probability that
 > $$\mathit{h}$$ will misclassify an instance drawn at random according to $$\mathcal{D}$$
 > 
-> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f\ (x)} ⍯ \not= \mathit{h(x)} \right] $$
+> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \mathit{[f\ (x) ⍯ h(x)]} $$
 > 
 > where $$\underset{\mathit{x \in \mathcal{D}}}{\text{Pr}}$$ means that the probability is taken over the instance
 > distribution $$\mathcal{D}$$
@@ -174,14 +174,31 @@ distribution**.
 
 ![Error loading binomial-distribution-eg.png]({{ "/assets/img/binomial-distribution-eg.png" | relative_url}})
 
-A Binomial distribution gives the probability of observing $$\mathit{r}$$ heads in a sample of $$\mathit{n}$$
-independent coin tosses, when the probability of heads on a single coin toss is $$\mathit{p}$$. It is defined by the 
-probability function
+A Binomial distribution gives the probability of observing $$\mathit{r}$$ errors in a sample of $$\mathit{n}$$
+randomly drawn instances, when the probability of error is $$\mathit{p} = \text{error}_{\mathcal{D}}\mathit{(h)}$$. It
+is defined by the probability function
 
 $$\mathit{P(r) = \frac{n!}{r!(n - r)!}p^r(1 - p)^{n - r}}$$
 
 If the random variable $$\mathit{X}$$ follows a binomial distribution, then
 
 * the probability $$Pr(X = r)$$ that $$\mathit{X}$$ will take on the value $$\mathir{r}$$ is given by $$P(r)$$
-* $$\mathit{E\left[ X \right]}$$, which is the expected or mean value of $$\mathit{X}$$, is
-  $$\mathit{E\left[ X \right] = np}$$
+* $$\mathit{E[X]}$$, which is the expected or mean value of $$\mathit{X}$$, is
+  $$\mathit{E[X] = np}$$
+* the variance of $$\mathit{X}$$, $$\mathit{Var\left( X \right)}$$, is $$\mathit{Var\left( X \right) = np(1 - p)}$$
+* the standard deviation of $$\mathit{X}$$, $$\mathit{\sigma_X}$$, is $$\mathit{\sigma_X = \sqrt{np(1 - p)}}$$
+
+The general setting to which the Binomial distribution applies is:
+
+1. There is a base, or underlying, experiment whose outcome can be described by a random variable, $$\mathit{Y}$$. The 
+   random variable $$\mathit{Y}$$ can take on two possible values, 1 or 0
+2. The probability that $$\mathit{Y} = 1$$ on any single trial of the underlying experiment is given by some constant 
+   $$\mathit{p}$$, independent of the outcome of any other experiment. The probability that $$\mathit{Y} = 0$$ is 
+   therefore $$(1 - p)$$. Typically, **$$\mathit{p} = \text{error}_{\mathcal{D}}\mathit{(h)}$$ is not known in advance, 
+   and the goal is to estimate it**
+3. A series of $$\mathit{n}$$ independent trials of the underlying experiment is performed, producing the sequence of 
+   independent random variables $$\mathit{Y_1}$$, $$\mathit{Y_2}$$, ..., $$\mathit{Y_n}$$. Let $$\mathit{R}$$ denote the
+   number of trials for which $$\mathit{Y_i} = 1$$ in this series of $$\mathit{n}$$ experiments, i.e.
+   $$\mathit{R \equiv \sum_{i = 1}^{n}Y_i}$$
+4. The probability that the random variable $$\mathit{R}$$ will take on a specific value $$\mathit{r}$$ (the probability 
+   of observing exactly $$\mathit{r}$$ errors) is given by the binomial distribution
