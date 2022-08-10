@@ -108,7 +108,12 @@ on it. There are several activation functions we may employ in practice
 
 #### Sigmoid
 
-The sigmoid non-linearity has the mathematical form $$σ(x)=1/(1+e^{-x})$$ and is shown in the image below on the left. it takes a real-valued number and "squashes" it into range between 0 and 1. In particular, large negative numbers become 0 and large positive numbers become 1. The sigmoid function has seen frequent use historically since it has a nice interpretation as the firing rate of a neuron: from not firing at all (0) to fully-saturated firing at an assumed maximum frequency (1). In practice, the sigmoid non-linearity has recently fallen out of favor and it is rarely ever used. It has two major drawbacks:
+The sigmoid non-linearity has the mathematical form $$σ(x)=1/(1+e^{-x})$$ and is shown in the image below on the left.
+It takes a real-valued number and "squashes" it into range between 0 and 1. In particular, large negative numbers become
+0 and large positive numbers become 1. The sigmoid function has seen frequent use historically since it has a nice 
+interpretation as the firing rate of a neuron: from not firing at all (0) to fully-saturated firing at an assumed
+maximum frequency. In practice, however, the sigmoid non-linearity has recently fallen out of favor and it is rarely
+ever used, because it has two major drawbacks:
 
 1. Sigmoids saturate and kill gradients. A very undesirable property of the sigmoid neuron is that when the neuron's 
    activation saturates at either tail of 0 or 1, the gradient at these regions is almost zero. During backpropagation, 
@@ -121,7 +126,7 @@ The sigmoid non-linearity has the mathematical form $$σ(x)=1/(1+e^{-x})$$ and i
    network would be receiving data that is not zero-centered. This has implications on the dynamics during gradient 
    descent, because if the data coming into a neuron is always positive, then the gradient on the weights will, during 
    backpropagation, become either all be positive, or all negative (depending on the gradient of the whole expression 
-   $$\mathit{f}$$). This could introduce undesirable zig-zagging dynamics in the gradient updates for the weights. 
+   $$\mathit{f}$$ ). This could introduce undesirable zig-zagging dynamics in the gradient updates for the weights. 
    However, notice that once these gradients are added up across a batch of data the final update for the weights can
    have variable signs, somewhat mitigating this issue. Therefore, this is an inconvenience but it has less severe 
    consequences compared to the saturated activation problem above.
