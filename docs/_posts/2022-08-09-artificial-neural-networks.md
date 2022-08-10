@@ -230,11 +230,11 @@ Each neuron from the input layer outputs a number, forming a 3 x 1 matrix
 
 $$
 
-\begin{matrix}
+\begin{bmatrix}
 \mathit{x_1} \\
 \mathit{x_2} \\
 \mathit{x_3}
-\end{matrix}
+\end{bmatrix}
 
 $$
 
@@ -244,20 +244,39 @@ nunit from layer $$\mathit{l}$$. The strength of all connections is encoded in a
 
 $$
 
-\begin{matrix}
-\mathit{w_{11}^{\text{hidden layer 1}}} & \mathit{w_{21}^{\text{hidden layer 1}}} & \mathit{w_{31}^{\text{hidden layer 1}}} \\
-\mathit{w_{12}^{\text{hidden layer 1}}} & \mathit{w_{22}^{\text{hidden layer 1}}} & \mathit{w_{32}^{\text{hidden layer 1}}} \\
-\mathit{w_{13}^{\text{hidden layer 1}}} & \mathit{w_{23}^{\text{hidden layer 1}}} & \mathit{w_{33}^{\text{hidden layer 1}}} \\
-\mathit{w_{14}^{\text{hidden layer 1}}} & \mathit{w_{24}^{\text{hidden layer 1}}} & \mathit{w_{34}^{\text{hidden layer 1}}}
-\end{matrix}
+\mathit{W_1} = 
+    \begin{bmatrix}
+        \mathit{w_{11}^{\text{hidden layer 1}}} & \mathit{w_{21}^{\text{hidden layer 1}}} & \mathit{w_{31}^{\text{hidden layer 1}}} \\
+        \mathit{w_{12}^{\text{hidden layer 1}}} & \mathit{w_{22}^{\text{hidden layer 1}}} & \mathit{w_{32}^{\text{hidden layer 1}}} \\
+        \mathit{w_{13}^{\text{hidden layer 1}}} & \mathit{w_{23}^{\text{hidden layer 1}}} & \mathit{w_{33}^{\text{hidden layer 1}}} \\
+        \mathit{w_{14}^{\text{hidden layer 1}}} & \mathit{w_{24}^{\text{hidden layer 1}}} & \mathit{w_{34}^{\text{hidden layer 1}}}
+    \end{bmatrix}
 
 $$
 
-The bias matrix for hidden layer 1 is
+Every single neuron has its weights in a row of $$\mathit{W_1}$$
+
+The bias matrix for hidden layer 1 is a 4 x 1 matrix
 
 $$
 
+\vec{\mathit{b_1}} = 
+    \begin{bmatrix}
+        \mathit{b_11} \\
+        \mathit{b_12} \\
+        \mathit{b_13}
+    \end{bmatrix}
+
 $$
+
+According to the definition of [matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication):
+
+![Error loading ann-matrix-multiplication.png]({{ "/assets/img/ann-matrix-multiplication.png" | relative_url}})
+
+`np.dot(W1,x)` evaluates the activations of all neurons in that layer, i.e. $$[4 x 3] x [3 x 1] \Rightarrow [4 x 1]$$,
+which forms the dimensionality of input into the next hidden layer 2.
+
+
 
 
 ```python
