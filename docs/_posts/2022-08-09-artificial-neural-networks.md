@@ -34,9 +34,16 @@ Neurons
 The basic unit of computation in a neural network is the **neuron**, often called a **node** or **unit**. It receives 
 inputs from some other units, or from an external source and computes an output. Each input has an associated
 **weight**, which is assigned _on the basis of its relative importance to other inputs_. The unit applies an
-**activation function** to the weighted sum of its inputs
+**activation function** to the weighted sum of its inputs. The purpose of the activation function is to introduce 
+non-linearity into the output of a neuron. This is important because most real world data is non-linear and we would
+like neurons to learn these non-linear representations.
+
+The basic computational unit of the brain is a neuron. Approximately 86 billion neurons can be found in the human
+nervous system and they are connected with approximately $$10^14$$ ~ $$10^15$$ **synapses**.
 
 ![Error loading ann-biological-neuron-vs-computational-neuron.png]({{ "/assets/img/ann-biological-neuron-vs-computational-neuron.png" | relative_url}})
+
+The diagram above shows a cartoon drawing of a biological neuron (left) and a common mathematical model (right). Each neuron receives input signals from its dendrites and produces output signals along its (single) **axon**. The axon eventually branches out and connects via synapses to dendrites of other neurons. In the computational model of a neuron, the signals that travel along the axons (e.g. $$\mathit{x_0}$$) interact multiplicatively (e.g. \mathit{w_0x_0}) with the dendrites of the other neuron based on the synaptic strength at that synapse (e.g. $$\mathit{w_0}$$). The idea is that the synaptic strengths (the weights $$\mathit{w}$$) are learnable and control the strength of influence (and its direction: excitory (positive weight) or inhibitory (negative weight)) of one neuron on another. In the basic model, the dendrites carry the signal to the cell body where they all get summed. If the final sum is above a certain threshold, the neuron can fire, sending a spike along its axon. In the computational model, we assume that the **precise timings of the spikes do not matter, and that only the frequency of the firing communicates information**. Based on this rate code interpretation, **we model the firing rate of the neuron with the activation function $$\mathit{f}$$**, which represents the frequency of the spikes along the axon. Historically, a _common choice of activation function is the **sigmoid function σ**_, since it takes a real-valued input (the signal strength after the sum) and squashes it to range between 0 and 1. We will see details of these activation functions later in this section.
 
 Perceptrons
 -----------
