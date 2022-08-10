@@ -230,15 +230,16 @@ Each neuron from the input layer outputs a number, forming a 3 x 1 matrix
 
 $$
 
-\begin{bmatrix}
-\mathit{x_1} \\
-\mathit{x_2} \\
-\mathit{x_3}
-\end{bmatrix}
+\vec{\mathit{x}} =
+    \begin{bmatrix}
+    \mathit{x_1} \\
+    \mathit{x_2} \\
+    \mathit{x_3}
+    \end{bmatrix}
 
 $$
 
-When each input neron connects to another in hidden layer 1, every connection implies a connection strength,
+When each input neron connects to another in hidden layer 1, every connection implies a **connection strength**,
 $$\mathit{w_{jk}^l}$$, empirically, denoting the weights between _k_-th unit from layer $$\mathit{(l - 1)}$$ and _j_-th 
 nunit from layer $$\mathit{l}$$. The strength of all connections is encoded in a 4 x 3 matrix:
 
@@ -262,9 +263,9 @@ $$
 
 \vec{\mathit{b_1}} = 
     \begin{bmatrix}
-        \mathit{b_11} \\
-        \mathit{b_12} \\
-        \mathit{b_13}
+        \mathit{b_{11}} \\
+        \mathit{b_{12}} \\
+        \mathit{b_{13}}
     \end{bmatrix}
 
 $$
@@ -273,11 +274,38 @@ According to the definition of [matrix multiplication](https://en.wikipedia.org/
 
 ![Error loading ann-matrix-multiplication.png]({{ "/assets/img/ann-matrix-multiplication.png" | relative_url}})
 
-`np.dot(W1,x)` evaluates the activations of all neurons in that layer, i.e. $$[4 x 3] x [3 x 1] \Rightarrow [4 x 1]$$,
-which forms the dimensionality of input into the next hidden layer 2.
+`np.dot(W1,x)` evaluates the activations of all neurons in that layer, i.e. \[4 x 3\] x \[3 x 1\] => \[4 x 1\], which
+forms the dimensionality of input to the next hidden layer 2.
+
+$$
+
+\mathit{W_1}\vec{\mathit{x}} =
+
+\begin{bmatrix}
+\mathit{w_{11}^{\text{hidden layer 1}}} & \mathit{w_{21}^{\text{hidden layer 1}}} & \mathit{w_{31}^{\text{hidden layer 1}}} \\
+\mathit{w_{12}^{\text{hidden layer 1}}} & \mathit{w_{22}^{\text{hidden layer 1}}} & \mathit{w_{32}^{\text{hidden layer 1}}} \\
+\mathit{w_{13}^{\text{hidden layer 1}}} & \mathit{w_{23}^{\text{hidden layer 1}}} & \mathit{w_{33}^{\text{hidden layer 1}}} \\
+\mathit{w_{14}^{\text{hidden layer 1}}} & \mathit{w_{24}^{\text{hidden layer 1}}} & \mathit{w_{34}^{\text{hidden layer 1}}}
+\end{bmatrix}
+\begin{bmatrix}
+\mathit{x_1} \\
+\mathit{x_2} \\
+\mathit{x_3}
+\end{bmatrix} =
+
+\begin{bmatrix}
+\mathit{w_{11}^{\text{hidden layer 1}}}\mathit{x_1} & \mathit{w_{21}^{\text{hidden layer 1}}}\mathit{x_2} & \mathit{w_{31}^{\text{hidden layer 1}}}\mathit{x_3} \\
+\mathit{w_{12}^{\text{hidden layer 1}}}\mathit{x_1} & \mathit{w_{22}^{\text{hidden layer 1}}}\mathit{x_2} & \mathit{w_{32}^{\text{hidden layer 1}}}\mathit{x_3} \\
+\mathit{w_{13}^{\text{hidden layer 1}}}\mathit{x_1} & \mathit{w_{23}^{\text{hidden layer 1}}}\mathit{x_2} & \mathit{w_{33}^{\text{hidden layer 1}}}\mathit{x_3} \\
+\mathit{w_{14}^{\text{hidden layer 1}}}\mathit{x_1} & \mathit{w_{24}^{\text{hidden layer 1}}}\mathit{x_2} & \mathit{w_{34}^{\text{hidden layer 1}}}\mathit{x_3}
+\end{bmatrix}
+
+$$
 
 
-
+Similarly, $$\mathit{W_2}$$ would be a `4 x 4` matrix that stores the connections of the second hidden layer, and 
+$$\mathit{W_3}$$ a `1 x 4` matrix for the last (output) layer. The full forward pass of this 3-layer neural network is 
+then simply three matrix multiplications, interwoven with the application of the activation function:
 
 ```python
 # forward-pass of a 3-layer neural network:
@@ -288,6 +316,12 @@ h2 = f(np.dot(W2, h1) + b2) # calculate second hidden layer activations (4 x 1)
 out = np.dot(W3, h2) + b3 # output neuron (1x1)
 ```
 
+> Note that the forward pass of a fully-connected layer corresponds to one matrix multiplication followed by a bias 
+> offset and an activation function.
+
+As we have seen, _feed-forward computation is essentially repeated matrix multiplications interwoven with activation 
+function_. One of the primary reasons that neural networks are organized into layers is that this structure makes it very 
+simple and efficient to evaluate neural networks using matrix operations.
 
 
 Perceptrons
