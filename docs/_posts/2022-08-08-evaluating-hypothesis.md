@@ -88,7 +88,7 @@ distribution $$\mathcal{D}$$
 > with respect to target function $$\mathit{f(x)}$$ and distribution $$\mathcal{D}$$ is the probability that
 > $$\mathit{h}$$ will misclassify an instance drawn at random according to $$\mathcal{D}$$
 > 
-> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f\ (x)} \neq \mathit{h(x)} \right] $$
+> $$ \text{error}_{\mathcal{D}}\mathit{(h)} \equiv \underset{\mathit{x \in \mathcal{D}}}{\text{Pr}} \left[ \mathit{f\ (x)} ⍯ \not= \mathit{h(x)} \right] $$
 > 
 > where $$\underset{\mathit{x \in \mathcal{D}}}{\text{Pr}}$$ means that the probability is taken over the instance
 > distribution $$\mathcal{D}$$
@@ -140,3 +140,48 @@ $$\mathit{z_N}$$ given in table below
 > 
 > $$ \mathit{n} \times \text{error}_\mathit{S}\mathit{(h)}\left( 1 - \text{error}_\mathit{S}\mathit{(h)} \right) \ge 5 $$
 
+
+Basics of Sampling Theory
+-------------------------
+
+> Here is a well-studies problem in statistics:
+> 
+> Estimating the proportion of a population that exhibits some property, given the observed proportion over some random
+> sample of the population
+
+In our case, the property of interest is that $$\mathit{h}$$ misclassifies the example.
+
+### ???
+
+#### Random Variable
+
+We collect a random sample $$\mathit{S}$$ of $$\mathit{n}$$ independently drawn instances from the distribution
+$$\mathcal{D}$$, and then measure the sample error $$\text{error}_\mathit{S}\mathit{(h)}$$. If we were to repeat this 
+experiment many times, each time drawing a different random sample $$\mathit{S_i}$$ of size $$\mathit{n}$$, we would 
+expect to observe different values for the various $$\text{error}_\mathit{S}\mathit{(h)}$$, depending on random 
+differences in the makeup of the various $$\mathit{S_i}$$. We say in such cases that
+$$\text{error}_\mathit{S}\mathit{(h)}$$, the outcome of the _i_-th such experiment, is a **random variable**. The value
+of random variable is the observed outcome of a random experiment
+
+#### Binomial Distribution
+
+Imagine that we were to run $$\mathit{k}$$ such random experiments, measuring the random variables
+$$\text{error}_\mathit{S_1}\mathit{(h)}$$, $$\text{error}_\mathit{S_2}\mathit{(h)}$$, ...,
+$$\text{error}_\mathit{S_k}\mathit{(h)}$$. Imagine further that we then plotted a histogram displaying the frequency
+with which we observed each possible error value. As $$\mathit{k}$$ grows, the histogram might approach the form
+of the distribution shown below. This table describes a particular probability distribution called the **Binomial 
+distribution**.
+
+![Error loading binomial-distribution-eg.png]({{ "/assets/img/binomial-distribution-eg.png" | relative_url}})
+
+A Binomial distribution gives the probability of observing $$\mathit{r}$$ heads in a sample of $$\mathit{n}$$
+independent coin tosses, when the probability of heads on a single coin toss is $$\mathit{p}$$. It is defined by the 
+probability function
+
+$$\mathit{P(r) = \frac{n!}{r!(n - r)!}p^r(1 - p)^{n - r}}$$
+
+If the random variable $$\mathit{X}$$ follows a binomial distribution, then
+
+* the probability $$Pr(X = r)$$ that $$\mathit{X}$$ will take on the value $$\mathir{r}$$ is given by $$P(r)$$
+* $$\mathit{E\left[ X \right]}$$, which is the expected or mean value of $$\mathit{X}$$, is
+  $$\mathit{E\left[ X \right] = np}$$
