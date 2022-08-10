@@ -359,8 +359,41 @@ since the neurons can collaborate to express many different functions. For examp
 classification problem in two dimensions. We could train three separate neural networks, each with one hidden layer of 
 some size and obtain the following classifiers:
 
+![Error loading ann-tunning-layer-num-and-size.png]({{ "/assets/img/ann-tunning-layer-num-and-size.png" | relative_url}})
 
+In the diagram above, we can see that neural networks with more neurons can express more complicated functions. However, 
+this is both a blessing (since we can learn to classify more complicated data) and a curse (since it is easier to
+overfit the training data). **Overfitting** occurs when a model with high capacity fits the noise in the data instead of 
+the (assumed) underlying relationship. For example, the model with 20 hidden neurons fits all the training data but at 
+the cost of segmenting the space into many disjoint red and green decision regions. The model with 3 hidden neurons only 
+has the representational power to classify the data in broad strokes. It models the data as two blobs and interprets the 
+few red points inside the green cluster as outliers (noise). In practice, this could lead to better generalization on
+the test set.
 
+The subtle reason behind this is that smaller networks are harder to train with local methods such as Gradient Descent: 
+It's clear that their loss functions have relatively few local minima, but it turns out that many of these minima are 
+easier to converge to, and that they are bad (i.e. with high loss). Conversely, bigger neural networks contain 
+significantly more local minima, but these minima turn out to be much better in terms of their actual loss. Since Neural 
+Networks are non-convex, it is hard to study these properties mathematically, but some attempts to understand these 
+objective functions have been made, e.g. in a recent paper
+[The Loss Surfaces of Multilayer Networks](http://arxiv.org/abs/1412.0233). In practice, what you find is that if you 
+train a small network the final loss can display a good amount of variance - in some cases you get lucky and converge to 
+a good place but in some cases you get trapped in one of the bad minima. On the other hand, if you train a large network 
+you’ll start to find many different solutions, but the variance in the final achieved loss will be much smaller. In
+other words, all solutions are about equally as good, and rely less on the luck of random initialization.
+
+To reiterate, the regularization strength is the preferred way to control the overfitting of a neural network. We can 
+look at the results achieved by three different settings:
+
+![Error loading ann-regularization-strength.png]({{ "/assets/img/ann-regularization-strength.png" | relative_url}})
+
+The effects of regularization strength: Each neural network above has 20 hidden neurons, but changing the regularization 
+strength makes its final decision regions smoother with a higher regularization. You can play with these examples in
+this [ConvNetsJS demo](http://cs.stanford.edu/people/karpathy/convnetjs/demo/classify2d.html).
+
+The takeaway is that you should not be using smaller networks because you are afraid of overfitting. Instead, you should 
+use as big of a neural network as your computational budget allows, and use other regularization techniques to control 
+overfitting.
 
 
 Perceptrons
