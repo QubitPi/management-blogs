@@ -275,7 +275,7 @@ According to the definition of [matrix multiplication](https://en.wikipedia.org/
 ![Error loading ann-matrix-multiplication.png]({{ "/assets/img/ann-matrix-multiplication.png" | relative_url}})
 
 `np.dot(W1,x)` evaluates the activations of all neurons in that layer, i.e. \[4 x 3\] x \[3 x 1\] => \[4 x 1\], which
-forms the dimensionality of input to the next hidden layer 2.
+forms the dimensionality of input to the next hidden layer 2:
 
 $$
 
@@ -322,6 +322,24 @@ out = np.dot(W3, h2) + b3 # output neuron (1x1)
 As we have seen, _feed-forward computation is essentially repeated matrix multiplications interwoven with activation 
 function_. One of the primary reasons that neural networks are organized into layers is that this structure makes it very 
 simple and efficient to evaluate neural networks using matrix operations.
+
+### Representational Power
+
+One way to look at neural networks with fully-connected layers is that they define a family of functions that are 
+parameterized by the weights of the network. A natural question that arises is: What is the representational power of 
+this family of functions? In particular, are there functions that cannot be modeled with a Neural Network?
+
+It turns out that neural networks with at least one hidden layer are universal approximators. That is, it can be shown 
+(Approximation by Superpositions of Sigmoidal Function, 1989, or this
+[intuitive explanation](http://neuralnetworksanddeeplearning.com/chap4.html) from Michael Nielsen) that given any 
+continuous function $$\mathit{f\ (x)}$$ and some ϵ > 0, there exists a neural network $$\mathit{g(x)}$$ with one hidden 
+layer (with a reasonable choice of non-linearity, e.g. sigmoid) such that ∀x,∣f(x) - g(x)∣ < ϵ. In other words, the 
+neural network can approximate any continuous function.
+
+_If one hidden layer suffices to approximate any function, why use more layers and go deeper?_ The fact that a two-layer
+neural network is a universal approximator is, while mathematically cute, a relatively weak and useless statement in 
+practice. In one dimension, the "sum of indicator bumps" function g(x)=∑ici𝟙(ai<x<bi) where a,b,c are parameter vectors is also a universal approximator, but noone would suggest that we use this functional form in Machine Learning. Neural Networks work well in practice because they compactly express nice, smooth functions that fit well with the statistical properties of data we encounter in practice, and are also easy to learn using our optimization algorithms (e.g. gradient descent). Similarly, the fact that deeper networks (with multiple hidden layers) can work better than a single-hidden-layer networks is an empirical observation, despite the fact that their representational power is equal.
+
 
 
 Perceptrons
@@ -439,8 +457,8 @@ basis for learning networks of many units:
 One way to learn an acceptable weight vector is to begin with random weights, then iteratively apply the perceptron to 
 each training example, modifying the perceptron weights whenever it misclassifies an example. This process is repeated, 
 iterating through the training examples as many times as needed until the perceptron classifies all training examples 
-correctly. Weights are modified at each step according to the perceptron training rule, which revises the weight $$\mathit{w}_\mathit{i}$$
-associated with input $$\mathit{x}_\mathit{i}$$ according to the rule
+correctly. Weights are modified at each step according to the perceptron training rule, which revises the weight 
+$$\mathit{w}_\mathit{i}$$ associated with input $$\mathit{x}_\mathit{i}$$ according to the rule
 
 $$ \mathit{w}_\mathit{i} \leftarrow \mathit{w}_\mathit{i} + \Delta \mathit{w}_\mathit{i} $$
 
