@@ -3,8 +3,8 @@ layout: post
 title: Artificial Neural Networks - Singular Value Decomposition
 tags: [Machine Learning, Artificial Neural Networks, ANN, Data Preprocessing]
 color: rgb(0, 204, 0)
-feature-img: "assets/img/post-cover/16-cover.png"
-thumbnail: "assets/img/post-cover/16-cover.png"
+feature-img: "assets/img/post-cover/18-cover.png"
+thumbnail: "assets/img/post-cover/18-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
