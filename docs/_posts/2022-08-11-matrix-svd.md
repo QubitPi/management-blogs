@@ -18,7 +18,7 @@ excerpt_separator: <!--more-->
 > 
 > Any $$\mathit{m} \times \mathit{n}$$ matrix $$\mathit{A}$$ can be factored into
 > 
-> $$ \mathit{ A = U\SigmaV^T = (\text{orthogonal})(\text{diagonal})(\text{orthogonal}) } $$
+> $$ \mathit{ A = U \Sigma V^T = (\text{orthogonal})(\text{diagonal})(\text{orthogonal}) } $$
 > 
 > where the columns of the $$\mathit{m \times m}$$ $$\mathit{U}$$ are eigenvectors of $$\mathit{AA^T}$$ and the columns
 > of the $$\mathit{n \times n}$$ $$\mathit{V}$$ are eigenvectors of $$\mathit{A^TA}$$. The $$\mathit{r}$$ singular
