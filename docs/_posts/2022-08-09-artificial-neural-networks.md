@@ -396,6 +396,59 @@ use as big of a neural network as your computational budget allows, and use othe
 overfitting.
 
 
+Data Preprocessing
+------------------
+
+There are three common forms of data preprocessing a data matrix $$\mathit{X}$$, where we will assume that
+$$\mathit{X}$$ is of size $$\mathit{[N \times D]}$$ ($$\mathit{N}$$ is the number of data, $$\mathit{D}$$ is their 
+dimensionality).
+
+### 1. Mean Subtraction
+
+Mean subtraction is the most common form of preprocessing. It involves subtracting the mean across every individual 
+feature in the data, and has the geometric interpretation of _centering the cloud of data around the origin along every 
+dimension_. In numpy, this operation would be implemented as: `X -= np.mean(X, axis = 0)`. With images specifically, for 
+convenience it can be common to subtract a single value from all pixels (e.g. `X -= np.mean(X)`), or to do so separately 
+across the three color channels.
+
+![Error loading ann-preprocessing-mean-norm.png]({{ "/assets/img/ann-preprocessing-mean-norm.png" | relative_url}})
+
+### 2. Normalization
+
+Normalization refers to normalizing the data dimensions so that they are of approximately the same scale. There are two 
+common normalization approaches. One is to divide each dimension by its standard deviation once it has been 
+zero-centered: (`X /= np.std(X, axis = 0)`). Another form of this preprocessing normalizes each dimension so that the
+min and max along the dimension is -1 and 1 respectively. It only makes sense to apply this preprocessing if you have a 
+reason to believe that different input features have different scales (or units), but they should be of approximately 
+equal importance to the learning algorithm. In case of images, the relative scales of pixels are already approximately 
+equal (and in range from 0 to 255), so it is not strictly necessary to perform this additional preprocessing step.
+
+### 3. PCA & Whitening
+
+In this process, the data is first centered as described above. Then, we can compute the
+[covariance](https://en.wikipedia.org/wiki/Covariance) matrix which tells us about the correlation of the data inside
+matrix:
+
+```python
+# Assume input data matrix X of size [N x D]
+X -= np.mean(X, axis = 0) # zero-center the data (important)
+cov = np.dot(X.T, X) / X.shape[0] # get the data covariance matrix
+```
+
+The $$\mathit{(i, j)}$$ element of the covariance matrix contains the covariance between _i_-th and _j_-th dimension of 
+the data. In particular, the diagonal of this matrix contains the variances. Furthermore, the covariance matrix is 
+symmetric and
+[positive semi-definite](http://en.wikipedia.org/wiki/Positive-definite_matrix#Negative-definite.2C_semidefinite_and_indefinite_matrices).
+
+Then we compute the SVD factorization of the covariance matrix:
+
+```python
+U,S,V = np.linalg.svd(cov)
+```
+
+where the columns of `U` are the eigenvectors and `S` is a 1-D array of the singular values.
+
+
 Perceptrons
 -----------
 
