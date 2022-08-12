@@ -25,9 +25,9 @@ statistics, computational complexity, information theory, psychology and neurobi
 algorithms**, with an exclusive scope on **Immanuel Kant** Philosophy. I chose this topic because I believe any
 successful ML & AI applications in the world of business must come from a _profound_ design and implementation of
 some intelligent system which is not possible without some rigurous justifications. AI & ML, in my opinion, is about the
-philosophy of learning applied on machines (I came to this conclusion after my
-[university courses on Machine Learning](https://courses.engr.illinois.edu/cs446/sp2015/resources.html)). The accuracy
-of an intelligent algorithm pretty much depend on how we frame and bias a learning system. The approach to that requires
+philosophy of learning applied to machines (I came to this conclusion after my
+[university course on Machine Learning](https://courses.engr.illinois.edu/cs446/sp2015/resources.html)). The accuracy of 
+an intelligent system pretty much depend on how we frame and bias a learning algorithm. The approach to that requires
 a solid understanding of learning theory, which is why it has been stated at the beginning of this post that Machine 
 Learning draws from the discipline of Philosophy, and hence, I assembled this blog post.
 
@@ -103,4 +103,15 @@ space and time are _empirically real_, they are _transcendentally ideal_, and so
 the precise meaning of this claim remains subject to debate, in general terms it is the claim that _it is only from the 
 human standpoint that we can speak of space, time, and the spatiotemporality of the objects of experience, thus that we 
 cognize these things not as they are in themselves but only as they appear under the conditions of our sensibility_.
-This is Kant's famous doctrine of **Transcendental Idealism**.
+This is Kant's famous doctrine of **Transcendental Idealism**, _which can be employed throughout the learning process of
+a machine_
+
+### "Transcendental Analytic": the Metaphysical and Transcendental Deductions
+
+#### Analytic of Concepts
+
+In the "Analytic of Concepts," Kant presents the understanding as the source of certain concepts that are _a priori_ and 
+are conditions of the possibility of any experience whatever. These twelve basic concepts, which Kant calls the 
+**categories**, are fundamental concepts of an object in general, or the forms for any particular concepts of objects,
+and in conjunction with the _a priori_ forms of intuition are the basis of all synthetic _a priori_ cognition.
+
