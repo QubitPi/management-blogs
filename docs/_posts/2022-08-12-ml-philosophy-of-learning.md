@@ -44,6 +44,8 @@ The Critique of Pure Reason is a book by Kant, in which he seeks to determine th
 [metaphysics](https://en.wikipedia.org/wiki/Metaphysics). Also referred to as Kant's "First Critique", it was followed
 by his Critique of Practical Reason (1788) and Critique of Judgment (1790). 
 
+### a priori
+
 _Kant argues that our mathematical, physical, and quotidian knowledge of nature requires certain judgments that are 
 "synthetic"_ rather than "analytic," that is, going beyond what can be known solely in virtue of the contents of the 
 concepts involved in them and the application of the logical principles of identity and contradiction to these concepts, 
@@ -80,3 +82,25 @@ This division is the basis for Kant's division of the "Transcendental Doctrine o
 > weight values**.
 
 More discussion of "a priori" coming...
+
+### "Transcendental Aesthetic": Space, Time, and Transcendental Idealism
+
+> [In Kantian philosophy](https://www.merriam-webster.com/dictionary/transcendental), **transcendental** is
+>
+> 1. of or relating to experience as determined by the mind's makeup
+> 2. [transcending](https://www.merriam-webster.com/dictionary/transcending) experience but not human knowledge
+
+Kant attempts to distinguish the contribution to cognition made by our receptive faculty of sensibility from that made 
+solely by the objects that affect us, and argues that **space and time are pure forms of all intuition contributed by
+our own faculty of sensibility, and therefore forms of which we can have a priori knowledge**
+
+Space and time are neither subsistent beings nor inherent in things as they are in themselves, but are rather only forms
+of our sensibility, hence conditions under which objects of experience can be given at all and the fundamental principle
+of their representation and individuation
+
+Kant's thesis that space and time are pure forms of intuition leads him to the paradoxical conclusion that although
+space and time are _empirically real_, they are _transcendentally ideal_, and so are the objects given in them. Although 
+the precise meaning of this claim remains subject to debate, in general terms it is the claim that _it is only from the 
+human standpoint that we can speak of space, time, and the spatiotemporality of the objects of experience, thus that we 
+cognize these things not as they are in themselves but only as they appear under the conditions of our sensibility_.
+This is Kant's famous doctrine of **Transcendental Idealism**.
