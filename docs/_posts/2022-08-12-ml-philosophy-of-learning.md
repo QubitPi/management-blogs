@@ -19,14 +19,14 @@ statistics, computational complexity, information theory, psychology and neurobi
 * Analysis of the justification for generalizing beyond observed data.
 
 **This post is purely my exploration of philosophical disciplines on the design and implementation of ML & AI
-algorithms**, with an exclusive scope on **Immanuel Kant** Philosophy. I chose this topic because I believe any
-successful ML & AI applications in the world of business must come from a _profound_ design and implementation of
-some intelligent system which is not possible without some rigorous justifications. AI & ML, in my opinion, is about the
-philosophy of learning applied to machines (I came to this conclusion after my
-[university course on Machine Learning](https://courses.engr.illinois.edu/cs446/sp2015/index.html)). The accuracy of an 
-intelligent system pretty much depend on how we frame and bias a learning algorithm. The approach to that requires a
-solid understanding of learning theory, which is why it has been stated at the beginning of this post that Machine 
-Learning draws from the discipline of Philosophy, and hence, I assembled this blog post.
+algorithms**, with an exclusive scope on [**Immanuel Kant**](https://en.wikipedia.org/wiki/Immanuel_Kant) Philosophy. I 
+chose this topic because I believe any successful ML & AI applications in the world of business must come from a
+_profound_ design and implementation of some intelligent system which is not possible without some rigorous 
+justifications. AI & ML, in my opinion, is about the philosophy of learning applied to machines (I came to this
+conclusion after my [university course on Machine Learning](https://courses.engr.illinois.edu/cs446/sp2015/index.html)). 
+The accuracy of an intelligent system pretty much depend on how we frame and bias a learning algorithm. The approach to 
+that requires a solid understanding of learning theory, which is why it has been stated at the beginning of this post
+that Machine Learning draws from the discipline of Philosophy, and hence, I assembled this blog post.
 
 How I ended up studying Kant's Philosophy for ML & AI (and life in general) is probably out of interests of most
 readers, but what I do need to tell is that I found Kant's approach to human learning strategy works pretty well in many 
@@ -39,16 +39,16 @@ help us design better ML & AI algorithms.
 Critique of Pure Reason
 -----------------------
 
-The Critique of Pure Reason is a book by Kant, in which he seeks to determine the limits and scope of
-[metaphysics](https://en.wikipedia.org/wiki/Metaphysics). Also referred to as Kant's "First Critique", it was followed
-by his Critique of Practical Reason (1788) and Critique of Judgment (1790). 
+[_The Critique of Pure Reason_](https://trello.com/c/E3Cwohv5) is a book by Kant, in which he seeks to determine the 
+limits and scope of [metaphysics](https://en.wikipedia.org/wiki/Metaphysics). Also referred to as Kant's
+"First Critique", it was followed by his Critique of Practical Reason (1788) and Critique of Judgment (1790). 
 
-### a priori
+### _a priori_
 
 _Kant argues that our mathematical, physical, and quotidian knowledge of nature requires certain judgments that are 
 "synthetic"_ rather than "analytic," that is, going beyond what can be known solely in virtue of the contents of the 
 concepts involved in them and the application of the logical principles of identity and contradiction to these concepts, 
-and yet also knowable **a priori**, that is, independently of any particular experience since no particular experience
+and yet also knowable **_a priori_**, that is, independently of any particular experience since no particular experience
 could ever be sufficient to establish the universal and necessary validity of these judgments.
 
 Kant agrees with Locke that we have no innate knowledge, that is, no knowledge of any particular propositions implanted
@@ -70,17 +70,17 @@ This division is the basis for Kant's division of the "Transcendental Doctrine o
 2. the "Transcendental Logic," which deals with the operations of the understanding and judgment as well as both the
    spurious and the legitimate activities of theoretical reason
 
-> a priori is the Initial Parameters Set in ML & AI Algorithms
+> _a priori_ is the Initial Parameters Set in ML & AI Algorithms
 >
 > Recall from the
 > [Backpropagation algorithm in artificial neural networks](https://qubitpi.github.io/jersey-guide/2022/08/09/artificial-neural-networks.html#the-backpropagation-algorithm),
 > that we gave some very small initial weights which later were adjusted in accordance with the learning data set. 
 > 
-> **Assigning initial weights mirrors the concept of "a priori"**. It is important to, during the design of algorithm,
-> keep drawing from how "a priori" works. **The analogy of "a priori" should guide our initial assignments to those
+> **The initial weights mirrors the concept of "_a priori_"**. It is important, during the design of algorithm, to keep
+> drawing from how "_a priori_" works. **The analogy of "_a priori_" should guide our initial assignments to those
 > weight values**.
 
-More discussion of "a priori" coming...
+More discussion of "_a priori_" coming...
 
 ### "Transcendental Aesthetic": Space, Time, and Transcendental Idealism
 
@@ -91,7 +91,7 @@ More discussion of "a priori" coming...
 
 Kant attempts to distinguish the contribution to cognition made by our receptive faculty of sensibility from that made 
 solely by the objects that affect us, and argues that **space and time are pure forms of all intuition contributed by
-our own faculty of sensibility, and therefore forms of which we can have a priori knowledge**
+our own faculty of sensibility, and therefore forms of which we can have _a priori_ knowledge**
 
 Space and time are neither subsistent beings nor inherent in things as they are in themselves, but are rather only forms
 of our sensibility, hence conditions under which objects of experience can be given at all and the fundamental principle
