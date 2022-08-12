@@ -24,7 +24,7 @@ statistics, computational complexity, information theory, psychology and neurobi
 **This post is purely my exploration of philosophical disciplines on the design and implementation of ML & AI
 algorithms**, with an exclusive scope on **Immanuel Kant** Philosophy. I chose this topic because I believe any
 successful ML & AI applications in the world of business must come from a _profound_ design and implementation of
-some intelligent system which is not possible without some rigurous justifications. AI & ML, in my opinion, is about the
+some intelligent system which is not possible without some rigorous justifications. AI & ML, in my opinion, is about the
 philosophy of learning applied to machines (I came to this conclusion after my
 [university course on Machine Learning](https://courses.engr.illinois.edu/cs446/sp2015/index.html)). The accuracy of an 
 intelligent system pretty much depend on how we frame and bias a learning algorithm. The approach to that requires a
