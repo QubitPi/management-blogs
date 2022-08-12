@@ -69,6 +69,14 @@ This division is the basis for Kant's division of the "Transcendental Doctrine o
 2. the "Transcendental Logic," which deals with the operations of the understanding and judgment as well as both the
    spurious and the legitimate activities of theoretical reason
 
-### a priori is the Initial Parameters Set in ML & AI Algorithms
+> a priori is the Initial Parameters Set in ML & AI Algorithms
+>
+> Recall from the
+> [Backpropagation algorithm in artificial neural networks](https://qubitpi.github.io/jersey-guide/2022/08/09/artificial-neural-networks.html#the-backpropagation-algorithm),
+> that we gave some very small initial weights which later were adjusted in accordance with the learning data set. 
+> 
+> **Assigning initial weights mirrors the concept of "a priori"**. It is important to, during the design of algorithm,
+> keep drawing from how "a priori" works. **The analogy of "a priori" should guide our initial assignments to those
+> weight values**.
 
-To be continued...
+More discussion of "a priori" coming...
