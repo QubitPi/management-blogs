@@ -11,9 +11,6 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
-* TOC
-{:toc}
-
 Machine learning draws on ideas from a diverse set of disciplines, including artificial intelligence, probability and 
 statistics, computational complexity, information theory, psychology and neurobiology, control theory, and
 **Philosophy**. For example, in Philosophy:
@@ -36,6 +33,8 @@ is that I found Kant's approach to human learning strategy works pretty well in 
 I believe his rigorous treatise on learning theory will work for machine as well and help us design better ML & AI 
 algorithms.
 
+* TOC
+{:toc}
 
 Critique of Pure Reason
 -----------------------
