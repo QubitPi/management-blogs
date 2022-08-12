@@ -28,10 +28,10 @@ intelligent system pretty much depend on how we frame and bias a learning algori
 solid understanding of learning theory, which is why it has been stated at the beginning of this post that Machine 
 Learning draws from the discipline of Philosophy, and hence, I assembled this blog post.
 
-How I ended up studying Kant's Philosophy for ML & AI is probably out of interests of most readers, but what I do need
-to tell is that I found Kant's approach to human learning strategy works pretty well in many quotidian tasks in our
-daily lives. I believe his rigorous treatise on learning theory will work for machine as well and help us design better
-ML & AI algorithms.
+How I ended up studying Kant's Philosophy for ML & AI (and life in general) is probably out of interests of most
+readers, but what I do need to tell is that I found Kant's approach to human learning strategy works pretty well in many 
+quotidian tasks in our daily lives. I believe his rigorous treatise on learning theory will work for machine as well and 
+help us design better ML & AI algorithms.
 
 * TOC
 {:toc}
