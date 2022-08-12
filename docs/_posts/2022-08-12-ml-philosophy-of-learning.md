@@ -26,9 +26,9 @@ algorithms**, with an exclusive scope on **Immanuel Kant** Philosophy. I chose t
 successful ML & AI applications in the world of business must come from a _profound_ design and implementation of
 some intelligent system which is not possible without some rigurous justifications. AI & ML, in my opinion, is about the
 philosophy of learning applied to machines (I came to this conclusion after my
-[university course on Machine Learning](https://courses.engr.illinois.edu/cs446/sp2015/resources.html)). The accuracy of 
-an intelligent system pretty much depend on how we frame and bias a learning algorithm. The approach to that requires
-a solid understanding of learning theory, which is why it has been stated at the beginning of this post that Machine 
+[university course on Machine Learning](https://courses.engr.illinois.edu/cs446/sp2015/index.html)). The accuracy of an 
+intelligent system pretty much depend on how we frame and bias a learning algorithm. The approach to that requires a
+solid understanding of learning theory, which is why it has been stated at the beginning of this post that Machine 
 Learning draws from the discipline of Philosophy, and hence, I assembled this blog post.
 
 How I ended up studying Kant's Philosophy for ML & AI is probably out of interests of most readers, but what I can tell
@@ -115,3 +115,24 @@ are conditions of the possibility of any experience whatever. These twelve basic
 **categories**, are fundamental concepts of an object in general, or the forms for any particular concepts of objects,
 and in conjunction with the _a priori_ forms of intuition are the basis of all synthetic _a priori_ cognition.
 
+Kant derives the twelve categories from a table of the twelve logical functions or forms of judgments, the logically 
+significant aspects of all judgments. Kant's idea is that just as there are certain essential features of all judgments, 
+so there must be certain corresponding ways in which we form the concepts of objects so that judgments may be about
+objects.
+
+There are 4 main logical features of judgments:
+
+1. their quantity, or the scope of their subject-terms;
+2. the quality of their predicate-terms, whose contents are realities and negations;
+3. their relation, or whether they assert a relation just between a subject and predicate or between two or more 
+   subject-predicate judgments; and
+4. their modality, or whether they assert a possible, actual, or necessary truth
+
+Under each of these four headings there are supposed to be three different options:
+
+![Error loading kant-12-categories.png]({{ "/assets/img/kant-12-categories.png" | relative_url}})
+
+Kant holds there to be twelve fundamental categories for conceiving of the quantity, quality, relation, and modality of 
+objects
+
+To be continued ...
