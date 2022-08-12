@@ -25,10 +25,11 @@ statistics, computational complexity, information theory, psychology and neurobi
 algorithms**, with an exclusive scope on **Immanuel Kant** Philosophy. I chose this topic because I believe any
 successful ML & AI applications in the world of business must come from a _profound_ design and implementation of
 some intelligent system which is not possible without some rigurous justifications. AI & ML, in my opinion, is about the
-philosophy of learning applied on machines (I came to this conclusion after my [university courses on Machine Learning](https://courses.engr.illinois.edu/cs446/sp2015/resources.html)). The accuracy of an intelligent algorithm pretty much depend on how
-we frame and bias a learning system. The approach to that requires a solid understanding of learning theory, which is
-why it has been stated at the beginning of this post that Machine Learning draws from the discipline of Philosophy, and 
-hence, I assembled this blog post.
+philosophy of learning applied on machines (I came to this conclusion after my
+[university courses on Machine Learning](https://courses.engr.illinois.edu/cs446/sp2015/resources.html)). The accuracy
+of an intelligent algorithm pretty much depend on how we frame and bias a learning system. The approach to that requires
+a solid understanding of learning theory, which is why it has been stated at the beginning of this post that Machine 
+Learning draws from the discipline of Philosophy, and hence, I assembled this blog post.
 
 How I ended up studying Kant's Philosophy for ML & AI is probably out of interests of most readers, but what I can tell
 is that I found Kant's approach to human learning strategy works pretty well in many quotidian tasks in our daily lives.
@@ -61,5 +62,13 @@ Kant divides our cognitive capacities into
    are given to us in empirical intuition, and
 2. our active faculty for relating the data of intuition by thinking them under concepts, which is called understanding, 
    and forming judgments about them
+
+This division is the basis for Kant's division of the "Transcendental Doctrine of Elements" into
+
+1. the "Transcendental Aesthetic," which deals with sensibility and its pure form, and
+2. the "Transcendental Logic," which deals with the operations of the understanding and judgment as well as both the
+   spurious and the legitimate activities of theoretical reason
+
+### a priori is the Initial Parameters Set in ML & AI Algorithms
 
 To be continued...
