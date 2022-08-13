@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Machine Learning - Philosophy of Learning
+title: Machine Learning - Kantian Philosophy of Learning
 tags: [Machine Learning, Philosophy, Immanuel Kant]
 color: rgb(0, 204, 0)
 feature-img: "assets/img/post-cover/19-cover.png"
