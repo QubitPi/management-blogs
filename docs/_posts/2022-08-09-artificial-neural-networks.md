@@ -441,7 +441,7 @@ symmetric and
 [positive semi-definite](http://en.wikipedia.org/wiki/Positive-definite_matrix#Negative-definite.2C_semidefinite_and_indefinite_matrices).
 
 Then we compute the
-[SVD factorization](https://qubitpi.github.io/jersey-guide/2022/08/11/matrix-svd.html#singular-value-decomposition)
+[SVD factorization](https://qubitpi.github.io/jersey-guide/2022/08/11/linear-algebra.html#singular-value-decomposition)
 of the covariance matrix:
 
 ```python
