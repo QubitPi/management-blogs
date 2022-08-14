@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Machine Learning - Evaluating Hypothesis
+title: (Updating...) Machine Learning - Evaluating Hypothesis
 tags: [Machine Learning]
 color: rgb(0, 204, 0)
 feature-img: "assets/img/post-cover/16-cover.png"
