@@ -509,9 +509,28 @@ neuron in the network computes the same output, then they will also all compute 
 backpropagation and undergo the exact same parameter updates. In other words, there is no source of asymmetry between 
 neurons if their weights are initialized to be the same.
 
-$$
-\begin{align} \text{Var}(s) &= \text{Var}(\sum_i^n w_ix_i) \\\\ &= \sum_i^n \text{Var}(w_ix_i) \\\\ &= \sum_i^n [E(w_i)]^2\text{Var}(x_i) + [E(x_i)]^2\text{Var}(w_i) + \text{Var}(x_i)\text{Var}(w_i) \\\\ &= \sum_i^n \text{Var}(x_i)\text{Var}(w_i) \\\\ &= \left( n \text{Var}(w) \right) \text{Var}(x) \end{align}
-$$
+Therefore, we still want the weights to be very close to zero, but as we have argued above, not identically zero. As a 
+solution, it is common to initialize the weights of the neurons to small numbers and refer to doing so as **symmetry 
+breaking**. The idea is that the neurons are all random and unique in the beginning, so they will compute distinct 
+updates and integrate themselves as diverse parts of the full network. The implementation for one weight matrix might 
+look like `W = 0.01* np.random.randn(D,H)`, where `randn` samples from a zero mean, unit standard deviation gaussian. 
+With this formulation, **every neuron's weight vector is initialized as a random vector sampled from a multi-dimensional 
+gaussian**, so the neurons point in random direction in the input space. It is also possible to use small numbers drawn 
+from a uniform distribution, but this seems to have relatively little impact on the final performance in practice.
+
+> ⚠️ Itis not necessarily the case that smaller numbers will work strictly better. For example, a Neural Network layer 
+> that has very small weights will during backpropagation compute very small gradients on its data (since this gradient 
+> is proportional to the value of the weights). This could greatly diminish the “gradient signal” flowing backward 
+> through a network, and could become a concern for deep networks.
+
+One problem with the multi-dimensional gaussian is that the distribution of the outputs from a randomly initialized 
+neuron has a variance that grows with the number of inputs. It turns out that we can normalize the variance of each 
+neuron's output to 1 by scaling its weight vector by the square root of its fan-in (i.e. its number of inputs). That is, 
+the recommended heuristic is to initialize each neuron’s weight vector as: `w = np.random.randn(n) / sqrt(n)`, where `n` 
+is the number of its inputs. This ensures that all neurons in the network initially have approximately the same output 
+distribution and empirically improves the rate of convergence.
+
+![Error loading ann-scaling-variance.png]({{ "/assets/img/ann-scaling-variance.png" | relative_url}})
 
 
 Perceptrons

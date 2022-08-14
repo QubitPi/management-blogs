@@ -83,7 +83,10 @@ This division is the basis for Kant's division of the "Transcendental Doctrine o
 > A pure _a priori_ with **no innate knowledge** corresponds to (approximately) the
 > [random initialization with small values](https://qubitpi.github.io/jersey-guide/2022/08/09/artificial-neural-networks.html#weight-initialization). Fundamentally,
 > 
-> **no knowledge** is mathematically defined by **0**.
+> **No knowledge** is mathematically defined by **0**.
+> 
+> In that sense, since initial weights are assigned only close to 0, **artificial neural networks is doomed to be an 
+> approximation to the world**. The accuracy of it denotes to how close that approximation ends up with.
 
 More discussion of "_a priori_" coming...
 
