@@ -79,6 +79,8 @@ This division is the basis for Kant's division of the "Transcendental Doctrine o
 > **The initial weights mirrors the concept of "_a priori_"**. It is important, during the design of algorithm, to keep
 > drawing from how "_a priori_" works. **The analogy of "_a priori_" should guide our initial assignments to those
 > weight values**.
+> 
+
 
 More discussion of "_a priori_" coming...
 

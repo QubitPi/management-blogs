@@ -484,6 +484,31 @@ Xwhite = Xrot / np.sqrt(S + 1e-5)
 > dimensions of tiny variance that are mostly noise) to be of equal size in the input. This can in practice be mitigated 
 > by stronger smoothing (i.e. increasing 1e-5 to be a larger number).
 
+We can also try to visualize these transformations with CIFAR-10 images. The training set of CIFAR-10 is of size
+50,000 $$\times$$ 3072, where every image is stretched out into a 3072-dimensional row vector. We can then compute the 
+`[3072 x 3072]` covariance matrix and compute its SVD decomposition (which can be relatively expensive). What do the 
+computed eigenvectors look like visually? An image might help:
+
+![Error loading ann-preprocessing-visual.png]({{ "/assets/img/ann-preprocessing-visual.png" | relative_url}})
+
+> ⚠️ An important point to make about the preprocessing is that any preprocessing statistics (e.g. the data mean) must 
+> only be computed on the training data, and then applied to the validation / test data. E.g. computing the mean and 
+> subtracting it from every image across the entire dataset and then splitting the data into train/val/test splits would 
+> be a mistake. Instead, the mean must be computed only over the training data and then subtracted equally from all 
+> splits (train/val/test).
+
+
+Weight Initialization
+---------------------
+
+Lets start with what we should not do. Note that we do not know what the final value of every weight should be in the 
+trained network, but with proper data normalization it is reasonable to assume that approximately half of the weights 
+will be positive and half of them will be negative. A reasonable-sounding idea then might be to set all the initial 
+weights to zero, which we expect to be the “best guess” in expectation. This turns out to be a mistake, because if every 
+neuron in the network computes the same output, then they will also all compute the same gradients during
+backpropagation and undergo the exact same parameter updates. In other words, there is no source of asymmetry between 
+neurons if their weights are initialized to be the same.
+
 $$
 \begin{align} \text{Var}(s) &= \text{Var}(\sum_i^n w_ix_i) \\\\ &= \sum_i^n \text{Var}(w_ix_i) \\\\ &= \sum_i^n [E(w_i)]^2\text{Var}(x_i) + [E(x_i)]^2\text{Var}(w_i) + \text{Var}(x_i)\text{Var}(w_i) \\\\ &= \sum_i^n \text{Var}(x_i)\text{Var}(w_i) \\\\ &= \left( n \text{Var}(w) \right) \text{Var}(x) \end{align}
 $$
@@ -1298,3 +1323,7 @@ Additional Resources
 * [deeplearning.net tutorial](http://www.deeplearning.net/tutorial/mlp.html) with Theano
 * [ConvNetJS](http://cs.stanford.edu/people/karpathy/convnetjs/) demos for intuitions
 * [Michael Nielsen's tutorials](http://neuralnetworksanddeeplearning.com/chap1.html)
+
+### Free Datasets
+
+* [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html)
