@@ -530,7 +530,59 @@ the recommended heuristic is to initialize each neuron’s weight vector as: `w 
 is the number of its inputs. This ensures that all neurons in the network initially have approximately the same output 
 distribution and empirically improves the rate of convergence.
 
+The sketch of the derivation is as follows: Consider the inner product $$\mathit{s = \sum_i^n w_i x_i}$$ between the 
+weights $$\mathit{w}$$ and input $$\mathit{x}$$, which gives the raw activation of a neuron before the non-linearity. We 
+can examine the variance of $$\mathit{s}$$:
+
 ![Error loading ann-scaling-variance.png]({{ "/assets/img/ann-scaling-variance.png" | relative_url}})
+
+where in the first 2 steps we have used [properties of variance](http://en.wikipedia.org/wiki/Variance). In third step
+we assumed _zero mean inputs and weights_, so $$\mathit{E[x_i] = E[w_i] = 0}$$. Note that this is not generally the
+case: For example ReLU units will have a positive mean. In the last step we assumed that all $$\mathit{w_i, x_i}$$ are
+identically distributed. From this derivation we can see that if we want $$\mathit{s}$$ to have the same variance as all 
+of its inputs $$\mathit{x}$$, then during initialization we should make sure that the variance of every weight
+$$\mathit{w}$$ is $$\mathit{\frac{1}{n}}$$. And since $$\mathit{\text{Var}(aX) = a^2\text{Var}(X)}$$ for a random 
+variable $$\mathit{X}$$ and a scalar $$\mathit{a}$$, this implies that we should draw from unit gaussian and then scale 
+it by $$\mathit{a = \sqrt{\frac{1}{n}}}$$, to make its variance $$\mathit{\frac{1}{n}}$$. This gives the initialization
+`w = np.random.randn(n) / sqrt(n)`.
+
+A more recent paper on this topic,
+[Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification](http://arxiv-web3.library.cornell.edu/abs/1502.01852)
+by He et al., derives an initialization specifically for ReLU neurons, reaching the conclusion that the variance of 
+neurons in the network should be $$\mathit{\frac{2.0}{n}}$$. This gives the initialization
+`w = np.random.randn(n) * sqrt(2.0/n)`, and is the current recommendation for use in practice in the specific case of 
+neural networks with ReLU neurons.
+
+### Sparse Initialization.
+
+Another way to address the uncalibrated variances problem is to set all weight matrices to zero, but to break symmetry 
+every neuron is randomly connected (with weights sampled from a small gaussian as above) to a fixed number of neurons 
+below it. A typical number of neurons to connect to may be as small as 10.
+
+### Initializing the Biases.
+
+It is possible and common to initialize the biases to be zero, since the asymmetry breaking is provided by the small 
+random numbers in the weights. For ReLU non-linearities, some people like to use small constant value such as 0.01 for 
+all biases because this ensures that all ReLU units fire in the beginning and therefore obtain and propagate some 
+gradient. However, it is not clear if this provides a consistent improvement (in fact some results seem to indicate that 
+this performs worse) and it is more common to simply use 0 bias initialization.
+
+In practice, the recommendation is to use ReLU units and use the `w = np.random.randn(n) * sqrt(2.0/n)`, as discussed in 
+He et al..
+
+### Batch Normalization
+
+A recently developed technique by Ioffe and Szegedy called [Batch Normalization](http://arxiv.org/abs/1502.03167) 
+alleviates a lot of headaches with properly initializing neural networks by explicitly forcing the activations
+throughout a network to take on a unit gaussian distribution at the beginning of the training. The core observation is 
+that this is possible because normalization is a simple differentiable operation. In the implementation, applying this 
+technique usually amounts to insert the BatchNorm layer immediately after fully connected layers (or convolutional
+layers), and before non-linearities. **It has become a very common practice to use Batch Normalization in neural 
+networks**. In practice networks that use Batch Normalization are significantly more robust to bad initialization. 
+Additionally, batch normalization can be interpreted as doing preprocessing at every layer of the network, but integrated
+into the network itself in a differentiable manner. Neat!
+
+
 
 
 Perceptrons
