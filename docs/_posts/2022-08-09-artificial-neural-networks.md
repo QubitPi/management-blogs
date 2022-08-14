@@ -440,13 +440,53 @@ the data. In particular, the diagonal of this matrix contains the variances. Fur
 symmetric and
 [positive semi-definite](http://en.wikipedia.org/wiki/Positive-definite_matrix#Negative-definite.2C_semidefinite_and_indefinite_matrices).
 
-Then we compute the SVD factorization of the covariance matrix:
+Then we compute the
+[SVD factorization](https://qubitpi.github.io/jersey-guide/2022/08/11/matrix-svd.html#singular-value-decomposition)
+of the covariance matrix:
 
 ```python
 U,S,V = np.linalg.svd(cov)
 ```
 
-where the columns of `U` are the eigenvectors and `S` is a 1-D array of the singular values.
+where the columns of `U` are the eigenvectors and `S` is a 1-D array of the singular values. To decorrelate the data, we 
+project the original (but zero-centered) data into the eigenbasis:
+
+```python
+Xrot = np.dot(X, U) # decorrelate the data
+```
+
+Notice that the columns of `U` are a set of orthonormal vectors (norm of 1, and orthogonal to each other), so they can be regarded as basis vectors. The projection therefore corresponds to a rotation of the data in `X` so that the new axes are the eigenvectors. If we were to compute the covariance matrix of `Xrot`, we would see that it is now diagonal. A nice property of `np.linalg.svd` is that in its returned value `U`, the eigenvector columns are sorted by their eigenvalues. We can use this to reduce the dimensionality of the data by only using the top few eigenvectors, and discarding the dimensions along which the data has no variance. This is also sometimes referred to as Principal Component Analysis (PCA) dimensionality reduction:
+
+```python
+Xrot_reduced = np.dot(X, U[:,:100]) # Xrot_reduced becomes [N x 100]
+```
+
+After this operation, we would have reduced the original dataset of size `[N x D]` to one of size `[N x 100]`, keeping 
+the 100 dimensions of the data that contain the most variance. It is very often the case that you can get very good 
+performance by training linear classifiers or neural networks on the PCA-reduced datasets, _obtaining savings in both 
+space and time_.
+
+![Error loading ann-pca-and-whitening.png]({{ "/assets/img/ann-pca-and-whitening.png" | relative_url}})
+
+The last transformation you may see in practice is **whitening**. The whitening operation takes the data in the 
+eigenbasis and divides every dimension by the eigenvalue to normalize the scale. The geometric interpretation of this 
+transformation is that if the input data is a multivariable gaussian, then the whitened data will be a gaussian with
+zero mean and identity covariance matrix. This step would take the form:
+
+```python
+# whiten the data:
+# divide by the eigenvalues (which are square roots of the singular values)
+Xwhite = Xrot / np.sqrt(S + 1e-5)
+```
+
+> ⚠️ Note that we are adding 1e-5 (or a small constant) to prevent division by zero. One weakness of this transformation 
+> is that it can greatly exaggerate the noise in the data, since it stretches all dimensions (including the irrelevant 
+> dimensions of tiny variance that are mostly noise) to be of equal size in the input. This can in practice be mitigated 
+> by stronger smoothing (i.e. increasing 1e-5 to be a larger number).
+
+$$
+\begin{align} \text{Var}(s) &= \text{Var}(\sum_i^n w_ix_i) \\\\ &= \sum_i^n \text{Var}(w_ix_i) \\\\ &= \sum_i^n [E(w_i)]^2\text{Var}(x_i) + [E(x_i)]^2\text{Var}(w_i) + \text{Var}(x_i)\text{Var}(w_i) \\\\ &= \sum_i^n \text{Var}(x_i)\text{Var}(w_i) \\\\ &= \left( n \text{Var}(w) \right) \text{Var}(x) \end{align}
+$$
 
 
 Perceptrons
