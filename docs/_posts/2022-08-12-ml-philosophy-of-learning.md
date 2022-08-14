@@ -80,7 +80,10 @@ This division is the basis for Kant's division of the "Transcendental Doctrine o
 > drawing from how "_a priori_" works. **The analogy of "_a priori_" should guide our initial assignments to those
 > weight values**.
 > 
-
+> A pure _a priori_ with **no innate knowledge** corresponds to (approximately) the
+> [random initialization with small values](https://qubitpi.github.io/jersey-guide/2022/08/09/artificial-neural-networks.html#weight-initialization). Fundamentally,
+> 
+> **no knowledge** is mathematically defined by **0**.
 
 More discussion of "_a priori_" coming...
 
