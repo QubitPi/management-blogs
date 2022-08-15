@@ -1,6 +1,6 @@
 ---
 layout: post
-title: (Updating...) Machine Learning - Kantian Philosophy of Learning
+title: (Updating...) Machine Learning - Understanding the Philosophy of Learning through Kant's Critique of Pure Reason 
 tags: [Machine Learning, Philosophy, Immanuel Kant]
 color: rgb(0, 204, 0)
 feature-img: "assets/img/post-cover/19-cover.png"
@@ -33,15 +33,16 @@ readers, but what I do need to tell is that I found Kant's approach to human lea
 quotidian tasks in our daily lives. I believe his rigorous treatise on learning theory will work for machine as well and 
 help us design better ML & AI algorithms.
 
+[_The Critique of Pure Reason_](https://trello.com/c/E3Cwohv5) is a book by Kant, in which he seeks to determine the
+limits and scope of [metaphysics](https://en.wikipedia.org/wiki/Metaphysics). Also referred to as Kant's
+"First Critique", it was followed by his Critique of Practical Reason (1788) and Critique of Judgment (1790).
+
 * TOC
 {:toc}
 
-Critique of Pure Reason
------------------------
 
-[_The Critique of Pure Reason_](https://trello.com/c/E3Cwohv5) is a book by Kant, in which he seeks to determine the 
-limits and scope of [metaphysics](https://en.wikipedia.org/wiki/Metaphysics). Also referred to as Kant's
-"First Critique", it was followed by his Critique of Practical Reason (1788) and Critique of Judgment (1790). 
+I. Transcendental Doctrine of Elements
+--------------------------------------
 
 ### _a priori_
 
@@ -142,4 +143,39 @@ Under each of these four headings there are supposed to be three different optio
 Kant holds there to be twelve fundamental categories for conceiving of the quantity, quality, relation, and modality of 
 objects
 
-To be continued ...
+### PART II. The Transcendental Analytic
+
+The machine cognition arises from two fundamental sources
+
+1. the first of which is the reception of representations, or instances
+2. the second the faculty for cognizing an object by means of these representations
+
+Through the former an training instance is **given** to machine, through the latter it is **computed** in relation to
+that representation of instance (as a mere determination of the algorithm). Intuition and concepts therefore constitute 
+the elements of all machines' cognition, so that neither concepts without intuition corresponding to them in some way
+nor intuition without concepts can yield a cognition. Both are either pure or empirical. **Empirical**, if sensation is 
+contained therein; but **pure** if no sensation is mixed into the representation. One can call the latter the matter
+of sensible cognition. Thus pure intuition contains merely the form under which something is intuited, and pure concept 
+only the form of thinking of an object in general.
+
+**Only pure intuitions or concepts alone are possible _a priori_, empirical ones only _a posteriori_**.
+
+If we will call the **receptivity** of machine to receive instances insofar as it is affected in some way
+**sensibility**, then on the contrary the faculty for computing, adjusting, and classifying instances, or the 
+**spontaneity** of cognition, is the **understanding**. **Intuition** can never be other than **sensible**, i.e., that
+it contains only the way in which we are affected by objects. The faculty for thinking
+of objects of sensible intuition, on the contrary, is the understanding.
+Neither of these properties is to be preferred to the other.
+
+Without sensibility no object would be given to machine, and without understanding via computing none would be thought
+or trained. Training without instances are non-existing; intuitions (initial-weight) without concepts (adjustments) are 
+blind. It is thus just as necessary to make the hypothesis sensible (i.e., to add an instance to them in intuition) as
+it is to make its intuitions understandable (i.e., to bring them under concepts). Further, these two faculties or 
+capacities cannot exchange
+their functions.
+
+The training through instances is an unrelated process of initial weight assignment, and the initialization are not in
+any way determining the resulting training model. Only from their unification can trained model arise. But on this
+account one must not mix up their roles, rather one has great cause to separate them carefully from each other and 
+distinguish them. Hence we distinguish the science of the rules of algorithm initialization in general, i.e., aesthetic, 
+from the science of the rules of training in general, i.e., logic
