@@ -594,22 +594,22 @@ L2 regularization is perhaps the most common form of regularization. It can be i
 magnitude of all parameters directly in the objective. That is, for every weight $$\mathit{w}$$ in the network, we add
 the term $$\mathit{\frac{1}{2} \lambda w^2}$$ to the objective, where $$\lambda$$ is the regularization strength. It is 
 common to see the factor of $$\frac{1}{2}$$ in front because then the gradient of this term with respect to the
-parameter $$\mathit{w}$$ is simply $$\mathit{\lambda w}$$ instead of $$\mathit{2 \lambda w}$$. The L2 regularization has 
-the intuitive interpretation of heavily penalizing peaky weight vectors and preferring diffuse weight vectors. Due to 
-multiplicative interactions between weights and inputs this has the appealing property of encouraging the network to use 
-all of its inputs a little rather than some of its inputs a lot. Lastly, notice that during gradient descent parameter 
-update, using the L2 regularization ultimately means that every weight is decayed linearly: `W += -lambda * W` towards 
-zero.
+parameter $$\mathit{w}$$ is simply $$\mathit{\lambda w}$$ instead of $$\mathit{2\ \lambda w}$$. The L2 regularization
+has the intuitive interpretation of heavily penalizing peaky weight vectors and preferring diffuse weight vectors. Due
+to multiplicative interactions between weights and inputs this has the appealing property of encouraging the network to 
+use all of its inputs a little rather than some of its inputs a lot. Lastly, notice that during gradient descent
+parameter update, using the L2 regularization ultimately means that every weight is decayed linearly: `W += -lambda * W` 
+towards zero.
 
 ### L1 Regularization
 
 L1 regularization is another relatively common form of regularization, where for each weight $$\mathit{w}$$ we add the 
-term $$\mathit{ \lambda \mid w \mid }$$ to the objective. It is possible to combine the L1 regularization with the L2 
-regularization: $$\mathit{ \lambda_1 \mid w \mid + \lambda_2 w^2 }$$ (this is called **Elastic Net Regularization**).
-The L1 regularization has the intriguing property that it leads the weight vectors to become sparse during optimization 
-(i.e. very close to exactly zero). In other words, neurons with L1 regularization end up using only a sparse subset of 
-their most important inputs and become nearly invariant to the "noisy" inputs. In comparison, final weight vectors from 
-L2 regularization are usually diffuse, small numbers. In practice, if you are not concerned with explicit feature 
+term $$\mathit{ \lambda |w| }$$ to the objective. It is possible to combine the L1 regularization with the L2 
+regularization: $$\mathit{ \lambda_1 |w| + \lambda_2 w^2 }$$ (this is called **Elastic Net Regularization**). The L1 
+regularization has the intriguing property that it leads the weight vectors to become sparse during optimization (i.e. 
+very close to exactly zero). In other words, neurons with L1 regularization end up using only a sparse subset of their 
+most important inputs and become nearly invariant to the "noisy" inputs. In comparison, final weight vectors from L2 
+regularization are usually diffuse, small numbers. In practice, if you are not concerned with explicit feature
 selection, L2 regularization can be expected to give superior performance over L1.
 
 ### Max Norm Constraints
