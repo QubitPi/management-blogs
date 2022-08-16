@@ -54,6 +54,11 @@ $$
 
 4y - 5z = \lambda y
 
+}
+$$
+$$
+
+\mathit{
 2y - 3z = \lambda z
 
 }
