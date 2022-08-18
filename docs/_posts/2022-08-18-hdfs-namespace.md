@@ -11,8 +11,9 @@ excerpt_separator: <!--more-->
 ---
 
 I was designing a system interacting with HDFS and looking for some reference on HDFS namespace. I got unbelievably
-surprised, however, that I was not able to find a simple definition of its definition. I wrote this post as a result of
-researching online about that the namespace is with respect to HDFS.
+surprised, however, that I was not able to find a simple definition of it. I wrote this post as a result of researching 
+online about what the namespace is with respect to HDFS (HDFS guys are not the best documentors and still are not
+after almost 10 years today).
 
 <!--more-->
 
