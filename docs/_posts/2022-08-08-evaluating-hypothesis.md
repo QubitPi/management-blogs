@@ -2,6 +2,7 @@
 layout: post
 title: (Updating...) Machine Learning - Evaluating Hypothesis
 tags: [Machine Learning]
+category: WIP
 color: rgb(0, 204, 0)
 feature-img: "assets/img/post-cover/16-cover.png"
 thumbnail: "assets/img/post-cover/16-cover.png"

@@ -2,6 +2,7 @@
 layout: post
 title: (Updating...) Artificial Neural Networks - Linear Algebra Basics
 tags: [Machine Learning, Artificial Neural Networks, ANN, Data Preprocessing]
+category: WIP
 color: rgb(0, 204, 0)
 feature-img: "assets/img/post-cover/18-cover.png"
 thumbnail: "assets/img/post-cover/18-cover.png"
