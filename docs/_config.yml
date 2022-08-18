@@ -54,11 +54,11 @@ remote_theme: sylhare/Type-on-Strap                     # If using as a remote_t
 # Atom feed config https://github.com/jekyll/jekyll-feed
 feed:
   collections:
-    wip:
-      path: "/wip.atom"
-      categories:
-        - WIP
-    finalized:
-      path: "/finalized.atom"
-      categories:
-        - FINALIZED
+    - wip:
+        path: "/wip.atom"
+        categories:
+          - WIP
+    - finalized:
+        path: "/finalized.atom"
+        categories:
+          - FINALIZED
