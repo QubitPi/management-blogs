@@ -91,4 +91,4 @@ What does the discussion above mean for the business applications? It's the foll
 
 **A namespace is with respect to a multi-cluster environment so as to namespace underlying file blocks. From the 
 application's perspective, however, namespace should not be exposed. An application's boundary talk to either a single
-cluster or multiple clusters and is agnostic of "namespace"
+cluster or multiple clusters and is agnostic of "namespace"**
