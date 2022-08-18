@@ -2,6 +2,7 @@
 layout: post
 title: Build and Push Docker Images through GitHub Action
 tags: [Docker, CI/CD]
+category: FINALIZED
 color: rgb(8, 86, 112)
 feature-img: "assets/img/post-cover/31-cover.png"
 thumbnail: "assets/img/post-cover/31-cover.png"

@@ -2,6 +2,7 @@
 layout: post
 title: Elasticsearch Basics
 tags: [Elasticsearch]
+category: FINALIZED
 color: rgb(0, 171, 229)
 feature-img: "assets/img/post-cover/25-cover.png"
 thumbnail: "assets/img/post-cover/25-cover.png"

@@ -2,6 +2,7 @@
 layout: post
 title: Layered Architecture
 tags: [Architecture]
+category: FINALIZED
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/18-cover.png"
 thumbnail: "assets/img/post-cover/18-cover.png"

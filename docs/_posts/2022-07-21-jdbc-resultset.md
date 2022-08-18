@@ -2,6 +2,7 @@
 layout: post
 title: JDBC ResultSet
 tags: [Java, JDBC, SQL]
+category: FINALIZED
 color: rgb(226, 46, 45)
 feature-img: "assets/img/post-cover/10-cover.png"
 thumbnail: "assets/img/post-cover/10-cover.png"

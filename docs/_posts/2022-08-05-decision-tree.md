@@ -2,6 +2,7 @@
 layout: post
 title: Machine Learning - Decision Tree Learning
 tags: [Machine Learning, Decision Tree]
+category: FINALIZED
 color: rgb(0, 204, 0)
 feature-img: "assets/img/post-cover/14-cover.png"
 thumbnail: "assets/img/post-cover/14-cover.png"

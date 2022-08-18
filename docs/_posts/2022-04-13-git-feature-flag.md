@@ -2,6 +2,7 @@
 layout: post
 title: Flags v.s. Branching
 tags: [git]
+category: FINALIZED
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/33-cover.png"
 thumbnail: "assets/img/post-cover/33-cover.png"

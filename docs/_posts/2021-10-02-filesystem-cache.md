@@ -2,6 +2,7 @@
 layout: post
 title: Filesystem Cache
 tags: [Linux, Performance]
+category: FINALIZED
 color: rgb(240,78,35)
 feature-img: "assets/img/post-cover/6-cover.png"
 thumbnail: "assets/img/post-cover/6-cover.png"

@@ -2,6 +2,7 @@
 layout: post
 title: Modeling Business Data with An Unstructured Approach
 tags: [Java, Big Data]
+category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/23-cover.png"
 thumbnail: "assets/img/post-cover/23-cover.png"

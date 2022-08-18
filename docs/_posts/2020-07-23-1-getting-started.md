@@ -2,6 +2,7 @@
 layout: post
 title: Your First Jersey Application
 tags: [Tutorial]
+category: FINALIZED
 color: green
 feature-img: "assets/img/post-cover/1-cover.png"
 thumbnail: "assets/img/post-cover/1-cover.png"

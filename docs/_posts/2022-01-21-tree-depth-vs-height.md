@@ -2,6 +2,7 @@
 layout: post
 title: Difference Between Tree Depth and Height
 tags: [Algorithm]
+category: FINALIZED
 color: rgb(244, 128, 34)
 feature-img: "assets/img/post-cover/27-cover.png"
 thumbnail: "assets/img/post-cover/27-cover.png"

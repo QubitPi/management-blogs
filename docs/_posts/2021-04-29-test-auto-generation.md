@@ -2,6 +2,7 @@
 layout: post
 title: The Next Big Thing in Software Testing - Auto Test Generation
 tags: [Java, Test, Maven]
+category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/13-cover.png"
 thumbnail: "assets/img/post-cover/13-cover.png"

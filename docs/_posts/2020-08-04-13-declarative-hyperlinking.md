@@ -2,6 +2,7 @@
 layout: post
 title: Declarative Hyperlinking
 tags: []
+category: FINALIZED
 color: rgb(0, 155, 119)
 feature-img: "assets/img/post-cover/13-cover.png"
 thumbnail: "assets/img/post-cover/13-cover.png"

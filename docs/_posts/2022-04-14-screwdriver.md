@@ -2,6 +2,7 @@
 layout: post
 title: Open Sourcing Screwdriver, Yahoo's Continuous Delivery Build System for Dynamic Infrastructure
 tags: [CI/CD, Yahoo]
+category: FINALIZED
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/33-cover.png"
 thumbnail: "assets/img/post-cover/33-cover.png"

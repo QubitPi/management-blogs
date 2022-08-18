@@ -2,6 +2,7 @@
 layout: post
 title: Machine Learning - Concept Learning
 tags: [Machine Learning, Concept Learning, FIND-S]
+category: FINALIZED
 color: rgb(0, 204, 0)
 feature-img: "assets/img/post-cover/13-cover.png"
 thumbnail: "assets/img/post-cover/13-cover.png"

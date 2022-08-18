@@ -2,6 +2,7 @@
 layout: post
 title: Preconditions, Postconditions, and Class Invariants
 tags: [Java]
+category: FINALIZED
 color: rgb(229, 28, 32)
 feature-img: "assets/img/post-cover/7-cover.png"
 thumbnail: "assets/img/post-cover/7-cover.png"

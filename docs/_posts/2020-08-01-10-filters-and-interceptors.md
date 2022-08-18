@@ -2,6 +2,7 @@
 layout: post
 title: Filters and Interceptors
 tags: [Filter, Interceptor, Request, Response, Name Binding, Dynamic Binding, Priorities]
+category: FINALIZED
 color: rgb(255, 105, 180)
 feature-img: "assets/img/post-cover/10-cover.png"
 thumbnail: "assets/img/post-cover/10-cover.png"

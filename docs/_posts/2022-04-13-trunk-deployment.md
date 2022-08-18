@@ -2,6 +2,7 @@
 layout: post
 title: Trunk-Based Development
 tags: [CI/CD]
+category: FINALIZED
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/32-cover.png"
 thumbnail: "assets/img/post-cover/32-cover.png"

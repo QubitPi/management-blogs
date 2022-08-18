@@ -2,6 +2,7 @@
 layout: post
 title: Spring - Dependency injection in @Bean method parameters
 tags: [Spring Boot, Dependency Injection]
+category: FINALIZED
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/34-cover.png"
 thumbnail: "assets/img/post-cover/34-cover.png"

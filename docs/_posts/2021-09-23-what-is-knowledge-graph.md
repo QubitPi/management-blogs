@@ -2,6 +2,7 @@
 layout: post
 title: What is a Knowledge Graph?
 tags: [Data, Graph]
+category: FINALIZED
 color: rgb(240,78,35)
 feature-img: "assets/img/post-cover/33-cover.png"
 thumbnail: "assets/img/post-cover/33-cover.png"

@@ -2,6 +2,7 @@
 layout: post
 title: Why is Google so Much Faster than a Hard-drive Search?
 tags: [Performance, Data]
+category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/4-cover.png"
 thumbnail: "assets/img/post-cover/4-cover.png"

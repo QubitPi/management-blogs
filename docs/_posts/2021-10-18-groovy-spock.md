@@ -2,6 +2,7 @@
 layout: post
 title: Groovy Spock
 tags: [Groovy, Groovy Spock, Software Testing, Unit Test, Integration Test, Functional Test, JVM, Java, Testing]
+category: FINALIZED
 color: rgb(237, 127, 34)
 feature-img: "assets/img/post-cover/8-cover.png"
 thumbnail: "assets/img/post-cover/8-cover.png"

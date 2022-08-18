@@ -2,6 +2,7 @@
 layout: post
 title: Jersey Test Framework
 tags: [Jersey, Testing]
+category: FINALIZED
 color: rgb(244, 126, 54)
 feature-img: "assets/img/post-cover/5-cover.png"
 thumbnail: "assets/img/post-cover/5-cover.png"

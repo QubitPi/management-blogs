@@ -2,6 +2,7 @@
 layout: post
 title: Role-Based Access Control
 tags: [Security]
+category: FINALIZED
 color: rgb(237, 127, 34)
 feature-img: "assets/img/post-cover/9-cover.png"
 thumbnail: "assets/img/post-cover/9-cover.png"

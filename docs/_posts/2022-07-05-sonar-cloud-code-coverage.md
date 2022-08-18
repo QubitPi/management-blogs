@@ -2,6 +2,7 @@
 layout: post
 title: Setting Up Coverage Analysis through SonarCloud in Maven Project
 tags: [CI, Maven, Software Release, SonarCloud]
+category: FINALIZED
 color: rgb(243, 112, 42)
 feature-img: "assets/img/post-cover/35-cover.png"
 thumbnail: "assets/img/post-cover/35-cover.png"

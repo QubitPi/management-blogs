@@ -2,6 +2,7 @@
 layout: post
 title: HttpURLConnection User Guide
 tags: [Java, HTTP, HTTPS]
+category: FINALIZED
 color: rgb(237, 28, 36)
 feature-img: "assets/img/post-cover/21-cover.png"
 thumbnail: "assets/img/post-cover/21-cover.png"

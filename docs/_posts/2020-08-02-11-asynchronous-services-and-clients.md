@@ -2,6 +2,7 @@
 layout: post
 title: Asynchronous Services and Clients
 tags: [Asynchronous API, AsyncResponse, Callback, Chunked Output, Chunked Input]
+category: FINALIZED
 color: rgb(255, 111, 97)
 feature-img: "assets/img/post-cover/11-cover.png"
 thumbnail: "assets/img/post-cover/11-cover.png"

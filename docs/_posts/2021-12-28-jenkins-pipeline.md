@@ -2,6 +2,7 @@
 layout: post
 title: Jenkins Reference Guide
 tags: [Jenkins, CI/CD]
+category: FINALIZED
 color: rgb(22, 139, 185)
 feature-img: "assets/img/post-cover/20-cover.png"
 thumbnail: "assets/img/post-cover/20-cover.png"

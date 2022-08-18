@@ -2,6 +2,7 @@
 layout: post
 title: JAX-RS Entity Providers
 tags: [Request, Response, Serialization, Deserialization]
+category: FINALIZED
 color: LightCoral
 feature-img: "assets/img/post-cover/8-cover.png"
 thumbnail: "assets/img/post-cover/8-cover.png"

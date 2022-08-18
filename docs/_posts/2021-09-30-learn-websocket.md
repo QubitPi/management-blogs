@@ -2,6 +2,7 @@
 layout: post
 title: Websocket
 tags: [Java, Webservice, JavaEE]
+category: FINALIZED
 color: rgb(240,78,35)
 feature-img: "assets/img/post-cover/4-cover.png"
 thumbnail: "assets/img/post-cover/4-cover.png"

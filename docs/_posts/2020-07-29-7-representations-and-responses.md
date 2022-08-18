@@ -2,6 +2,7 @@
 layout: post
 title: Representations and Responses
 tags: [Response, Java Type]
+category: FINALIZED
 color: orange
 feature-img: "assets/img/post-cover/7-cover.png"
 thumbnail: "assets/img/post-cover/7-cover.png"

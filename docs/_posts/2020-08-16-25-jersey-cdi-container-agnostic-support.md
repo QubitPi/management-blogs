@@ -2,6 +2,7 @@
 layout: post
 title: Jersey CDI Container Agnostic Support
 tags: [CDI, Request Scope]
+category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/25-cover.png"
 thumbnail: "assets/img/post-cover/25-cover.png"

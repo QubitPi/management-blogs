@@ -2,6 +2,7 @@
 layout: post
 title: What are Groovy Closures?
 tags: [Groovy, Testing]
+category: FINALIZED
 color: rgb(220, 73, 0)
 feature-img: "assets/img/post-cover/36-cover.png"
 thumbnail: "assets/img/post-cover/36-cover.png"

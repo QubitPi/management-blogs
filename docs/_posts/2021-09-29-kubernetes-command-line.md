@@ -2,6 +2,7 @@
 layout: post
 title: Kubernetes Command Line Reference
 tags: [B2B, Kubernetes, Virtualization, CI/CD, CML]
+category: FINALIZED
 color: rgb(240,78,35)
 feature-img: "assets/img/post-cover/3-cover.png"
 thumbnail: "assets/img/post-cover/3-cover.png"

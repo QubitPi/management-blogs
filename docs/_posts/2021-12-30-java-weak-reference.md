@@ -2,6 +2,7 @@
 layout: post
 title: Understanding Weak References
 tags: [Java]
+category: FINALIZED
 color: rgb(245, 111, 27)
 feature-img: "assets/img/post-cover/22-cover.png"
 thumbnail: "assets/img/post-cover/22-cover.png"

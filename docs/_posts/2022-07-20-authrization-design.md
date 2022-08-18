@@ -2,6 +2,7 @@
 layout: post
 title: 3 Most Common Authorization Designs for SaaS Products
 tags: [Security, ACL, RBAC, ABAC, SaaS]
+category: FINALIZED
 color: rgb(255, 185, 1)
 feature-img: "assets/img/post-cover/8-cover.png"
 thumbnail: "assets/img/post-cover/8-cover.png"

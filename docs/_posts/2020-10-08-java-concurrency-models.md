@@ -2,6 +2,7 @@
 layout: post
 title: Java Concurrency Model
 tags: [Java]
+category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/3-cover.png"
 thumbnail: "assets/img/post-cover/3-cover.png"

@@ -2,6 +2,7 @@
 layout: post
 title: Docker Troubleshooting
 tags: [Docker]
+category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/27-cover.png"
 thumbnail: "assets/img/post-cover/27-cover.png"

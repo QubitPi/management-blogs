@@ -2,6 +2,7 @@
 layout: post
 title: Yahoo Cloud Object Store - Object Storage at Exabyte Scale
 tags: [Object Storage]
+category: FINALIZED
 color: rgb(126, 31, 255)
 feature-img: "assets/img/post-cover/19-cover.png"
 thumbnail: "assets/img/post-cover/19-cover.png"

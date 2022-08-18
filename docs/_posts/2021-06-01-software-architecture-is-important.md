@@ -2,6 +2,7 @@
 layout: post
 title: The Importance of Enforcing Software Architecture
 tags: [Software, Architecture]
+category: FINALIZED
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/35-cover.png"
 thumbnail: "assets/img/post-cover/35-cover.png"
