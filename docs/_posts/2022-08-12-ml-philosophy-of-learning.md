@@ -1,7 +1,8 @@
 ---
 layout: post
 title: (Updating...) Machine Learning - Understanding the Philosophy of Learning through Kant's Critique of Pure Reason 
-tags: [Machine Learning, Philosophy, Immanuel Kant, WIP]
+tags: [Machine Learning, Philosophy, Immanuel Kant]
+category: WIP
 color: rgb(0, 204, 0)
 feature-img: "assets/img/post-cover/19-cover.png"
 thumbnail: "assets/img/post-cover/19-cover.png"
