@@ -49,20 +49,9 @@ them.
 
 For example, an **eigenvalue problem** of
 
-$$
-\mathit{
+$$\mathit{ 4y - 5z = \lambda y }$$
 
-4y - 5z = \lambda y
-
-}
-$$
-$$
-
-\mathit{
-2y - 3z = \lambda z
-
-}
-$$
+$$\mathit{ 2y - 3z = \lambda z }$$
 
 is in the form of $$Ax = \lambda x$$
 

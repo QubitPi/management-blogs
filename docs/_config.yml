@@ -50,3 +50,15 @@ exclude: [".jekyll-cache", ".idea", "vendor/*", "assets/node_modules"]
 
 # theme: type-on-strap                                  # if using the theme as a jekyll theme gem
 remote_theme: sylhare/Type-on-Strap                     # If using as a remote_theme in github
+
+# Atom feed config https://github.com/jekyll/jekyll-feed
+feed:
+  collections:
+    wip:
+      path: "/wip.atom"
+      categories:
+        - WIP
+    finalized:
+      path: "/finalized.atom"
+      categories:
+        - FINALIZED
