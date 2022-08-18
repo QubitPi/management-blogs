@@ -79,9 +79,14 @@ DataNodes send periodic heartbeats and block reports. They also handle commands 
 
 ### Block Pool
 
-A **Block Pool** is a set of blocks that belong to a single namespace. DataNodes store blocks for all the block pools in the cluster. Each Block Pool is managed independently. This allows a namespace to generate Block IDs for new blocks without the need for coordination with the other namespaces. A NameNode failure does not prevent the DataNode from serving other NameNodes in the cluster.
+A **Block Pool** is a set of blocks that belong to a single namespace. DataNodes store blocks for all the block pools in 
+the cluster. Each Block Pool is managed independently. This allows a namespace to generate Block IDs for new blocks
+without the need for coordination with the other namespaces. A NameNode failure does not prevent the DataNode from
+serving other NameNodes in the cluster.
 
-A Namespace and its block pool together are called Namespace Volume. It is a self-contained unit of management. When a NameNode/namespace is deleted, the corresponding block pool at the DataNodes is deleted. Each namespace volume is upgraded as a unit, during cluster upgrade.
+A Namespace and its block pool together are called Namespace Volume. It is a self-contained unit of management. When a 
+NameNode/namespace is deleted, the corresponding block pool at the DataNodes is deleted. Each namespace volume is
+upgraded as a unit, during cluster upgrade.
 
 
 Conclusion
