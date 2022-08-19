@@ -19,6 +19,10 @@ after almost 10 years today).
 
 In order to get a sense of HDFS namespace, we shall start with the architecture of HDFS in terms of its storage.
 
+* TOC
+{:toc}
+
+
 HDFS Architecture
 -----------------
 
