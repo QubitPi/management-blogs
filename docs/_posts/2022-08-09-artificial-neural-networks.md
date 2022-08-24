@@ -1,6 +1,6 @@
 ---
 layout: post
-title: (Updating...) Machine Learning - Artificial Neural Networks
+title: Machine Learning - Artificial Neural Networks
 tags: [Machine Learning, Artificial Neural Networks, ANN, CNN, ConvNet, Convolutional Neural Networks, Neural Networks]
 category: WIP
 color: rgb(0, 204, 0)
