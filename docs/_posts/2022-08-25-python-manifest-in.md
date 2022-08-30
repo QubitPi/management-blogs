@@ -120,4 +120,5 @@ In order for these files to be copied at install time to the package's folder in
 
 > 📋 Files which are to be used by our installed library (e.g. data files to support a particular computation method) 
 > should usually be placed inside of the Python module directory itself. That way, code which loads those files can
-> easily specify a relative path from the consuming module's `__file__` variable.
+> easily specify a relative path from the consuming
+> [module's `__file__` variable](https://stackoverflow.com/a/9271479/14312712).
