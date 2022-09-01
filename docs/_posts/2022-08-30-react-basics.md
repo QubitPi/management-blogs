@@ -302,6 +302,39 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Goal isGoal={false} />);
 {% endhighlight %}
 
+### Logical "&&" Operator
+
+Another way to conditionally render a React component is by using the `&&` operator. We can embed JavaScript expressions 
+in JSX by using curly braces:
+
+{% highlight react %}
+function Garage(props) {
+    const cars = props.cars;
+    return (
+        <>
+            <h1>Garage</h1>
+            {cars.length > 0 &&
+            <h2>
+            You have {cars.length} cars in your garage.
+            </h2>
+            }
+        </>
+    );
+}
+
+const cars = ['Ford', 'BMW', 'Audi'];
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Garage cars={cars} />);
+{% endhighlight %}
+
+If `cars.length` is equates to true, the expression after `&&` will render.
+
+### Ternary Operator
+
+Another way to conditionally render elements is by using a ternary operator.
+
+condition ? true : false
+
 
 FAQ
 ---
