@@ -1,6 +1,6 @@
 ---
 layout: post
-title: [Tech Management] Preliminary - Anatomy of Small Pull Request
+title: Preliminary - Anatomy of Small Pull Request
 tags: [Git]
 category: MANAGEMENT
 color: rgb(246, 77, 39)
