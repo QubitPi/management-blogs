@@ -2,7 +2,7 @@
 layout: post
 title: [Tech Management] Preliminary - Anatomy of Small Pull Request
 tags: [Git]
-category: FINALIZED
+category: MANAGEMENT
 color: rgb(246, 77, 39)
 feature-img: "assets/img/post-cover/3-cover.png"
 thumbnail: "assets/img/post-cover/3-cover.png"
