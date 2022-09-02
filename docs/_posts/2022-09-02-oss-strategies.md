@@ -25,8 +25,8 @@ you undertake the essential work of developing an effective strategy for your op
 {:toc}
 
 
-1. What is the Project?
------------------------
+What is the Project?
+--------------------
 
 This is the fundamental question. How does the project help its users? What problem does it solve?
 
@@ -65,8 +65,8 @@ Ask as many probing follow-up questions as you must. In the end, just be sure th
 it can (and can't) do, and can explain it to someone else easily and clearly.
 
 
-2. Who are the Project's Users?
--------------------------------
+Who are the Project's Users?
+----------------------------
 
 Successful open source projects require users. But many open source projects do not clearly understand who uses the 
 software they produce, nor do they typically have a sense of what those users do with the software.
@@ -98,8 +98,8 @@ or mobile phones. Each of these groups is solving different problems and has dis
 impact your engineering, marketing, and community-building decisions.
 
 
-3. How Do You Engage with Your User Base Today?
------------------------------------------------
+How Do You Engage with Your User Base Today?
+--------------------------------------------
 
 When people begin adopting your project, you will want them to not only use it but also engage with the project
 community in order to improve it. Engagement is therefore key to growing both your user base and your project's
@@ -133,8 +133,8 @@ Low-touch activities are excellent tools for assisting new users without interve
 are generally impersonal, and high-touch activities can be valuable on an individual basis but do not scale well.
 
 
-4. What Alternatives to Your Project Already Exist?
----------------------------------------------------
+What Alternatives to Your Project Already Exist?
+------------------------------------------------
 
 Any open source project strategy must account for a project's competition. Next, you will need to assess the field of 
 alternative projects in which your own project participates. Considerations here include:
@@ -160,8 +160,8 @@ spreading your message quickly - which means a higher marketing budget or more a
 on defining the problems you solve for potential users.
 
 
-5. Are You Already Associated with Adjacent Projects?
------------------------------------------------------
+Are You Already Associated with Adjacent Projects?
+--------------------------------------------------
 
 If your software is frequently used with (or is particularly useful to users of) another project, then your association 
 with those projects presents a great opportunity for growing awareness of your project in its early stages of
@@ -180,8 +180,8 @@ order to raise awareness of your project and meet potential new users. Adjacent 
 competitors will be important to you, too.
 
 
-6. What are Your Goals for the Project?
----------------------------------------
+What are Your Goals for the Project?
+------------------------------------
 
 This is every open source project's existential question - and surprisingly, many projects have difficulty answering it. 
 Next, then, you need to consider what you want to achieve by investing in your project. Why, in other words, does your 
@@ -205,8 +205,8 @@ Asking this important question also will help you align engineering, product, an
 source product strategy
 
 
-7. Who are Your Key Stakeholders?
----------------------------------
+Who are Your Key Stakeholders?
+------------------------------
 
 In every project, only a small group of people will be deeply invested in the success of the project and can represent
 the diverse set of interests that are important to its development. These people are your stakeholders.
