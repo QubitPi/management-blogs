@@ -3,7 +3,7 @@ layout: post
 title: ArangoDB Query Language (AQL)
 tags: [ArangoDB, Database, Knowledge Graph]
 category: FINALIZED
-color: rgb(86, 113, 56)
+color: rgb(128, 165, 76)
 feature-img: "assets/img/post-cover/7-cover.png"
 thumbnail: "assets/img/post-cover/7-cover.png"
 author: QubitPi
@@ -147,7 +147,6 @@ FOR doc IN users
     LIMIT 10
 {% endhighlight %}
 
-
 > ⚠️ Note that the order of operations can influence the result significantly. Limiting the number of documents before a 
 > filter is usually not what you want, because it easily misses a lot of documents that would fulfill the filter 
 > criterion, but are ignored because of a premature `LIMIT` clause. `LIMIT` is, therefore, usually put at the very end, 
@@ -157,20 +156,90 @@ FOR doc IN users
 
 AQL supports the following data-modification operations:
 
-* **INSERT**: insert new documents into a collection
+* **INSERT**: insert new
+  [documents](https://qubitpi.github.io/jersey-guide/finalized/2022/08/19/arangodb.html#databases-collections-and-documents)
+  into a
+  [collection](https://qubitpi.github.io/jersey-guide/finalized/2022/08/19/arangodb.html#databases-collections-and-documents)
 * **UPDATE**: partially update existing documents in a collection
 * **REPLACE**: completely replace existing documents in a collection
 * **REMOVE**: remove existing documents from a collection
 * **UPSERT**: conditionally insert or update documents in a collection
 
+#### Modifying a Single Document
 
+Let's start with the basics: `INSERT`, `UPDATE` and `REMOVE` operations on single documents. Here is an example that 
+insert a document to an existing collection users:
 
+{% highlight javascript %}
+INSERT {
+    firstName: "Anna",
+    name: "Pavlova",
+    profession: "artist"
+} IN users
+{% endhighlight %}
 
+You may provide a key for the new document; otherwise, ArangoDB will create one for you.
 
+{% highlight javascript %}
+INSERT {
+    _key: "GilbertoGil",
+    firstName: "Gilberto",
+    name: "Gil",
+    city: "Fortalezza"
+} IN users
+{% endhighlight %}
 
+As ArangoDB is schema-free, attributes of the documents may vary:
 
+{% highlight javascript %}
+INSERT {
+    _key: "PhilCarpenter",
+    firstName: "Phil",
+    name: "Carpenter",
+    middleName: "G.",
+    status: "inactive"
+} IN users
 
+INSERT {
+    _key: "NatachaDeclerck",
+    firstName: "Natacha",
+    name: "Declerck",
+    location: "Antwerp"
+} IN users
+{% endhighlight %}
 
+Update is quite simple. The following AQL statement will add or change the attributes status and location
+
+{% highlight javascript %}
+UPDATE "PhilCarpenter" WITH {
+    status: "active",
+    location: "Beijing"
+} IN users
+{% endhighlight %}
+
+Replace is an alternative to update where all attributes of the document are replaced.
+
+{% highlight javascript %}
+REPLACE {
+    _key: "NatachaDeclerck",
+    firstName: "Natacha",
+    name: "Leclerc",
+    status: "active",
+    level: "premium"
+} IN users
+{% endhighlight %}
+
+Removing a document is simple if you know its key:
+
+{% highlight javascript %}
+REMOVE "GilbertoGil" IN users
+{% endhighlight %}
+
+or
+
+{% highlight javascript %}
+REMOVE { _key: "GilbertoGil" } IN users
+{% endhighlight %}
 
 
 
@@ -182,6 +251,11 @@ FOR doc IN users
     SORT doc.name
     LIMIT 10
 ```
+
+#### Modifying Multiple Documents
+
+
+
 
 ##### Filter
 
