@@ -1,8 +1,8 @@
 ---
 layout: post
-title: ArangoDB Query Language
+title: ArangoDB Query Language (AQL)
 tags: [ArangoDB, Database, Knowledge Graph]
-category: FINISHED
+category: FINALIZED
 color: rgb(86, 113, 56)
 feature-img: "assets/img/post-cover/7-cover.png"
 thumbnail: "assets/img/post-cover/7-cover.png"
@@ -10,14 +10,27 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
+The ArangoDB Query Language (AQL) can be used to retrieve and modify data that are stored in ArangoDB.
+
 <!--more-->
+
+AQL is mainly a declarative language, meaning that a query expresses what result should be achieved but not how it
+should be achieved. AQL aims to be human-readable and therefore uses keywords from the English language. Another design 
+goal of AQL was client independency, meaning that the language and syntax are the same for all clients, no matter what 
+programming language the clients may use. Further design goals of AQL were the support of complex query patterns and the 
+different data models ArangoDB offers.
+
+In its purpose, AQL is similar to the Structured Query Language (SQL). AQL supports reading and modifying collection
+data, but it doesn’t support data-definition operations such as creating and dropping databases, collections and
+indexes. It is a pure data manipulation language (DML), not a data definition language (DDL) or a data control language 
+(DCL).
+
+The syntax of AQL queries is different to SQL, even if some keywords overlap. Nevertheless, AQL should be easy to 
+understand for anyone with an SQL background.
 
 * TOC
 {:toc}
 
-
-ArangoDB Query Language (AQL)
------------------------------
 
 ### AQL Syntax
 
