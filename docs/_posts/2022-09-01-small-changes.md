@@ -4,8 +4,8 @@ title: Preliminary - Anatomy of Small Pull Request
 tags: [Git]
 category: MANAGEMENT
 color: rgb(246, 77, 39)
-feature-img: "assets/img/post-cover/3-cover.png"
-thumbnail: "assets/img/post-cover/3-cover.png"
+feature-img: "assets/img/post-cover/4-cover.png"
+thumbnail: "assets/img/post-cover/4-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---

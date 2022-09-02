@@ -3,9 +3,9 @@ layout: post
 title: Developing a Strategy for Organization's Open Source Project
 tags: [OSS]
 category: MANAGEMENT
-color: rgb(246, 77, 39)
-feature-img: "assets/img/post-cover/4-cover.png"
-thumbnail: "assets/img/post-cover/4-cover.png"
+color: rgb(236, 29, 35)
+feature-img: "assets/img/post-cover/5-cover.png"
+thumbnail: "assets/img/post-cover/5-cover.png"
 author: QubitPi
 excerpt_separator: <!--more-->
 ---
