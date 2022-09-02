@@ -32,13 +32,16 @@ understand for anyone with an SQL background.
 {:toc}
 
 
+Fundamentals
+------------
+
 ### AQL Syntax
 
 #### Query Types
 
 An AQL query must either
 
-* return a result (indicated by usage of the RETURN keyword) or
+* return a result (indicated by usage of the `RETURN` keyword) or
 * execute a data-modification operation (indicated by usage of one of the keywords `INSERT`, `UPDATE`, `REPLACE`,
   `REMOVE` or `UPSERT`).
 
@@ -75,28 +78,101 @@ FOR u IN users
     RETURN u.name
 ```
 
-### Data Queries
+
+Data Queries
+------------
+
+There are two fundamental types of AQL queries:
+
+1. queries which access data (read documents)
+2. queries which modify data (create, update, replace, delete documents)
 
 #### Data Access Queries
 
-Retrieving data from the database with AQL does always include a `RETURN` operation, which is usually accompanied by a
-`FOR` loop to iterate over the documents of a collection. The following query executes the loop body for all documents
-of a collection called `users`. Each document is returned unchanged in this example:
+Retrieving data from the database with AQL does always include a **RETURN** operation. It can be used to return a static value, such as a string:
 
-```
+{% highlight javascript %}
+RETURN "Hello ArangoDB!"
+{% endhighlight %}
+
+The query result is always an array of elements, even if a single element was returned and contains a single element in 
+that case: `["Hello ArangoDB!"]`
+
+The function **DOCUMENT()** can be called to retrieve a single document via its document handle, for instance:
+
+{% highlight javascript %}
+RETURN DOCUMENT("users/phil")
+{% endhighlight %}
+
+`RETURN` is usually accompanied by a **FOR loop** to iterate over the documents of a collection. The following query 
+executes the loop body for all documents of a collection called _users_. Each document is returned unchanged in this 
+example:
+
+{% highlight javascript %}
 FOR doc IN users
     RETURN doc
-```
+{% endhighlight %}
 
-Instead of returning the raw `doc`, one can easily create a projection:
+Instead of returning the raw doc, one can easily create a **projection**:
 
-```
+{% highlight javascript %}
 FOR doc IN users
-    RETURN { user: doc, newAttribute: true }
-```
+    RETURN {
+        user: doc,
+        newAttribute: true
+    }
+{% endhighlight %}
 
-For every user document, an object with two attributes is returned. The value of the attribute `user` is set to the
-content of the user document, and `newAttribute` is a static attribute with the boolean value `true.
+For every user document, an object with two attributes is returned. The value of the attribute _user_ is set to the 
+content of the user document, and _newAttribute_ is a static attribute with the boolean value _true_.
+
+Operations like **FILTER**, **SORT** and **LIMIT** can be added to the loop body to narrow and order the result. Instead 
+of call to `DOCUMENT()` shown above, one can also retrieve the document that describes user phil like so:
+
+{% highlight javascript %}
+FOR doc IN users
+    FILTER doc._key == "phil"
+    RETURN doc
+{% endhighlight %}
+
+The document key is used in this example, but any other attribute could equally be used for filtering. Since the 
+**document key is guaranteed to be unique**, no more than a single document will match this filter. For other attributes 
+this may not be the case. To return a subset of active users (determined by an attribute called _status_), sorted by
+name in ascending order, you can do:
+
+{% highlight javascript %}
+FOR doc IN users
+    FILTER doc.status == "active"
+    SORT doc.name
+    LIMIT 10
+{% endhighlight %}
+
+
+> ⚠️ Note that the order of operations can influence the result significantly. Limiting the number of documents before a 
+> filter is usually not what you want, because it easily misses a lot of documents that would fulfill the filter 
+> criterion, but are ignored because of a premature `LIMIT` clause. `LIMIT` is, therefore, usually put at the very end, 
+> after `FILTER`, `SORT` and other operations.
+
+### Data Modification Queries
+
+AQL supports the following data-modification operations:
+
+* **INSERT**: insert new documents into a collection
+* **UPDATE**: partially update existing documents in a collection
+* **REPLACE**: completely replace existing documents in a collection
+* **REMOVE**: remove existing documents from a collection
+* **UPSERT**: conditionally insert or update documents in a collection
+
+
+
+
+
+
+
+
+
+
+
 
 Operations like [`FILTER`](#filter), `SORT`, and `LIMIT` can be added to the loop body to narrow and order the result.
 
