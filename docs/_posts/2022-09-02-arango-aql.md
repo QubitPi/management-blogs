@@ -87,7 +87,7 @@ There are two fundamental types of AQL queries:
 1. queries which access data (read documents)
 2. queries which modify data (create, update, replace, delete documents)
 
-#### Data Access Queries
+### Data Access Queries
 
 Retrieving data from the database with AQL does always include a **RETURN** operation. It can be used to return a static value, such as a string:
 
@@ -254,6 +254,130 @@ FOR doc IN users
 
 #### Modifying Multiple Documents
 
+Data-modification operations are normally combined with `FOR` loops to iterate over a given list of documents. They can 
+optionally be combined with `FILTER` statements and the like.
+
+##### Batch Update with Filter
+
+Let's start with an example that modifies existing documents in a collection users that match some condition:
+
+{% highlight javascript %}
+FOR user IN users
+    FILTER user.status == "not active"
+    UPDATE user WITH { status: "inactive" } IN users
+{% endhighlight %}
+
+Now, let's copy the contents of the collection users into the collection backup:
+
+{% highlight javascript %}
+FOR user IN users
+    INSERT user IN backup
+{% endhighlight %}
+
+##### Batch Delete with Filter
+
+Subsequently, let's find some documents in `users` collection and remove them from collection `backup`. The link between
+the documents in both collections is established via the documents' keys:
+
+{% highlight javascript %}
+FOR user IN users
+    FILTER user.status == "deleted"
+    REMOVE user IN backup
+{% endhighlight %}
+
+The following example will remove all documents from both `users` and `backup`:
+
+{% highlight javascript %}
+LET r1 = (FOR user IN users  REMOVE user IN users)
+LET r2 = (FOR user IN backup REMOVE user IN backup)
+RETURN true
+{% endhighlight %}
+
+#### Returning Documents
+
+Data-modification queries can optionally return documents. In order to reference the inserted, removed or modified 
+documents in a `RETURN` statement, data-modification statements introduce the **OLD** and/or **NEW** pseudo-values:
+
+{% highlight javascript %}
+FOR i IN 1..100
+    INSERT { value: i } IN test
+    RETURN NEW
+
+FOR user IN users
+    FILTER user.status == "deleted"
+    REMOVE user IN users
+    RETURN OLD
+
+FOR user IN users
+    FILTER user.status == "not active"
+    UPDATE user WITH { status: "inactive" } IN users
+    RETURN NEW
+{% endhighlight %}
+
+**NEW refers to the inserted or modified document revision, and OLD refers to the document revision before update or 
+removal**. `INSERT` statements can only refer to the `NEW` pseudo-value, and `REMOVE` operations only to `OLD`.
+`UPDATE`, `REPLACE` and `UPSERT` can refer to either.
+
+In all cases the full documents will be returned with all their attributes, including the potentially auto-generated 
+attributes such as `_id`, `_key`, or `_rev` and the attributes not specified in the update expression of a partial
+update.
+
+##### Projections
+
+It is possible to return a projection of the documents in `OLD` or `NEW` instead of returning the entire documents. This 
+can be used to reduce the amount of data returned by queries.
+
+For example, the following query will return only the keys of the inserted documents:
+
+{% highlight javascript %}
+FOR i IN 1..100
+    INSERT { value: i } IN test
+    RETURN NEW._key
+{% endhighlight %}
+
+##### Using OLD and NEW in the same query
+
+For `UPDATE`, `REPLACE` and `UPSERT` statements, both `OLD` and `NEW` can be used to return the previous revision of a 
+document together with the updated revision:
+
+{% highlight javascript %}
+FOR user IN users
+    FILTER user.status == "not active"
+    UPDATE user WITH { status: "inactive" } IN users
+    RETURN { old: OLD, new: NEW }
+{% endhighlight %}
+
+##### Calculations with OLD or NEW
+
+It is also possible to run additional calculations with `LET` statements between the data-modification part and the
+final `RETURN` of an AQL query. For example, the following query performs an upsert operation and returns whether an 
+existing document was updated, or a new document was inserted. It does so by checking the `OLD` variable after the
+`UPSERT` and using a `LET` statement to store a temporary string for the operation type:
+
+{% highlight javascript %}
+UPSERT { name: "test" }
+    INSERT { name: "test" }
+    UPDATE { } IN users
+LET opType = IS_NULL(OLD) ? "insert" : "update"
+RETURN { _key: NEW._key, type: opType }
+{% endhighlight %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -375,11 +499,56 @@ The first form is identical using the second form with an offset value of 0.
 
 > ⚠️ When LIMIT is placed before FILTER in query, LIMITing operation is executed before the FILTERing operations.
 
-### Graph
+#### Restrictions
 
-#### Traversal
+The name of the modified collection (users and backup in the above cases) must be known to the AQL executor at 
+query-compile time and cannot change at runtime. Using a bind parameter to specify the collection name is allowed.
 
-##### Traversing Named Graph
+**It is not possible to use multiple data-modification operations for the same collection in the same query, or follow
+up a data-modification operation for a specific collection with a read operation for the same collection. Neither is it 
+possible to follow up any data-modification operation with a traversal query (which may read from arbitrary collections 
+not necessarily known at the start of the traversal)**.
+
+That means you may not place several REMOVE or UPDATE statements for the same collection into the same query. It is 
+however possible to modify different collections by using multiple data-modification operations for different
+collections in the same query. In case you have a query with several places that need to remove documents from the same 
+collection, it is recommended to collect these documents or their keys in an array and have the documents from that
+array removed using a single REMOVE operation.
+
+Data-modification operations can optionally be followed by `LET` operations to perform further calculations and a
+`RETURN` operation to return data.
+
+#### Transactional Execution
+
+On a single server, data-modification operations are executed transactionally. If a data-modification operation fails,
+any changes made by it will be rolled back automatically as if they never happened.
+
+If the RocksDB engine is used and intermediate commits are enabled, a query may execute intermediate transaction commits 
+in case the running transaction (AQL query) hits the specified size thresholds. In this case, the query's operations 
+carried out so far will be committed and not rolled back in case of a later abort/rollback. That behavior can be 
+controlled by adjusting the intermediate commit settings for the RocksDB engine.
+
+In a cluster, AQL data-modification queries are currently not executed transactionally. Additionally, update, replace, 
+upsert and remove AQL queries currently require the _key attribute to be specified for all documents that should be 
+modified or removed, even if a shard key attribute other than _key was chosen for the collection.
+
+
+Graph
+-----
+
+There are multiple ways to work with graphs in ArangoDB, as well as different ways to query your graphs using AQL. The
+two options in managing graphs are to either use
+
+* named graphs where ArangoDB manages the collections involved in one graph, or
+* graph functions on a combination of document and edge collections.
+
+Named graphs can be defined through the graph-module or via the web interface. The definition contains the name of the graph, and the vertex and edge collections involved. Since the management functions are layered on top of simple sets of document and edge collections, you can also use regular AQL functions to work with them.
+
+### Graph Traversals in AQL
+
+#### Syntax
+
+##### Traversing Named Graphs
 
 ```
 [WITH vertexCollection1[, vertexCollection2[, ...vertexCollectionN]]]
@@ -417,7 +586,6 @@ GRAPH graphName
   as follows:
   - If the condition evaluates to `true` this path will be considered as a result, it might still be post filtered or
     ignored due to depth constraints. However the search will not continue from this path, namely there will be no result having this path as a prefix. e.g.: Take the path: (A) -> (B) -> (C) starting at A and PRUNE on B will result in (A) and (A) -> (B) being valid paths, and (A) -> (B) -> (C) not returned, it got pruned on B.
-
 
 ##### Working with Collections Sets
 
