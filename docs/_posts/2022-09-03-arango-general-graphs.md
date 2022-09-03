@@ -42,6 +42,14 @@ In SQL you commonly have the construct of a **relation table** to store relation
 * **INBOUND**: _from ← _to
 * **ANY**: _from ↔ _to
 
+### Supported Graph Algorithms
+
+* [Traversal](https://qubitpi.github.io/jersey-guide/finalized/2022/09/02/arango-aql.html#graph-traversals-in-aql)
+  - following edges in outbound, inbound, or any direction
+  - variable traversal depth between a defined minimum and maximum
+  - breadth-first, depth-first, and weighted traversals
+  - optionally with prune conditions
+
 
 ### General Graphs
 

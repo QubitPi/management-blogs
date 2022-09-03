@@ -598,3 +598,10 @@ edgeCollection1, ..., edgeCollectionN
 [PRUNE pruneCondition]
 [OPTIONS options]
 ```
+
+
+### Shortest Path in AQL
+
+### k-Shortest Paths in AQL
+
+### k Paths in AQL
