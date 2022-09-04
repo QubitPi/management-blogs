@@ -649,8 +649,8 @@ FOR vertex[, edge[, path]]
   1. **vertex** (object): the current vertex in a traversal
   2. **edge** (object, _optional_): the current edge in a traversal
   3. **path** (object, _optional_): the current path with two members:
-    1. vertices: an array of all vertices on this path
-    2. edges: an array of all edges on this path
+     a. vertices: an array of all vertices on this path
+     b. edges: an array of all edges on this path
 * `IN min..max`: the minimal and maximal depth for the traversal:
   1. **min** (number, _optional_): edges and vertices returned by this query will start at the traversal depth of _min_
      (thus edges and vertices below will not be returned). If not specified, it defaults to 1. The minimal possible
@@ -668,9 +668,19 @@ FOR vertex[, edge[, path]]
   which will be evaluated in **every step of the traversal, as early as possible**. The semantics of this condition is
   as follows:
   - If the condition evaluates to `true` this path will be considered as a result, it might still be post filtered or
-    ignored due to depth constraints. However the search will not continue from this path, namely there will be no
+    ignored due to depth constraints. The search, however, will not continue from this path, namely there will be no
     result having this path as a prefix. e.g.: Take the path: (A) -> (B) -> (C) starting at A and PRUNE on B will result 
     in (A) and (A) -> (B) being valid paths, and (A) -> (B) -> (C) not returned, it got pruned on B.
+  - If the condition evaluates to `false` we will continue traversing down this path. The PRUNE condition can contain combinations of AND/OR statements.
+* `OPTIONS` **options** (object, _optional_): used to modify the execution of the traversal. Attributes include
+  - **order** (string):
+    * **"bfs"** - the traversal will be a breadth-first traversal. The results will have all vertices at depth 1 in the 
+      front of list, then all vertices at depth 2, and so on
+    * **"dfs" (default)** - the traversal will be a depth-first traversa. It put all paths from min depth to max depth 
+      for one vertex at depth 1 first, then for the next vertex at depth 1 and so on
+    * **"weighted"** - Paths are enumerated with increasing cost. A path has an additional attribute **weight**
+      containing the cost of the path after every step. The order of paths having the same cost is non-deterministic. 
+      Negative weights are not supported and will abort the query with an error
 
 ##### Working with Collections Sets
 
