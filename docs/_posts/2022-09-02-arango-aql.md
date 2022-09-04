@@ -561,28 +561,94 @@ These types of queries are only useful if you use edge collections and/or graphs
 
 ### Traversals Explained
 
+A traversal starts at one specific document (_startVertex_) and follows all edges connected to this document. For all 
+documents (_vertices_) that are targeted by these edges it will again follow all edges connected to them and so on. It
+is possible to define how many of these follow iterations should be executed at least (_min_ depth) and at most (_max_ 
+depth).
+
+For all vertices that were visited during this process in the range between min depth and max depth iterations we will
+get a result in form of a set with three items:
+
+1. The **visited vertex**.
+2. The edge pointing to it.
+3. The complete path from startVertex to the **visited vertex** as object with an attribute _edges_ and an attribute 
+   _vertices_, each of which is a list of corresponding elements. These lists are sorted, which means the first element
+   in _vertices_ is the startVertex and the last is the visited vertex, and the n-th element in _edges_ connects the
+   n-th element with the (n+1)-th element in _vertices_.
+
+Let's take a look at a simple example to explain how it works. This is the graph that we are going to traverse:
+
+![Error loading arango-graph-traversal-eg.png]({{ "/assets/img/arango-graph-traversal-eg.png" | relative_url}})
+
+We use the following parameters for our query:
+
+* We start at the vertex A.
+* We use a min depth of 1.
+* We use a max depth of 2.
+* We follow only in OUTBOUND edges
+
+![Error loading arango-graph-traversal-eg1.png]({{ "/assets/img/arango-graph-traversal-eg1.png" | relative_url}})
+
+Now it walks to one of the direct neighbors of **A**, say **B** (note: ordering is not guaranteed!):
+
+![Error loading arango-graph-traversal-eg2.png]({{ "/assets/img/arango-graph-traversal-eg2.png" | relative_url}})
+
+The query will remember the state (red circle) and will emit the first result **A → B** (black box). This will also 
+prevent the traverser to be trapped in cycles. Now again it will visit one of the direct neighbors of **B**, say **E**:
+
+![Error loading arango-graph-traversal-eg3.png]({{ "/assets/img/arango-graph-traversal-eg3.png" | relative_url}})
+
+We have limited the query with a max depth of 2, so it will not pick any neighbor of **E**, as the path from **A** to 
+**E** already requires 2 steps. Instead, we will go back one level to **B** and continue with any other direct neighbor
+there:
+
+![Error loading arango-graph-traversal-eg4.png]({{ "/assets/img/arango-graph-traversal-eg4.png" | relative_url}})
+
+Again after we produced this result we will step back to **B**. But there is no neighbor of **B** left that we have not 
+yet visited. Hence we go another step back to **A** and continue with any other neighbor there.
+
+![Error loading arango-graph-traversal-eg5.png]({{ "/assets/img/arango-graph-traversal-eg5.png" | relative_url}})
+
+And identical to the iterations before we will visit **H**:
+
+![Error loading arango-graph-traversal-eg6.png]({{ "/assets/img/arango-graph-traversal-eg6.png" | relative_url}})
+
+And **J**:
+
+![Error loading arango-graph-traversal-eg7.png]({{ "/assets/img/arango-graph-traversal-eg7.png" | relative_url}})
+
+After these steps there is no further result left. So all together this query has returned the following paths:
+
+* **A → B**
+* **A → B → E**
+* **A → B → C**
+* **A → G**
+* **A → G → H**
+* **A → G → J**
+
 ### Graph Traversals in AQL
 
-#### Syntax
+There are two slightly different syntaxes for traversals in AQL, one for named graphs and another to set of edge 
+collections (anonymous graph).
 
 ##### Traversing Named Graphs
 
-```
+{% highlight javascript %}
 [WITH vertexCollection1[, vertexCollection2[, ...vertexCollectionN]]]
 FOR vertex[, edge[, path]]
-IN [min[..max]]
-OUTBOUND|INBOUND|ANY startVertex
-GRAPH graphName
-[PRUNE pruneCondition]
-[OPTIONS options]
-```
+    IN [min[..max]]
+    OUTBOUND|INBOUND|ANY startVertex
+    GRAPH graphName
+    [PRUNE pruneCondition]
+    [OPTIONS options]
+{% endhighlight %}
 
 * `WITH`: optional for single server instances, but required for graph traversals in a cluster.
-  - collections (collection, _repeatable_): list of vertex collections that will be involved in the traversal
+  - **collections** (collection, _repeatable_): list of vertex collections that will be involved in the traversal
 * `FOR`: emits up to three variables:
   1. **vertex** (object): the current vertex in a traversal
   2. **edge** (object, _optional_): the current edge in a traversal
-  3. **path** (object, _optional_): representation of the current path with two members:
+  3. **path** (object, _optional_): the current path with two members:
     1. vertices: an array of all vertices on this path
     2. edges: an array of all edges on this path
 * `IN min..max`: the minimal and maximal depth for the traversal:
@@ -602,7 +668,9 @@ GRAPH graphName
   which will be evaluated in **every step of the traversal, as early as possible**. The semantics of this condition is
   as follows:
   - If the condition evaluates to `true` this path will be considered as a result, it might still be post filtered or
-    ignored due to depth constraints. However the search will not continue from this path, namely there will be no result having this path as a prefix. e.g.: Take the path: (A) -> (B) -> (C) starting at A and PRUNE on B will result in (A) and (A) -> (B) being valid paths, and (A) -> (B) -> (C) not returned, it got pruned on B.
+    ignored due to depth constraints. However the search will not continue from this path, namely there will be no
+    result having this path as a prefix. e.g.: Take the path: (A) -> (B) -> (C) starting at A and PRUNE on B will result 
+    in (A) and (A) -> (B) being valid paths, and (A) -> (B) -> (C) not returned, it got pruned on B.
 
 ##### Working with Collections Sets
 
