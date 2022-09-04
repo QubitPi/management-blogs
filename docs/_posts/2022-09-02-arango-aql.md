@@ -631,7 +631,7 @@ After these steps there is no further result left. So all together this query ha
 There are two slightly different syntaxes for traversals in AQL, one for named graphs and another to set of edge 
 collections (anonymous graph).
 
-##### Traversing Named Graphs
+#### Traversing Named Graphs
 
 {% highlight javascript %}
 [WITH vertexCollection1[, vertexCollection2[, ...vertexCollectionN]]]
@@ -681,7 +681,7 @@ FOR vertex[, edge[, path]]
     * **"weighted"** - Paths are enumerated with increasing cost. A path has an additional attribute **weight**
       containing the cost of the path after every step. The order of paths having the same cost is non-deterministic. 
       Negative weights are not supported and will abort the query with an error
-  - **uniqueVertices** (string):
+  - **uniqueVertices** (string, _optional_):
     * "path" - each returned path has no duplicated vertices
     * "global" - each vertex is visited at most once during traversal. It is required to set **order** with "bfs" or 
       "weighted" because depth-first search would give unpredictable results. With this configuration the result is not 
@@ -689,22 +689,56 @@ FOR vertex[, edge[, path]]
       of a weighted traversal, the path with the lowest weight is picked, but in case of equal weights it is undefined 
       which one is chosen.
       "none" (default) - no uniqueness check is applied on vertices 
-  - **uniqueEdges** (string)
-    "path" (default) – it is guaranteed that there is no path returned with a duplicate edge
-    "none" – no uniqueness check is applied on edges. Note: Using this configuration the traversal will follow edges in cycles.
+  - **uniqueEdges** (string, _optional_)
+    * "path" (default) - each returned path has no duplicated edges
+    * "none" - no uniqueness check is applied on edges. Note: Using this configuration the traversal will follow edges
+      in cycles.
+  - **edgeCollections** (string|array, _optional_): specify edges which the traversal is allowed to visit
+  - **vertexCollections** (string|array, _optional_): specify vertices which the traversal is allowed to visit. The 
+    starting vertex is always allowed
+  - **weightAttribute** (string, _optional_): Specifies the name of an attribute that is used to look up the weight of
+    an edge. If no attribute is specified or if it is not present in the edge document then the `defaultWeight` is used. 
+    The attribute value must not be negative
+  - **defaultWeight** (number, _optional_): Specifies the default weight of an edge. The value must not be negative. The 
+    default value is 1.
 
-##### Working with Collections Sets
+#### Traversing Collections Sets
 
-```
+{% highlight javascript %}
 [WITH vertexCollection1[, vertexCollection2[, ...vertexCollectionN]]]
 FOR vertex[, edge[, path]]
-IN [min[..max]]
-OUTBOUND|INBOUND|ANY startVertex
-edgeCollection1, ..., edgeCollectionN
-[PRUNE pruneCondition]
-[OPTIONS options]
-```
+    IN [min[..max]]
+    OUTBOUND|INBOUND|ANY startVertex
+    edgeCollection1, ..., edgeCollectionN
+    [PRUNE pruneCondition]
+    [OPTIONS options]
+{% endhighlight %}
 
+Instead of `GRAPH graphName` we may specify a list of edge collections. Vertex collections are determined by the edges
+in the edge collections. The traversal options are the same as with the [named graph variant](#traversing-named-graphs), 
+though the `edgeCollections` restriction option is redundant in this case.
+
+If the same edge collection is specified multiple times, it will behave as if it were specified only once. Specifying
+the same edge collection is only allowed when the collections do not have conflicting traversal directions.
+
+ArangoSearch Views cannot be used as edge collections.
+
+#### Traversing in Mixed Directions
+
+For traversals with a list of edge collections you can optionally specify the direction for some of the edge
+collections. For example, when we have three edge collections edges1, edges2 and edges3, where in edges2 the direction
+has no relevance but in edges1 and edges3 the direction should be taken into account. In this case you can use OUTBOUND
+as general traversal direction and ANY for edges2 as follows:
+
+{% highlight javascript %}
+FOR vertex IN OUTBOUND
+    startVertex
+    edges1, ANY edges2, edges3
+{% endhighlight %}
+
+#### Using Filters and the Explainer to Extrapolate the Costs
+
+WIP
 
 ### Shortest Path in AQL
 
