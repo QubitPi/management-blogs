@@ -649,8 +649,8 @@ FOR vertex[, edge[, path]]
   1. **vertex** (object): the current vertex in a traversal
   2. **edge** (object, _optional_): the current edge in a traversal
   3. **path** (object, _optional_): the current path with two members:
-     a. vertices: an array of all vertices on this path
-     b. edges: an array of all edges on this path
+     - vertices: an array of all vertices on this path
+     - edges: an array of all edges on this path
 * `IN min..max`: the minimal and maximal depth for the traversal:
   1. **min** (number, _optional_): edges and vertices returned by this query will start at the traversal depth of _min_
      (thus edges and vertices below will not be returned). If not specified, it defaults to 1. The minimal possible
@@ -681,6 +681,17 @@ FOR vertex[, edge[, path]]
     * **"weighted"** - Paths are enumerated with increasing cost. A path has an additional attribute **weight**
       containing the cost of the path after every step. The order of paths having the same cost is non-deterministic. 
       Negative weights are not supported and will abort the query with an error
+  - **uniqueVertices** (string):
+    * "path" - each returned path has no duplicated vertices
+    * "global" - each vertex is visited at most once during traversal. It is required to set **order** with "bfs" or 
+      "weighted" because depth-first search would give unpredictable results. With this configuration the result is not 
+      deterministic anymore. If there are multiple paths from _startVertex_ to _vertex_, one of those is picked. In case
+      of a weighted traversal, the path with the lowest weight is picked, but in case of equal weights it is undefined 
+      which one is chosen.
+      "none" (default) - no uniqueness check is applied on vertices 
+  - **uniqueEdges** (string)
+    "path" (default) – it is guaranteed that there is no path returned with a duplicate edge
+    "none" – no uniqueness check is applied on edges. Note: Using this configuration the traversal will follow edges in cycles.
 
 ##### Working with Collections Sets
 
