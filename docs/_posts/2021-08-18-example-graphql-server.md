@@ -16,19 +16,22 @@ excerpt_separator: <!--more-->
 {:toc}
 
 
-## [Running an Express GraphQL Server](https://graphql.org/graphql-js/running-an-express-graphql-server/)
+Running Express + GraphQL
+-------------------------
+
+### Running an Express GraphQL Server
 
 The simplest way to run a GraphQL API server is to use [Express](https://expressjs.com/), a popular web application
 framework for Node.js. You will need to install two additional dependencies:
 
     npm install express express-graphql graphql --save
     
-### [Setup Nodejs Project](https://closebrace.com/tutorials/2017-03-02/the-dead-simple-step-by-step-guide-for-front-end-developers-to-getting-up-and-running-with-nodejs-express-and-mongodb)
+#### [Setup Nodejs Project](https://closebrace.com/tutorials/2017-03-02/the-dead-simple-step-by-step-guide-for-front-end-developers-to-getting-up-and-running-with-nodejs-express-and-mongodb)
 
     npm install -g express-generator
     express --view="ejs" example
     
-#### Config - package.json
+##### Config - package.json
 
 ```json
 "dependencies": {
@@ -40,7 +43,7 @@ framework for Node.js. You will need to install two additional dependencies:
 }
 ```
     
-#### Config - app.js
+##### Config - app.js
 
 We can use the 'express' module to run a webserver, and instead of executing a query directly with the graphql function,
 we can use the `express-graphql` library to mount a GraphQL API server on the "/graphql" HTTP endpoint:
@@ -94,7 +97,7 @@ If everything is setup correctly, you should be able to see the following output
     
 Since we configured `graphqlHTTP` with `graphiql: true`, you can use the GraphiQL tool to manually issue GraphQL
 queries. If you navigate in a web browser to [`http://localhost:4000/graphql`](http://localhost:4000/graphql), you
-should be able see an interface that lets you enter queries. It should look like:
+should be able to see an interface that lets you enter queries. It should look like:
 
 ![hello-graphql-server.png not loaded property]({{ "/assets/img/hello-graphql-server.png" | relative_url}})
 
@@ -103,3 +106,19 @@ This screen shot shows the GraphQL query `{ hello }` being issued and giving a r
 running it whenever your application is in development mode.
 
 This is how we would run a GraphQL server and to use GraphiQL interface to issue queries.
+
+We can also do this from the command line with `curl`. If you paste this into a terminal:
+
+```bash
+curl -X POST \
+-H "Content-Type: application/json" \
+-d '{"query": "{ hello }"}' \
+http://localhost:4000/graphql
+```
+
+You should see the output returned as JSON:
+
+```json
+{"data":{"hello":"Hello world!"}}
+```
+
