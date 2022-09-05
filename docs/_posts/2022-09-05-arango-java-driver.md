@@ -149,6 +149,23 @@ JsonNode jsonNode = collection.getDocument(key, ObjectNode.class);
 {% endhighlight %}
 
 
+Updating a Document
+-------------------
+
+{% highlight java %}
+doc.addAttribute("c", "Bar");
+collection.updateDocument(key, doc);
+{% endhighlight %}
+
+
+Deleting a Document
+-------------------
+
+{% highlight java %}
+collection.deleteDocument(key);
+{% endhighlight %}
+
+
 Executing AQL Query
 -------------------
 
@@ -195,6 +212,7 @@ FOR vertex
     OUTBOUND
     'circles/A'
     GRAPH 'traversalGraph'
+    FILTER vertex.radius == 10
     RETURN vertex._key
 {% endhighlight %}
 
@@ -219,11 +237,15 @@ FOR vertex
 > The examples below will assume the above and omit the check for the purpose of brevity
 
 {% highlight java %}
-String queryString = "FOR vertex IN 1..3 OUTBOUND 'circles/A' GRAPH 'traversalGraph' RETURN vertex._key";
+String queryString = "FOR vertex IN 1..3 OUTBOUND 'circles/A' GRAPH 'traversalGraph' FILTER vertex.radius == @radius RETURN vertex._key";
 
-ArangoCursor<String> cursor = syncDb.query(queryString, null, null, String.class);
-ArangoCursorAsync<String> cursor = asyncDb.query(queryString, null, null, String.class).get();
+Map<String, Object> bindVars = Collections.singletonMap("radius", 10);
+
+ArangoCursor<BaseDocument> cursor = syncDb.query(queryString, bindVars, null, BaseDocument.class);
+ArangoCursorAsync<BaseDocument> cursor = asyncDb.query(queryString, bindVars, null, BaseDocument.class).get();
 {% endhighlight %}
+
+> 📋 Note that the AQL query uses the @radius placeholder which has to be bound to a value
 
 
 [named graph]: https://qubitpi.github.io/jersey-guide/finalized/2022/09/03/arango-general-graphs.html#named-graphs
