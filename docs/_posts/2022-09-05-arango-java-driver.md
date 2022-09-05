@@ -420,6 +420,7 @@ static class PersonDeserializer extends JsonDeserializer<Person> {
 // registering using annotation
 @JsonSerialize(using = PersonSerializer.class)
 public static class Person {
+
     public String name;
 }
 
@@ -558,9 +559,9 @@ abstraction layers:
 2. ArangoDatabaseAsync with **ArangoDatabaseAsync#query()**
 
 > Application design should take it into account that
-> [ArangoDatabase][ArangoDatabase] and [ArangoDatabaseAsync][ArangoDatabaseAsync] are two separate types. Application,
-> should it offers the ability to switch between syanc and async querying on the flight, should not depend on the
-> driver's interface but have its own abstraction layer
+> [ArangoDatabase][ArangoDatabase] and [ArangoDatabaseAsync][ArangoDatabaseAsync] are makde two separate types.
+> Application, should it offers the ability to switch between syanc and async querying on the flight, should not depend
+> on the driver's interface but have its own abstraction layer
 
 For example, suppose we have a "java_driver_graph_test_db" database which has a [named graph](named graph) 
 "traversalGraph" with one edge collection (called "edges") and one vertex collection (named "circles")
@@ -608,13 +609,13 @@ FOR vertex
 >
 > We should make sure the table exists before executing query using, for example:
 >
-> {% highlight java %}
+> ```java
 > ArangoDatabase db = ...
 >
 > if (!db.exists()) {
 >     // execute logic on non-existing databases
 > }
-> {% endhighlight %}
+> ```
 > 
 > The examples below will assume the above and omit the check for the purpose of brevity
 
