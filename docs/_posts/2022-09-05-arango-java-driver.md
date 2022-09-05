@@ -135,8 +135,6 @@ DocumentEntity<BaseDocument> myObject = arango
 {% endhighlight %}
 
 
-
-
 Reading a Document
 ------------------
 
@@ -154,17 +152,36 @@ JsonNode jsonNode = collection.getDocument(key, ObjectNode.class);
 Executing AQL Query
 -------------------
 
-[Arango Java driver offers ability to execute AQL programmatically](https://github.com/QubitPi/arangodb-java-driver/blob/master/src/test/java/com/arangodb/example/graph/GraphTraversalsInAQLExampleTest.java). The method is **ArangoDatabase#query()**.
+[Arango Java driver offers ability to execute AQL programmatically][GraphTraversalsInAQLExampleTest] through 2 separate 
+abstraction layers:
 
-For example, suppose we have a named graph "traversalGraph"
+1. ArangoDatabase with **ArangoDatabase#query()**
+2. ArangoDatabaseAsync with **ArangoDatabaseAsync#query()**
+
+> Application design should take it into account that
+> [ArangoDatabase][ArangoDatabase] and [ArangoDatabaseAsync][ArangoDatabaseAsync] are two separate types. Application,
+> should it offers the ability to switch between syanc and async querying on the flight, should not depend on the
+> driver's interface but have its own abstraction layer
+
+For example, suppose we have a named graph "traversalGraph" with one edge collection (called "edges") and one vertex
+collection (named "circles"), the following examples shows some AQL queries that can be run on this configuration.
 
 > The examples along with their setup above are taken from the
 > [valid tests from official Arango Java Driver](https://github.com/QubitPi/arangodb-java-driver/tree/master/src/test/java/com/arangodb/example/graph)
 
 ### Example - Querying All Vertices
 
-```java
-        String queryString = "FOR v IN 1..3 OUTBOUND 'circles/A' GRAPH 'traversalGraph' RETURN v._key";
+{% highlight javascript %}
+FOR v
+    IN 1..3
+    OUTBOUND
+    'circles/A'
+    GRAPH 'traversalGraph'
+    RETURN v._key
+{% endhighlight %}
+
+{% highlight javascript %}
+String queryString = "FOR v IN 1..3 OUTBOUND 'circles/A' GRAPH 'traversalGraph' RETURN v._key";
         ArangoCursor<String> cursor = db.query(queryString, null, null, String.class);
         Collection<String> result = cursor.asListRemaining();
         assertThat(result).hasSize(10);
@@ -173,7 +190,7 @@ For example, suppose we have a named graph "traversalGraph"
         cursor = db.query(queryString, null, null, String.class);
         result = cursor.asListRemaining();
         assertThat(result).hasSize(10);
-```
+{% endhighlight %}
 
 >  ⚠️ [**Always Check for DB Existence Before Executing Query**](https://github.com/arangodb/arangodb-java-driver/issues/254),
 > otherwise a runtime exception will break the application with the following error:
@@ -192,3 +209,10 @@ For example, suppose we have a named graph "traversalGraph"
 >     // execute logic on non-existing databases
 > }
 > {% endhighlight %}
+
+
+
+
+[ArangoDatabase]: https://github.com/arangodb/arangodb-java-driver/blob/master/src/main/java/com/arangodb/ArangoDatabase.java
+[ArangoDatabaseAsync]: https://github.com/arangodb/arangodb-java-driver/blob/master/src/main/java/com/arangodb/async/ArangoDatabaseAsync.java
+[GraphTraversalsInAQLExampleTest]: https://github.com/QubitPi/arangodb-java-driver/blob/master/src/test/java/com/arangodb/example/graph/GraphTraversalsInAQLExampleTest.java
