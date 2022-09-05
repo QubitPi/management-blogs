@@ -568,7 +568,7 @@ For example, suppose we have a "java_driver_graph_test_db" database which has a 
 "traversalGraph" with one edge collection (called "edges") and one vertex collection (named "circles")
 
 > The examples along with their setup above are taken from the valid tests from official Arango Java Driver, both
-> [sync](GraphTraversalsInAQLExampleTest Sync) and [asyn](GraphTraversalsInAQLExampleTest Async).
+> [sync][GraphTraversalsInAQLExampleTest Sync] and [async][GraphTraversalsInAQLExampleTest Async].
 
 To create a "**sync**" version of ArangoDB client:
 
