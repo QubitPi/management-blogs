@@ -434,9 +434,6 @@ ArangoDB arangoDB = new ArangoDB.Builder().serializer(arangoJack).build();
 {% endhighlight %}
 
 
-
-
-
 Creating a Database
 -------------------
 
