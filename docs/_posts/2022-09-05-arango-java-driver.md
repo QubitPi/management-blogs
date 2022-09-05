@@ -68,12 +68,83 @@ Connection
 To configure and open a connection to start ArangoDB:
 
 {% highlight java %}
+// this instance is thread-safe
 ArangoDB arangoDB = new ArangoDB.Builder()
     .serializer(new ArangoJack())
     .build();
 {% endhighlight %}
 
 > 📋 The default connection is to 127.0.0.1:8529.
+
+### Driver Setup
+
+The setup above goes with default configuration. A properties file called "**arangodb.properties**" is automatically
+loaded if exists in the classpath.
+
+The driver is configured with the following default values:
+
+| **property-key**         | **description**                         | **default value** |
+|:------------------------:|:---------------------------------------:|:-----------------:|
+| arangodb.hosts           | ArangoDB hosts                          | 127.0.0.1:8529    |
+| arangodb.timeout         | connect & request timeout (millisecond) | 0                 |
+| arangodb.user            | Basic Authentication User               | root              |
+| arangodb.password        | Basic Authentication Password           |                   |
+| arangodb.jwt             | Authentication JWT                      |                   |
+| arangodb.useSsl          | use SSL connection                      | false             |
+| arangodb.chunksize       | VelocyStream Chunk content-size (bytes) | 30000             |
+| arangodb.connections.max | max number of connections               | 1 VST, 20 HTTP    |
+| arangodb.protocol        | used network protocol                   | VST               |
+
+To customize the configuration the parameters can be changed in the following way:
+
+{% highlight java %}
+ArangoDB arangoDB = new ArangoDB.Builder()
+    .host("192.168.182.50", 8888)
+    .build();
+{% endhighlight %}
+
+or with a custom properties file (e.g. "my.properties")
+
+{% highlight java %}
+InputStream in = MyClass.class.getResourceAsStream("my.properties");
+ArangoDB arangoDB = new ArangoDB.Builder()
+    .loadProperties(in)
+    .build();
+{% endhighlight %}
+
+The my.properties file looks like the following
+
+```properties
+arangodb.hosts=127.0.0.1:8529,127.0.0.1:8529
+arangodb.user=root
+arangodb.password=
+```
+
+### Network protocol
+
+The drivers default used network protocol is the binary protocol VelocyStream. To use HTTP, we can set the configuration 
+`useProtocol` to **Protocol.HTTP\_JSON** for HTTP with JSON content or **Protocol.HTTP\_VPACK** for HTTP with VelocyPack 
+content. For example
+
+{% highlight java %}
+ArangoDB arangoDB = new ArangoDB.Builder()
+    .useProtocol(Protocol.VST)
+    .build();
+{% endhighlight %}
+
+In case we do set the configuration to HTTP, we have to add the apache httpclient to classpath as well.
+
+{% highlight java %}
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.1</version>
+</dependency>
+{% endhighlight %}
+
+### SSL
+
+
 
 ### Configuring Serialization
 
