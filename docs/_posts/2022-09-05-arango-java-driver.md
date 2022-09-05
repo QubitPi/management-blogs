@@ -193,9 +193,9 @@ ArangoDB arangoDB = new ArangoDB.Builder()
 > we can clear the connection pool (close all connections to the server) or use
 > [connection TTL](#connection-time-to-live).
 > 
-> {% highlight java %}
+> ```java
 > arangoDB.shutdown();
-> {% endhighlight %}
+> ```
 > 
 > Opening and closing connections very frequently can exhaust the amount of connections allowed by the operating system. 
 > TCP connections enter a special state `WAIT_TIME` after close, and typically remain in this state for two minutes 
