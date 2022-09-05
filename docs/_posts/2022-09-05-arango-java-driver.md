@@ -287,7 +287,8 @@ ArangoDB arangoDB = new ArangoDB.Builder()
 
 ### Active Failover
 
-In case of an Active Failover deployment the driver should be configured in the following way:
+In case of an [Active Failover deployment][Active Failover deployment] the driver should be configured in the following
+way:
 
 * the load balancing strategy must be either set to **LoadBalancingStrategy.NONE** or not set at all, since that would be the default
 * [acquireHostList](#fallback-hosts) should be set to `true`
@@ -636,3 +637,4 @@ ArangoCursorAsync<BaseDocument> cursor = asyncDb.query(queryString, bindVars, nu
 [ArangoDatabaseAsync]: https://github.com/arangodb/arangodb-java-driver/blob/master/src/main/java/com/arangodb/async/ArangoDatabaseAsync.java
 [GraphTraversalsInAQLExampleTest Sync]: https://github.com/arangodb/arangodb-java-driver/blob/master/src/test/java/com/arangodb/example/graph/GraphTraversalsInAQLExampleTest.java
 [GraphTraversalsInAQLExampleTest Async]: https://github.com/arangodb/arangodb-java-driver/blob/master/src/test/java/com/arangodb/async/example/graph/GraphTraversalsInAQLExampleTest.java
+[Active Failover deployment]: https://qubitpi.github.io/jersey-guide/finalized/2022/09/05/arango-architecture.html#active-failover
