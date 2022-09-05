@@ -39,6 +39,28 @@ In a Maven project, you need to add the following dependencies to POM file:
 </dependencies>
 {% endhighlight %}
 
+The _jackson-dataformat-velocypack_ package also depends on **jackson-core**, **jackson-databind**, and 
+**jackson-annotations** packages, but when using build tools like Maven, dependencies are automatically included. We may 
+however want to use [jackson-bom](https://github.com/FasterXML/jackson-bom) to ensure dependency convergence across the 
+entire project, for example in case there are in our project other libraries depending on different versions of the same 
+Jackson packages.
+
+{% highlight xml %}
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson</groupId>
+            <artifactId>jackson-bom</artifactId>
+            <version>...</version>
+            <scope>import</scope>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+{% endhighlight %}
+
+> jackson-dataformat-velocypack is compatible with Jackson 2.10, 2.11, 2.12, and 2.13.
+
 
 Connection
 ----------
@@ -52,6 +74,106 @@ ArangoDB arangoDB = new ArangoDB.Builder()
 {% endhighlight %}
 
 > 📋 The default connection is to 127.0.0.1:8529.
+
+### Configuring Serialization
+
+Instance of `ArangoJack` offers the ability to configure the underlying `ObjectMapper`. `ArangoJack` can then be passed
+to the driver through `ArangoDB.Builder.serializer(ArangoSerialization)`:
+
+{% highlight java %}
+ArangoJack arangoJack = new ArangoJack();
+arangoJack.configure((mapper) -> {
+    // your configuration here
+});
+
+ArangoDB arango = new ArangoDB.Builder()
+    .serializer(arangoJack)
+    // ...
+    .build();
+{% endhighlight %}
+
+where the lambda argument `mapper` is an instance of `VPackMapper`, a subclass of `ObjectMapper`
+
+#### Renaming Properties
+
+To use a different serialized name for a field, use the annotation @JsonProperty
+
+{% highlight java %}
+public class MyObject {
+
+    @JsonProperty("title")
+    private String name;
+
+    // ...
+}
+{% endhighlight %}
+
+#### Ignoring Properties
+
+To ignore fields use the annotation @JsonIgnore
+
+{% highlight java %}
+public class Value {
+
+    @JsonIgnore
+    public int internalValue;
+}
+{% endhighlight %}
+
+#### Custom Serializer
+
+The serialization and deserialization can be customized using the lower level Streaming API or the Tree Model API, 
+creating and registering respectively `JsonSerializer<T>` and `JsonDeserializer<T>`, as specified by the Jackson API for 
+CustomSerializers.
+
+{% highlight java %}
+static class PersonSerializer extends JsonSerializer<Person> {
+    
+    @Override
+    public void serialize(Person value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        // example using the Streaming API
+        gen.writeStartObject();
+        gen.writeFieldName("name");
+        gen.writeString(value.name);
+        gen.writeEndObject();
+    }
+}
+
+static class PersonDeserializer extends JsonDeserializer<Person> {
+    
+    @Override
+    public Person deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException {
+        // example using the Tree Model API
+        Person person = new Person();
+        JsonNode rootNode = parser.getCodec().readTree(parser);
+        JsonNode nameNode = rootNode.get("name");
+        if (nameNode != null && nameNode.isTextual()) {
+            person.name = nameNode.asText();
+        }
+        return person;
+    }
+}
+
+// registering using annotation
+@JsonSerialize(using = PersonSerializer.class)
+public static class Person {
+    public String name;
+}
+
+// ...
+
+// registering programmatically
+ArangoJack arangoJack = new ArangoJack();
+arangoJack.configure((mapper) -> {
+    SimpleModule module = new SimpleModule("PersonModule");
+    module.addDeserializer(Person.class, new PersonDeserializer());
+    mapper.registerModule(module);
+});
+ArangoDB arangoDB = new ArangoDB.Builder().serializer(arangoJack).build();
+{% endhighlight %}
+
+
+
 
 
 Creating a Database
