@@ -163,11 +163,11 @@ abstraction layers:
 > should it offers the ability to switch between syanc and async querying on the flight, should not depend on the
 > driver's interface but have its own abstraction layer
 
-For example, suppose we have a named graph "traversalGraph" with one edge collection (called "edges") and one vertex
-collection (named "circles"), the following examples shows some AQL queries that can be run on this configuration.
+For example, suppose we have a [named graph](named graph) "traversalGraph" with one edge collection (called "edges") and 
+one vertex collection (named "circles"), the following examples shows some AQL queries that can be run on this graph.
 
-> The examples along with their setup above are taken from the
-> [valid tests from official Arango Java Driver](https://github.com/QubitPi/arangodb-java-driver/tree/master/src/test/java/com/arangodb/example/graph)
+> The examples along with their setup above are taken from the valid tests from official Arango Java Driver, both
+> [sync](GraphTraversalsInAQLExampleTest Sync) and [asyn](GraphTraversalsInAQLExampleTest Async).
 
 ### Example - Querying All Vertices
 
@@ -212,7 +212,8 @@ String queryString = "FOR v IN 1..3 OUTBOUND 'circles/A' GRAPH 'traversalGraph' 
 
 
 
-
+[named graph]: https://qubitpi.github.io/jersey-guide/finalized/2022/09/03/arango-general-graphs.html#named-graphs
 [ArangoDatabase]: https://github.com/arangodb/arangodb-java-driver/blob/master/src/main/java/com/arangodb/ArangoDatabase.java
 [ArangoDatabaseAsync]: https://github.com/arangodb/arangodb-java-driver/blob/master/src/main/java/com/arangodb/async/ArangoDatabaseAsync.java
-[GraphTraversalsInAQLExampleTest]: https://github.com/QubitPi/arangodb-java-driver/blob/master/src/test/java/com/arangodb/example/graph/GraphTraversalsInAQLExampleTest.java
+[GraphTraversalsInAQLExampleTest Sync]: https://github.com/arangodb/arangodb-java-driver/blob/master/src/test/java/com/arangodb/example/graph/GraphTraversalsInAQLExampleTest.java
+[GraphTraversalsInAQLExampleTest Async]: https://github.com/arangodb/arangodb-java-driver/blob/master/src/test/java/com/arangodb/async/example/graph/GraphTraversalsInAQLExampleTest.java
