@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Managing Graphs through Arango Command Line
+title: ArangoDB Graphs
 tags: [ArangoDB, Database, Knowledge Graph, arangosh]
 category: FINALIZED
 color: rgb(128, 165, 76)
