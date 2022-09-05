@@ -121,4 +121,3 @@ You should see the output returned as JSON:
 ```json
 {"data":{"hello":"Hello world!"}}
 ```
-

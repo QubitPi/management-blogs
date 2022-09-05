@@ -61,22 +61,22 @@ AQL supports two types of comments:
 2. Multi line comments: These start with a forward slash and asterisk, and end with an asterisk and a following forward
    slash. They can span as many lines as necessary.
 
-```
+{% highlight javascript %}
 /* this is a comment */ RETURN 1
 /* these */ RETURN /* are */ 1 /* multiple */ + /* comments */ 1
 /* this is
    a multi line
    comment */
 // a single line comment
-```
+{% endhighlight %}
 
 An example AQL query may look like this:
 
-```
+{% highlight javascript %}
 FOR u IN users
     FILTER u.type == "newbie" && u.active == true
     RETURN u.name
-```
+{% endhighlight %}
 
 
 Data Queries
