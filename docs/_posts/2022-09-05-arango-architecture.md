@@ -12,6 +12,9 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+* TOC
+{:toc}
+
 Deployment Modes
 ----------------
 

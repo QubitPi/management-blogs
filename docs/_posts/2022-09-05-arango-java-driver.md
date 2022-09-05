@@ -12,6 +12,8 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+* TOC
+{:toc}
 
 Project Configuration
 ---------------------
