@@ -163,53 +163,67 @@ abstraction layers:
 > should it offers the ability to switch between syanc and async querying on the flight, should not depend on the
 > driver's interface but have its own abstraction layer
 
-For example, suppose we have a [named graph](named graph) "traversalGraph" with one edge collection (called "edges") and 
-one vertex collection (named "circles"), the following examples shows some AQL queries that can be run on this graph.
+For example, suppose we have a "java_driver_graph_test_db" database which has a [named graph](named graph) 
+"traversalGraph" with one edge collection (called "edges") and one vertex collection (named "circles")
 
 > The examples along with their setup above are taken from the valid tests from official Arango Java Driver, both
 > [sync](GraphTraversalsInAQLExampleTest Sync) and [asyn](GraphTraversalsInAQLExampleTest Async).
 
-### Example - Querying All Vertices
+To create a "**sync**" version of ArangoDB client:
+
+{% highlight java %}
+ArangoDB arangoDB = new ArangoDB.Builder()
+    .serializer(new ArangoJack())
+    .build();
+ArangoDatabase syncDb = arangoDB.db(DbName.of("java_driver_graph_test_db"))
+{% endhighlight %}
+
+To create an "**async**" version of the client:
+
+{% highlight java %}
+ArangoDB arangoDB = new ArangoDBAsync.Builder()
+    .serializer(new ArangoJack())
+    .build();
+ArangoDatabase asyncDb = arangoDB.db(DbName.of("java_driver_graph_test_db"))
+{% endhighlight %}
+
+The following example shows an how the query below can be issued against database:
 
 {% highlight javascript %}
-FOR v
+FOR vertex
     IN 1..3
     OUTBOUND
     'circles/A'
     GRAPH 'traversalGraph'
-    RETURN v._key
-{% endhighlight %}
-
-{% highlight javascript %}
-String queryString = "FOR v IN 1..3 OUTBOUND 'circles/A' GRAPH 'traversalGraph' RETURN v._key";
-        ArangoCursor<String> cursor = db.query(queryString, null, null, String.class);
-        Collection<String> result = cursor.asListRemaining();
-        assertThat(result).hasSize(10);
-
-        queryString = "WITH circles FOR v IN 1..3 OUTBOUND 'circles/A' edges RETURN v._key";
-        cursor = db.query(queryString, null, null, String.class);
-        result = cursor.asListRemaining();
-        assertThat(result).hasSize(10);
+    RETURN vertex._key
 {% endhighlight %}
 
 >  ⚠️ [**Always Check for DB Existence Before Executing Query**](https://github.com/arangodb/arangodb-java-driver/issues/254),
 > otherwise a runtime exception will break the application with the following error:
-> 
+>
 > ```
 > Cause:class com.arangodb.ArangoDBException --> Msg:Response: 404, Error: 1228 - database not found
 > com.arangodb.ArangoDBException: Response: 404, Error: 1228 - database not found
 > ```
-> 
+>
 > We should make sure the table exists before executing query using, for example:
-> 
+>
 > {% highlight java %}
 > ArangoDatabase db = ...
-> 
+>
 > if (!db.exists()) {
 >     // execute logic on non-existing databases
 > }
 > {% endhighlight %}
+> 
+> The examples below will assume the above and omit the check for the purpose of brevity
 
+{% highlight java %}
+String queryString = "FOR vertex IN 1..3 OUTBOUND 'circles/A' GRAPH 'traversalGraph' RETURN vertex._key";
+
+ArangoCursor<String> cursor = syncDb.query(queryString, null, null, String.class);
+ArangoCursorAsync<String> cursor = asyncDb.query(queryString, null, null, String.class).get();
+{% endhighlight %}
 
 
 [named graph]: https://qubitpi.github.io/jersey-guide/finalized/2022/09/03/arango-general-graphs.html#named-graphs
