@@ -50,6 +50,6 @@ In SQL you commonly have the construct of a **relation table** to store relation
   - breadth-first, depth-first, and weighted traversals
   - optionally with prune conditions
 
+### Named Graphs
 
-### General Graphs
-
+### Anonymous Graphs
