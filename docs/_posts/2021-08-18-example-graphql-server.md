@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Setting up a minimized GraphQL server
+title: Setting Up a Minimized GraphQL Server
 tags: [GraphQL]
 category: FINALIZED
-color: rgb(250, 154, 133)
+color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/35-cover.png"
 thumbnail: "assets/img/post-cover/35-cover.png"
 author: QubitPi
@@ -34,6 +34,7 @@ framework for Node.js. You will need to install two additional dependencies:
 "dependencies": {
     ...
     "express": "~4.16.1",
+    "graphql": "*",
     "express-graphql": "*",
     ...
 }

@@ -3,7 +3,7 @@ layout: post
 title: ArangoDB Architecture
 tags: [ArangoDB, Database, Knowledge Graph, Architecture]
 category: FINALIZED
-color: rgb(128, 165, 76)
+color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/11-cover.png"
 thumbnail: "assets/img/post-cover/11-cover.png"
 author: QubitPi

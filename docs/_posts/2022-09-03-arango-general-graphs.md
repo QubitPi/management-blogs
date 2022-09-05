@@ -3,7 +3,7 @@ layout: post
 title: ArangoDB Graphs
 tags: [ArangoDB, Database, Knowledge Graph, arangosh]
 category: FINALIZED
-color: rgb(128, 165, 76)
+color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/8-cover.png"
 thumbnail: "assets/img/post-cover/8-cover.png"
 author: QubitPi
