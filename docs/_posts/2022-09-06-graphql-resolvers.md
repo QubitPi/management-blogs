@@ -138,3 +138,12 @@ A resolver function receives four arguments:
    logged in user, or access to a database.
 4. **info** A value which holds field-specific information relevant to the current query as well as the schema details, 
    also refer to [type GraphQLResolveInfo for more details](https://graphql.org/graphql-js/type/#graphqlobjecttype).
+
+
+Producing the Result
+--------------------
+
+As each field is resolved, the resulting value is placed into a key-value map with the field name (or alias) as the key 
+and the resolved value as the value. This continues from the bottom leaf fields of the query all the way back up to the 
+original field on the root Query type. Collectively these produce a structure that mirrors the original query which can 
+then be sent (typically as JSON) to the client which requested it.
