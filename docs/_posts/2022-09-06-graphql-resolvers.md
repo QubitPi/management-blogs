@@ -57,7 +57,7 @@ In order to describe what happens when a query is executed, let's use an example
 <tr>
 <td>
 
-```graphql
+{% highlight graphql %}
 {
     human(id: 1002) {
         name
@@ -67,12 +67,12 @@ In order to describe what happens when a query is executed, let's use an example
         }
     }
 }
-```
+{% endhighlight %}
 
 </td>
 <td>
 
-```json
+{% highlight json %}
 {
     "data": {
         "human": {
@@ -93,7 +93,7 @@ In order to describe what happens when a query is executed, let's use an example
         }
     }
 }
-```
+{% endhighlight %}
 
 </td>
 </tr>
