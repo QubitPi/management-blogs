@@ -3,7 +3,7 @@ layout: post
 title: Setting Up a Minimized GraphQL Server
 tags: [GraphQL]
 category: FINALIZED
-color: rgb(224, 1, 152)
+color: rgb(255, 105, 132)
 feature-img: "assets/img/post-cover/35-cover.png"
 thumbnail: "assets/img/post-cover/35-cover.png"
 author: QubitPi
