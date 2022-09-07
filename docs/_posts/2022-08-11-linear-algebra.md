@@ -19,7 +19,22 @@ excerpt_separator: <!--more-->
 Vector Spaces
 -------------
 
-A **vector space** is denoted by $\mathbf{R^n}$
+A **vector space** is denoted by $\mathbf{R^n}$, which is a space that consists of all column vectors with
+$\mathit{n}$ components. 
+
+Within all vector spaces, we can add any two vectors, and we can multiply all vectors by scalars. A **real vector
+space** is a set of vectors together with rules for vector addition and multiplication by _real numbers_
+
+### Subspace
+
+A **subspace** of a vector space is a nonempty subset that satisfies the requirements for a vector space: **Linear 
+combinations stay in the subspace**
+
+1. If we add any vectors x and y in the subspace, x + y is in the subspace.
+2. If we multiply any vector x in the subspace by any scalar c, cx is in the subspace.
+
+A subspace is a subset that is "**closed**" under _addition_ and _scalar multiplication_. Those operations follow the
+rules of the host space, keeping us inside the subspace.
 
 
 Triangular Factors and Row Exchanges
