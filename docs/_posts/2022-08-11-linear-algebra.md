@@ -3,7 +3,7 @@ layout: post
 title: Artificial Neural Networks - Linear Algebra Basics
 tags: [Machine Learning, Artificial Neural Networks, ANN, Data Preprocessing]
 category: WIP
-color: rgb(0, 204, 0)
+color: rgb(8, 169, 109)
 feature-img: "assets/img/post-cover/18-cover.png"
 thumbnail: "assets/img/post-cover/18-cover.png"
 author: QubitPi
@@ -14,6 +14,12 @@ excerpt_separator: <!--more-->
 
 * TOC
 {:toc}
+
+
+Vector Spaces
+-------------
+
+A **vector space** is denoted by $\mathbf{R^n}$
 
 
 Triangular Factors and Row Exchanges
