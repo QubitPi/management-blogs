@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Managing Tech Assets - Is a Common Library a Good Idea? No
-tags: [OSS]
+tags: [Management]
 category: MANAGEMENT
 color: rgb(244, 130, 36)
 feature-img: "assets/img/post-cover/5-cover.png"
