@@ -2,7 +2,7 @@
 layout: post
 title: (WIP) Standardizing Backend Software Configuration
 tags: [Management]
-category: WIP
+category: MANAGEMENT
 color: rgb(255, 105, 132)
 feature-img: "assets/img/post-cover/17-cover.png"
 thumbnail: "assets/img/post-cover/17-cover.png"
