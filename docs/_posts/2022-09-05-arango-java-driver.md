@@ -553,8 +553,7 @@ collection.deleteDocument(key);
 Executing AQL Query
 -------------------
 
-[Arango Java driver offers ability to execute AQL programmatically][GraphTraversalsInAQLExampleTest] through 2 separate 
-abstraction layers:
+Arango Java driver offers ability to execute AQL programmatically through 2 separate abstraction layers:
 
 1. ArangoDatabase with **ArangoDatabase#query()**
 2. ArangoDatabaseAsync with **ArangoDatabaseAsync#query()**
