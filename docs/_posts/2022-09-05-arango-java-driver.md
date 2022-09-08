@@ -558,10 +558,10 @@ Arango Java driver offers ability to execute AQL programmatically through 2 sepa
 1. ArangoDatabase with **ArangoDatabase#query()**
 2. ArangoDatabaseAsync with **ArangoDatabaseAsync#query()**
 
-> Application design should take it into account that
-> [ArangoDatabase][ArangoDatabase] and [ArangoDatabaseAsync][ArangoDatabaseAsync] are makde two separate types.
-> Application, should it offers the ability to switch between syanc and async querying on the flight, should not depend
-> on the driver's interface but have its own abstraction layer
+> 📋 Application design should take it into account that [ArangoDatabase][ArangoDatabase] and
+> [ArangoDatabaseAsync][ArangoDatabaseAsync] are loaded as two _separate_ types. Application, should it offers the
+> ability to switch between syanc and async querying on the flight, shall not depend on the driver's interface but have 
+> its own abstraction layer
 
 For example, suppose we have a "java_driver_graph_test_db" database which has a [named graph](named graph) 
 "traversalGraph" with one edge collection (called "edges") and one vertex collection (named "circles")
