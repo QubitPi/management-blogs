@@ -162,7 +162,7 @@ value).
 Before an Observable terminates it must first issue either an OnCompleted or OnError notification to all of the
 observers that are subscribed to it.
 
-### Subscribing and Unsubscribing
+#### Subscribing and Unsubscribing
 
 An Observable may begin issuing notifications to an observer immediately after the Observable receives a Subscribe 
 notification from the observer.
@@ -174,7 +174,7 @@ observer after an observer issues it an Unsubscribe notification.
 When an Observable issues an OnError or OnComplete notification to its observers, this ends the subscription. Observers
 do not need to issue an Unsubscribe notification to end subscriptions that are ended by the Observable in this way.
 
-### Multiple Observers
+#### Multiple Observers
 
 If a second observer subscribes to an Observable that is already emitting items to a first observer, it is up to the 
 Observable whether it will thenceforth emit the same items to each observer, or whether it will replay the complete 
@@ -182,7 +182,7 @@ sequence of items from the beginning to the second observer, or whether it will 
 items to the second observer. There is no general guarantee that two observers of the same Observable will see the same 
 sequence of items.
 
-### Backpressure
+#### Backpressure
 
 Backpressure is optional; not all ReactiveX implementations include backpressure, and in those that do, not all 
 Observables or operators honor backpressure. An Observable may implement backpressure if it detects that its observer 
@@ -206,6 +206,38 @@ notifications arrived relative to when the Observable emitted items in response.
 
 If the Observable produces more items than the observer requests, it is up to the Observable whether it will discard the 
 excess items, store them to emit at a later time, or use some other strategy to deal with the overflow.
+
+### "Hot" and "Cold" Observables
+
+When does an Observable begin emitting its sequence of items? It depends on the Observable. A **"hot" Observable** may 
+begin emitting items as soon as it is created, and so any observer who later subscribes to that Observable may start 
+observing the sequence somewhere in the middle. A **"cold" Observable**, on the other hand, waits until an observer 
+subscribes to it before it begins to emit items, and so such an observer is guaranteed to see the whole sequence from
+the beginning.
+
+
+Subject
+-------
+
+A Subject is a sort of bridge or proxy that is available in some implementations of ReactiveX that acts both as an 
+observer and as an Observable. Because it is an observer, it can subscribe to one or more Observables, and because it is 
+an Observable, it can pass through the items it observes by reemitting them, and it can also emit new items.
+
+Because a Subject subscribes to an Observable, it will trigger that Observable to begin emitting items (if that
+Observable is ["cold"](#hot-and-cold-observables) - that is, if it waits for a subscription before it begins to emit 
+items). This can have the effect of making the resulting Subject a "hot" Observable variant of the original "cold" 
+Observable.
+
+### Varieties of Subject
+
+There are four varieties of Subject that are designed for particular use cases. Not all of these are available in all 
+implementations, and some implementations use other naming conventions
+
+#### AsyncSubject
+
+![Error loading reactivex-async-subject.png!]({{ "/assets/img/reactivex-async-subject.png" | relative_url}})
+
+
 
 
 [Observer.java]: https://github.com/ReactiveX/RxJava/blob/3.x/src/main/java/io/reactivex/rxjava3/core/Observer.java
