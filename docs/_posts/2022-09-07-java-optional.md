@@ -41,7 +41,7 @@ sound card. So what is the result of `getSoundcard()`?
 
 A common (bad) practice is to return the null reference to indicate the absence of a sound card. Unfortunately, this
 means the call to `getUSB()` will try to return the USB port of a null reference, which will result in a 
-_NullPointerException_ at runtime and stop your program from running further. Imagine if your program was running on a 
+`NullPointerException` at runtime and stop your program from running further. Imagine if your program was running on a 
 customer's machine; what would your customer say if the program suddenly failed?
 
 To give some historical context, Tony Hoare - one of the giants of computer science - wrote, "I call it my
@@ -101,8 +101,8 @@ String version = computer?.getSoundcard()?.getUSB()?.getVersion() ?: "UNKNOWN"
 Other functional languages, such as Haskell and Scala, take a different view. Haskell includes a **Maybe** type, which 
 essentially encapsulates an optional value. A value of type Maybe can contain either a value of a given type or nothing. 
 There is no concept of a null reference. Scala has a similar construct called **Option\[T\]** to encapsulate the
-presence or absence of a value of type _T_. You then have to explicitly check whether a value is present or not using 
-operations available on the _Option_ type, which enforces the idea of "null checking." **You can no longer "forget to do
+presence or absence of a value of type `T`. You then have to explicitly check whether a value is present or not using 
+operations available on the `Option` type, which enforces the idea of "null checking." **You can no longer "forget to do
 it" because it is enforced by the type system**.
 
 
@@ -110,7 +110,7 @@ Java 8 _Optional_ in a Nutshell
 -------------------------------
 
 Java SE 8 introduces a new class called **java.util.Optional<T>** that is inspired from the ideas of Haskell and Scala.
-It is a class that encapsulates an optional value, as illustrated in figure below. You can view _Optional_ as a 
+It is a class that encapsulates an optional value, as illustrated in figure below. You can view `Optional` as a 
 single-value container that either contains a value or doesn't (it is then said to be "empty"):
 
 ![Error loading java-optional-eg.png]({{ "/assets/img/java-optional-eg.png" | relative_url}})
@@ -138,14 +138,14 @@ The code above immediately shows that a computer might or might not have a sound
 addition, a sound card can optionally have a USB port. This is an improvement, because this new model can now reflect 
 clearly whether a given value is allowed to be missing. 
 
-But what can you actually do with an _Optional<Soundcard>_ object? After all, you want to get to the USB port's version 
-number. In a nutshell, the _Optional_ class includes methods to explicitly deal with the cases where a value is present
-or absent. However, the advantage compared to null references is that the _Optional_ class forces us to think about the 
+But what can you actually do with an `Optional<Soundcard>` object? After all, you want to get to the USB port's version 
+number. In a nutshell, the `Optional` class includes methods to explicitly deal with the cases where a value is present
+or absent. However, the advantage compared to null references is that the `Optional` class forces us to think about the 
 case when the value is not present. As a consequence, we can prevent unintended null pointer exceptions.
 
-It is important to note that the intention of the _Optional_ class is not to replace every single null reference.
+It is important to note that the intention of the `Optional` class is not to replace every single null reference.
 Instead, its purpose is to help design more-comprehensible APIs so that by just reading the signature of a method, you
-can tell whether you can expect an optional value. This forces you to actively unwrap an _Optional_ to deal with the 
+can tell whether you can expect an optional value. This forces you to actively unwrap an `Optional` to deal with the 
 absence of a value.
 
 
@@ -171,7 +171,7 @@ Here is an empty Optional:
 Optional<Soundcard> sc = Optional.empty();
 ```
 
-And here is an _Optional_ with a non-null value:
+And here is an `Optional` with a non-null value:
 
 ```java
 Optional<Soundcard> sc = Optional.of(new Soundcard());
@@ -186,7 +186,7 @@ By using **ofNullable**, however, you can create an Optional object that may hol
 Optional<Soundcard> sc = Optional.ofNullable(soundcard);
 ```
 
-If soundcard were null, the resulting _Optional_ object would be empty.
+If soundcard were null, the resulting `Optional` object would be empty.
 
 ### Do Something If a Value Is Present
 
@@ -250,7 +250,7 @@ Soundcard soundcard = maybeSoundCard.orElseThrow(IllegalStateException::new);
 
 Often you need to call a method on an object and check some property. For example, you might need to check whether the
 USB port is a particular version. To do this in a safe way, you first need to check whether the reference pointing to a 
-USB object is null and then call the _getVersion()_ method, as follows:
+USB object is null and then call the `getVersion()` method, as follows:
 
 ```java
 USB usb = ...;
@@ -266,12 +266,12 @@ Optional<USB> maybeUSB = ...;
 maybeUSB.filter(usb -> "3.0".equals(usb.getVersion()).ifPresent(() -> System.out.println("ok"));
 ```
 
-The _filter_ method takes a predicate as an argument. If a value is present in the _Optional_ object and it matches the 
-predicate, the filter method returns that value; otherwise, it returns an empty _Optional_ object.
+The `filter` method takes a predicate as an argument. If a value is present in the `Optional` object and it matches the 
+predicate, the filter method returns that value; otherwise, it returns an empty `Optional` object.
 
 ### Extracting and Transforming Values Using the map Method
 
-Another common pattern is to extract information from an object. For example, from a _Soundcard_ object, you might want
+Another common pattern is to extract information from an object. For example, from a `Soundcard` object, you might want
 to extract the USB object and then further check whether it is of the correct version. You would typically write the 
 following code:
 
@@ -284,18 +284,18 @@ if(soundcard != null){
 }
 ```
 
-We can rewrite this pattern of "checking for null and extracting" (here, the _Soundcard_ object) using the map method.
+We can rewrite this pattern of "checking for null and extracting" (here, the `Soundcard` object) using the map method.
 
 ```java
 Optional<USB> usb = maybeSoundcard.map(Soundcard::getUSB);
 ```
 
-There's a direct parallel to the _map_ method used with streams. There, you pass a function to the _map_ method, which 
-applies this function to each element of a stream. However, nothing happens if the stream is empty. The _map_ method of 
-the _Optional_ class does exactly the same: the value contained inside _Optional_ is "transformed" by the function
-passed as an argument (here, a method reference to extract the USB port), while nothing happens if _Optional_ is empty.
+There's a direct parallel to the `map` method used with streams. There, you pass a function to the `map` method, which 
+applies this function to each element of a stream. However, nothing happens if the stream is empty. The `map` method of 
+the `Optional` class does exactly the same: the value contained inside `Optional` is "transformed" by the function
+passed as an argument (here, a method reference to extract the USB port), while nothing happens if `Optional` is empty.
 
-Finally, we can combine the _map_ method with the _filter_ method to reject a USB port whose version is different than
+Finally, we can combine the `map` method with the `filter` method to reject a USB port whose version is different than
 3.0:
 
 ```java
@@ -313,8 +313,8 @@ String version = computer.getSoundcard().getUSB().getVersion();
 ```
 
 Notice that all this code does is extract one object from another one, which is exactly what the map method is for. 
-Earlier in the article, we changed our model so a Computer has an _Optional<Soundcard>_ and a Soundcard has an 
-_Optional<USB>_, so we should be able to write the following:
+Earlier in the article, we changed our model so a Computer has an `Optional<Soundcard>` and a Soundcard has an 
+`Optional<USB>`, so we should be able to write the following:
 
 ```java
 String version = computer.map(Computer::getSoundcard)
@@ -323,19 +323,19 @@ String version = computer.map(Computer::getSoundcard)
         .orElse("UNKNOWN");
 ```
 
-Unfortunately, this code doesn't compile. Why? The variable computer is of type **Optional<Computer>**, so it is perfectly correct to call the _map_ method. However, _getSoundcard()_ returns an object of type _Optional<Soundcard>_. This means the result of the _map_ operation is an object of type _Optional<Optional<Soundcard>>_. As a result, the call to _getUSB()_ is invalid because the outermost Optional contains as its value another Optional, which of course doesn't support the _getUSB()_ method
+Unfortunately, this code doesn't compile. Why? The variable computer is of type **Optional<Computer>**, so it is perfectly correct to call the `map` method. However, `getSoundcard()` returns an object of type `Optional<Soundcard>`. This means the result of the `map` operation is an object of type `Optional<Optional<Soundcard>>`. As a result, the call to `getUSB()` is invalid because the outermost Optional contains as its value another Optional, which of course doesn't support the `getUSB()` method
 
 So how can we solve this problem? Again, we can look at a pattern you might have used previously with streams: the 
-**flatMap** method. With streams, the _flatMap_ method takes a function as an argument, which returns another stream.
-This function is applied to each element of a stream, which would result in a stream of streams. However, _flatMap_ has 
+**flatMap** method. With streams, the `flatMap` method takes a function as an argument, which returns another stream.
+This function is applied to each element of a stream, which would result in a stream of streams. However, `flatMap` has 
 the effect of replacing each generated stream by the contents of that stream. In other words, all the separate streams 
 that are generated by the function get amalgamated or "flattened" into one single stream. What we want here is something 
 similar, but we want to "flatten" a two-level Optional into one.
 
-Well, here's good news: _Optional_ also supports a _flatMap_ method. Its purpose is to apply the transformation function 
-on the value of an _Optional_ and then flatten the resulting two-level Optional into a single one.
+Well, here's good news: `Optional` also supports a `flatMap` method. Its purpose is to apply the transformation function 
+on the value of an `Optional` and then flatten the resulting two-level Optional into a single one.
 
-So, to make our code correct, we need to rewrite it as follows using _flatMap_:
+So, to make our code correct, we need to rewrite it as follows using `flatMap`:
 
 ```java
 String version = computer.flatMap(Computer::getSoundcard)
@@ -344,6 +344,6 @@ String version = computer.flatMap(Computer::getSoundcard)
         .orElse("UNKNOWN");
 ```
 
-The first flatMap ensures that an _Optional<Soundcard>_ is returned instead of an _Optional<Optional<Soundcard>>_, and
-the second flatMap achieves the same purpose to return an _Optional<USB>_. Note that the third call just needs to be a 
-map() because getVersion() returns a String rather than an _Optional_ object.
+The first flatMap ensures that an `Optional<Soundcard>` is returned instead of an `Optional<Optional<Soundcard>>`, and
+the second flatMap achieves the same purpose to return an `Optional<USB>`. Note that the third call just needs to be a 
+map() because getVersion() returns a String rather than an `Optional` object.

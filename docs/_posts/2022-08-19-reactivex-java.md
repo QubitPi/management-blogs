@@ -3,7 +3,7 @@ layout: post
 title: Introduction to ReactiveX Java - RxJava
 tags: [Java, Observer, ReactiveX, Functional Programming, Async, RxJava]
 category: FINALIZED
-color: rgb(250, 154, 133)
+color: rgb(216, 26, 96)
 feature-img: "assets/img/post-cover/35-cover.png"
 thumbnail: "assets/img/post-cover/35-cover.png"
 author: QubitPi
@@ -216,6 +216,23 @@ subscribes to it before it begins to emit items, and so such an observer is guar
 the beginning.
 
 
+Operators
+---------
+
+### Creating Observables
+
+#### Create - Create an Observable from Scratch by Means of a Function
+
+You can create an Observable from scratch by using the **Create operator**. You pass this operator a function that
+accepts the observer as its parameter. Write this function so that it behaves as an Observable - by calling the
+observer's `onNext`, `onError`, and `onCompleted` methods appropriately.
+
+![Error loading reactivex-operator-create.png!]({{ "/assets/img/reactivex-operator-create.png" | relative_url}})
+
+A _well-formed finite_ Observable must attempt to call either the observer's `onCompleted` method exactly once or its 
+`onError` method exactly once, and must not thereafter attempt to call any of the observer’s other methods.
+
+
 Subject
 -------
 
@@ -231,13 +248,73 @@ Observable.
 ### Varieties of Subject
 
 There are four varieties of Subject that are designed for particular use cases. Not all of these are available in all 
-implementations, and some implementations use other naming conventions
+implementations, and some implementations use other naming conventions. The RxJava, however, supports all of the
+following subject types
 
 #### AsyncSubject
 
+An **[AsyncSubject](AsyncSubject.java)** emits _the last_ value (and only the last value) emitted by the source 
+Observable, and only after that source Observable completes. (If the source Observable does not emit any values, the 
+AsyncSubject also completes without emitting any values.)
+
 ![Error loading reactivex-async-subject.png!]({{ "/assets/img/reactivex-async-subject.png" | relative_url}})
 
+It will also emit this same final value to any subsequent observers. However, if the source Observable terminates with
+an error, the AsyncSubject will not emit any items, but will simply pass along the error notification from the source 
+Observable.
 
+![Error loading reactivex-async-subject-error.png!]({{ "/assets/img/reactivex-async-subject-error.png" | relative_url}})
+
+#### BehaviorSubject
+
+When an observer subscribes to a **[BehaviorSubject](BehaviorSubject.java)**, it begins by emitting the item _most
+recently_ emitted by the source Observable (or a seed/default value if none has yet been emitted) and then continues to 
+emit any other items emitted later by the source Observable(s).
+
+![Error loading reactivex-behavior-subject.png!]({{ "/assets/img/reactivex-behavior-subject.png" | relative_url}})
+
+However, if the source Observable terminates with an error, the BehaviorSubject will not emit any items to subsequent 
+observers, but will simply pass along the error notification from the source Observable.
+
+![Error loading reactivex-behavior-subject-error.png!]({{ "/assets/img/reactivex-behavior-subject-error.png" | relative_url}})
+
+#### PublishSubject
+
+[PublishSubject](PublishSubject.java) emits to an observer only those items that are emitted by the source Observable(s) 
+_subsequent to the time of the subscription_.
+
+![Error reactivex-publish-subject.png!]({{ "/assets/img/reactivex-publish-subject.png" | relative_url}})
+
+Note that a PublishSubject may begin emitting items immediately upon creation (unless you have taken steps to prevent 
+this), and so there is a risk that one or more items may be lost between the time the Subject is created and the
+observer subscribes to it. If you need to guarantee delivery of all items from the source Observable, you'll need either 
+to form that Observable with [Create](#create---create-an-observable-from-scratch-by-means-of-a-function) so that you can 
+manually reintroduce "cold" Observable behavior (checking to see that all observers have subscribed before beginning to 
+emit items), or switch to using a [ReplaySubject](#replaysubject) instead.
+
+If the source Observable terminates with an error, the PublishSubject will not emit any items to subsequent observers,
+but will simply pass along the error notification from the source Observable.
+
+![Error reactivex-publish-subject-error.png!]({{ "/assets/img/reactivex-publish-subject-error.png" | relative_url}})
+
+#### ReplaySubject
+
+[ReplaySubject](ReplaySubject.java) emits to any observer all of the items that were emitted by the source
+Observable(s), regardless of when the observer subscribes.
+
+![Error reactivex-relay-subject.png!]({{ "/assets/img/reactivex-relay-subject.png" | relative_url}})
+
+There are also versions of ReplaySubject that will throw away old items once the replay buffer threatens to grow beyond
+a certain size, or when a specified timespan has passed since the items were originally emitted.
+
+If you use a ReplaySubject as an observer, take care not to call its `onNext` method (or its other on methods) from 
+multiple threads, as this could lead to coincident (non-sequential) calls, which violates
+[the Observable contract](#the-observable-contract) and creates an ambiguity in the resulting Subject as to which item
+or notification should be replayed first.
 
 
 [Observer.java]: https://github.com/ReactiveX/RxJava/blob/3.x/src/main/java/io/reactivex/rxjava3/core/Observer.java
+[AsyncSubject.java]: https://github.com/ReactiveX/RxJava/blob/3.x/src/main/java/io/reactivex/rxjava3/subjects/AsyncSubject.java
+[BehaviorSubject.java]: https://github.com/ReactiveX/RxJava/blob/3.x/src/main/java/io/reactivex/rxjava3/subjects/BehaviorSubject.java
+[PublishSubject.java]: https://github.com/ReactiveX/RxJava/blob/3.x/src/main/java/io/reactivex/rxjava3/subjects/PublishSubject.java
+[ReplaySubject.java]: https://github.com/ReactiveX/RxJava/blob/3.x/src/main/java/io/reactivex/rxjava3/subjects/ReplaySubject.java
