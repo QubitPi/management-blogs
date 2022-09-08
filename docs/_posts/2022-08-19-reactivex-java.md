@@ -72,7 +72,7 @@ In the asynchronous model the flow goes more like this:
    the _observer_.
 2. Define an asynchronous call, i.e. an _Observable_.
 3. Attach the observer to that Observable by _subscribing_ it (this also initiates the actions of the Observable).
-4. Go on with your business; whenever the call returns, the observer’s method will begin to operate on its return value
+4. Go on with your business; whenever the call returns, the observer's method will begin to operate on its return value
    or values - the _items_ emitted by the Observable.
 
 The basic operator `just` produces an Observable that emits a single generic instance before completing, the String 
@@ -215,13 +215,21 @@ observing the sequence somewhere in the middle. A **"cold" Observable**, on the 
 subscribes to it before it begins to emit items, and so such an observer is guaranteed to see the whole sequence from
 the beginning.
 
+#### "Connectable" Observable
+
+In some implementations of ReactiveX, such as RxJava, there is also something called a
+[Connectable Observable][ConnectableObservable.java]. Such an Observable does not begin emitting items until its 
+[Connect](#connect) method is called, whether or not any observers have subscribed to it.
+
 
 Operators
 ---------
 
 ### Creating Observables
 
-#### Create - Create an Observable from Scratch by Means of a Function
+* [**Create**](#create) Create an Observable from scratch by means of a function
+
+#### Create
 
 You can create an Observable from scratch by using the **Create operator**. You pass this operator a function that
 accepts the observer as its parameter. Write this function so that it behaves as an Observable - by calling the
@@ -230,7 +238,21 @@ observer's `onNext`, `onError`, and `onCompleted` methods appropriately.
 ![Error loading reactivex-operator-create.png!]({{ "/assets/img/reactivex-operator-create.png" | relative_url}})
 
 A _well-formed finite_ Observable must attempt to call either the observer's `onCompleted` method exactly once or its 
-`onError` method exactly once, and must not thereafter attempt to call any of the observer’s other methods.
+`onError` method exactly once, and must not thereafter attempt to call any of the observer's other methods.
+
+### Connectable Observable Operators
+
+Specialty Observables that have more precisely-controlled subscription dynamics
+
+* [**Connect**](#connect) Instruct a connectable Observable to begin emitting items to its subscribers
+
+#### Connect
+
+A [connectable Observable][ConnectableObservable.java] resembles an ordinary Observable, except that it does not begin 
+emitting items when it is subscribed to, but only when the Connect operator is applied to it. In this way you can wait
+for all intended observers to subscribe to the Observable before the Observable begins emitting items.
+
+![Error loading reactivex-operator-connect.png!]({{ "/assets/img/reactivex-operator-connect.png" | relative_url}})
 
 
 Subject
@@ -253,7 +275,7 @@ following subject types
 
 #### AsyncSubject
 
-An **[AsyncSubject](AsyncSubject.java)** emits _the last_ value (and only the last value) emitted by the source 
+An **[AsyncSubject][AsyncSubject.java]** emits _the last_ value (and only the last value) emitted by the source 
 Observable, and only after that source Observable completes. (If the source Observable does not emit any values, the 
 AsyncSubject also completes without emitting any values.)
 
@@ -267,7 +289,7 @@ Observable.
 
 #### BehaviorSubject
 
-When an observer subscribes to a **[BehaviorSubject](BehaviorSubject.java)**, it begins by emitting the item _most
+When an observer subscribes to a **[BehaviorSubject][BehaviorSubject.java]**, it begins by emitting the item _most
 recently_ emitted by the source Observable (or a seed/default value if none has yet been emitted) and then continues to 
 emit any other items emitted later by the source Observable(s).
 
@@ -280,7 +302,7 @@ observers, but will simply pass along the error notification from the source Obs
 
 #### PublishSubject
 
-[PublishSubject](PublishSubject.java) emits to an observer only those items that are emitted by the source Observable(s) 
+[PublishSubject][PublishSubject.java] emits to an observer only those items that are emitted by the source Observable(s) 
 _subsequent to the time of the subscription_.
 
 ![Error reactivex-publish-subject.png!]({{ "/assets/img/reactivex-publish-subject.png" | relative_url}})
@@ -288,9 +310,9 @@ _subsequent to the time of the subscription_.
 Note that a PublishSubject may begin emitting items immediately upon creation (unless you have taken steps to prevent 
 this), and so there is a risk that one or more items may be lost between the time the Subject is created and the
 observer subscribes to it. If you need to guarantee delivery of all items from the source Observable, you'll need either 
-to form that Observable with [Create](#create---create-an-observable-from-scratch-by-means-of-a-function) so that you can 
-manually reintroduce "cold" Observable behavior (checking to see that all observers have subscribed before beginning to 
-emit items), or switch to using a [ReplaySubject](#replaysubject) instead.
+to form that Observable with [Create](#create) so that you can manually reintroduce "cold" Observable behavior (checking 
+to see that all observers have subscribed before beginning to emit items), or switch to using a
+[ReplaySubject](#replaysubject) instead.
 
 If the source Observable terminates with an error, the PublishSubject will not emit any items to subsequent observers,
 but will simply pass along the error notification from the source Observable.
@@ -299,7 +321,7 @@ but will simply pass along the error notification from the source Observable.
 
 #### ReplaySubject
 
-[ReplaySubject](ReplaySubject.java) emits to any observer all of the items that were emitted by the source
+[ReplaySubject][ReplaySubject.java] emits to any observer all of the items that were emitted by the source
 Observable(s), regardless of when the observer subscribes.
 
 ![Error reactivex-relay-subject.png!]({{ "/assets/img/reactivex-relay-subject.png" | relative_url}})
@@ -314,6 +336,7 @@ or notification should be replayed first.
 
 
 [Observer.java]: https://github.com/ReactiveX/RxJava/blob/3.x/src/main/java/io/reactivex/rxjava3/core/Observer.java
+[ConnectableObservable.java]: https://github.com/ReactiveX/RxJava/blob/3.x/src/main/java/io/reactivex/rxjava3/observables/ConnectableObservable.java
 [AsyncSubject.java]: https://github.com/ReactiveX/RxJava/blob/3.x/src/main/java/io/reactivex/rxjava3/subjects/AsyncSubject.java
 [BehaviorSubject.java]: https://github.com/ReactiveX/RxJava/blob/3.x/src/main/java/io/reactivex/rxjava3/subjects/BehaviorSubject.java
 [PublishSubject.java]: https://github.com/ReactiveX/RxJava/blob/3.x/src/main/java/io/reactivex/rxjava3/subjects/PublishSubject.java
