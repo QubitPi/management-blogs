@@ -52,10 +52,11 @@ exclude: [".jekyll-cache", ".idea", "vendor/*", "assets/node_modules"]
 remote_theme: sylhare/Type-on-Strap                     # If using as a remote_theme in github
 
 # Atom feed config
-# Two separate feeds will be generated:
+# Three separate feeds will be generated:
 #
 # 1. https://qubitpi.github.io/jersey-guide/feed/WIP.xml
 # 2. https://qubitpi.github.io/jersey-guide/feed/FINALIZED.xml
+# 3. https://qubitpi.github.io/jersey-guide/feed/MANAGEMENT.xml
 #
 # Each blog post has a "category" metadata that decides which feed that post goes into
 # See https://github.com/jekyll/jekyll-feed for more details
