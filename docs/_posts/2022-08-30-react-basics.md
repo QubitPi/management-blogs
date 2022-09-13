@@ -1,6 +1,6 @@
 ---
 layout: post
-title: React Basics
+title: React - The GraphQL Frontend
 tags: [React, JavaScript]
 category: FINALIZED
 color: rgb(4, 170, 109)
@@ -12,16 +12,30 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+[React](https://reactjs.org/), sometimes referred to as a frontend JavaScript framework, is a JavaScript library created 
+by Facebook. React is a tool for building UI components.
+
+[Relay](#relay-baics) is a JavaScript framework for fetching and managing GraphQL data in React applications that 
+emphasizes maintainability, type safety and runtime performance. Relay achieves this by combining declarative data 
+fetching and a static build step. With declarative data fetching, components declare what data they need, and Relay 
+figures out how to efficiently fetch it. During the static build step, Relay validates and optimizes queries, and 
+pre-computes artifacts to achieve faster runtime performance.
+
 * TOC
 {:toc}
 
 
-React Render HTML
------------------
+React Basics
+------------
+
+Instead of manipulating the browser's DOM directly, React creates a virtual DOM in memory, where it does all the
+necessary manipulating, before making the changes in the browser DOM.
+
+### React Render HTML
 
 React's goal is in many ways to render HTML in a web page by using a function called **ReactDOM.render()**.
 
-### The Render Function
+#### The Render Function
 
 The `ReactDOM.render()` function takes two arguments
 
@@ -37,9 +51,7 @@ There is another folder in the root directory of your React project, named "publ
 
 You'll notice a single `<div>` in the body of this file. This is where our React application will be rendered.
 
-
-React Components
-----------------
+### React Components
 
 > **React is all about re-using code, which is why component is a very crucial concept in this context**
 
@@ -49,7 +61,7 @@ in isolation and return HTML.
 Components come in two types, Class components and Function components. Class components are rarely used today. We will,
 therefore, focus on the other throughout this post.
 
-### Create a Component
+#### Create a Component
 
 A component's name MUST start with an upper case letter. A Function component also returns HTML. For example, let's
 create a Function component called "Car"
@@ -60,7 +72,7 @@ function Car() {
 }
 {% endhighlight %}
 
-### Rendering a Component
+#### Rendering a Component
 
 Now our React application has a component called `Car`, which returns an `<h2>` element. To use this component
 application, use similar syntax as normal HTML: `<Car />`
@@ -70,7 +82,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Car />);
 {% endhighlight %}
 
-### Importing a Component
+#### Importing a Component
 
 React is all about re-using code, and it is recommended to split your components into separate files. To do that, create
 a new file named `Car.js` and put the code inside it:
@@ -96,7 +108,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Car />);
 {% endhighlight %}
 
-### Props
+#### Props
 
 Props ("properties") are arguments passed into React components via HTML attributes.
 
@@ -115,7 +127,7 @@ function Car(props) {
 }
 {% endhighlight %}
 
-#### Passing Data
+##### Passing Data
 
 Props are also how you pass data from one component to another, as parameters.
 
@@ -182,14 +194,12 @@ root.render(<Garage />);
 
 > ⚠️ React Props are read-only! You will get an error if you try to change their value.
 
-
-React Events
-------------
+### React Events
 
 Just like HTML DOM events, React can perform actions based on user events. React has the same events as HTML: click, 
 change, mouseover etc.
 
-### Adding Events
+#### Adding Events
 
 React events are written in camelCase syntax:
 
@@ -222,7 +232,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Football />);
 {% endhighlight %}
 
-### Passing Arguments
+#### Passing Arguments
 
 To pass an argument to an event handler, use an arrow function. For instance, to send "Goal!" as a parameter to the
 `shoot` function
@@ -242,7 +252,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Football />);
 {% endhighlight %}
 
-### React Event Object
+#### React Event Object
 
 Event handlers have access to the React event that triggered the function. In our example the event is the "click"
 event.
@@ -266,13 +276,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Football />);
 {% endhighlight %}
 
-
-Conditional Rendering
----------------------
+### Conditional Rendering
 
 In React, you can conditionally render components. There are several ways to do this.
 
-### "if" Statement
+#### "if" Statement
 
 We can use the `if` JavaScript operator to decide which component to render. As an example, we'll use these two
 components:
@@ -302,7 +310,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Goal isGoal={false} />);
 {% endhighlight %}
 
-### Logical "&&" Operator
+#### Logical "&&" Operator
 
 Another way to conditionally render a React component is by using the `&&` operator. We can embed JavaScript expressions 
 in JSX by using curly braces:
@@ -329,7 +337,7 @@ root.render(<Garage cars={cars} />);
 
 If `cars.length` is equates to true, the expression after `&&` will render.
 
-### Ternary Operator
+#### Ternary Operator
 
 Another way to conditionally render elements is by using a ternary operator.
 
@@ -339,7 +347,7 @@ condition ? true : false
 FAQ
 ---
 
-### What is "package-lock.json"?
+#### What is "package-lock.json"?
 
 In version 5, npm introduced the package-lock.json file.
 
@@ -375,11 +383,9 @@ project is public or you have collaborators, or if you use Git as a source for d
 
 The dependencies versions will be updated in the package-lock.json file when you run `npm update`.
 
+### Troubleshooting
 
-Troubleshooting
----------------
-
-### Change Node Version
+#### Change Node Version
 
 > ⚠️ Warning: This answer does not support Windows OS
 
@@ -402,15 +408,15 @@ The available node versions can be found on Node's [release page](https://nodejs
 
 For windows [nvm](https://github.com/coreybutler/nvm-windows) is a well-received tool.
 
-### "npm install" Error
+#### "npm install" Error
 
-#### GitHub Operation Times Out
+##### GitHub Operation Times Out
 
     git config --global url."https://".insteadOf git://
 
 This will change all of your urls so that they all start with "https://" which shall be working for you.
 
-#### node-sass Version Issue
+##### node-sass Version Issue
 
 Running `npm install` gives
 
@@ -428,3 +434,11 @@ machine**. The [node-sass community](https://github.com/sass/node-sass) needs ti
 fair, as it's a volunteer-driven project).
 
 Case-by-case soulutions would be either upgrading sass versions or [downgrading Node](#change-node-version)
+
+
+Relay Baics
+-----------
+
+Relay is a framework for managing and declaratively fetching GraphQL data. It allows developers to declare what data
+each component needs via GraphQL, and then aggregate these dependencies and efficiently fetch the data in fewer round 
+trips. In this section we'll introduce the key concepts for using Relay in a React app one at a time.
