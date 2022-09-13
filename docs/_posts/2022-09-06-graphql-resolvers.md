@@ -48,7 +48,6 @@ type Starship {
 
 In order to describe what happens when a query is executed, let's use an example to walk through.
 
-
 <table>
 <tr>
 <th>Query</th>
