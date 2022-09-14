@@ -176,6 +176,55 @@ function myVehicle({ model, registration: { state } }) {
 }
 {% endhighlight %}
 
+#### Spread Operator
+
+The JavaScript **spread operator** (`...`) allows us to quickly copy all or part of an existing array or object into 
+another array or object.
+
+{% highlight react %}
+const numbersOne = [1, 2, 3];
+const numbersTwo = [4, 5, 6];
+const numbersCombined = [...numbersOne, ...numbersTwo]; // numbersCombined = [1,2,3,4,5,6]
+{% endhighlight %}
+
+The spread operator is often used in combination with destructuring.
+
+{% highlight react %}
+const numbers = [1, 2, 3, 4, 5, 6];
+
+const [one, two, ...rest] = numbers; // one = 1; two = 2; rest = [3, 4, 5, 6]
+{% endhighlight %}
+
+We can use the spread operator with objects too:
+
+{% highlight react %}
+const myVehicle = {
+    brand: 'Ford',
+    model: 'Mustang',
+    color: 'red'
+}
+
+const updateMyVehicle = {
+    type: 'car',
+    year: 2021,
+    color: 'yellow'
+}
+
+const myUpdatedVehicle = {...myVehicle, ...updateMyVehicle}
+{% endhighlight %}
+
+The resulting `myUpdatedVehicle` contains
+
+```json
+{
+    "brand": "Ford",
+    "model": "Mustang",
+    "color": "yellow",
+    "type": "car",
+    "year": 2021
+}
+```
+
 #### Modules
 
 JaveScript modules allow us to break up code into separate files. This makes it easier to maitain the code-base.
@@ -511,8 +560,8 @@ function FavoriteColor() {
     
     return (
         <>
-        <h1>My favorite color is {color}!</h1>
-        <button type="button" onClick={() => setColor("blue")}>Blue</button>
+            <h1>My favorite color is {color}!</h1>
+            <button type="button" onClick={() => setColor("blue")}>Blue</button>
         </>
     )
 }
@@ -587,7 +636,7 @@ It should be noted that when state is updated, the entire state gets overwritten
 part of the states? For example, if we only want to update the car color and only called `setCar({color: "blue"})`,
 this would remove the brand, model, and year from our state.
 
-Instead, we can use the JavaScript spread operator to help us.
+Instead, we can use the JavaScript [spread operator](#spread-operator) to help us.
 
 {% highlight react %}
 import { useState } from "react";
@@ -813,17 +862,208 @@ root.render(<App />);
 
 #### useReducer Hook
 
-The **useReducer** Hook is similar to the [useState Hook](#usestate-hook) and it allows for custom state logic. If you
-find yourself keeping track of multiple pieces of state that rely on complex logic, `useReducer` might come in handy.
+The **useReducer** Hook is an alternative to [useState](#usestate-hook) and allows for custom state logic. It is usually 
+preferable to [useState](#usestate-hook) when you have complex state logic that involves multiple sub-values or when the 
+next state depends on the previous one. `useReducer` also lets you optimize performance for components that trigger deep 
+updates because you can _pass dispatch down instead of callbacks_.
 
-##### Syntax
+The hook signature is `const [state, dispatch] = useReducer(reducer, initialArg, init);`.
 
-The hook signature is `useReducer(<reducer>, <initialState>)`.
+It accepts a reducer of type `(state, action) => newState`, and returns the current state paired with a **dispatch
+method**.
 
-The **reducer function** contains the custom state update logic and the `initialState` can be a simple value but
-generally will contain an object
+> **How to avoid passing callbacks down?**
+> 
+> It has been found that most people don't enjoy manually passing callbacks through every level of a component tree.
+> Even though it is more explicit, it can feel like a lot of "plumbing".
+> 
+> In large component trees, an alternative we recommend is to pass down a dispatch function from `useReducer` via
+> context:
+> 
+> ```javascript
+> const TodosDispatch = React.createContext(null);
+> 
+> function TodosApp() {
+>     // Note: `dispatch` won't change between re-renders
+>     const [todos, dispatch] = useReducer(todosReducer);
+> 
+>     return (
+>         <TodosDispatch.Provider value={dispatch}>
+>             <DeepTree todos={todos} />
+>         </TodosDispatch.Provider>
+>     );
+> }
+> ```
+> 
+> Any child in the tree inside `TodosApp` can use the dispatch function to pass actions up to `TodosApp`:
+>
+> ```javadcript
+> function DeepChild(props) {
+>     // If we want to perform an action, we can get dispatch from context.
+>     const dispatch = useContext(TodosDispatch);
+>     
+>     function handleClick() {
+>         dispatch({ type: 'add', text: 'hello' });
+>     }
+>     
+>     return (
+>         <button onClick={handleClick}>Add todo</button>
+>     );
+> }
+> ```
 
-The hook returns the current state and a dispatch method
+Here is a "counter" example using reducer:
+
+{% highlight react %}
+const initialState = {count: 0};
+
+function reducer(state, action) {
+    switch (action.type) {
+        case 'increment':
+            return {count: state.count + 1};
+        case 'decrement':
+            return {count: state.count - 1};
+        default:
+            throw new Error();
+    }
+}
+
+function Counter() {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    return (
+        <>
+            Count: {state.count}
+            <button onClick={() => dispatch({type: 'decrement'})}>-</button>
+            <button onClick={() => dispatch({type: 'increment'})}>+</button>
+        </>
+    );
+}
+{% endhighlight %}
+
+##### Lazy Initialization
+
+You can also create the initial state lazily. To do this, you can pass an **init function** as the third argument. The 
+initial state will be set to `init(initialArg)`.
+
+It lets you extract the logic for calculating the initial state outside the reducer. This is also handy for resetting
+the state later in response to an action:
+
+{% highlight react %}
+function init(initialCount) {
+    return {count: initialCount};
+}
+
+function reducer(state, action) {
+    switch (action.type) {
+        case 'increment':
+            return {count: state.count + 1};
+        case 'decrement':
+            return {count: state.count - 1};
+        case 'reset':
+            return init(action.payload);
+        default:
+            throw new Error();
+    }
+}
+
+function Counter({initialCount}) {
+    const [state, dispatch] = useReducer(reducer, initialCount, init);
+
+    return (
+        <>
+        Count: {state.count}
+
+        <button onClick={() => dispatch({type: 'reset', payload: initialCount})}>Reset</button>
+
+        <button onClick={() => dispatch({type: 'decrement'})}>-</button>
+        <button onClick={() => dispatch({type: 'increment'})}>+</button>
+        </>
+    );
+}
+{% endhighlight %}
+
+##### Bailing Out of A Dispatch
+
+If you return the same value from a Reducer Hook as the current state, React will bail out without rendering the
+children or firing effects. (React uses the
+[Object.is comparison algorithm](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is#Description).)
+
+Note that React may still need to render that specific component again before bailing out. That shouldn't be a concern 
+because React won't unnecessarily go "deeper" into the tree. If you're doing expensive calculations while rendering, you 
+can optimize them with [useMemo](#usememo-hook).
+
+#### useCallback Hook
+
+Let's look at a problematic TODO app first, which shall help us see why useCallback exists
+
+{% highlight react %}
+import { useState } from "react";
+import ReactDOM from "react-dom/client";
+import Todos from "./Todos"; // see below
+
+const App = () => {
+    const [count, setCount] = useState(0);
+    const [todos, setTodos] = useState([]);
+
+    const increment = () => { setCount((c) => c + 1); };
+
+    const addTodo = () => { setTodos((t) => [...t, "New Todo"]); };
+
+    return (
+        <>
+            <Todos todos={todos} addTodo={addTodo} />
+            <hr />
+            <div>
+                Count: {count}
+                <button onClick={increment}>+</button>
+            </div>
+        </>
+    );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+{% endhighlight %}
+
+The definition of `Todos.js` used above:
+
+{% highlight react %}
+import { memo } from "react";
+
+const Todos = ({ todos, addTodo }) => {
+    console.log("child render");
+
+    return (
+        <>
+        <h2>My Todos</h2>
+
+        {todos.map((todo, index) => { return <p key={index}>{todo}</p>; })}
+
+        <button onClick={addTodo}>Add Todo</button>
+        </>
+    );
+};
+
+export default memo(Todos);
+{% endhighlight %}
+
+In this example, we might think that the `Todos` component will not re-render unless the `todos` change. When we try 
+running this and click the count increment button, we will notice that the `Todos` component re-renders even when the 
+`todos` do not change.
+
+Notice that we are using memo (see below), so the `Todos` component should not re-render since neither the todos state nor the addTodo function are changing when the count is incremented.
+
+> **React.memo**
+> 
+> ```javascript
+> const MyComponent = React.memo(function MyComponent(props) {
+>     /* render using props */
+> });
+> ```
+
+
+#### useMemo Hook
 
 ### React JSX
 
