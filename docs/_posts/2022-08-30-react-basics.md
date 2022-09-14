@@ -1048,11 +1048,19 @@ const Todos = ({ todos, addTodo }) => {
 export default memo(Todos);
 {% endhighlight %}
 
+> Note that we use the
+> [`map()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) function to take
+> an array of todo's and [mount](#what-is-mounting-in-react-js) each of them iteratively
+
 In this example, we might think that the `Todos` component will not re-render unless the `todos` change. When we try 
 running this and click the count increment button, we will notice that the `Todos` component re-renders even when the 
 `todos` do not change.
 
-Notice that we are using memo (see below), so the `Todos` component should not re-render since neither the todos state nor the addTodo function are changing when the count is incremented.
+Notice that we are using memo (see below), so the `Todos` component should not re-render since neither the _todos_ state 
+nor the `addTodo` function are changing when the count is incremented.
+
+This is because _every time a component re-renders, its functions get recreated_. Because of this, the `addTodo`
+function has actually changed.
 
 > **React.memo**
 > 
@@ -1061,9 +1069,130 @@ Notice that we are using memo (see below), so the `Todos` component should not r
 >     /* render using props */
 > });
 > ```
+> 
+> `React.memo` is a higher order component for better page performance. If our component renders the same result given
+> the same props, we can wrap it in a call to `React.memo` for a performance boost in some cases by memoizing the
+> result. This means that React will skip rendering the component, and reuse the last rendered result.
+> 
+> Note that `React.memo` only checks for prop changes. If your function component wrapped in `React.memo` has
+> [useState](#usestate-hook), [userReducer](#usereducer-hook), or [useContext](#usecontext-hook) Hook in its
+> implementation, it will still render when state or context change.
+> 
+> **This method only exists as a [performance optimization](#performance-optimization). Do not rely on it to "prevent" a
+> render, as this can lead to bugs.**
 
+To fix the problem above, we can use the `useCallback` hook to prevent the function from being recreated unless
+necessary. To do that, we simply change the implementation of `addTodo` function: 
+
+{% highlight react %}
+const addTodo = useCallback(() => {
+    setTodos((t) => [...t, "New Todo"]);
+}, [todos]);
+{% endhighlight %}
+
+Now the `Todos` component will only re-render when the `todos` prop changes.
 
 #### useMemo Hook
+
+The useMemo and [useCallback](#usecallback-hook) are similar. The main difference is that `useMemo` returns a memoized
+_value_ while `useCallback` returns a memoized _function_.
+
+The `useMemo` Hook can be used to keep expensive, resource intensive functions from needlessly running. For example,
+suppose we have a computation-intensive function of
+
+{% highlight react %}
+const result = expensiveCalculation(count);
+{% endhighlight %}
+
+This function runs on every render. But when we have `useMemo` Hook to memoize the `expensiveCalculation`, the function
+only runs when needed:
+
+{% highlight react %}
+import { useMemo } from "react";
+
+...
+
+const result = useMemo(() => expensiveCalculation(count), [count]);
+{% endhighlight %}
+
+In the example above, the expensive function will only run when `count` is changed
+
+#### Custom Hook
+
+Hooks are reusable functions. When we have component logic that needs to be shared by multiple components, we can
+extract that logic to make a custom Hook. **Custom Hooks function start with "use" in its name**. For example,
+`useFetch`.
+
+In the following example, we are fetching data in our `Home` component and displaying it.
+
+> * We will use the [JSONPlaceholder](https://jsonplaceholder.typicode.com/) service to fetch fake data. This service is 
+>   great for testing applications when there is no existing data.
+> * We utilize[ JavaScript Fetch API](https://www.w3schools.com/js/js_api_fetch.asp) to make HTTP request for JSON.
+
+{% highlight react %}
+import { useState, useEffect } from "react";
+import ReactDOM from "react-dom/client";
+
+const Home = () => {
+    const [data, setData] = useState(null);
+    
+    useEffect(() => {
+        fetch("https://jsonplaceholder.typicode.com/todos")
+                .then((res) => res.json())
+                .then((data) => setData(data));
+    }, []);
+    
+    return (
+        <>
+            {data && data.map((item) => { return <p key={item.id}>{item.title}</p>; })}
+        </>
+    );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Home />);
+{% endhighlight %}
+
+The fetch logic may be needed in other components as well, so we will extract that into a custom Hook by moving the
+logic to a new file called "useFetch.js"
+
+{% highlight react %}
+import { useState, useEffect } from "react";
+
+const useFetch = (url) => {
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        fetch(url)
+                .then((res) => res.json())
+                .then((data) => setData(data));
+    }, [url]);
+    
+    return [data];
+};
+
+export default useFetch;
+{% endhighlight %}
+
+Now the logic can be imported as `useFetch` Hook:
+
+{% highlight react %}
+import ReactDOM from "react-dom/client";
+import useFetch from "./useFetch";
+
+const Home = () => {
+    const [data] = useFetch("https://jsonplaceholder.typicode.com/todos");
+
+    return (
+        <>
+            {data && data.map((item) => { return <p key={item.id}>{item.title}</p>; })}
+        </>
+    );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Home />);
+{% endhighlight %}
 
 ### React JSX
 
@@ -1388,6 +1517,23 @@ Another way to conditionally render elements is by using a ternary operator.
 
 condition ? true : false
 
+### Higher-Order Components
+
+A **higher-order component** (**HOC**) is an advanced technique in React for reusing component logic. HOCs are not part 
+of the React API, per se. They are a pattern that emerges from React's compositional nature.
+
+**A higher-order component is, namely, a function that takes a component and returns a new component.**
+
+{% highlight react %}
+const EnhancedComponent = higherOrderComponent(WrappedComponent);
+{% endhighlight %}
+
+HOCs are common in third-party React libraries.
+
+### React Top-Level API
+
+#### Performance Optimization
+
 ### TypeScript
 
 [TypeScript](https://www.typescriptlang.org/) is a programming language developed by Microsoft. It is a typed superset
@@ -1406,6 +1552,51 @@ In React, you most likely write your components in a **.js** file. In TypeScript
 > elements and syntax.
 
 ### FAQ
+
+#### What is "Mounting" in React js?
+
+The main job of React is to figure out how to modify the DOM to match what the components want to be rendered on the
+screen. React does so by "mounting" (adding nodes to the DOM), "unmounting" (removing them from the DOM), and "updating" 
+(making changes to nodes already in the DOM).
+
+How a React tnode is represented as a DOM node and where and when it appears in the DOM tree is managed by the
+[top-level API](#react-top-level-api). To get a better idea about what's going on, let's look at the most simple example
+possible:
+
+{% highlight react %}
+// JSX version: let foo = <FooComponent />;
+let foo = React.createElement(FooComponent);
+{% endhighlight %}
+
+What is `foo` and what can you do with it? `Foo`, at the moment, is a plain JavaScript object that looks roughly like
+this (simplified): 
+
+{% highlight react %}
+{
+    type: FooComponent,
+    props: {}
+}
+{% endhighlight %}
+
+It's currently not anywhere on a webpage, i.e. it is not a DOM element, doesn't exist anywhere in the DOM tree and,
+aside from being React element node, has no other meaningful representation in the document. It just tells React what
+needs to be on the screen if this React element gets rendered. It's not "mounted" yet.
+
+We can tell React to "mount" it into a DOM container by calling:
+
+{% highlight react %}
+ReactDOM.render(foo, domContainer);
+{% endhighlight %}
+
+This tells React it's time to show `foo` on the web page. React will create an instance of the `FooComponent` class and
+call its `render` method. Let's say it renders a `<div />`; in that case React will create a `div` DOM node for it, and
+insert it into the DOM container.
+
+**This process of creating instances and DOM nodes corresponding to React components, and inserting them into the DOM,
+is called mounting**
+
+Note that normally we'd only call `ReactDOM.render()` to mount the root component(s). We do not need to manually "mount"
+the child components. 
 
 #### What is "package-lock.json"?
 
