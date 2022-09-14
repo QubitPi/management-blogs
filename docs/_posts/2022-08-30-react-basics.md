@@ -180,24 +180,58 @@ function myVehicle({ model, registration: { state } }) {
 
 JaveScript modules allow us to break up code into separate files. This makes it easier to maitain the code-base.
 
-#### Export
+##### Export
 
 We can export a function or variable from any file through either named export or default export.
 
 We can create named export in two ways:
 
-1. In-line
-   {% highlight react %}
-   export const name = "Jesse"
-   export const age = 40
-   {% endhighlight %}
-2. All at once at the bottom of a .js file
-   {% highlight react %}
-   const name = "Jesse"
-   const age = 40
+* In-line
 
-   export { name, age }
-   {% endhighlight %}
+  {% highlight react %}
+  export const name = "Jesse"
+  export const age = 40
+  {% endhighlight %}
+
+* All at once at the bottom of a .js file
+
+  {% highlight react %}
+  const name = "Jesse"
+  const age = 40
+
+  export { name, age }
+  {% endhighlight %}
+
+We can, however, have only one default export in a .js file
+
+{% highlight react %}
+const message = () => {
+    const name = "Jesse";
+    const age = 40;
+    return name + ' is ' + age + 'years old.';
+};
+
+export default message;
+{% endhighlight %}
+
+##### Import
+
+We can import modules into a file in two ways, based on if they are named exports or default exports. _Named exports
+must be destructured using curly braces. Default exports do not_.
+
+Import from named exports
+
+{% highlight react %}
+import { name, age } from "./person.js";
+{% endhighlight %}
+
+Import from default exports
+
+{% highlight react %}
+import message from "./message.js";
+{% endhighlight %}
+
+> The "default" export gets its name because, unlike named exports, we do not need to destructure it
 
 ### React Components
 
@@ -403,13 +437,13 @@ To use Hooks, we must import them from react first. For example
 import React, { useState } from "react";
 {% endhighlight %}
 
-Here er are using the [`useState` Hook](#usestate-hook) to keep track of the application state.
+Here we are using the [`useState` Hook](#usestate-hook) to keep track of the application state.
 
 #### useState Hook
 
 The **useState** Hook enables us to track state in a function component.
 
-#### Import useState Hook
+##### Import useState
 
 To use the useState Hook, we first need to import it into a component
 
@@ -417,7 +451,379 @@ To use the useState Hook, we first need to import it into a component
 import { useState } from "react";
 {% endhighlight %}
 
+> Note that we are [destructuring](#destructuring) useState from react as it is a [named export](#export).
 
+##### Initialize useState
+
+We initialize our state by calling `useState` in our function component. `useState` accepts an initial state and returns
+two values:
+
+1. the current state, and
+2. a function that updates the state
+
+For example, to initialize state at the top of the function component:
+
+{% highlight react %}
+import { useState } from "react";
+
+function FavoriteColor() {
+    const [color, setColor] = useState("");
+}
+{% endhighlight %}
+
+Again, we are [destructuring](#destructuring) the returned values from `useState`. The first value, `color`, is our
+current state. The second value, setColor, is the function that is use dot update our state. 
+
+> These variables can be named anything we would like
+
+In the example above, we set the initial state to an empty string using `useState("")`
+
+##### Read State
+
+We can now refer our state anywhere in our component
+
+{% highlight react %}
+import { useState } from "react";
+import ReactDOM from "react-dom/client";
+
+function FavoriteColor() {
+    const [color, setColor] = useState("red");
+    
+    return <h1>My favorite color is {color}!</h1>
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<FavoriteColor />);
+{% endhighlight %}
+
+##### Update State
+
+To update our state, we use our state updater function.
+
+> ⚠️ We should never directly update state. Ex: `color = "red"` is not allowed.
+
+{% highlight react %}
+import { useState } from "react";
+import ReactDOM from "react-dom/client";
+
+function FavoriteColor() {
+    const [color, setColor] = useState("red");
+    
+    return (
+        <>
+        <h1>My favorite color is {color}!</h1>
+        <button type="button" onClick={() => setColor("blue")}>Blue</button>
+        </>
+    )
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<FavoriteColor />);
+{% endhighlight %}
+
+##### What Can State Hold
+
+The `useState` Hook can be used to keep track of strings, numbers, booleans, arrays, objects, and any combination of
+these. We also could create multiple state Hooks to track individual values. For example
+
+{% highlight react %}
+import { useState } from "react";
+import ReactDOM from "react-dom/client";
+
+function Car() {
+    const [brand, setBrand] = useState("Ford");
+    const [model, setModel] = useState("Mustang");
+    const [year, setYear] = useState("1964");
+    const [color, setColor] = useState("red");
+    
+    return (
+        <>
+        <h1>My {brand}</h1>
+        <p>
+            It is a {color} {model} from {year}.
+        </p>
+        </>
+    )
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Car />);
+{% endhighlight %}
+
+Or, we can just use one state and include an object instead
+
+{% highlight react %}
+import { useState } from "react";
+import ReactDOM from "react-dom/client";
+
+function Car() {
+    const [car, setCar] = useState({
+        brand: "Ford",
+        model: "Mustang",
+        year: "1964",
+        color: "red"
+    });
+    
+    return (
+        <>
+            <h1>My {car.brand}</h1>
+            <p>
+                It is a {car.color} {car.model} from {car.year}.
+            </p>
+        </>
+    )
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Car />);
+{% endhighlight %}
+
+> Since in this case we are now tracking a single object, we need to reference that object and then the property of that 
+> object when rendering the component. (e.g. `car.brand`)
+
+##### Updating Objects and Arrays in State
+
+It should be noted that when state is updated, the entire state gets overwritten. When if we would like to update
+part of the states? For example, if we only want to update the car color and only called `setCar({color: "blue"})`,
+this would remove the brand, model, and year from our state.
+
+Instead, we can use the JavaScript spread operator to help us.
+
+{% highlight react %}
+import { useState } from "react";
+import ReactDOM from "react-dom/client";
+
+function Car() {
+    const [car, setCar] = useState({
+        brand: "Ford",
+        model: "Mustang",
+        year: "1964",
+        color: "red"
+    });
+
+    const updateColor = () => {
+        setCar(previousState => {
+            return { ...previousState, color: "blue" }
+        });
+    }
+
+    return (
+        <>
+            <h1>My {car.brand}</h1>
+            <p>
+                It is a {car.color} {car.model} from {car.year}.
+            </p>
+            <button type="button" onClick={updateColor}>Blue</button>
+        </>
+    )
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Car />);
+{% endhighlight %}
+
+#### useEffect Hook
+
+The **useEffect** Hook allows you to perform **side effects** in your components. Some examples of side effects are: 
+
+* fetching data
+* directly updating the DOM
+* timers.
+
+`useEffect` accepts two arguments: **`useEffect(<function>, <dependency>)`**, where the second argument is optional.
+
+Let's use timer as an example:
+
+{% highlight react %}
+import { useState, useEffect } from "react";
+import ReactDOM from "react-dom/client";
+
+function Timer() {
+    const [count, setCount] = useState(0);
+    
+    useEffect(() => {
+        setTimeout(() => { setCount((count) => count + 1); }, 1000);
+    });
+    
+    return <h1>I've rendered {count} times!</h1>;
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Timer />);
+{% endhighlight %}
+
+**`useEffect` runs on every render**. That means that when the count changes, a render happens, which then triggers 
+another effect. This is not what we want, because it keeps counting forever even though it should only count once. i.e. 
+the following
+
+{% highlight react %}
+useEffect(() => { //Runs on every render });
+{% endhighlight %}
+
+There are several ways to control when side effects run:
+
+{% highlight react %}
+useEffect(() => { //Runs only on the first render }, []);
+{% endhighlight %}
+
+{% highlight react %}
+useEffect(() => { //Runs on the first render or on any time any dependency value changes }, [prop, state]);
+{% endhighlight %}
+
+##### Effect Cleanup
+
+Some effects require cleanup to reduce memory leaks. Timeouts, subscriptions, event listeners, and other effects that
+are no longer needed should be disposed. We do this by including a return function at the end of the `useEffect` Hook:
+
+{% highlight react %}
+useEffect(() => {
+    let timer = setTimeout(() => { setCount((count) => count + 1); }, 1000);
+    return () => clearTimeout(timer)
+}, []);
+{% endhighlight %}
+
+#### useContext Hook
+
+React **Context** is a way of managing state globally. It can be used together with the [useState Hook](#usestate-hook)
+to share states between deeply nested components more easily
+
+##### The Prop Drilling Problem
+
+_State should be held by the highest parent component in the stack that requires access to the state._ When we have
+deeply nested components and the component at the bottom of the stack need access to a state from the top component,
+we will, without Context, need to pass the state as "props" through each nested component. This is called "**prop 
+drilling**"
+
+The problem with that is even though the "middle" components do not need the state, they still have to pass the state
+along in order for the state to reach the bottom component. 
+
+##### The Solution - Create Context
+
+To create context, you must import **createContext** and initialize it:
+
+{% highlight react %}
+import { useState, createContext } from "react";
+import ReactDOM from "react-dom/client";
+
+const UserContext = createContext()
+{% endhighlight %}
+
+Next, we shall use a **Context Provider** to wrap the tree of components that need the state context. 
+
+{% highlight react %}
+function Component1() {
+    const [user, setUser] = useState("Jesse Hall");
+    
+    return (
+        <UserContext.Provider value={user}>
+            <h1>{`Hello ${user}!`}</h1>
+            <Component2 user={user} />
+        </UserContext.Provider>
+    );
+}
+{% endhighlight %}
+
+Now, all components in this tree will have access to the user Context. 
+
+###### Use Context
+
+In order to use the Context in a child component, we need to access it using the **useContext** Hook. First, include
+the `useContext` in the import statement:
+
+{% highlight react %}
+import { useState, createContext, useContext } from "react";
+{% endhighlight %}
+
+Then we can access the user Context in all components:
+
+{% highlight react %}
+function Component5() {
+    const user = useContext(UserContext);
+    
+    return (
+        <>
+        <h1>Component 5</h1>
+        <h2>{`Hello ${user} again!`}</h2>
+        </>
+    );
+}
+{% endhighlight %}
+
+#### useRef Hook
+
+The **useRef** Hook allows you to persist values between renders while they do not cause a re-render when updated.
+
+In the [previous section](#useeffect-hook), if we tried to count how many times our application renders, we would be
+caught in an infinite loop since the Hook there causes a re-render. To avoid this with `useRef` Hook:
+
+{% highlight react %}
+import { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom/client";
+
+function App() {
+    const [inputValue, setInputValue] = useState("");
+    const count = useRef(0);
+    
+    useEffect(() => {
+        count.current = count.current + 1;
+    });
+    
+    return (
+        <>
+        <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+        <h1>Render Count: {count.current}</h1>
+        </>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+{% endhighlight %}
+
+When we initialize `useRef` we set the initial value: `useRef(0)`. `useRef()` only returns one Object called current.
+It's like having `const count = {current: 0}`. We can access the count by using `count.current`.
+
+##### Tracking State Changes
+
+`useRef` Hook can also be used to track previous state values. This is because we are able to persist values between
+renders with it. For example: 
+
+{% highlight react %}
+import { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom/client";
+
+function App() {
+    const [inputValue, setInputValue] = useState("");
+    const previousInputValue = useRef("");
+    
+    useEffect(() => { previousInputValue.current = inputValue; }, [inputValue]);
+    
+    return (
+        <>
+            <input type="text" value={inputValue} onChange={(event) => setInputValue(event.target.value)}/>
+            <h2>Current Value: {inputValue}</h2>
+            <h2>Previous Value: {previousInputValue.current}</h2>
+        </>
+    );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+{% endhighlight %}
+
+#### useReducer Hook
+
+The **useReducer** Hook is similar to the [useState Hook](#usestate-hook) and it allows for custom state logic. If you
+find yourself keeping track of multiple pieces of state that rely on complex logic, `useReducer` might come in handy.
+
+##### Syntax
+
+The hook signature is `useReducer(<reducer>, <initialState>)`.
+
+The **reducer function** contains the custom state update logic and the `initialState` can be a simple value but
+generally will contain an object
+
+The hook returns the current state and a dispatch method
 
 ### React JSX
 
