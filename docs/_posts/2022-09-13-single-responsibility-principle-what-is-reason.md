@@ -12,6 +12,10 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+* TOC
+{:toc}
+
+
 In 1972 David L. Parnas published a classic paper entitled
 [_On the Criteria To Be Used in Decomposing Systems into Modules_]({{ "/assets/pdf/On the Criteria To Be Used in Decomposing Systems into  Modules.pdf" | relative_url}}).
 It appeared in the [December issue of the Communications of the ACM, Volume 15, Number 12](https://dl.acm.org/doi/10.1145/361598.361623).

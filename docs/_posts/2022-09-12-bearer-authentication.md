@@ -12,6 +12,9 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
+* TOC
+{:toc}
+
 
 **Bearer authentication** (also called **token authentication**) is an
 [HTTP authentication scheme][HTTP authentication scheme] that involves security tokens called bearer tokens. The name 

@@ -51,6 +51,154 @@ There is another folder in the root directory of your React project, named "publ
 
 You'll notice a single `<div>` in the body of this file. This is where our React application will be rendered.
 
+### React ES6
+
+ES6 stands for ECMAScript 6. **ECMAScript** was created to standardize JavaScript, and ES6 is the 6th version of
+ECMAScript. It is also known as ECMAScript 2015 since it was published in 2015. We discuss ES6 here because React uses
+ES6.
+
+#### Destructuring
+
+To illustrate destructuring, let's make a sandwich. Do you take everything out of the refrigerator to make your
+sandwich? No, you only take out the items you would like to use on your sandwich.
+
+Destructuring is exactly the same. We may have an array or object we are working with, but we only need some of the
+items contained in these. Destructuring makes it easy to extract only what is needed.
+
+##### Destructuring Arrays
+
+Here is the old-fashioned way of assigning array items to variables:
+
+{% highlight react %}
+const vehicles = ['mustang', 'f-150', 'expedition'];
+
+// old way
+const car = vehicles[0];
+const truck = vehicles[1];
+const suv = vehicles[2];
+{% endhighlight %}
+
+With destructuring, we can write it as
+
+{% highlight react %}
+const vehicles = ['mustang', 'f-150', 'expedition'];
+
+const [car, truck, suv] = vehicles;
+{% endhighlight %}
+
+> When destructuring array, the order that variables are declared is important
+
+If we want the car and SUV only we can simply leave out the truck but keep the comma:
+
+{% highlight react %}
+const vehicles = ['mustang', 'f-150', 'expedition'];
+
+const [car,, suv] = vehicles;
+{% endhighlight %}
+
+Destructuring comes in handy when a function returns an array:
+
+{% highlight react %}
+function calculate(a, b) {
+const add = a + b;
+const subtract = a - b;
+const multiply = a * b;
+const divide = a / b;
+
+return [add, subtract, multiply, divide];
+}
+
+const [add, subtract, multiply, divide] = calculate(4, 7);
+{% endhighlight %}
+
+##### Destructuring Objects
+
+Here is the old way of using an object inside a function:
+
+{% highlight react %}
+const vehicleOne = {
+    brand: 'Ford',
+    model: 'Mustang',
+    type: 'car',
+    year: 2021,
+    color: 'red'
+}
+
+myVehicle(vehicleOne);
+
+// old way
+function myVehicle(vehicle) {
+    const message = 'My ' + vehicle.type + ' is a ' + vehicle.color + ' ' + vehicle.brand + ' ' + vehicle.model + '.';
+}
+{% endhighlight %}
+
+With destructuring
+
+{% highlight react %}
+const vehicleOne = {
+    brand: 'Ford',
+    model: 'Mustang',
+    type: 'car',
+    year: 2021,
+    color: 'red'
+}
+
+myVehicle(vehicleOne);
+
+function myVehicle({type, color, brand, model}) {
+    const message = 'My ' + type + ' is a ' + color + ' ' + brand + ' ' + model + '.';
+}
+{% endhighlight %}
+
+> 📋 The object properties do not have to be declared in a specific order.
+
+We can even destructure deeply nested objects by referencing the nested object then using a colon and curly braces to 
+again destructure the items needed from the nested object:
+
+{% highlight react %}
+const vehicleOne = {
+    brand: 'Ford',
+    model: 'Mustang',
+    type: 'car',
+    year: 2021,
+    color: 'red',
+    registration: {
+        city: 'Houston',
+        state: 'Texas',
+        country: 'USA'
+    }
+}
+
+myVehicle(vehicleOne)
+
+function myVehicle({ model, registration: { state } }) {
+    const message = 'My ' + model + ' is registered in ' + state + '.';
+}
+{% endhighlight %}
+
+#### Modules
+
+JaveScript modules allow us to break up code into separate files. This makes it easier to maitain the code-base.
+
+#### Export
+
+We can export a function or variable from any file through either named export or default export.
+
+We can create named export in two ways:
+
+1. In-line
+   {% highlight react %}
+   export const name = "Jesse"
+   export const age = 40
+   {% endhighlight %}
+2. All at once at the bottom of a .js file
+   {% highlight react %}
+   const name = "Jesse"
+   const age = 40
+
+   export { name, age }
+   {% endhighlight %}
+
 ### React Components
 
 > **React is all about re-using code, which is why component is a very crucial concept in this context**
@@ -193,6 +341,83 @@ root.render(<Garage />);
 {% endhighlight %}
 
 > ⚠️ React Props are read-only! You will get an error if you try to change their value.
+
+#### React State
+
+> ⚠️ In order React code bases, class components were primarily used. The React state was initially intended to be used
+> in class components. Since React 16.8, it was suggested to use function components along with [Hooks](#react-hooks).
+> Thus this section serves as preliminary concept discussion with no expected hands-on applications
+
+[React components](#react-components) has a built-in **state object**, where we store property values that _belongs to
+the component_. When the state object changes, the component re-renders.
+
+The state object is initialized in the constructor:
+
+{% highlight react %}
+class Car extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            brand: "Ford",
+            model: "Mustang",
+            color: "red",
+            year: 1964
+        };
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>My Car</h1>
+            </div>
+        );
+    }
+}
+{% endhighlight %}
+
+Refer to the state object anywhere in the component by using `this.state.propertyName` syntax:
+
+{% highlight react %}
+<h1>My {this.state.brand}</h1>
+{% endhighlight %}
+
+##### Creating the state Object
+
+The state object is initialized in constructor:
+
+### React Hooks
+
+Hooks allow function components to have access to state and other React features. Because of this, class components are
+generally no longer needed.
+
+> Hook Rules:
+> 
+> * Hooks can only be called inside React function components
+> * Hooks can only be called at the top level of a component
+> * Hooks cannot be conditional
+
+To use Hooks, we must import them from react first. For example
+
+{% highlight react %}
+import React, { useState } from "react";
+{% endhighlight %}
+
+Here er are using the [`useState` Hook](#usestate-hook) to keep track of the application state.
+
+#### useState Hook
+
+The **useState** Hook enables us to track state in a function component.
+
+#### Import useState Hook
+
+To use the useState Hook, we first need to import it into a component
+
+{% highlight react %}
+import { useState } from "react";
+{% endhighlight %}
+
+
 
 ### React JSX
 
