@@ -1634,6 +1634,33 @@ project is public or you have collaborators, or if you use Git as a source for d
 
 The dependencies versions will be updated in the package-lock.json file when you run `npm update`.
 
+#### Image Path in css for React.js Project
+
+Suppose we have a project folder structure with top-level directories: **node_modules**, **public**, **src**.
+
+The css file is in public folder **public/styles.css** and images are in **src/images/icon.png**
+
+What should be the correct image path for this image for any class in css file which kept in public folder in localhost 
+eg: `.icon { background: url(../src/images/icon.png) no-repeat left top;`
+
+Answer. This file path points to a file in the images folder located at the root of the current web
+
+{% highlight react %}
+.icon { background: url(/src/images/icon.png) no-repeat left top;}
+{% endhighlight %}
+
+This file path points to a file in the images folder located in the current folder.
+
+{% highlight react %}
+.icon { background: url(src/images/icon.png) no-repeat left top;}
+{% endhighlight %}
+
+This file path points to a file in the images folder located in the folder one level above the current folder.
+
+{% highlight react %}
+.icon { background: url(../src/images/icon.png) no-repeat left top;}
+{% endhighlight %}
+
 ### Troubleshooting
 
 #### Change Node Version
