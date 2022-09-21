@@ -28,7 +28,6 @@ unperishable passion to Java language*.
 * [Java Concurrency in Practice]({{ "/assets/pdf/java-concurrency-in-practice.pdf" | relative_url}})
 * [Java Performance - The Definiteive Guide]({{ "/assets/pdf/java-performance-the-definitive-guide.pdf" | relative_url}})
 * [Java Persistence with Hibernate]({{ "/assets/pdf/java-persistence-with-hibernate.pdf" | relative_url}})
-* [深入理解 Java 虚拟机]({{ "/assets/pdf/深入理解Java虚拟机：JVM高级特性与最佳实践2.pdf" | relative_url}})
 * [Computer Networking - A Top Down Approach, 7th]({{ "/assets/pdf/Computer Networking-A-Top-Down-Approach-7th.pdf" | relative_url}})
 
 ## References

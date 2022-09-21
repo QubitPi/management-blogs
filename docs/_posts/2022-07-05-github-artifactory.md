@@ -3,7 +3,7 @@ layout: post
 title: GitHub Artifactory with Apache Maven Registry
 tags: [CI, Maven, Software Release]
 category: FINALIZED
-color: rgb(0, 196, 0)
+color: rgb(11, 164, 105)
 feature-img: "assets/img/post-cover/34-cover.png"
 thumbnail: "assets/img/post-cover/34-cover.png"
 author: QubitPi
