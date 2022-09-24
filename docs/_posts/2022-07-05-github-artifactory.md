@@ -113,6 +113,8 @@ token. Create a new `~/.m2/settings.xml` file if one doesn't exist and populate 
 </settings>
 ```
 
+> ⚠️ _The server id must be **github** otherwise we will receive 401 Unauthorized error_
+
 In the `servers` tag, add a child `server` tag with an `id`, replacing _USERNAME_ with your GitHub username, and _TOKEN_ 
 with your personal access token.
 

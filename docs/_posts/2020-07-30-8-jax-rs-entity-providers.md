@@ -100,7 +100,7 @@ public class MyBean {
 }
 ```
 
-### `MessageBodyWriter`
+### MessageBodyWriter
 
 The `MyBean` is a JAXB-annotated POJO. In `GET` resource method we return the instance of `MyBean` and we would like
 Jersey runtime to serialize it into XML and write it as an entity body to the response output stream. We design a custom
@@ -150,7 +150,7 @@ public class MyBeanMessageBodyWriter implements MessageBodyWriter<MyBean> {
 The `MyBeanMessageBodyWriter` implements the `MessageBodyWriter<T>` interface that contains three methods. In the next
 sections we'll explore these methods more closely.
 
-#### `MessageBodyWriter.isWriteable`
+#### MessageBodyWriter.isWriteable
 
 A method `isWriteable` should return `true` if the `MessageBodyWriter<T>` is able to write the given type. Method does
 not decide only based on the Java type of the entity but also on annotations attached to the entity and the requested
@@ -197,7 +197,7 @@ the method `isWriteable` might be executed) only if the media type of the outbou
 Additionally, the provider will only be considered as possible candidate and its `isWriteable` method will be executed,
 if the generic type of the provider is either a sub class or super class of type parameter.
 
-####  `MessageBodyWriter.writeTo`
+#### MessageBodyWriter.writeTo
 
 Once a message body writer is selected as the most appropriate (see the Section
 [Entity Provider Selection](#entity-provider-selection) for more details), its `writeTo` method is invoked. This method
@@ -217,7 +217,7 @@ method should serialize the entity. In our case we use JAXB to marshall the enti
 
 > ⚠️ Do not close the entity output stream in the `writeTo` method of your `MessageBodyWriter<T>` implementation. 
 
-#### `MessageBodyWriter.getSize`
+#### MessageBodyWriter.getSize
 
 The method is deprecated since JAX-RS 2.0 and Jersey 2 ignores the return value. In JAX-RS 1.0 the method could return
 the size of the entity that would be then used for `"Content-Length"` response header. In Jersey 2.0 the
@@ -227,7 +227,7 @@ configuration options of outbound entity buffering see the javadoc of
 
 > 📋️ You can disable the Jersey outbound entity buffering by setting the buffer size to 0.
 
-#### Testing a `MessageBodyWriter<T>`
+#### Testing a MessageBodyWriter<T>
 
 Before testing the `MyBeanMessageBodyWrite`r, the writer must be registered as a custom JAX-RS extension provider. It
 should be
@@ -259,7 +259,7 @@ entity is de-serialized as a `String`. The result of console output is:
 The returned status is 200 and the entity is stored in the response in a XML format. Next, we will look at how the
 Jersey de-serializes this XML document into a `MyBean` consumed by our POST resource method. 
 
-### `MessageBodyReader`
+### MessageBodyReader
 
 In order to de-serialize the entity of `MyBean` on the server or the client, we need to implement a custom
 `MessageBodyReader<T>`. Our `MessageBodyReader<T>` implementation is listed below
@@ -294,7 +294,7 @@ public static class MyBeanMessageBodyReader implements MessageBodyReader<MyBean>
 It is obvious that the `MessageBodyReader<T>` interface is similar to `MessageBodyWriter<T>`. In the next couple of
 sections we will explore it's API methods.
 
-#### `MessageBodyReader.isReadable`
+#### MessageBodyReader.isReadable
 
 It defines the method `isReadable()` which has a very similar meaning as method `isWriteable()` in
 `MessageBodyWriter<T>`. The method returns `true` if it is able to de-serialize the given type. The annotations parameter
@@ -311,7 +311,7 @@ method to decide whether it is able to de-serialize the entity and type comparis
 > ✏️ In order to reduce number of `isReadable` executions, always define correctly the consumable media type(s) with the
 > `@Consumes` annotation on your custom `MessageBodyReader<T>`.
 
-#### `MessageBodyReader.readFrom`
+#### MessageBodyReader.readFrom
 
 The `readForm()` method gets the parameters with the same meaning as in `isReadable()`. The additional `entityStream`
 parameter provides a handle to the entity input stream from which the entity bytes should be read and de-serialized into
@@ -321,7 +321,7 @@ into an instance of `MyBean` using JAXB.
 > ⚠️ ***Do not close the entity input stream in your `MessageBodyReader<T>` implementation. The stream will be
 > automatically closed by Jersey runtime***. 
 
-#### Testing a `MessageBodyWriter<T>`
+#### Testing a MessageBodyWriter<T>
 
 Now let's send a test request using the JAX-RS Client API. 
 

@@ -52,7 +52,7 @@ public class HelloWorldResource {
 
 Let's look at some of the JAX-RS annotations used in this example. 
 
-### `@Path`
+### @Path
 
 The `@Path` annotation's value is a relative URI path. In the example above, the Java class will be hosted at the URI
 path `/helloworld`. This is an extremely simple use of the `@Path` annotation. What makes JAX-RS so useful is that you
@@ -135,7 +135,7 @@ response returned for the OPTIONS method depends on the requested media type def
 method can return a response with a set of supported resource methods in the 'Allow' header or return a
 [WADL](http://wadl.java.net/) document. See [WADL section](#wadl-support) for more information. 
 
-### `@Produces`
+### @Produces
 
 **The `@Produces` annotation is used to specify the MIME media types of representations a resource can produce and send
 back to the client**. In this example, the Java method will produce representations identified by the MIME media type
@@ -201,7 +201,7 @@ sends "application/json", since "application/xml" has a lower quality factor.
 may reduce typographical errors, see the constant field values of
 [MediaType](https://docs.oracle.com/javaee/7/api/javax/ws/rs/core/MediaType.html)***. 
 
-### `@Consumes`
+### @Consumes
 
 The `@Consumes` annotation is used to specify the MIME media types of representations that can be consumed by a
 resource. The example above can be modified to set the cliched message as follows:
@@ -221,7 +221,7 @@ that the resource method returns void. This means no representation is returned 
 `@Consumes` can be applied at both the class and the method levels and more than one media type may be declared in the
 same `@Consumes` declaration. 
 
-## Parameter Annotations (`@*Param`)
+## Parameter Annotations (@*Param)
 
 Parameters of a resource method may be annotated with ***parameter-based annotations*** to extract information from a
 request. One of the previous examples presented the use of `@PathParam` to extract a path parameter from the path
