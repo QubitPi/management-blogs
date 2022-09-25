@@ -1661,6 +1661,38 @@ This file path points to a file in the images folder located in the folder one l
 .icon { background: url(../src/images/icon.png) no-repeat left top;}
 {% endhighlight %}
 
+#### Switch Node.js Versions with NVM
+
+##### What is Node Version Manager (NVM)?
+
+[Node Version Manager](https://github.com/nvm-sh/nvm) is a tool that helps us manage Node versions and is a convenient 
+way to install Node. Think of it as npm or Yarn that helps manage Node packages, but instead of packages, NVM manages 
+Node versions.
+
+This also means you can install multiple Node versions onto your machine at the same time and switch among them if
+needed.
+
+##### Displaying a List of Node.js Versions
+
+We can now view all the versions we downloaded so far with 
+
+```bash
+nvm ls
+```
+
+The list then appears:
+
+![Error loading node-versions.png]({{ "/assets/img/node-versions.png" | relative_url}})
+
+The first three lines show the list of Node versions with the arrow pointing to the 14.18.1 version that is currently in 
+use; when a version is used, it displays as green.
+
+##### Switching Among Node.js Versions
+
+The best feature about NVM is the ability to easily switch between different Node versions. Say we must use version 
+16.13.0 and then switch to 12.22.7; we can simply run either `nvm use 12.22.7` or `nvm use 16.13.0` to easily switch
+into either version we need.
+
 ### Troubleshooting
 
 #### Change Node Version
