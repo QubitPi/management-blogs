@@ -191,6 +191,11 @@ implementation of the
 Kubernetes on AWS (EKS)
 -----------------------
 
+Amazon Elastic Kubernetes Service (Amazon EKS) is a managed service that you can use to run Kubernetes on AWS without 
+needing to install, operate, and maintain your own Kubernetes control plane or nodes.
+
+### Why Do We Use EKS?
+
 Wh do we care about spinning up an EKS cluster on Amazon? Why not choose to create our own Kubernetes cluster?
 
 Bootstrapping a Kubernetes cluster involves securing and managing our application, plus cluster, networking, and storage 
@@ -206,3 +211,10 @@ Amazon EKS provides far better scalability than self-hosted Kubernetes. The cont
 launched across multiple physical nodes. If any of the nodes go down, application will still be online. But if we manage 
 our own cluster, we will have to ensure that different VMs (EC2 instances) are on different availability zones. If we 
 can't guarantee that, then running different pods on the same physical server won't bring much fault tolerance.
+
+
+### Create a New Kubernetes Cluster with eksctl
+
+#### Installing eksctl
+
+
