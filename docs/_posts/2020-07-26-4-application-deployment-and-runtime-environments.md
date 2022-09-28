@@ -579,10 +579,10 @@ section describes how JAX-RS and Jersey leverage the Servlet pluggability mechan
 ##### JAX-RS application without an Application subclass
 
 If no `Application` (or `ResourceConfig`) subclass is present, Jersey will dynamically add a Jersey container Servlet
-and set its name to `javax.ws.rs.core.Application`. The web application path will be scanned and all the root resource
+and set its name to `javax.ws.rs.core.Application`. **The web application path will be scanned and all the root resource
 classes (the classes annotated with `@Path` annotation) as well as any providers that are annotated with `@Provider`
-annotation packaged with the application will be automatically registered in the JAX-RS application. The web application
-has to be packaged with a deployment descriptor specifying at least the mapping for the added
+annotation packaged with the application will be automatically registered in the JAX-RS application**. The web
+application has to be packaged with a deployment descriptor specifying at least the mapping for the added
 `javax.ws.rs.core.Application` Servlet: 
 
 ```xml
