@@ -213,8 +213,128 @@ our own cluster, we will have to ensure that different VMs (EC2 instances) are o
 can't guarantee that, then running different pods on the same physical server won't bring much fault tolerance.
 
 
-### Create a New Kubernetes Cluster with eksctl
+### Create a New Kubernetes Cluster
 
 #### Installing eksctl
 
+[eksctl](https://eksctl.io/) is a simple command line tool for creating and managing Kubernetes clusters on Amazon EKS. 
+It provides the fastest and easiest way to create a new cluster with nodes for Amazon EKS.
+
+To install eksctl on Mac using Homebrew
+
+```bash
+brew tap weaveworks/tap
+brew install weaveworks/tap/eksctl
+```
+
+> A common homebrew issue is when we execute `brew install` or `brew tap`, we receive the error like the following:
+> 
+> ```bash
+> brew tap weaveworks/tap
+> Running `brew update --auto-update`...
+> ==> Tapping weaveworks/tap
+> Cloning into '/.../weaveworks/homebrew-tap'...
+> fatal: unable to connect to github.com:
+> github.com[0: 20.205.243.166]: errno=Operation timed out
+> 
+> Error: Failure while executing; `git clone https://github.com/weaveworks/homebrew-tap /.../weaveworks/homebrew-tap --origin=origin --template=` exited with 128.
+> ```
+> 
+> First we should try to download an arbitrary big file to confirm our network is working. In fact, we could also manually
+> clone the git repo related to the error and see if that works. In this example:
+> 
+> ```bash
+> git clone git@github.com:weaveworks/homebrew-tap.git
+> ```
+> 
+> If this works as well, try switching from http scheme to ssh using
+> 
+> ```bash
+> git config --global url.ssh://git@github.com/.insteadOf https://github.com/
+> ```
+
+#### Create Amazon EKS Cluster and Nodes
+
+
+
+```bash
+eksctl create cluster --name my-cluster --region region-code --fargate
+```
+
+
+#### AWS Identity and Access Management (IAM)
+
+IAM provides the infrastructure necessary to control authentication and authorization for a user's account. The IAM 
+infrastructure includes the following elements:
+
+![Error loading intro-diagram _policies_800.png]({{ "/assets/img/intro-diagram _policies_800.png" | relative_url}})
+
+* **IAM Resources** The user, group, role, policy, and identity provider objects that are stored in IAM. As with other 
+  AWS services, we can add, edit, and remove resources from IAM. A resource is an object that exists within a service. 
+  Examples include an Amazon EC2 instance, an IAM user, and an Amazon S3 bucket. **The service defines a set of actions
+  that can be performed on each resource**. If you create a request to perform an unrelated action on a resource, that 
+  request is denied. For example, if you request to delete an IAM role but provide an IAM group resource, the request 
+  fails.
+* **IAM Identities** The IAM resource objects that are used to identify and group. We can attach a policy to an IAM 
+  identity. These include users, groups, and roles.
+* **IAM Entities** The IAM resource objects that AWS uses for authentication. These include IAM users and roles.
+* **Principals** A person or application that can make a request for an action or operation on an AWS resource. The 
+  principal is authenticated as the AWS account root user or an IAM entity to make requests to AWS. As a best practice,
+  do not use root user credentials for daily work. Instead, create IAM entities (users and roles). We can also support 
+  federated users or programmatic access to allow an application to access our AWS account.
+
+  When a principal tries to use the AWS Management Console, the AWS API, or the AWS CLI, that principal sends a request
+  to AWS. The request includes the following information
+
+  - **Actions or operations** The actions or operations that the principal wants to perform. This can be an action in
+    the AWS Management Console, or an operation in the AWS CLI or AWS API.
+  - **Resources** The AWS resource object upon which the actions or operations are performed.
+  - **Principal** The person or application that used an entity (user or role) to send the request. Information about
+    the principal includes the policies that are associated with the entity that the principal used to sign in.
+  - **Environment data** Information about the IP address, user agent, SSL enabled status, or the time of day.
+  - **Resource data** Data related to the resource that is being requested. This can include information such as a 
+    DynamoDB table name or a tag on an Amazon EC2 instance.
+
+  AWS gathers the request information into a request context, which is used to evaluate and authorize the request.
+* **Authentication**  A principal must be authenticated (signed in to AWS) using their credentials to send a request to 
+  AWS. Some services, such as Amazon S3 and AWS STS, allow a few requests from anonymous users. However, they are the 
+  exception to the rule.
+
+  To authenticate from the console as a root user, we must sign in with our email address and password. As an IAM user, 
+  provide our account ID or alias, and then our user name and password. To authenticate from the API or AWS CLI, we must 
+  provide our access key and secret key. We might also be required to provide additional security information. For 
+  example, AWS recommends that we use multi-factor authentication (MFA) to increase the security of our account.
+* **Authorization** We must also be authorized (allowed) to complete our request. During authorization, AWS uses values 
+  from the request context to check for policies that apply to the request. It then uses the policies to determine whether
+  to allow or deny the request. **Most policies are stored in AWS as JSON documents** and specify the permissions for 
+  principal entities. There are several types of policies that can affect whether a request is authorized. _To provide
+  our users with permissions to access the AWS resources in their own account, we need only identity-based policies_. 
+  Resource-based policies are popular for granting cross-account access. The other policy types are advanced features
+  and should be used carefully.
+
+  AWS checks each policy that applies to the context of a request. If a single permissions policy includes a denied 
+  action, AWS denies the entire request and stops evaluating. This is called an **explicit deny**. Because requests are 
+  denied by default, AWS authorizes a request only if every part of the request is allowed by the applicable permissions 
+  policies.
+
+##### Creating IAM Admin User and User Group
+
+As a best practice, do not use the AWS account root user for any task where it's not required. Instead,
+[create a new IAM user for each person that requires administrator access][create IAM admin]. Then make those users 
+administrators by placing the users into an "Administrators" user group to which you attach the AdministratorAccess 
+managed policy.
+
+> ⚠️ **Safeguard our root user credentials and don't use them for everyday tasks** ⚠️
+> 
+> When we create an AWS account you establish a root username and password to sign in to the AWS Management Console. 
+> Safeguard our root user credentials the same way we would protect other sensitive personal information. We can do 
+> this by configuring MFA for our root user credentials. It is not recommended to generate access keys for our root
+> user, because they allow full access to all our resources for all AWS services, including our billing information.
+> Don't use our root user for everyday tasks. Use the root user to complete the tasks that only the root user can
+> perform. For the complete list of these tasks, see [Tasks that require root user credentials][root user tasks] in the 
+> _AWS General Reference_.
+
+
+[root user tasks]: https://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html#aws_tasks-that-require-root
+[create IAM admin]: https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html
 
