@@ -102,41 +102,39 @@ Kubernetes provides us with
 > In essense, Kubernetes comprises a set of independent, composable contorl process that continuously drive the current
 > state towards the provided desired state. 
 
-
-Kubernetes Components
----------------------
+### Kubernetes Components
 
 When you deploy Kubernetes, you get a cluster.
 
-A Kubernetes cluster consists of a set of worker machines, called **nodes**, that run containerized applications. Every 
-cluster has at least one worker node. The worker node(s) host the **Pods** that are the components of the application 
-workload. The **control plane** manages the worker nodes and the Pods in the cluster. In production environments, the 
+A Kubernetes cluster consists of a set of worker machines, called **nodes**, that run containerized applications. Every
+cluster has at least one worker node. The worker node(s) host the **Pods** that are the components of the application
+workload. The **control plane** manages the worker nodes and the Pods in the cluster. In production environments, the
 control plane usually runs across multiple computers and a cluster usually runs multiple nodes, providing
 fault-tolerance and high availability.
 
 ![Error loading components-of-kubernetes.svg]({{ "/assets/img/components-of-kubernetes.svg" | relative_url}})
 
-### Control Plane
+#### Control Plane
 
 The control plane's components make global decisions about the cluster (for example, scheduling), as well as detecting
 and responding to cluster events (for example, starting up a new pod when a deployment's `replicas` field is
 unsatisfied).
 
-#### API server
+##### API server
 
-The **API server** is a component of the Kubernetes control plane that exposes the Kubernetes API. The API server is the 
+The **API server** is a component of the Kubernetes control plane that exposes the Kubernetes API. The API server is the
 front end for the Kubernetes control plane. API server is designed to scale horizontally. We can run several instances
 of API server and balance traffic between those instances.
 
-#### etcd Data Store
+##### etcd Data Store
 
 Consistent and highly-available key value store used as Kubernetes' backing store for all cluster data.
 
-#### Scheduler
+##### Scheduler
 
 Control plane component that watches for newly created Pods with no assigned node, and selects a node for them to run on.
 
-#### Control Manager
+##### Control Manager
 
 Control plane component that runs controller processes.
 
@@ -146,7 +144,7 @@ Control plane component that runs controller processes.
 Logically, each controller is a separate process, but to reduce complexity, they are all compiled into a single binary
 and run in a single process.
 
-#### Cloud Control Manager
+##### Cloud Control Manager
 
 A Kubernetes control plane component that embeds cloud-specific control logic. The cloud controller manager lets you link our cluster into our cloud provider's API, and separates out the components that interact with that cloud platform from components that only interact with our cluster.
 
@@ -160,31 +158,86 @@ Some [Kubernetes' control manager](#control-manager) controllers do depend on cl
 * Route controller: For setting up routes in the underlying cloud infrastructure
 * Service controller: For creating, updating and deleting cloud provider load balancers
 
-### Node
+#### Node
 
-#### kubelet
+##### kubelet
 
 An agent that runs on each node in cluster and makes sure that containers are running in a Pod.
 
 The kubelet takes a set of PodSpecs that are provided through various mechanisms and ensures that the containers
-described in those PodSpecs are running and healthy. The kubelet doesn't manage containers which were not created by 
+described in those PodSpecs are running and healthy. The kubelet doesn't manage containers which were not created by
 Kubernetes.
 
-#### kube-proxy
+##### kube-proxy
 
 kube-proxy is a network proxy that runs on each node in cluster, implementing part of the Kubernetes Service concept.
 
-kube-proxy maintains network rules on nodes. These network rules allow network communication to our Pods from network 
+kube-proxy maintains network rules on nodes. These network rules allow network communication to our Pods from network
 sessions inside or outside of our cluster.
 
-kube-proxy uses the operating system packet filtering layer if there is an available one. Otherwise, kube-proxy forwards 
+kube-proxy uses the operating system packet filtering layer if there is an available one. Otherwise, kube-proxy forwards
 the traffic itself.
 
 #### Container Runtime
 
-The container runtime is the software that is responsible for running containers. Kubernetes supports container runtimes 
+The container runtime is the software that is responsible for running containers. Kubernetes supports container runtimes
 such as [containerd](https://containerd.io/docs/), [CRI-O](https://cri-o.io/#what-is-cri-o), and any other
 implementation of the [Kubernetes CRI (Container Runtime Interface)][CRI].
+
+Concepts
+--------
+
+### Nodes
+
+Kubernetes runs our workload by placing containers into Pods to run on _Nodes_. A node may be a virtual or physical
+machine, depending on the cluster. Each node is managed by the [control plane](#control-plane) and contains the services 
+necessary to run Pods.
+
+### Pods
+
+_Pods_ are the smallest deployable units of computing that we can create and manage in Kubernetes. 
+
+A _Pod_ is a group of one or more containers, with shared storage and network resources, and a specification for how to
+run the containers. A Pod's contents are always co-located and co-scheduled, and run in a shared context. A Pod models
+and application-specific "logical host": it contains one ore more application containers which are relatively tightly
+coupled.
+
+A Pod can contain [init containers](#init-containers) that run during Pod startup. We can also inject
+[ephemeral containers](#ephemeral-containers) for debugging if the cluster offers this.
+
+The shared context of a Pod is a set of Linux namespaces, cgroups, and potentially other facets of isolation - the same
+things that isolated a container. Within a Pod's context, the individual applications may have further sub-isolations
+applied.
+
+> 📋 **cgroups** (**control groups**) is a Linux kernel feature that limits, accounts for, and isolates the resource
+> usage (CPU, memoey, disk I/O, network, etc) of a collection of processes. 
+
+A Pod is similar to a set of containers with shared namespaces and shared filesystem volumes.
+
+#### Init Containers
+
+#### Ephemeral Containers
+
+### Namespace
+
+In Kubernetes, _namespaces_ provides a mechanism for isolating groups of resources within a single cluster. Names of
+resources need to be unique within a namespace, but not across namespaces. Namespace-based scoping is applicable only
+for namespaced objects (e.g. Deployments, Services, etc) and not for cluster-wide objects (e.g. StorageClass, Nodes,
+PersistentVolumesn, etc)
+
+#### When to Use Multiple Namespaces
+
+Namespaces are intended for use in environments with many users spread across multiple teams, or porjects. For clusters
+with a few to tens of users, we should not need to create or think about namespaces at all.
+
+Namespaces provide a scope for names. Names of resources need to be unique within a namespace, but not across
+namespaces. Namespaces cannot be nested inside one another and each Kubernetes resource can only be in one namespace.
+
+Namespaces are a way to divide cluster resources between multiple users vis
+[resource quota](https://kubernetes.io/docs/concepts/policy/resource-quotas/)
+
+It is not necessary to use multiple namespaces to separate slightly different resources, such as different versions of
+the same software: use labels to distinguish resources within the same namespace. 
 
 
 Kubernetes on AWS (EKS)
@@ -493,6 +546,15 @@ similar to the following example line.
 eksctl created a kubectl config file in `~/.kube` or added the new cluster's configuration within an existing config
 file in `~/.kube` on our computer.
 
+> **Organizing Cluster Access Using kubeconfig Files**
+> 
+> A file that is used to configure access to cluster is called a **kubeconfig file**. `kubectl` command-line tool uses 
+> this kubeconfig files to find the information it needs to choose a cluster and communicate with the API server of a 
+> cluster.
+> 
+> By default, `kubectl` looks for a file named **config** in the **~/.kube** directory. We can specify other kubeconfig
+> files by settings the `KUBECONFIG` environment variable or by setting the `--kubeconfig` flag, though
+
 After cluster creation is complete, view the AWS CloudFormation stack named **eksctl-my-cluster-cluster** in the
 [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation) to see all of the resources that were
 created.
@@ -529,3 +591,18 @@ kube-system   coredns-69dfb8f894-c8v66   1/1     Running   0          18m   192.
 [create IAM admin]: https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html
 [Installing kubectl]: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 [Installing eksctl]: https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html
+
+
+
+Kubernetes Usage Guide
+----------------------
+
+Now that we have learned what Kubernetes is and how to deploy an instance, we will then focus on using and managing
+various kubernetes resources, such as deploying an application onto it
+
+### Deploy an Application
+
+#### Create a Namespace
+
+A namespace allows us to group resources in Kubernetes. For more information, see [Namespace](#namespace) for more
+details. 
