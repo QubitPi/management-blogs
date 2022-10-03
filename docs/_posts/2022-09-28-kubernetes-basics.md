@@ -275,6 +275,28 @@ Pods in a Kubernetes cluster are used in 2 main ways:
 > applications.
 > 
 > ![Error loading sidecar-pattern.png]({{ "/assets/img/sidecar-pattern.png" | relative_url}})
+> 
+> **(Single node, multiple container) Ambassador/Proxy Pattern**
+> 
+> The ambassador pattern is another way to run additional services together with our main application container but it
+> does so through a proxy. The primary goal of an ambassador container is to simplify the access of external services
+> for the main application where the ambassador container acts as a service discovery layer. All configuration for the
+> external service lives within the ambassador container. The ambassador container takes care of connecting to a
+> service, keeping the connection open, re-connecting when something unexpected happens, and updating the configuration
+> 
+> With this pattern developers only need to think about their app connecting to a single server on the localhost. This
+> pattern is unique to containers since all Pods running on the same machine will share the localhost network interface.
+> 
+> ![Error loading ambassador-pattern.png]({{ "/assets/img/ambassador-pattern.png" | relative_url}})
+> 
+> **(Single node, multiple container) Adapter Pattern**
+> 
+> The adapter container pattern generally transforms the output of the primary container into the output that fits the
+> standards across our applications. For example, an adapter container could expose a standardized monitoring interface
+> to our application even though the application does not implement it in a standard way. The adapter container takes
+> care of converting the output into what is accepted at the cluster level. 
+> 
+> ![Error loading adaptor-pattern.png]({{ "/assets/img/adaptor-pattern.png" | relative_url}})
 
 #### Init Containers
 
