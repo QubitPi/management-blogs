@@ -214,6 +214,68 @@ applied.
 
 A Pod is similar to a set of containers with shared namespaces and shared filesystem volumes.
 
+For example, the following is a Pod which consists of a contianer running the image "nginx:1.14.2":
+
+```xml
+apiVersion: v1
+kind: Pod
+metadata:
+    name: nginx
+spec:
+    containers:
+    - name: nginx
+      image: nginx:1.14.2
+      ports:
+      - containerPort: 80
+```
+
+To create the Pod defined above, run the following command (assuming the Pod definition is in a filed located at
+`https://k8s.io/examples/pods/simple-pod.yaml`): 
+
+```bash
+kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
+```
+
+**In general, however, Pods are not created directly** but are created using workload resources such as
+[Deployment]() or Job. 
+
+Pods in a Kubernetes cluster are used in 2 main ways:
+
+1. **Pods that run a single container**. The "one-container-per-Pod" model is the most common Kubernetes use case; we
+   can think of this kind of Pod as a wrapper around a single container. **Kubernetes manages Pods rather than managing
+   the containers directly**.
+2. **Pods that run multiple containers working togeter** A Pod can encapsulate an application composed of multiple
+   co-located containers that are tightly coupled and need to share resources. These co-located containers form a single
+   cohesive unit of service. For example, one container serving data stored in a shared volume to the public, while a
+   separate _sidecar_ container refreshes or updates those files. The Pod wraps these containers, storage resources, and
+   and ephemeral network identity together as a single unit.
+
+> 📋 Container Design Patterns for Kubernetes - Sidecar Container
+> 
+> This note is a summary of
+> [the original paper _Design Pattern for Container-Based Distributed Systems_]({{ "/assets/pdf/design-patterns-for-container-based-distributed-systems.pdf" | relative_url}})
+>
+> In general, design patterns are implemented to solve and reuse common well thought out architectures. Design patterns
+> also introduce efficiency into our application and for our developers, reducing overhead and providing us with a way
+> to reuse containers across our applications. There are several ways to group or to enhance containers inside of
+> Kubernetes Pods. These patterns can be categorized as single node, multi-container patterns and advanced multi-node
+> application patterns.
+> 
+> **(Single node, multiple container) Sidecar Pattern**
+> 
+> In these single node patterns, all containers are co-scheduled on a signle node or machine with events occurring
+> between containers on a Pod
+> 
+> The sidecar container extends and works with the primary container. This pattern is best used when there is a clear
+> difference between a primary container and any secondary tasks that need to be done for it. 
+> 
+> For example, a web server container (a primary application) that needs to have its logs parsed and forwarded to log
+> storage (a secondary task) may use a side car container that takes care of the log forwarding. This same sidecar
+> container can also be used in other places in the stack to forward logs for other web servers or even other
+> applications.
+> 
+> ![Error loading sidecar-pattern.png]({{ "/assets/img/sidecar-pattern.png" | relative_url}})
+
 #### Init Containers
 
 #### Ephemeral Containers
@@ -285,7 +347,7 @@ Amazon EKS cluster.
 IAM provides the infrastructure necessary to control authentication and authorization for a user's account. The IAM
 infrastructure includes the following elements:
 
-![Error loading intro-diagram _policies_800.png]({{ "/assets/img/intro-diagram _policies_800.png" | relative_url}})
+![Error loading intro-diagram-policies-800.png]({{ "/assets/img/intro-diagram-policies-800.png" | relative_url}})
 
 * **IAM Resources** The user, group, role, policy, and identity provider objects that are stored in IAM. As with other
   AWS services, we can add, edit, and remove resources from IAM. A resource is an object that exists within a service.
