@@ -223,6 +223,60 @@ needed. Each controller tries to move the current cluster state closer to the de
 > [**Kubernetes API**](#kubernetes-api). When we use the `kubectl` command-line interface, for example, the CLI makes
 > the necessary Kubernetes API calls for us. We can also use the Kubernetes API directly in our own programs using one
 > of the [Client Libraries](https://kubernetes.io/docs/reference/using-api/client-libraries/)
+> 
+> **Describing a Kubernetes Object**
+> 
+> When we create an object in Kubernetes, we must provide the object spec that describes its desired state, as well as
+> some basic information about the object (such as name). When we use the Kubernetes API to create the object, that API
+> request includ that information as JSON in the request body. **Most often, we provide the information to `kubectl` in
+> a .yaml file**. `kubectl` converts the information to JSON for us.
+> 
+> Here is an example .yaml file that shows required fields and object spec for a Kubernetes Deployment:
+> 
+> ```yaml
+> apiVersion: apps/v1
+> kind: Deployment
+> metadata:
+>   name: nginx-deployment
+> spec:
+>   selector:
+>     matchLabels:
+>       app: nginx
+>   replicas: 2 # tells deployment to run 2 pods matching the template
+>   template:
+>     metadata:
+>       labels:
+>         app: nginx
+>     spec:
+>       containers:
+>       - name: nginx
+>         image: nginx:1.14.2
+>         ports:
+>         - containerPort: 80
+> ```
+> 
+> One way to create a Deployment using a .yml file like the one above is to use the
+> [`kubectl apply`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#apply) command (assuming
+> the .yml file path is `https://k8s.io/examples/application/deployment.yaml`):
+> 
+> ```bash
+> kubectl apply -f https://k8s.io/examples/application/deployment.yaml
+> ```
+> 
+> The output is similar to this:
+> 
+> ```
+> deployment.apps/nginx-deployment created
+> ```
+> 
+> Note that each .yml object file, the following fields are required:
+> 
+> * `apiVersion` - which version of the Kubernetes API we are using to create this object
+> * `kind` - the object type we would like to create
+> * `metadata` - data that uniquely identifies the object, including a name, UID, and an optional namespace
+> * `spec` - the desired state of the object. The precise format of this field is different for every Kubernetes object.
+>   The [Kubernetes API Reference](https://kubernetes.io/docs/reference/kubernetes-api/) helps us find the spec format
+>   for all of the objects we can create using Kubernetes
 
 The [Job](#jobs) controller is an example of a 
 
