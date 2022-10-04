@@ -193,6 +193,8 @@ Kubernetes runs our workload by placing containers into Pods to run on _Nodes_. 
 machine, depending on the cluster. Each node is managed by the [control plane](#control-plane) and contains the services 
 necessary to run Pods.
 
+### Controllers
+
 ### Pods
 
 _Pods_ are the smallest deployable units of computing that we can create and manage in Kubernetes. 
@@ -247,8 +249,16 @@ Pods in a Kubernetes cluster are used in 2 main ways:
 2. **Pods that run multiple containers working togeter** A Pod can encapsulate an application composed of multiple
    co-located containers that are tightly coupled and need to share resources. These co-located containers form a single
    cohesive unit of service. For example, one container serving data stored in a shared volume to the public, while a
-   separate _sidecar_ container refreshes or updates those files. The Pod wraps these containers, storage resources, and
-   and ephemeral network identity together as a single unit.
+   separate _sidecar_ container refreshes or updates those files, as in the following diagram. The Pod wraps these 
+   containers, storage resources, and and ephemeral network identity together as a single unit.
+
+   ![Error loading pod.svg]({{ "/assets/img/pod.svg" | relative_url}})
+   
+   Pods are designed to support multiple cooperating processes (as containers) that form a cohesive unit of service. The
+   containers in a Pod are automatically co-located and co-scheduled on the same physical or virtual machine in the
+   cluster. The containers can share resources and dependencies, communicate with each other, and coordinate when and
+   how they are terminated.
+
 
 > 📋 Container Design Patterns for Kubernetes - Sidecar Container
 > 
@@ -336,6 +346,11 @@ Pods in a Kubernetes cluster are used in 2 main ways:
 > origianl request.
 > 
 > ![Error scatter-gather.png]({{ "/assets/img/scatter-gather.png" | relative_url}})
+
+Each Pod is meant to run a single instance of a given application. If we would like to scale application horizontally,
+we should use multiple Pods, one for each instance. In Kubernetes, this is typically referred to as **replication**.
+Replicated Pods are usually created and managed as a group by a workload resource and its [controller](#controllers).
+
 
 #### Init Containers
 
