@@ -297,6 +297,45 @@ Pods in a Kubernetes cluster are used in 2 main ways:
 > care of converting the output into what is accepted at the cluster level. 
 > 
 > ![Error loading adaptor-pattern.png]({{ "/assets/img/adaptor-pattern.png" | relative_url}})
+> 
+> **(Multi-node application patterns) Leader Election Pattern**
+> 
+> In a multi-node pattern, containers are not on a single machine or node, instead these more advanced patterns
+> coordinate communications across multiple nodes. According to Brendan Burns, "modular containers make it easier to
+> build coordinate multi-node distributed applications
+> 
+> A common problem with distributed systems that replicated processes is the ability to elect a leader. Replication is
+> commonly used to share the load among identical instances of a component, for example, an applications may need to
+> distinguish one replica from a set as the "leader". If the election fails, another set must move in to take its place.
+> We may also have multiple leaders that need to be elected in parallel across shards.
+> 
+> There are libraries that can handle such types of elections for us, but they are limited to a particular language and
+> can be complex to implement. A pattern is to link a leader election library to our application through an election
+> leader container. We can then deploy a set of leader-election containers, each one co-schedule with an instance of the
+> application that needs the leader election. A simplified HTTP API can then be used over the localhost network to
+> perform the election when needed. 
+> 
+> The idea behind this pattern is that the leader election containers can be built once and reused across our
+> application
+> 
+> **(Multi-node application patterns) Work Queue Pattern**
+> 
+> This is another common problem in distributed computing. Like leader elections it also benefits from containerization.
+> There are frameworks available so solve the problem but again are limited to a single language environment. Instead,
+> a generic work queue container can be created and reused whenever this capability is required. The developer then will
+> only need to create another container that can take input data and transform it into the required output. The generic
+> work queue container in this case does the heavy lifting to coordinate the queue.
+> 
+> ![Error loading work-queue.png]({{ "/assets/img/work-queue.png" | relative_url}})
+> 
+> **(Multi-node application patterns) Scatter/Gather Pattern**
+> 
+> In this pattern, which is common in search engines, an external client sends an initial request to a "root" or to a
+> "parent" node. The root scatters the request out to a group of servers to perform a set of tasks in parallel and where
+> each shard returns partial data. The root is responsible for gathering the data into a single response for the
+> origianl request.
+> 
+> ![Error scatter-gather.png]({{ "/assets/img/scatter-gather.png" | relative_url}})
 
 #### Init Containers
 
