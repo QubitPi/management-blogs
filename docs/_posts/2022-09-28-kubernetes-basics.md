@@ -184,6 +184,8 @@ The container runtime is the software that is responsible for running containers
 such as [containerd](https://containerd.io/docs/), [CRI-O](https://cri-o.io/#what-is-cri-o), and any other
 implementation of the [Kubernetes CRI (Container Runtime Interface)][CRI].
 
+### Kubernetes API
+
 Concepts
 --------
 
@@ -194,6 +196,35 @@ machine, depending on the cluster. Each node is managed by the [control plane](#
 necessary to run Pods.
 
 ### Controllers
+
+> In robotics and automation, a control loop is a **non-terminating** loop that regulates the **state** of a system
+> 
+> Take thermostat in a room as an example. When we set the temperature, that's telling the thermostat about our
+> **desired state**. The actual room temperature is the **current state**. The thermostat acts to bring the current
+> state closer to the desired state, by turning equipment on or off.
+
+In Kubernetes, controllers are control loops that watch the state of our cluster, then make or request changes when
+needed. Each controller tries to move the current cluster state closer to the desired state.
+
+> **Understanding Kubernetes Objects**
+> 
+> _Kubernetes objects_ are persistent entities in the Kubernetes system. **Kubernetes uses these entities to represent
+> the _state_ of our cluster**. They can describe
+> 
+> * what containerized applications are running (and on which nodes)
+> * the resources available to those applications
+> * the policies around how those applications behave, such as restart policies, upgrades, and fault-tolerance
+>
+> A Kubernetes object is a "record of intent" - once we create the object, the Kubernetes system will constantly work to
+> ensure that object exists. By creating an object, we are effectively tellling the Kubernetes system what we want our
+> cluster's workload to look like; this is our cluster's _desired state_.
+> 
+> To work with Kubernetes objects - whether to create, modify, or delete them - we will need to use the
+> [**Kubernetes API**](#kubernetes-api). When we use the `kubectl` command-line interface, for example, the CLI makes
+> the necessary Kubernetes API calls for us. We can also use the Kubernetes API directly in our own programs using one
+> of the [Client Libraries](https://kubernetes.io/docs/reference/using-api/client-libraries/)
+
+The [Job](#jobs) controller is an example of a 
 
 ### Pods
 
@@ -239,7 +270,7 @@ kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
 ```
 
 **In general, however, Pods are not created directly** but are created using workload resources such as
-[Deployment]() or Job. 
+[Deployment](#deployments) or [Job](#jobs). 
 
 Pods in a Kubernetes cluster are used in 2 main ways:
 
@@ -258,7 +289,6 @@ Pods in a Kubernetes cluster are used in 2 main ways:
    containers in a Pod are automatically co-located and co-scheduled on the same physical or virtual machine in the
    cluster. The containers can share resources and dependencies, communicate with each other, and coordinate when and
    how they are terminated.
-
 
 > 📋 Container Design Patterns for Kubernetes - Sidecar Container
 > 
@@ -355,6 +385,10 @@ Replicated Pods are usually created and managed as a group by a workload resourc
 #### Init Containers
 
 #### Ephemeral Containers
+
+### Deployments
+
+### Jobs
 
 ### Namespace
 
