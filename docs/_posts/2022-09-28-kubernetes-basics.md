@@ -186,6 +186,26 @@ implementation of the [Kubernetes CRI (Container Runtime Interface)][CRI].
 
 ### Kubernetes API
 
+The core of Kubernetes' [control plane](#control-plane) is the [API server](#api-server). The API server exposes an
+HTTP API that lets end users, different parts of your cluster, and external components communicate with one another.
+
+The Kubernetes API lets us query and manipulate the state of API object in Kubernetes (for example, Pods, Namespaces,
+ConfigMaps, and Events)
+
+Most operations can be performed through the [kubectl](https://kubernetes.io/docs/reference/kubectl/) command-line 
+interface or other command-line tools, such as [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/),
+which in turn use the API. We can also access the API directly using REST calls.
+
+Consider using one of the [client libraries](client libraries) if you are writing an application using the Kubernetes
+API.
+
+> Kubernetes stores the serialized state of objects in [etcd](https://etcd.io/)
+
+The Kubernetes API can be extended through either
+
+1. [Custom resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/), or
+2. [Aggregation layer](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/)
+
 Concepts
 --------
 
@@ -206,6 +226,10 @@ necessary to run Pods.
 In Kubernetes, controllers are control loops that watch the state of our cluster, then make or request changes when
 needed. Each controller tries to move the current cluster state closer to the desired state.
 
+A controller tracks at least one Kubernetes resource type. These resource _objects_ have a spec field that represents
+the desired state. The controller(s) for that resource are responsible for making the current state come closer to that
+desired state
+
 > **Understanding Kubernetes Objects**
 > 
 > _Kubernetes objects_ are persistent entities in the Kubernetes system. **Kubernetes uses these entities to represent
@@ -222,7 +246,7 @@ needed. Each controller tries to move the current cluster state closer to the de
 > To work with Kubernetes objects - whether to create, modify, or delete them - we will need to use the
 > [**Kubernetes API**](#kubernetes-api). When we use the `kubectl` command-line interface, for example, the CLI makes
 > the necessary Kubernetes API calls for us. We can also use the Kubernetes API directly in our own programs using one
-> of the [Client Libraries](https://kubernetes.io/docs/reference/using-api/client-libraries/)
+> of the [client libraries][client libraries]
 > 
 > **Describing a Kubernetes Object**
 > 
@@ -278,7 +302,44 @@ needed. Each controller tries to move the current cluster state closer to the de
 >   The [Kubernetes API Reference](https://kubernetes.io/docs/reference/kubernetes-api/) helps us find the spec format
 >   for all of the objects we can create using Kubernetes
 
-The [Job](#jobs) controller is an example of a 
+A controller operates in one of 2 patterns:
+
+1. (More common) Send messages to the [API server](#api-server) that have useful side effects.
+2. Carry out action itself
+
+Let's discuss each of them separately below
+
+#### Control vis API Server
+
+The [Job](#jobs) controller is an example of a Kubernetes built-in controller. Built-in controllers manage state by
+interacting with the cluster API server.
+
+Job is a Kubernetes resource that runs a [Pod](#pods), or perhaps several Pods, to carry out a task and then stop. When
+a Job controller sees a new task, it makes sure that the kubelets on a set of Nodes are running the right number of Pods
+to get the work down. The Job controller does not run any Pods or containers itself. Instead, the job controller tells
+the API server to create or remove Pods. Other components if the [control plane](#control-plane) act on the new
+information and eventually the work is donw. 
+
+After we create a new Job, the desired state is for that Job to be completed. The Job controller makes the current state
+for that Job be closer to our desired state by creating Pods that do the work so that the Job is moving towards to
+completion.
+
+#### Direct Control
+
+Some controllers need to make changes to things outside cluster. For example, if you use a control loop to make sure
+there are enough [Nodes](#nodes) cluster, then that controller needs something outside the current cluster to set up new
+Nodes when needed. 
+
+> There has already been such [controller](https://github.com/kubernetes/autoscaler/) that horizontally scales nodes
+
+Controllers that interact with external state find their desired state from the API server, then communicate directly
+with an external system to bring the current state closer in line. Next it reports current state back to API server so
+that other control loops can observe that reported data and take their own actions. 
+
+> 📋️ Cloud native computing is an approach in software development that utilizes cloud computing to build and run
+> scalable applications in modern, dynamic environments such as public, private, and hybrid clouds. Technologies such as
+> containers, microservices, serverless functions and immutable infrastructure, deployed via declarative code are common
+> elements of this architecture type
 
 ### Pods
 
@@ -812,14 +873,6 @@ kube-system   coredns-69dfb8f894-c8v66   1/1     Running   0          18m   192.
 ```
 
 
-[CRI]: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/container-runtime-interface.md
-[root user tasks]: https://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html#aws_tasks-that-require-root
-[create IAM admin]: https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html
-[Installing kubectl]: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
-[Installing eksctl]: https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html
-
-
-
 Kubernetes Usage Guide
 ----------------------
 
@@ -832,3 +885,11 @@ various kubernetes resources, such as deploying an application onto it
 
 A namespace allows us to group resources in Kubernetes. For more information, see [Namespace](#namespace) for more
 details. 
+
+
+[CRI]: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/container-runtime-interface.md
+[root user tasks]: https://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html#aws_tasks-that-require-root
+[create IAM admin]: https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started_create-admin-group.html
+[Installing kubectl]: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+[Installing eksctl]: https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html
+[client libraries]: https://kubernetes.io/docs/reference/using-api/client-libraries/
