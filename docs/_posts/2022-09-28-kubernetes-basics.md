@@ -203,7 +203,7 @@ API.
 
 The Kubernetes API can be extended through either
 
-1. [Custom resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/), or
+1. [Custom resources][custom resources], or
 2. [Aggregation layer](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/)
 
 Concepts
@@ -362,7 +362,7 @@ applied.
 
 A Pod is similar to a set of containers with shared namespaces and shared filesystem volumes.
 
-For example, the following is a Pod which consists of a contianer running the image "nginx:1.14.2":
+For example, the following is a Pod which consists of a container running the image "nginx:1.14.2":
 
 ```xml
 apiVersion: v1
@@ -384,8 +384,13 @@ To create the Pod defined above, run the following command (assuming the Pod def
 kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
 ```
 
-**In general, however, Pods are not created directly** but are created using workload resources such as
-[Deployment](#deployments) or [Job](#jobs). 
+**In general, however, Pods are not created directly** but are created using [template](#pod-templates) with workload 
+resources such as
+
+* [Job](#jobs)
+* [Deployment](#deployments)
+* [StatefulSet](#statefulsets)
+* [DaemonSet](#daemonset)
 
 Pods in a Kubernetes cluster are used in 2 main ways:
 
@@ -404,6 +409,9 @@ Pods in a Kubernetes cluster are used in 2 main ways:
    containers in a Pod are automatically co-located and co-scheduled on the same physical or virtual machine in the
    cluster. The containers can share resources and dependencies, communicate with each other, and coordinate when and
    how they are terminated.
+
+   Some Pods have [init containers](#init-containers) as well as app containers. Init containers run and complete before
+   app containers are started
 
 > 📋 Container Design Patterns for Kubernetes - Sidecar Container
 > 
@@ -494,8 +502,56 @@ Pods in a Kubernetes cluster are used in 2 main ways:
 
 Each Pod is meant to run a single instance of a given application. If we would like to scale application horizontally,
 we should use multiple Pods, one for each instance. In Kubernetes, this is typically referred to as **replication**.
-Replicated Pods are usually created and managed as a group by a workload resource and its [controller](#controllers).
+Replicated Pods are usually created and managed as a group by a **workload resource** and its
+[**controller**](#controllers). For example, if a Node fails, a controller notices that Pods on that Node have stopped
+working and creates a replacement Pod. The scheduler places the replacement Pod onto a healthy Node. 
 
+#### Pod Templates
+
+Controllers for **workload** resources create Pods from a _Pod template_ and manage those Pods on our behalf.
+
+> **Workloads**
+> 
+> A workload is an application running inside a set of Pods. We don't manage Pod lifecycle directly. Instead, we use
+> _workload resources_ that manage a set of Pods on our behalf. These resources configure [controllers](#controllers)
+> that make sure Pods match the state moves to what we specified
+> 
+> Kubernetes provides several built-in workload resources:
+> 
+> * [Deployment](#deployments)
+> * [ReplicaSet](#replicaset)
+> * [StatefulSet](#statefulsets)
+> * [DaemonSet](#daemonset)
+> * [Job](#jobs)
+> * [CronJob](#cronjob)
+> 
+> In the wider Kubernetes ecosystem, we can find third-party workload resources that provide additional behaviors by
+> using [custom resource definition](custom resources)
+
+Pod templates are _specifications_ for creating Pods and are included in workload resources such as
+[deployments](#deployments). Controller for a workload resource uses this specification inside workload object to
+construct actual Pods. Note that the Pod template is also part of the desired state. For example, the template below is
+a simple Job with a template that starts one container. The container in that Pod prints a message then pauses:
+
+```xml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello
+spec:
+  template:
+    spec:
+      containers:
+      - name: hello
+        image: busybox:1.28
+        command: ['sh', '-c', 'echo "Hello, Kubernetes!" && sleep 3600']
+      restartPolicy: OnFailure
+```
+
+> 📋 Modifying the Pod template has no direct effect on the Pods that already exists. To make the modification
+> effective, that resource will **automatically** create replacement Pods that uses the modified template. 
+
+Pods natively provide 2 kins of shared resources for their constituent containers: networking & storage
 
 #### Init Containers
 
@@ -503,7 +559,15 @@ Replicated Pods are usually created and managed as a group by a workload resourc
 
 ### Deployments
 
+### ReplicaSet
+
+### StatefulSets
+
+### DaemonSet
+
 ### Jobs
+
+### CronJob
 
 ### Namespace
 
@@ -893,3 +957,4 @@ details.
 [Installing kubectl]: https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 [Installing eksctl]: https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html
 [client libraries]: https://kubernetes.io/docs/reference/using-api/client-libraries/
+[custom resources]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
