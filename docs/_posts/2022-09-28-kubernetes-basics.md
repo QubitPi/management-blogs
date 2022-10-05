@@ -413,6 +413,25 @@ Pods in a Kubernetes cluster are used in 2 main ways:
    Some Pods have [init containers](#init-containers) as well as app containers. Init containers run and complete before
    app containers are started
 
+   Pods allow data sharing and communication among their constituent containers. A Pod can specify a set of **shared
+   storage [volumes](#volumes)**. All containers in the Pod can access the shared volumes, allowing those containers to
+   **share data**. Volumes also persists data in a Pod to survive in case one of the containers within needs to be
+   restarted. Another way of sharing and communicating is through network. Each Pod is assigned a unique IP for each
+   address family. **Every container in a Pod shares the network namespace, including the IP address and network ports.
+   Inside a Pod, the containers that belong to the Pod communicate with one another using _localhost_. When containers
+   in a Pod communicate with entities outside of Pod, they must coordinate how they use the shared network resources
+   (such as ports). Within a Pod, containers share an IP address and port space, and can find each other via
+   localhost**. The containers in a Pod can also communicate with each other using standard inter-process communications 
+   like SystemV semaphores or POSIX shared memory. Containers in different Pods have distinct IP addresses and cannot
+   communicate by OS-level IPC without special configuration. Containers that want to interact with a container running
+   in a different Pod can use IP networking to communicate. In addition, containers within the Pod see the system
+   hostname as being the same as the configured `name` for the Pod. See [Kubernetes Networking](#networking) sections
+   to learn more. 
+
+   > The network model is implemented by the container runtime on each node. The most common container runtimes use
+   > [Container Network Interface (CNI)](https://github.com/containernetworking/cni) plugins to manage their network and
+   > security capabilities. 
+
 > 📋 Container Design Patterns for Kubernetes - Sidecar Container
 > 
 > This note is a summary of
@@ -549,9 +568,8 @@ spec:
 ```
 
 > 📋 Modifying the Pod template has no direct effect on the Pods that already exists. To make the modification
-> effective, that resource will **automatically** create replacement Pods that uses the modified template. 
-
-Pods natively provide 2 kins of shared resources for their constituent containers: networking & storage
+> effective, that resource will **automatically** create **replacement** Pods that uses the modified template instead of
+> updating or patching the existing Pods. 
 
 #### Init Containers
 
@@ -568,6 +586,48 @@ Pods natively provide 2 kins of shared resources for their constituent container
 ### Jobs
 
 ### CronJob
+
+### Storage
+
+#### Volumes
+
+> On-disk files in a container are ephemeral, which presents some problems for non-trivial applications when running in
+> containers. One problem is the loss of files when a container crashes, because kubelet restarts the container with a
+> clean state. A second problem occurs when sharing files between containers running together in a Pod. The Kubernetes
+> volume abstraction solves both of these problems. 
+
+Kubernetes supports many types of volumes. A Pod can use any number of volume types simultaneously. **Ephemeral volume**
+types have a lifetime of a Pod, but **persistent volumes** exist beyond the lifetime of a Pod. When a Pod is removed,
+Kubernetes destroys ephemeral volumes but not persistent volumes. For all types of volumes in a given Pod, however, data
+is preserved across container restarts.
+
+At its core, a volume is a directory, possibly with some data in it, which is accessible to the containers in a Pod. How
+that directory comes to be, the medium that backs it, and the contents of it are determined by the particular volume
+type used.
+
+To use a volume, specify the volumes to provide for a Pod in `.spec.volumes` and declare where to mount those volumes
+into containers in `.spec.containers[*].volumeMounts`. A process in a container sees a filesystem view composed of
+the initial contents of the container image and volumes (if defined) mounted onto the container. _Volumes mount to a
+specified paths within the image_. For each container defined within a Pod, we must independently specify where to
+mount each volume that the container uses.
+
+#### Types of Volumes
+
+##### cdphfs
+
+A cephfs volume allows an existing CephFS volume to be mounted onto our Pod. When a Pod is removed, the data in the
+cephfs volume are preserved and the volume is merely unmounted. This means that a cephfs volume can be pre-populated
+with data, and that data can be shared among Pods. The cephfs volume can be mounted by multiple writers simultaneously
+
+> We must have our own Ceph server running before we can use it this way
+
+See the [CephFS example](https://github.com/kubernetes/examples/tree/master/volumes/cephfs/) for more details
+
+#### configMap
+
+### Networking
+
+https://kubernetes.io/docs/concepts/cluster-administration/networking/
 
 ### Namespace
 
