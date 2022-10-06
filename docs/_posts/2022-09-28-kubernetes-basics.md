@@ -635,7 +635,24 @@ This Deployment can be created using command (assuming the spec file above is lo
 kubectl apply -f https://k8s.io/examples/controllers/nginx-deployment.yaml
 ```
 
-Next, we can check if the Deployment was created. If the Deployment is still being created, the output is similar to the
+Next, we can check if the Deployment was created with
+
+```graphql
+kubectl get deployments
+```
+
+> ⚠️ We would always want to attach a namespace to the command above to tell kubectl "in which namespace are we trying
+> to find that deployment" by using the general form of
+> 
+> ```bash
+> kubectl get deployments -n <namespace>
+> ```
+> 
+> Since the nginx-deployment example above doesn't specify namespace, that deployment gets deployed to default
+> namespace, which is why we can simply call `kubectl get deployments` and `kubectl` will simply look at default
+> namespace instead. 
+
+If the Deployment is still being created, the output is similar to the
 following
 
 ```
@@ -643,12 +660,64 @@ NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   0/3     0            0           1s
 ```
 
+#### Update a Deployment
+
+Let's say we would like to update the deployed resource defined by the example at the beginning of
+[Nginx Deployments](#deployments) section by upgrading image version from nginx:1.14.2 to nginx:1.16.1, one of the two
+commands below could be used:
+
+```bash
+kubectl set image deployment.v1.apps/nginx-deployment nginx=nginx:1.16.1
+
+# or
+
+kubectl set image deployment/nginx-deployment nginx=nginx:1.16.1
+```
+
+The output is similar to:
+
+```
+deployment.apps/nginx-deployment image updated
+```
+
+Alternatively, we can edit the Deployment interactively and change `.spec.template.spec.containers[0].image` from 
+`nginx:1.14.2` to `nginx:1.16.1`:
+
+```bash
+kubectl edit deployment/nginx-deployment
+```
+
+The output is similar to:
+
+```
+deployment.apps/nginx-deployment edited
+```
+
+To see the rollout status, run:
+
+```bash
+$ kubectl rollout status deployment/nginx-deployment
+
+Waiting for rollout to finish: 2 out of 3 new replicas have been updated...
+...
+deployment "nginx-deployment" successfully rolled out
+```
+
+
+
+
 #### Rollback a Deployment
 
 Sometimes, we may want to rollback a Deployment; for example, when the Deployment is not stable, such as crash looping.
 By default, all of the Deployment's rollout history is kept in the system so that we can rollback anytime we want.
 
-> 📋 
+> 📋  A Deployment's revision is created when a Deployment's rollout is triggered. The new revision is created if and 
+> only if the Deployment's Pod template (`.spec.template`) is changed such as updating the labels or container images
+> of the template. Other updates, such as scaling the Deployment, do not create a Deployment revision. This means that 
+> when we roll back to an earlier revision, only the Deployment's Pod template part is rolled back.
+
+
+
 
 ### StatefulSets
 
@@ -707,8 +776,6 @@ resources need to be unique within a namespace, but not across namespaces. Names
 for namespaced objects (e.g. Deployments, Services, etc) and not for cluster-wide objects (e.g. StorageClass, Nodes,
 PersistentVolumesn, etc)
 
-#### When to Use Multiple Namespaces
-
 Namespaces are intended for use in environments with many users spread across multiple teams, or porjects. For clusters
 with a few to tens of users, we should not need to create or think about namespaces at all.
 
@@ -720,6 +787,48 @@ Namespaces are a way to divide cluster resources between multiple users vis
 
 It is not necessary to use multiple namespaces to separate slightly different resources, such as different versions of
 the same software: use labels to distinguish resources within the same namespace. 
+
+We can list the current namespaces in a cluster using:
+
+```bash
+$ kubectl get namespace
+
+NAME              STATUS   AGE
+default           Active   1d
+kube-node-lease   Active   1d
+kube-public       Active   1d
+kube-system       Active   1d
+```
+
+Kubernetes starts with 4 initial namespaces:
+
+1. **default** The default namespace for objects with namespace not specified
+2. **kube-system** The namespace for objects created by the Kubernetes system
+3. **kube-public** This namespace is readable by all users (including those not authenticated). This namespace is mostly
+   reserved for cluster usage, in cases that some resources should be visible and readable publicly throughout the whole
+   cluster. The public aspect of this namespace is only a convention, not a requirement
+4. **kube-node-lease** This namespace holds
+   [Lease](https://kubernetes.io/docs/reference/kubernetes-api/cluster-resources/lease-v1/) objects associated with each
+   node. Node leases allow the kubelet to send heartbeats so that control plane can detect node failure
+
+> 📋 **Heartbeats**, sent by Kubernetes nodes, help our cluster to determine the availability of each node, and to take
+> action when failures are detected.
+
+Each request kubectl command should be attached with a namespace unless the namespace is `default` using
+`-n` or `--namespace` flat. For example
+
+```bash
+kubectl get pods -n <insert-namespace-name-here>
+kubectl run nginx --image=nginx --namespace <insert-namespace-name-here>
+```
+
+We can permanently save the namespace for all subsequent kubectl commands in that context.
+
+```bash
+kubectl config set-context --current --namespace=<insert-namespace-name-here>
+# Validate it
+kubectl config view --minify | grep namespace:
+```
 
 
 Kubernetes on AWS (EKS)
