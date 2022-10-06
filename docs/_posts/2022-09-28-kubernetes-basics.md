@@ -1523,11 +1523,11 @@ The parent's final values now contains the `myint` and `mybool` fields imported 
 
 ###### Managing Dependencies Manually through the charts/ Directory
 
-If more control over dependencies is desired, these dependencies can be expressed explicitly by copying the dependency
-charts into the `charts/` directory.
+If _more control over dependencies_ is desired, these dependencies can be expressed explicitly by copying the dependency
+charts into the "charts/" directory.
 
-A dependency should be an unpacked chart directory but its name cannot start with `_` or `.`. Such files are ignored by
-the chart loader.
+A dependency should be an _unpacked_ chart directory but its name cannot start with `_` or `.`. Such files are ignored
+by the chart loader.
 
 For example, if the WordPress chart depends on the Apache chart, the Apache chart (of the correct version) is supplied
 in the WordPress chart's `charts/` directory:
@@ -1566,7 +1566,6 @@ Furthermore, A is dependent on chart B that creates objects
 * replicaset "B-ReplicaSet"
 * service "B-Service"
 
-
 After installation/upgrade of chart A a single Helm release is created/modified. The release will create/update all of
 the above Kubernetes objects in the following order:
 
@@ -1585,25 +1584,25 @@ This is because when Helm installs/upgrades charts, the Kubernetes objects from 
 
 Hence a single release is created with all the objects for the chart and its dependencies.
 
-#### Templates and Values
+##### Templates and Values
 
 Helm Chart templates are written in the [Go template language](https://golang.org/pkg/text/template/), with the addition
 of 50 or so add-on template functions from the [Sprig library](https://github.com/Masterminds/sprig) and a few other
 [specialized functions](https://helm.sh/docs/howto/charts_tips_and_tricks/).
 
-All template files are stored in a chart's `templates/` folder. When Helm renders the charts, it will pass every file in
+All template files are stored in a chart's "templates/" folder. When Helm renders the charts, it will pass every file in
 that directory through the template engine.
 
 **Values for the templates are supplied two ways**:
 
-1. [**Compile-Time**] Chart developers may supply a file called `values.yaml` inside of a chart. This file can contain
-   default values.
+1. [**Compile-Time**] Chart developers may supply a file called "values.yaml" in a chart. This file contains default 
+   values.
 2. [**Run-Time**] Chart users may supply a YAML file that contains values. This can be provided on the command line with
    `helm install`.
 
-When a user supplies custom values, these values will override the values in the chart's `values.yaml` file.
+When a user supplies custom values, these values will override the values in the chart's "values.yaml" file.
 
-##### Template Files
+###### Template Files
 
 Template files follow the standard conventions for writing Go templates (see
 [the text/template Go package documentation](https://golang.org/pkg/text/template/) for details). An example template
@@ -1613,35 +1612,35 @@ file might look something like this:
 apiVersion: v1
 kind: ReplicationController
 metadata:
-    name: deis-database
-    namespace: deis
-    labels:
-        app.kubernetes.io/managed-by: deis
+  name: deis-database
+  namespace: deis
+  labels:
+    app.kubernetes.io/managed-by: deis
 spec:
-    replicas: 1
-    selector:
+  replicas: 1
+  selector:
+    app.kubernetes.io/name: deis-database
+  template:
+    metadata:
+      labels:
         app.kubernetes.io/name: deis-database
-    template:
-        metadata:
-            labels:
-                app.kubernetes.io/name: deis-database
-        spec:
-            serviceAccount: deis-database
-            containers:
-                - name: deis-database
-                  image: {{ .Values.imageRegistry }}/postgres:{{ .Values.dockerTag }}
-                  imagePullPolicy: {{ .Values.pullPolicy }}
-                  ports:
-                      - containerPort: 5432
-                  env:
-                      - name: DATABASE_STORAGE
-                        value: {{ default "minio" .Values.storage }}
+    spec:
+      serviceAccount: deis-database
+      containers:
+        - name: deis-database
+          image: {{ .Values.imageRegistry }}/postgres:{{ .Values.dockerTag }}
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          ports:
+            - containerPort: 5432
+          env:
+            - name: DATABASE_STORAGE
+              value: {{ default "minio" .Values.storage }}
 ```
 
 > The `DATABASE_STORAGE` specified this way is the equivalent of `docker run -e DATABASE_STORAGE=minio`
 
-The example above is a template for a Kubernetes replication controller. It can use the following four template values
-(usually defined in a `values.yaml` file):
+The example above is a template for a Kubernetes replication controller. It uses the following 4 template values
+(usually defined in a "values.yaml" file):
 
 1. **`imageRegistry`**: The source registry for the Docker image.
 2. **`dockerTag`**: The tag for the docker image.
@@ -1650,9 +1649,9 @@ The example above is a template for a Kubernetes replication controller. It can 
 
 To see many working charts, check out the CNCF [Artifact Hub](https://artifacthub.io/packages/search?kind=0).
 
-##### Predefined Values
+###### Predefined Values
 
-Values that are supplied via a `values.yaml` file (or via the `--set` flag) are accessible from the `.Values` object in
+Values that are supplied via a "values.yaml" file (or via the `--set` flag) are accessible from the `.Values` object in
 a template. But there are other pre-defined pieces of data you can access in your templates.
 
 The following values are pre-defined and are available to every template; they cannot be overridden. As with all values,
@@ -1673,14 +1672,14 @@ the names are _case sensitive_.
   (`{{ .Capabilities.KubeVersion }}`) and the supported Kubernetes API versions
   (`{{ .Capabilities.APIVersions.Has "batch/v1" }}`)
 
-> ⚠️ Any unknown `Chart.yaml` fields will be dropped. They will not be accessible inside of the Chart object. Thus,
-> `Chart.yaml` cannot be used to pass arbitrarily structured data into the template. The values file can be used for
+> ⚠️ Any unknown `Chart.yaml` fields will be dropped. They will not be accessible in the Chart object. Thus,
+> "Chart.yaml" cannot be used to pass arbitrarily structured data into the template. The values file can be used for
 > that, though.
 
-##### Values Files
+###### Values Files
 
-Considering the template in the previous section, a `values.yaml` file that supplies the necessary values would look
-like this:
+Considering the template in the [previous section](#template-files), a `values.yaml` file that supplies the necessary 
+values would look like this:
 
 ```yaml
 imageRegistry: "quay.io/deis"
@@ -1690,7 +1689,7 @@ storage: "swift"
 ```
 
 A values file is formatted in YAML. A chart may include a default `values.yaml` file. The Helm install command allows a
-user to override values by supplying additional YAML values:
+user to override values by supplying additional YAML values. For example
 
 ```bash
 $ helm install --generate-name --values=myvals.yaml wordpress
@@ -1703,7 +1702,7 @@ When values are passed in this way, they will be merged into the default values 
 storage: "gcs"
 ```
 
-When this is merged with the `values.yaml` in the chart, the resulting generated content will be:
+When this is merged with the "values.yaml" in the chart, the resulting generated content will be:
 
 ```yaml
 imageRegistry: "quay.io/deis"
@@ -1712,23 +1711,12 @@ pullPolicy: "Always"
 storage: "gcs"
 ```
 
-##### Scope, Dependencies, and Values
+###### Scope, Dependencies, and Values
 
 Values files can declare values for the top-level chart, as well as for any of the charts that are included in that
-chart's `charts/` directory. Or, to put it differently, **a values file can supply values to the chart as well as to any
+chart's "charts/" directory. Or, to put it differently, **a values file can supply values to the chart as well as to any
 of its dependencies**. For example, the demonstration WordPress chart above has both `mysql` and `apache` as dependencies.
-The values file could supply values to all of these components:
-
-```yaml
-title: "My WordPress Site" # Sent to the WordPress template
-
-mysql:
-    max_connections: 100 # Sent to MySQL
-    password: "secret"
-
-apache:
-    port: 8080 # Passed to Apache
-```
+The values file could supply values to all of these components
 
 Charts at a higher level have access to all of the variables defined beneath. So the WordPress chart can access the
 MySQL password as `.Values.mysql.password`. But lower level charts cannot access things in parent charts, so MySQL will
@@ -1738,57 +1726,27 @@ Values are namespaced, but namespaces are pruned. So for the WordPress chart, it
 `.Values.mysql.password`. But for the MySQL chart, the scope of the values has been reduced and the namespace prefix
 removed, so it will see the password field simply as `.Values.password`.
 
-##### Global Values
+###### Global Values
 
-As of 2.0.0-Alpha.2, Helm supports special "global" value. Consider this modified version of the previous example:
+As of 2.0.0-Alpha.2, Helm supports special "global" value. For example:
 
 ```yaml
-title: "My WordPress Site" # Sent to the WordPress template
+# parent chart values.yaml file
 
 global:
-    app: MyWordPress
-
-mysql:
-    max_connections: 100 # Sent to MySQL
-    password: "secret"
-
-apache:
-    port: 8080 # Passed to Apache
+  app: MyWordPress
 ```
 
 The above adds a `global` section with the value `app: MyWordPress`. This value is available to all charts as
-`.Values.global.app`.
-
-For example, the mysql templates may access app as `{{ .Values.global.app}}`, and so can the apache chart. Effectively,
-the values file above is regenerated like this:
-
-```yaml
-title: "My WordPress Site" # Sent to the WordPress template
-
-global:
-    app: MyWordPress
-
-mysql:
-    global:
-        app: MyWordPress
-    max_connections: 100 # Sent to MySQL
-    password: "secret"
-
-apache:
-    global:
-        app: MyWordPress
-    port: 8080 # Passed to Apache
-```
-
-This provides a way of sharing one top-level variable with all subcharts, which is useful for things like setting
-`metadata` properties like labels.
+`.Values.global.app`. For example, the mysql templates may access app as `{{ .Values.global.app}}`, and so can the
+apache chart. This provides a way of sharing one top-level variable with all subcharts, which is useful for things like 
+setting `metadata` properties like labels.
 
 If a subchart declares a global variable, that global will be passed _downward_ (to the subchart's subcharts), `not
-upward_ to the parent chart. There is no way for a subchart to influence the values of the parent chart.
+upward_ to the parent chart. There is no way for a subchart to influence the values of the parent chart. In addition, 
+global variables of parent charts take precedence over the global variables from subcharts.
 
-Also, global variables of parent charts take precedence over the global variables from subcharts.
-
-##### Schema Files
+###### Schema Files
 
 Sometimes, a chart maintainer might want to define a structure on their values. This can be done by defining a schema in
 the `values.schema.json` file. A schema is represented as a [JSON Schema](https://json-schema.org/). It might look
@@ -1865,7 +1823,7 @@ Furthermore, the final `.Values` object is checked against all subchart schemas.
 subchart can't be circumvented by a parent chart. This also works backwards - if a subchart has a requirement that is
 not met in the subchart's `values.yaml` file, the parent chart must satisfy those restrictions in order to be valid.
 
-#### Custom Resource Definitions (CRDs)
+##### Custom Resource Definitions (CRDs)
 
 Kubernetes provides a mechanism for declaring new types of Kubernetes objects. Using CustomResourceDefinitions (CRDs),
 Kubernetes developers can declare custom resource types.
@@ -1930,7 +1888,7 @@ spec:
 Helm will make sure that the `CronTab` kind has been installed and is available from the Kubernetes API server before it
 proceeds installing the things in `templates/`.
 
-##### Limitations on CRDs
+###### Limitations on CRDs
 
 Unlike most objects in Kubernetes, CRDs are installed globally. For that reason, Helm takes a very cautious approach in
 managing CRDs. CRDs are subject to the following limitations:
@@ -1943,7 +1901,7 @@ managing CRDs. CRDs are subject to the following limitations:
 
 Operators who want to upgrade or delete CRDs are encouraged to do this manually and with great care.
 
-#### Using Helm to Manage Charts
+##### Using Helm to Manage Charts
 
 The `helm` tool has several commands for working with charts.
 
@@ -1967,35 +1925,6 @@ You can also use helm to help you find issues with your chart's formatting or in
 $ helm lint mychart
 No issues found
 ```
-
-#### Chart Repositories
-
-A _chart repository_ is an HTTP server that houses one or more packaged charts. While `helm` can be used to manage local
-chart directories, when it comes to sharing charts, the preferred mechanism is a chart repository.
-
-Any HTTP server that can serve YAML files and tar files and can answer GET requests can be used as a repository server.
-The Helm team has tested some servers, including Google Cloud Storage with website mode enabled, and S3 with website
-mode enabled.
-
-A repository is characterized primarily by the presence of a special file called **index.yaml** that has a list of all
-of the packages supplied by the repository, together with metadata that allows retrieving and verifying those packages.
-
-On the client side, repositories are managed with the `helm repo` commands. However, Helm does not provide tools for
-uploading charts to remote repository servers. This is because doing so would add substantial requirements to an
-implementing server, and thus raise the barrier for setting up a repository.
-
-#### Chart Starter Packs
-
-The `helm create` command takes an optional `--starter` option that lets you specify a "starter chart".
-
-Starters are just regular charts, but are located in `$XDG_DATA_HOME/helm/starters`. As a chart developer, you may
-author charts that are specifically designed to be used as starters. Such charts should be designed with the following
-considerations in mind:
-
-* The `Chart.yaml` will be overwritten by the generator.
-* Users will expect to modify such a chart's contents, so documentation should indicate how users can do so.
-* All occurrences of `<CHARTNAME>` will be replaced with the specified chart name so that starter charts can be used as
-  templates.
 
 #### Chart Hooks
 
