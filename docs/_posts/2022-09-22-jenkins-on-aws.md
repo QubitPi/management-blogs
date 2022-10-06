@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deploying Jenkins to AWS
+title: Deploying Jenkins to AWS and Kubernetes/EKS
 tags: [CI/CD]
 category: FINALIZED
 color: rgb(237, 114, 17)
@@ -930,3 +930,8 @@ first administrator user.
    - If the page does not automatically refresh after a minute, use our web browser to refresh the page manually.
 3. If required, log in to Jenkins with the credentials of the user we just created and we are ready to start using
    Jenkins!
+
+
+Installing Jenkins to Kubernetes
+--------------------------------
+
