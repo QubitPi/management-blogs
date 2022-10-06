@@ -1349,35 +1349,48 @@ The last pair of optional fields are **tags** and **condition**. All charts are 
 
 For example, 
 
-```yaml
-# parentchart/Chart.yaml
+<table>
+<tr>
+<th>parentchart/Chart.yaml</th>
+<th>parentchart/values.yaml</th>
+</tr>
 
+<tr>
+<td>
+
+{% highlight yaml %}
 dependencies:
-  - name: subchart1
-    repository: http://localhost:10191
-    version: 0.1.0
-    condition: subchart1.enabled, global.subchart1.enabled
-    tags:
-      - front-end
-      - subchart1
-  - name: subchart2
-    repository: http://localhost:10191
-    version: 0.2.0
-    condition: subchart2.enabled,global.subchart2.enabled
-    tags:
-      - back-end
-      - subchart2
-```
+- name: subchart1
+  repository: http://localhost:10191
+  version: 0.1.0
+  condition: subchart1.enabled, global.subchart1.enabled
+  tags:
+    - front-end
+    - subchart1
+- name: subchart2
+  repository: http://localhost:10191
+  version: 0.2.0
+  condition: subchart2.enabled,global.subchart2.enabled
+  tags:
+    - back-end
+    - subchart2
+{% endhighlight %}
 
-```yaml
-# parentchart/values.yaml
+</td>
 
+<td>
+
+{% highlight yaml %}
 subchart1:
   enabled: true
 tags:
   front-end: false
   back-end: true
-```
+{% endhighlight %}
+
+</td>
+</tr>
+</table>
 
 In the above example all charts with the tag `front-end` would be disabled but since the `subchart1.enabled` path
 evaluates to `true` in the parent's values, the condition will override the front-end tag and `subchart1` will be
@@ -1412,24 +1425,36 @@ field.
 If a child chart's values.yaml file contains an `exports` field at the root, its contents may be imported directly into
 the parent's values by specifying the keys to import as in the example below:
 
-```yaml
-# parent's Chart.yaml file
+<table>
+<tr>
+<th>parent's Chart.yaml file</th>
+<th>child's values.yaml file</th>
+</tr>
 
+<tr>
+<td>
+
+{% highlight yaml %}
 dependencies:
-  - name: subchart
-    repository: http://localhost:10191
-    version: 0.1.0
-    import-values:
-      - data
-```
+- name: subchart
+  repository: http://localhost:10191
+  version: 0.1.0
+  import-values:
+    - data
+{% endhighlight %}
 
-```yaml
-# child's values.yaml file
+</td>
+<td>
 
+{% highlight yaml %}
 exports:
   data:
     myint: 99
-```
+{% endhighlight %}
+
+</td>
+</tr>
+</table>
 
 The final parent values would contain our exported field:
 
@@ -1452,6 +1477,7 @@ parent's values at the path specified in `parent`. For example
 <th>parent's Chart.yaml file</th>
 <th>subchart1's values.yaml file</th>
 </tr>
+
 <tr>
 <td>
 
@@ -1467,6 +1493,7 @@ dependencies:
 {% endhighlight %}
 
 </td>
+
 <td>
 
 {% highlight yaml %}
