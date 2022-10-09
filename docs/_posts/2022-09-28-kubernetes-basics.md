@@ -895,7 +895,7 @@ Amazon EKS cluster.
 * **kubectl** A command line tool for working with Kubernetes clusters. This guide requires that you use version 1.23 or later. For more information, see [Installing kubectl][Installing kubectl].
 * **eksctl** A command line tool for working with EKS clusters that automates many individual tasks. We use version 
   0.112.0 or later. For more information, see [Installing eksctl][Installing eksctl].
-* Required [**IAM permissions**](#aws-identity-and-access-management-iam) The IAM security principal that we're using
+* Required [**IAM permissions**]() The IAM security principal that we're using
   must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and 
   related resources. Okay, to put it simple, we will create a admin user that will cover all of these permissions
 
