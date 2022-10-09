@@ -652,13 +652,41 @@ kubectl get deployments
 > namespace, which is why we can simply call `kubectl get deployments` and `kubectl` will simply look at default
 > namespace instead. 
 
-If the Deployment is still being created, the output is similar to the
-following
+If the Deployment is still being created, the output is similar to the following
 
 ```
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   0/3     0            0           1s
 ```
+
+* **READY** displays how many replicas of the application are available for use. It follows the pattern "ready/desired".
+  In the example output above, we have 0 ready and our desired state would be having 3 ready (because we put 3 for the
+  `.spec.replicas` field in the example above)
+* **UP-TO-DATE** shows the number of replicas that have been updated to achieve the desired state
+* **AVAILABLE** tells how many replicas of the application are available for use
+* **AGE** indicates the amount of time that application has been running.
+
+Note that a failed deployment (e.g. error during rollout) will still age the deployment. Hence an `AGE` of 50min does
+NOT necessary mean the deployment has been a success; we should check Deployment rollout status instead, using
+`kubectl rollout status deployment/nginx-deployment -n <namespace>` to verify whether or not the deployment is properly 
+running. The output of this command should be similar to
+
+```
+$ kubectl rollout status deployment/nginx-deployment
+
+Waiting for rollout to finish: 2 out of 3 new replicas have been updated...
+deployment "nginx-deployment" successfully rolled out
+```
+
+Running the `kubectl get deployments` again a few seconds later, we shall see
+
+```
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-deployment   3/3     3            3           18s
+```
+
+Notice that the Deployment has created all three replicas, and all replicas are up-to-date (they contain the latest Pod 
+template) and available.
 
 #### Update a Deployment
 
@@ -855,7 +883,7 @@ without needing to install, operate, and maintain your own Kubernetes control pl
 > manage our own cluster, we will have to ensure that different VMs (EC2 instances) are on different availability zones. 
 > If we can't guarantee that, then running different pods on the same physical server won't bring much fault tolerance.
 
-### Create a New Kubernetes Cluster
+### Creating a New Kubernetes Cluster
 
 This section documents how to create all of the required resources to get started with Amazon Elastic Kubernetes Service 
 (Amazon EKS) using eksctl, a simple command line utility for creating and managing Kubernetes clusters on Amazon EKS. At 
@@ -870,78 +898,6 @@ Amazon EKS cluster.
 * Required [**IAM permissions**](#aws-identity-and-access-management-iam) The IAM security principal that we're using
   must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and 
   related resources. Okay, to put it simple, we will create a admin user that will cover all of these permissions
-
-#### AWS Identity and Access Management (IAM)
-
-IAM provides the infrastructure necessary to control authentication and authorization for a user's account. The IAM
-infrastructure includes the following elements:
-
-![Error loading intro-diagram-policies-800.png]({{ "/assets/img/intro-diagram-policies-800.png" | relative_url}})
-
-* **IAM Resources** The user, group, role, policy, and identity provider objects that are stored in IAM. As with other
-  AWS services, we can add, edit, and remove resources from IAM. A resource is an object that exists within a service.
-  Examples include an Amazon EC2 instance, an IAM user, and an Amazon S3 bucket. **The service defines a set of actions
-  that can be performed on each resource**. If you create a request to perform an unrelated action on a resource, that
-  request is denied. For example, if you request to delete an IAM role but provide an IAM group resource, the request
-  fails.
-* **IAM Identities** The IAM resource objects that are used to identify and group. We can attach a policy to an IAM
-  identity. These include users, groups, and roles.
-* **IAM Entities** The IAM resource objects that AWS uses for authentication. These include IAM users and roles.
-* **Principals** A person or application that can make a request for an action or operation on an AWS resource. The
-  principal is authenticated as the AWS account root user or an IAM entity to make requests to AWS. As a best practice,
-  do not use root user credentials for daily work. Instead, create IAM entities (users and roles). We can also support
-  federated users or programmatic access to allow an application to access our AWS account.
-
-  When a principal tries to use the AWS Management Console, the AWS API, or the AWS CLI, that principal sends a request
-  to AWS. The request includes the following information
-
-  - **Actions or operations** The actions or operations that the principal wants to perform. This can be an action in
-    the AWS Management Console, or an operation in the AWS CLI or AWS API.
-  - **Resources** The AWS resource object upon which the actions or operations are performed.
-  - **Principal** The person or application that used an entity (user or role) to send the request. Information about
-    the principal includes the policies that are associated with the entity that the principal used to sign in.
-  - **Environment data** Information about the IP address, user agent, SSL enabled status, or the time of day.
-  - **Resource data** Data related to the resource that is being requested. This can include information such as a
-    DynamoDB table name or a tag on an Amazon EC2 instance.
-
-  AWS gathers the request information into a request context, which is used to evaluate and authorize the request.
-* **Authentication**  A principal must be authenticated (signed in to AWS) using their credentials to send a request to
-  AWS. Some services, such as Amazon S3 and AWS STS, allow a few requests from anonymous users. However, they are the
-  exception to the rule.
-
-  To authenticate from the console as a root user, we must sign in with our email address and password. As an IAM user,
-  provide our account ID or alias, and then our user name and password. To authenticate from the API or AWS CLI, we must
-  provide our access key and secret key. We might also be required to provide additional security information. For
-  example, AWS recommends that we use multi-factor authentication (MFA) to increase the security of our account.
-* **Authorization** We must also be authorized (allowed) to complete our request. During authorization, AWS uses values
-  from the request context to check for policies that apply to the request. It then uses the policies to determine whether
-  to allow or deny the request. **Most policies are stored in AWS as JSON documents** and specify the permissions for
-  principal entities. There are several types of policies that can affect whether a request is authorized. _To provide
-  our users with permissions to access the AWS resources in their own account, we need only identity-based policies_.
-  Resource-based policies are popular for granting cross-account access. The other policy types are advanced features
-  and should be used carefully.
-
-  AWS checks each policy that applies to the context of a request. If a single permissions policy includes a denied
-  action, AWS denies the entire request and stops evaluating. This is called an **explicit deny**. Because requests are
-  denied by default, AWS authorizes a request only if every part of the request is allowed by the applicable permissions
-  policies.
-
-##### Create IAM Admin User and User Group
-
-As a best practice, do not use the AWS account root user for any task where it's not required. Instead,
-[create a new IAM user for each person that requires administrator access][create IAM admin]. Then make those users
-administrators by placing the users into an "Administrators" user group to which you attach the AdministratorAccess
-managed policy.
-
-> ⚠️ **Safeguard our root user credentials and don't use them for everyday tasks** ⚠️
->
-> When we create an AWS account you establish a root username and password to sign in to the AWS Management Console.
-> Safeguard our root user credentials the same way we would protect other sensitive personal information. We can do
-> this by configuring MFA for our root user credentials. It is not recommended to generate access keys for our root
-> user, because they allow full access to all our resources for all AWS services, including our billing information.
-> Don't use our root user for everyday tasks. Use the root user to complete the tasks that only the root user can
-> perform. For the complete list of these tasks, see [Tasks that require root user credentials][root user tasks] in the
-> _AWS General Reference_.
 
 #### Installing eksctl
 
@@ -1176,6 +1132,9 @@ kube-system   coredns-69dfb8f894-9z95l   1/1     Running   0          18m   192.
 kube-system   coredns-69dfb8f894-c8v66   1/1     Running   0          18m   192.168.141.147   fargate-ip-192-168-141-147.region-code.compute.internal   <none>           <none>
 ```
 
+### Deleting an Amazon EKS Cluster
+
+Please refer to https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html for the step-by-step instructions
 
 Kubernetes Usage Guide
 ----------------------
