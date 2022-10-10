@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Designing Enterprise Authentication & Authorization Infrustructure
+title: Building Enterprise Security
 tags: [CD/CD]
 category: FINALIZED
 color: rgb(27, 185, 115)
