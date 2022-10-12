@@ -713,12 +713,14 @@ Under `~/myCA` directory, execute
 ```bash
 openssl pkcs12 -export -out jenkins.p12 \
 -passout 'pass:your-strong-password' -inkey server_key.pem \
--in server_crt.pem -certfile ca.crt -name jenkins.some-domain.com
+-in server_crt.pem -certfile cacert.pem -name jenkins.some-domain.com
 ```
 
 where `your-strong-password` would be a password of our choice; for example, if you choose "sdfef3qxA" as the password,
 put `-passout 'pass:sdfef3qxA'` there. Replace all the occurrences of "your-secrete-password" seen below with
 "sdfef3qxA". In adiition, _Replace "jenkins.some-domain.com" with our own CNAME_
+
+> Note that we have used all of the 3 files above in this command
 
 The command given above converts SSL certs to intermediate PKCS12 format named `jenkins.p12`.
 
