@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Building Enterprise Security
-tags: [CD/CD]
+tags: [Security]
 category: FINALIZED
 color: rgb(27, 185, 115)
 feature-img: "assets/img/post-cover/30-cover.png"
@@ -14,6 +14,7 @@ excerpt_separator: <!--more-->
 
 * TOC
 {:toc}
+
 
 AWS Identity and Access Management (IAM)
 ----------------------------------------
