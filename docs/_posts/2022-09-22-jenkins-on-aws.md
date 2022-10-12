@@ -712,13 +712,15 @@ Under `~/myCA` directory, execute
 
 ```bash
 openssl pkcs12 -export -out jenkins.p12 \
--passout 'pass:your-strong-password' -inkey server.key \
--in server.crt -certfile ca.crt -name jenkins.devopscube.com
+-passout 'pass:your-strong-password' -inkey server_key.pem \
+-in server_crt.pem -certfile ca.crt -name jenkins.some-domain.com
 ```
 
-where `your-strong-password` would be a password of our choice. _Replace "jenkins.devopscube.com" with our own CNAME_
+where `your-strong-password` would be a password of our choice; for example, if you choose "sdfef3qxA" as the password,
+put `-passout 'pass:sdfef3qxA'` there. Replace all the occurrences of "your-secrete-password" seen below with
+"sdfef3qxA". In adiition, _Replace "jenkins.some-domain.com" with our own CNAME_
 
-The command given below converts SSL certs to intermediate PKCS12 format named `jenkins.p12`.
+The command given above converts SSL certs to intermediate PKCS12 format named `jenkins.p12`.
 
 ##### Convert PKCS12 to JKS format
 
@@ -727,16 +729,16 @@ Use the following keytool command to convert the `jenkins.p12` file to JKS forma
 ```bash
 keytool -importkeystore -srckeystore jenkins.p12 \
 -srcstorepass 'your-secret-password' -srcstoretype PKCS12 \
--srcalias jenkins.devopscube.com -deststoretype JKS \
+-srcalias jenkins.some-domain.com -deststoretype JKS \
 -destkeystore jenkins.jks -deststorepass 'your-secret-password' \
--destalias jenkins.devopscube.com
+-destalias jenkins.some-domain.com
 ```
 
 Replace the following with our own values:
 
 * `-srcstorepass` - [The password we created above](#convert-ssl-keys-to-pkcs12-format)
 * `-deststorepass` - A new password we created in this step
-* `-srcalias` - The "jenkins.devopscube.com" or our own CNAME we used
+* `-srcalias` - The "jenkins.some-domain.com" or our own CNAME we used
   [from the previous step](#convert-ssl-keys-to-pkcs12-format)
 * `-destalias` - A destination CNAME, usually the same as `srcalias`
 
@@ -748,16 +750,16 @@ The jenkins.jks file should be saved in a specific location where Jenkins can ac
 and move the jenkins.jks key to that location.
 
 ```bash
-mkdir -p /etc/jenkins
-cp jenkins.jks /etc/jenkins/
+sudo mkdir -p /etc/jenkins
+sudo cp jenkins.jks /etc/jenkins/
 ```
 
 Change the permissions of the keys and folder.
 
 ```bash
-chown -R jenkins: /etc/jenkins
-chmod 700 /etc/jenkins
-chmod 600 /etc/jenkins/jenkins.jks
+sudo chown -R jenkins: /etc/jenkins
+sudo chmod 700 /etc/jenkins
+sudo chmod 600 /etc/jenkins/jenkins.jks
 ```
 
 > The `jenkins:` used in the first command is a standard Jenkins user that get's created when we install
