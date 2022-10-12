@@ -130,12 +130,12 @@ defines their permissions. AWS evaluates these policies when an IAM principal (u
 Permissions in the policies determine whether the request is allowed or denied. Most policies are stored in AWS as JSON
 documents. AWS supports six types of policies:
 
-identity-based policies
-resource-based policies
-permissions boundaries
-Organizations SCPs
-ACLs,
-and session policies.
+1. [identity-based policies](#identity-based-policies)
+2. [resource-based policies](#resource-based-policies)
+3. permissions boundaries
+4. Organizations SCPs
+5. ACLs,
+6. and session policies.
 
 #### Identity-Based Policies
 
@@ -150,3 +150,31 @@ categorized:
       policies provide more precise control over your policies than AWS managed policies.
 * **Inline policies** - Policies that you add directly to a single user, group, or role. Inline policies maintain a
   strict one-to-one relationship between a policy and an identity. They are deleted when you delete the identity.
+
+To learn how to choose between managed and inline policies, see
+[Choosing between managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html#choosing-managed-or-inline).
+
+#### Resource-Based Policies
+
+Resource-based policies are JSON policy documents that we attach to a resource such as an Amazon S3 bucket. The policies
+grant the specified principal permission to perform specific actions on that resource and defines under what conditions
+this applies. _Resource-based policies are inline policies_; there are no managed resource-based policies.
+
+To enable cross-account access, we can specify an entire account or IAM entities in another account as the principal in
+a resource-based policy. Adding a cross-account principal to a resource-based policy, however, is only half of
+establishing the trust relationship. When the principal and the resource are in separate AWS account, we must also use
+an identity-based policy to grant the principal access to the resource. However, if a resource-based policy grants
+access to a principal in the same account, no additional identity-based policy is required.  For step-by step
+instructions for granting cross-account access, see
+[IAM tutorial: Delegate access across AWS accounts using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html).
+
+The IAM service supports only one type of resource-based policy called **role trust policy**, which is attached to an
+IAM role. _An IAM role is both an identity and a resource that supports resource-based policies_. For that reason, we
+must attach both a trust policy and an identity-based policy to an IAM role. Trust policies define which principal 
+entities (accounts, users, roles, and federated users) can assume the role. To learn how IAM roles are different from 
+other resource-based policies, see
+[How IAM roles differ from resource-based policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_compare-resource-policies.html).
+
+To see which other services support resource-based policies, see
+[AWS services that work with IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html). To learn more about resource-based policies, see [Identity-based policies and resource-based policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html). To learn whether principals in accounts outside of your zone of trust (trusted organization or account) have access to assume your roles, see
+[What is IAM Access Analyzer?](https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html).
