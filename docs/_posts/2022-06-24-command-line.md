@@ -15,7 +15,18 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-## Graphviz
+Media
+-----
+
+Convert .flv to .mp4
+
+```bash
+ffmpeg -i input.flv output.mp4
+```
+
+
+Graphviz
+--------
 
 ### Generate .png from .dot Source Code File
 
@@ -49,7 +60,26 @@ Example:
 
 ![example]({{ "/assets/img/tree.png" | relative_url}})
 
-## grep
+
+Convert PDF to Images
+---------------------
+
+    pdftoppm -rx 300 -ry 300 -png file.pdf prefix # 300 specifies resolution
+
+
+PDF
+---
+
+### Automate removing the first page of a PDF
+
+I've done this using the [Coherent PDF Command Line Tools Community Release](http://community.coherentpdf.com/). The
+syntax for removing the first page when the PDF file has 2 or more pages is:
+
+    cpdf in.pdf 2-end -o out.pdf
+
+
+grep
+----
 
 ### Grep TAB Character
 
@@ -59,13 +89,17 @@ Example:
 
     grep -v '^$' input.txt > output.txt
 
-## find
+
+find
+----
 
 ### Find And Delete
 
     find . -type f -name 'file-pattern' -delete
 
-## [sed](https://www.gnu.org/software/sed/manual/sed.html)
+
+[sed](https://www.gnu.org/software/sed/manual/sed.html)
+------------
 
 > [A good reference for sed](http://sed.sourceforge.net/local/docs/An_introduction_to_sed.html)
 
@@ -121,7 +155,9 @@ you can use any other characters not in prefix, or escape the `/`, so the `sed` 
 
     sed -e 's/$/string after each line/'
 
-## sort
+
+sort
+----
 
 ### Remove Duplicate Lines
 
@@ -135,7 +171,9 @@ you can use any other characters not in prefix, or escape the `/`, so the `sed` 
 
     find /group/book/four/word/ -type f -exec wc -l {} + | sort -rn
 
-## tr
+
+tr
+------
 
 ### Replace character with another
 
@@ -145,7 +183,9 @@ you can use any other characters not in prefix, or escape the `/`, so the `sed` 
 
     tr A-Z a-z < input
 
-## [awk](http://www.theunixschool.com/2012/06/awk-10-examples-to-group-data-in-csv-or.html)
+
+[awk](http://www.theunixschool.com/2012/06/awk-10-examples-to-group-data-in-csv-or.html)
+-----
 
 ### Filtering Rows Based on Number of Columns
 
@@ -167,7 +207,9 @@ Add Numbers in a File, each Line Containing a Number
 
     cat file | awk '{ SUM += $1} END { print SUM }'
 
-## xargs
+
+xargs
+-----
 
 Commands such as [grep](#grep) and [awk](#awk) can accept the standard input as a parameter, or argument by using a
 pipe. However, others such as `cp` and ``echo`` disregard the standard input stream and rely solely on the arguments
@@ -190,7 +232,9 @@ a command line was exceeded) if there are too many files in `/path`. However, th
 
     find . -name '*.java' | xargs wc -l
 
-## cut
+
+cut
+---
 
 ### Extract Substring Within Double Quotes
 
@@ -206,7 +250,9 @@ a command line was exceeded) if there are too many files in `/path`. However, th
 
     cut -d: -f1 # extract string before a colon
 
-## CSV
+
+CSV
+---
 
 ### GroupBy a CSV File
 
@@ -232,7 +278,9 @@ Running ``cut -d ',' -f 2,3 data.csv | tail -n +2 | awk -F, '{a[$1]+=$2;}END{for
     banana, 15
     orange, 15
 
-## Remove Common Prefix of a Group of Files
+
+Remove Common Prefix of a Group of Files
+----------------------------------------
 
     for file in prefix*; do mv "$file" "${file#prefix}"; done;
 
@@ -254,7 +302,9 @@ Result in file system:
     3.txt
     blub.txt
 
-## Pretty Printing JSON
+
+Pretty Printing JSON
+--------------------
 
     echo '{"name":"Tom"}' | python -m json.tool
 
@@ -262,31 +312,43 @@ or
 
     echo '{"name":"Tom"}' | jq --indent 4
 
-## Check MD5 Hash Quickly
+
+Check MD5 Hash Quickly
+----------------------
 
 For example, if you want to check md5 sum of a downloaded package, you can do
 
     diff <(md5sum package.tar.gz | awk '{print $1}') <(echo "md5sum string")
 
-## Check File Size in MB
+
+Check File Size in MB
+---------------------
 
     ls -l --block-size=MB
 
-## Install Font
+
+Install Font
+------------
 
 1. Go to the home directory and execute `mkdir .fonts`
 2. Put font source file into `.fonts` and update font cache using `fc-cache -fv`
 
-## Check Linux Version (Distro)
+
+Check Linux Version (Distro)
+----------------------------
 
     cat /etc/*-release
     cat /etc/os-release
 
-## Display Certain LSB (LINUX STANDARD BASE) and Distribution-Specific Information
+
+Display Certain LSB (LINUX STANDARD BASE) and Distribution-Specific Information
+-------------------------------------------------------------------------------
 
     lsb_release -a
 
-## Get Kernel Version
+
+Get Kernel Version
+------------------
 
     uname -a
 
@@ -302,31 +364,47 @@ Sample outputs:
 * **2.6.32-5-amd64**: Kernel version number
 * **x86_64**: Machine hardware name (64 bit)
 
-## See Kernel Version and GCC Version
+
+See Kernel Version and GCC Version
+----------------------------------
 
     cat /proc/version
 
-## RHEL - Check RAM Size
+
+RHEL
+----
+
+### Check RAM Size
 
     cat /proc/meminfo
 
-## Ubuntu - Install `.deb` Packages
+
+Ubuntu
+------
+
+### Install `.deb` Packages
 
     sudo dpkg -i DEB_PACKAGE
 
-## Ubuntu - Delete `.deb` Packages
+### Uninstall `.deb` Packages
 
     sudo dpkg -r PACKAGE_NAME
 
-## Download File on Remote Server to Local
+
+Download File on Remote Server to Local
+---------------------------------------
 
 [sz](https://docstore.mik.ua/orelly/linux/run/apph_02.htm)
 
-## Run or Repeat a Command Every X Seconds Forever
+
+Run or Repeat a Command Every X Seconds Forever
+-----------------------------------------------
 
     while true; do echo -n "This is a test of while loop";date ; sleep 5; done
 
-## Monitoring
+
+Monitoring
+----------
 
 ### List All Background PID's in bash
 
@@ -363,7 +441,9 @@ $ ps S | awk '{print  $  1 }' | grep -E '[0-9]'
 835
 ```
 
-## Search
+
+Search
+------
 
 ### Search PDF by Pattern
 
@@ -384,31 +464,24 @@ this list into sub-lists and calls rm once for every sub-list.
 
     grep -rn "matching_phrase" /starting-path
 
-## Decompress `.bz2`
+
+Decompress `.bz2`
+-----------------
 
     bunzip2 -cf <file>.bz
 
-## Execute Multiple Commands in One Line
+
+Execute Multiple Commands in One Line
+-------------------------------------
 
     A; B    # Run A and then B, regardless of success of A.
     A && B  # Run B if A succeeded.
     A || B  # Run B if A failed.
     A &     # Run A in background.
 
-## Convert PDF to Images
 
-    pdftoppm -rx 300 -ry 300 -png file.pdf prefix # 300 specifies resolution
-
-## PDF
-
-### Automate removing the first page of a PDF
-
-I've done this using the [Coherent PDF Command Line Tools Community Release](http://community.coherentpdf.com/). The
-syntax for removing the first page when the PDF file has 2 or more pages is:
-
-    cpdf in.pdf 2-end -o out.pdf
-
-## Testing Using Bash
+Testing Using Bash
+------------------
 
 You can do asserts in Bash. Check out this from the Advanced Bash-Scripting Guide:
 http://tldp.org/LDP/abs/html/debugging.html#ASSERT :
@@ -466,7 +539,9 @@ echo "This statement echoes only if the \"assert\" does not fail."
 exit $?
 ```
 
-## Mac Specific
+
+Mac Specific
+------------
 
 ### Dealing with "command not found" Error
 
