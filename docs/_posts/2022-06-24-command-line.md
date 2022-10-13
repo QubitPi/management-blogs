@@ -18,11 +18,15 @@ excerpt_separator: <!--more-->
 Media
 -----
 
-Convert .flv to .mp4
+### Convert .flv to .mp4
 
-```bash
-ffmpeg -i input.flv output.mp4
-```
+[Handbrake](https://handbrake.fr) converts FLV into anything. The process is fairly straightforward:
+
+1. Start Handbrake.
+2. Click the **Source** button at the top.
+3. Locate and choose the FLV file.
+4. Choose an appropriate preset or configure the **Video** and **Audio** tabs manually.
+5. Click the **Start** button.
 
 
 Graphviz
