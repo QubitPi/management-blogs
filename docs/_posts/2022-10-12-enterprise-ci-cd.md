@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Building Enterprise CI/CD
-tags: [CD/CD]
+tags: [CD/CD, Jenkins, EC2, AWS, GitHub, SSL]
 category: FINALIZED
 color: rgb(43, 164, 78)
 feature-img: "assets/img/post-cover/31-cover.png"
