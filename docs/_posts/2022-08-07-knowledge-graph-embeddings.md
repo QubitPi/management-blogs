@@ -2,7 +2,7 @@
 layout: post
 title: Introduction to Knowledge Graph Embeddings (KGE)
 tags: [Knowledge Graph, KGE, KRL, Python, Pytorch, KGE]
-category: WIP
+category: FINALIZED
 color: rgb(20, 150, 91)
 feature-img: "assets/img/post-cover/12-cover.png"
 thumbnail: "assets/img/post-cover/12-cover.png"

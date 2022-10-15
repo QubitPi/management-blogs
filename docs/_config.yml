@@ -62,6 +62,5 @@ remote_theme: sylhare/Type-on-Strap                     # If using as a remote_t
 # See https://github.com/jekyll/jekyll-feed for more details
 feed:
   categories:
-    - WIP
     - FINALIZED
     - MANAGEMENT

@@ -2,7 +2,7 @@
 layout: post
 title: Introduction to ReactiveX Java - RxJava
 tags: [Java, Observer, ReactiveX, Functional Programming, Async, RxJava]
-category: WIP
+category: FINALIZED
 color: rgb(216, 26, 96)
 feature-img: "assets/img/post-cover/35-cover.png"
 thumbnail: "assets/img/post-cover/35-cover.png"
