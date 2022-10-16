@@ -113,7 +113,7 @@ the training examples $$\mathit{D}$$
 >
 > 1. VersionSpace $$\leftarrow$$ a list containing every hypothesis in $$\mathit{H}$$
 > 2. For each training example, $$\mathit{\langle x, c(x) \rangle}$$
-     >    * remove from VersionSpace any hypothesis h for which $$\mathit{h(x) \ne c(x)}$$
+>    * remove from VersionSpace any hypothesis h for which $$\mathit{h(x) != c(x)}$$
 > 3. Output the list of hypotheses in VersionSpace
 
 In principle, the LIST-THEN-ELIMINATE Algorithm can be applied whenever the hypothesis space $$\mathit{H}$$ is finite
@@ -144,3 +144,25 @@ employs a much more compact representation of the version space.
 
 Practical applications of the Candidate-Elimination Algorithm and FIND-S algorithms are limited by the fact that they
 both perform poorly when given noisy training data.
+
+
+Decision Tree Learning
+----------------------
+
+Decision tree learning is one of the most widely used and practical methods for inductive inference. It is a method for
+approximating discrete-valued functions that is robust to noisy data and capable of learning disjunctive expressions
+
+Decision tree learning is a method for approximating discrete-valued target functions, in which the learned function is
+represented by a decision tree. Learned trees can also be re-represented as sets of if-then rules to improve human
+readability. These learning methods are among the most popular of inductive inference algorithms and have been
+successfully applied to a broad range of tasks from learning to diagnose medical cases to learning to assess credit risk
+of loan applicants.
+
+Decision tree learning is generally best suited to problems (**Classification Problems**) with the following
+characteristics
+
+* Instances are represented by attribute-value pairs
+* The target function has discrete output values
+* Disjunctive descriptions may be required
+* The training data may contain errors
+* The training data may contain missing attribute values

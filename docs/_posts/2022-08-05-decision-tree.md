@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Machine Learning - Decision Tree Learning
+title: Machine Learning - 
 tags: [Machine Learning, Decision Tree]
 category: FINALIZED
 color: rgb(0, 204, 0)
@@ -10,28 +10,13 @@ author: QubitPi
 excerpt_separator: <!--more-->
 ---
 
-Decision tree learning is one of the most widely used and practical methods for inductive inference. It is a method for 
-approximating discrete-valued functions that is robust to noisy data and capable of learning disjunctive expressions
 
 <!--more-->
 
 * TOC
 {:toc}
 
-Decision tree learning is a method for approximating discrete-valued target functions, in which the learned function is 
-represented by a decision tree. Learned trees can also be re-represented as sets of if-then rules to improve human 
-readability. These learning methods are among the most popular of inductive inference algorithms and have been
-successfully applied to a broad range of tasks from learning to diagnose medical cases to learning to assess credit risk
-of loan applicants.
 
-Decision tree learning is generally best suited to problems (**Classification Problems**) with the following
-characteristics
-
-* Instances are represented by attribute-value pairs
-* The target function has discrete output values
-* Disjunctive descriptions may be required
-* The training data may contain errors
-* The training data may contain missing attribute values
 
 ID3 Algorithm
 -------------
