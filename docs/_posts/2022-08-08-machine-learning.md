@@ -95,8 +95,8 @@ The FIND-S algorithm illustrates one way in which the more-general-than partial 
 search for an acceptable hypothesis. The search moves from hypothesis to hypothesis, searching from the most specific to
 progressively more general hypotheses along one chain of the partial ordering
 
-> **FIND-S is guaranteed to output the most specific hypothesis within $$\mathit{H}$$ that is consistent with the
-> positive training examples**.
+FIND-S is guaranteed to output the most specific hypothesis within $$\mathit{H}$$ that is consistent with the positive 
+training examples.
 
 ### The Candidate-Elimination Algorithm
 
@@ -142,5 +142,5 @@ employs a much more compact representation of the version space.
 >         consistent with $$\mathit{d}$$, and some member of $$\mathit{S}$$ is more specific than $$\mathit{h}$$
 >       * Remove from $$\mathit{G}$$ any hypothesis that is less general than another hypothesis in $$\mathit{G}$$
 
-> Practical applications of the Candidate-Elimination Algorithm and FIND-S algorithms are limited by the fact that they
-> both perform poorly when given noisy training data.
+Practical applications of the Candidate-Elimination Algorithm and FIND-S algorithms are limited by the fact that they
+both perform poorly when given noisy training data.
