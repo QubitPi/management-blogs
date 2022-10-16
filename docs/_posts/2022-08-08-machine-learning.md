@@ -98,7 +98,7 @@ progressively more general hypotheses along one chain of the partial ordering
 > **FIND-S is guaranteed to output the most specific hypothesis within $$\mathit{H}$$ that is consistent with the
 > positive training examples**.
 
-### Version Spaces and the Candidate-Elimination Algorithm
+### The Candidate-Elimination Algorithm
 
 The Candidate-Elimination Algorithm addresses several of the limitations of FIND-S. Notice that although FIND-S outputs
 a hypothesis from $$\mathit{H}$$, that is consistent with the training examples, this is just one of many hypotheses
@@ -109,20 +109,17 @@ The Candidate-Elimination Algorithm represents the set of all hypotheses consist
 This subset of all hypotheses is called the **version space** with respect to the hypothesis space $$\mathit{H}$$ and
 the training examples $$\mathit{D}$$
 
-#### The LIST-THEN-ELIMINATE Algorithm
-
+> **The LIST-THEN-ELIMINATE Algorithm**
+>
 > 1. VersionSpace $$\leftarrow$$ a list containing every hypothesis in $$\mathit{H}$$
 > 2. For each training example, $$\mathit{\langle x, c(x) \rangle}$$
->    * remove from VersionSpace any hypothesis h for which $$\mathit{h(x) \ne c(x)}$$
+     >    * remove from VersionSpace any hypothesis h for which $$\mathit{h(x) \ne c(x)}$$
 > 3. Output the list of hypotheses in VersionSpace
 
 In principle, the LIST-THEN-ELIMINATE Algorithm can be applied whenever the hypothesis space $$\mathit{H}$$ is finite
 
-#### The Candidate-Elimination Algorithm
-
-The Candidate-Elimination Algorithm works on the same principle as the
-[LIST-THEN-ELIMINATE Algorithm](#the-list-then-eliminate-algorithm). However, it employs a much more compact 
-representation of the version space.
+The Candidate-Elimination Algorithm works on the same principle as the LIST-THEN-ELIMINATE Algorithm. However, it
+employs a much more compact representation of the version space.
 
 > 1. Initialize $$\mathit{G}$$ to the set of maximally general hypotheses in $$\mathit{H}$$
 >    ($$ \mathit{G_0 \leftarrow {\langle ?, ?, ..., ? \rangle}} $$)
