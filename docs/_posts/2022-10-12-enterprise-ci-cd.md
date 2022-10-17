@@ -1023,16 +1023,16 @@ Now we should be able to access Jenkins over HTTPS with port 8443 at `https://<j
 > **Chrome: Bypass "Your connection is not private" Message**
 >
 > * Option 1 - **Simply Proceed**: If Chrome says the security certificate is from the same domain we are attempting to
-    >   login to, it is likely there is nothing to worry about when this warning appears. To proceed, simply choose the
-    >   "**Advanced**" link, then choose "**Proceed to <link> (unsafe)**".
+>   login to, it is likely there is nothing to worry about when this warning appears. To proceed, simply choose the
+>   "**Advanced**" link, then choose "**Proceed to <link> (unsafe)**".
 >
 >
 >   ![Error loading Chrome-Advanced.png]({{ "/assets/img/Chrome-Advanced.png" | relative_url}})
 >   ![Error loading Chrome-proceed-unsafe.png]({{ "/assets/img/Chrome-proceed-unsafe.png" | relative_url}})
 >
 > * Option 2 - **Prevent Warning**: Click a blank section of the denial page and use our keyboard, type `thisisunsafe`.
-    >   This will add the website to a safe list, where we should not be prompted again. _Strange steps, but it surely
-    >   works!_
+>   This will add the website to a safe list, where we should not be prompted again. _Strange steps, but it surely
+>   works!_
 
 #### Post-Installation Setup Wizard
 
