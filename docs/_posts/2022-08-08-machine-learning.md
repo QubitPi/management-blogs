@@ -548,4 +548,31 @@ The general setting to which the Binomial distribution applies is:
    of observing exactly $$\mathit{r}$$ errors) is given by the binomial distribution
 
 
+TensorFlow 2
+------------
+
+### Install TensorFlow 2
+
+Install TensorFlow with Python's pip package manager.
+
+```bash
+# Requires the latest pip
+pip install --upgrade pip
+
+# Current stable release for CPU and GPU
+pip install tensorflow
+
+# Or try the preview build (unstable)
+pip install tf-nightly
+```
+
+Alternatively, the [TensorFlow Docker images](https://hub.docker.com/r/tensorflow/tensorflow/) are already configured to 
+run TensorFlow. A Docker container runs in a virtual environment and is the easiest way to set up GPU support.
+
+```bash
+docker pull tensorflow/tensorflow:latest  # Download latest stable image
+docker run -it -p 8888:8888 tensorflow/tensorflow:latest-jupyter  # Start Jupyter server 
+```
+
+
 [DecisionTreeClassifier]: https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier
