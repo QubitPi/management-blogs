@@ -28,4 +28,3 @@ excerpt_separator: <!--more-->
         - [Xapian](https://xapian.org/)
         - [Senna](https://www.openhub.net/p/senna)
     - [Relational Database Index Design and the Optimizers]({{ "/assets/pdf/Relational-Database-Index-Design-and-the-Optimizers.pdf" | relative_url}})
-* [MySQL技术内幕(InnoDB存储引擎)第2版]({{ "/assets/pdf/MySQL技术内幕(InnoDB存储引擎)第2版.pdf" | relative_url}})
