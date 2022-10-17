@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Machine Learning Basics
-tags: [Machine Learning]
+tags: [Machine Learning, Decision Tree]
 category: FINALIZED
 color: rgb(8, 169, 109)
 feature-img: "assets/img/post-cover/16-cover.png"
@@ -224,18 +224,19 @@ boolean classification is
 
 $$ Entropy(\mathit{S}) \equiv \mathit{-p_\oplus \log_2 p_\oplus - p_\ominus \log_2 p_\ominus} $$
 
-where $$\mathit{p_\oplus}$$, is the proportion of positive examples in $$\mathit{S}$$ and $$\mathit{p_\ominus}$$ is the proportion of negative
-examples in $$\mathit{S}$$
+where $$\mathit{p_\oplus}$$, is the proportion of positive examples in $$\mathit{S}$$ and $$\mathit{p_\ominus}$$ is the 
+proportion of negative examples in $$\mathit{S}$$
 
-If the target attribute can take on $$\mathit{c}$$ different values, then the entropy of $$\mathit{S}$$ relative to this c-wise
-classification is defined as
+If the target attribute can take on $$\mathit{c}$$ different values, then the entropy of $$\mathit{S}$$ relative to this 
+c-wise classification is defined as
 
 $$ Entropy(\mathit{S}) \equiv \mathit{\sum_{i = 1}^{c} -p_i \log_2 p_i} $$
 
 where $$\mathit{p_i}$$ is the proportion of $$\mathit{S}$$ belonging to class $$\mathit{i}$$.
 
 > The logarithm is still base 2 because entropy is a measure of the expected encoding length measured in bits.
-> If the target attribute can take on $$\mathit{c}$$ possible values, the entropy can be as large as $$\mathit{\log_2 c}$$.
+> If the target attribute can take on $$\mathit{c}$$ possible values, the entropy can be as large as
+> $$\mathit{\log_2 c}$$.
 
 > **INFORMATION GAIN MEASURES THE EXPECTED REDUCTION IN ENTROPY**
 
@@ -283,3 +284,79 @@ Approaches include:
 3. Use an explicit measure of the complexity for encoding the training examples and the decision tree, halting growth of
    the tree when this encoding size is minimized. This approach is based on a heuristic called the **Minimum Description
    Length principle**
+
+### Training Decision Trees Using [scikit-learn](https://scikit-learn.org/stable/modules/tree.html) in Python
+
+#### Prerequisites (Mac OS)
+
+```bash
+pip3 install graphviz
+brew install Graphviz
+```
+
+#### Example
+
+![Error loading iris-decision-tree.png]({{ "/assets/img/iris-decision-tree.png" | relative_url}})
+
+Using the [Iris dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set), we can construct a tree as follows:
+
+```python
+from sklearn.datasets import load_iris
+from sklearn import tree
+import graphviz
+
+iris = load_iris()
+x, y = iris.data, iris.target
+classifier = tree.DecisionTreeClassifier()
+classifier = classifier.fit(x, y)
+
+dot_data = tree.export_graphviz(
+   classifier,
+   out_file=None,
+   feature_names=iris.feature_names,
+   class_names=iris.target_names,
+   filled=True,
+   rounded=True,
+   special_characters=True
+)
+graph = graphviz.Source(dot_data)
+graph.render("iris")
+```
+
+As with other classifiers, [DecisionTreeClassifier][DecisionTreeClassifier] takes as input two arrays:
+
+1. an array `x` holding `n` training samples, each of which is a vector of `m` feature values
+2. an array `y` of integer values holding `n` class labels for the training samples
+
+For example
+
+```python
+from sklearn import tree
+X = [[0, 0], [1, 1]]
+Y = [0, 1]
+classifier = tree.DecisionTreeClassifier()
+classifier = classifier.fit(X, Y)
+```
+
+we have a training dataset of 2 training examples, each of which has 2 feature values:
+
+1. `[0, 0]`: $$A1_{v_1} = 0$$, $$A2_{v_1} = 0$$
+2. `[1, 1]`: $$A1_{v_2} = 1$$, $$A2_{v_2} = 1$$
+
+and a vector of labels `y` which says `[0, 0]` is classified as 0 and `[1, 1]` is classified as 1.
+
+After being fitted, the model can then be used to predict the class of samples:
+
+```python
+classifier.predict([[2., 2.]])
+```
+
+As an alternative to outputting a specific class, the probability of each class can be predicted (in case of
+classification tie), which is the fraction of training samples of the class in a leaf:
+
+```python
+classifier.predict_proba([[2., 2.]])
+```
+
+
+[DecisionTreeClassifier]: https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier
