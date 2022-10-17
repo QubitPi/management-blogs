@@ -1261,6 +1261,25 @@ Once a ConfigMap is marked as immutable, it is not possible to revert this chang
 `data` or the `binaryData` field. You can only delete and recreate the ConfigMap. Because existing Pods maintain a mount
 point to the deleted ConfigMap, it is recommended to recreate these pods.
 
+### DNS for Services and Pods
+
+Kubernetes creates DNS records for services and pods. **You can contact services with consistent DNS names instead of IP
+addresses**.
+
+#### Introduction
+
+**Kubernetes DNS schedules a DNS Pod and Service on the cluster, and configures the kubelets to tell individual
+containers to use the DNS Service's IP to resolve DNS names**.
+
+Every Service defined in the cluster (including the DNS server itself) is assigned a DNS name. By default, a client
+Pod's DNS search list includes the Pod's own namespace and the cluster's default domain.
+
+A DNS query may return different results based on the namespace of the pod making it. **DNS queries that don't specify a
+namespace are limited to the pod's namespace. Access services in other namespaces by specifying it in the DNS query**.
+
+For example, consider a pod in a `test` namespace. A `data` service is in the `prod` namespace. A query for `data.prod`
+returns the intended result, because it specifies the namespace.
+
 ### Networking
 
 https://kubernetes.io/docs/concepts/cluster-administration/networking/
@@ -1360,7 +1379,8 @@ the end of this section, we will have a running Amazon EKS cluster that we can d
 Before we start, we must install and configure the following tools and resources that we need to create and manage an 
 Amazon EKS cluster.
 
-* **kubectl** A command line tool for working with Kubernetes clusters. This guide requires that you use version 1.23 or later. For more information, see [Installing kubectl][Installing kubectl].
+* **kubectl** A command line tool for working with Kubernetes clusters. This guide requires that we use version 1.23 or 
+  later. For more information, see [Installing kubectl][Installing kubectl].
 * **eksctl** A command line tool for working with EKS clusters that automates many individual tasks. We use version 
   0.112.0 or later. For more information, see [Installing eksctl][Installing eksctl].
 * Required [**IAM permissions**](https://qubitpi.github.io/jersey-guide/finalized/2022/10/09/startup-auth.html#aws-identity-and-access-management-iam) The IAM security principal that we're using
