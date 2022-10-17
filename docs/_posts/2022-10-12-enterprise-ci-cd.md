@@ -702,6 +702,19 @@ Hooray! We now have a self-signed server application certificate, and key pair:
 
 Next, we shall use the certificate for our Jenkins instance.
 
+###### Chrome: Bypass "Your connection is not private" Message
+
+* Option 1 - **Simply Proceed**: If Chrome says the security certificate is from the same domain we are attempting to
+  login to, it is likely there is nothing to worry about when this warning appears. To proceed, simply choose the
+  "**Advanced**" link, then choose "**Proceed to <link> (unsafe)**".
+
+  ![Error loading Chrome-Advanced.png]({{ "/assets/img/Chrome-Advanced.png" | relative_url}})
+  ![Error loading Chrome-proceed-unsafe.png]({{ "/assets/img/Chrome-proceed-unsafe.png" | relative_url}})
+
+* Option 2 - **Prevent Warning**: Click a blank section of the denial page and use our keyboard, type `thisisunsafe`.
+  This will add the website to a safe list, where we should not be prompted again. _Strange steps, but it surely
+  works!_
+
 ##### Applying for a Certificate using Certbot
 
 > 📋 **Requirements**
@@ -831,6 +844,49 @@ Next, we shall use the certificate for our Jenkins instance.
       * Donating to EFF:                    https://eff.org/donate-le
      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
      ```
+   
+   > 💡 **Trouble Shooting**
+   > 
+   > ```
+   > Please enter the domain name(s) you would like on your certificate (comma and/or
+   > space separated) (Enter 'c' to cancel): jenkins.my-domain.com
+   > Requesting a certificate for jenkins.my-domain.com
+   > 
+   > Certbot failed to authenticate some domains (authenticator: nginx). The Certificate Authority reported these problems:
+   > Domain: jenkins.my-domain.com
+   > Type:   connection
+   > Detail: ...: Timeout during connect (likely firewall problem)
+   > 
+   > Hint: The Certificate Authority failed to verify the temporary nginx configuration changes made by Certbot. Ensure the listed domains point to this nginx server and that it is accessible from the internet.
+   > 
+   > Some challenges have failed.
+   > Ask for help or search for solutions at https://community.letsencrypt.org. See the logfile /var/log/letsencrypt/letsencrypt.log or re-run Certbot with -v for more details.
+   > ```
+   > 
+   > This problem usually happens when we are re-deploying certificate. There are cases when we would like to deploy
+   > Jenkins to a new server or VM and we are setting everything up anew. We then would want to request the same
+   > certificate. _But before we do this our DNS record (i.e. "jenkins.my-domain.com") is still pointing to the old 
+   > Jenkins instance which in most cases has already been unreachable_. The solution then is to delete that DNS record 
+   > from our domain config
+   > 
+   > ```
+   > Please enter the domain name(s) you would like on your certificate (comma and/or
+   > space separated) (Enter 'c' to cancel): jenkins.my-domain.com
+   > Requesting a certificate for jenkins.my-domain.com
+   > 
+   > Certbot failed to authenticate some domains (authenticator: nginx). The Certificate Authority reported these problems:
+   > Domain: jenkins.my-domain.com
+   > Type:   dns
+   > Detail: DNS problem: NXDOMAIN looking up A for jenkins.my-domain.com - check that a DNS record exists for this domain; DNS problem: NXDOMAIN looking up AAAA for jenkins.my-domain.com - check that a DNS record exists for this domain
+   > 
+   > Hint: The Certificate Authority failed to verify the temporary nginx configuration changes made by Certbot. Ensure the listed domains point to this nginx server and that it is accessible from the internet.
+   > 
+   > Some challenges have failed.
+   > Ask for help or search for solutions at https://community.letsencrypt.org. See the logfile /var/log/letsencrypt/letsencrypt.log or re-run Certbot with -v for more details.
+   > ```
+   > 
+   > This error is rather straightforward. After we delete the DNS record, we simply forgot to link the DNS record to
+   > a new server/VM IP
    
    Remember the two paths from the command above: "**/path/to/server_crt.pem**" and "**/path/to/server_key.pem**". We
    will need them in order to [load certificate onto Jenkins instance](#convert-ssl-keys-to-pkcs12-format) later. In
@@ -1024,21 +1080,7 @@ We have 2 options.
 We would go with the 2nd option in this post. If we want to open the port for HTTPS and it's not 443, then in addition
 to adding HTTPS rule, we could also just add a "Custom TCP" rule for the desired port (i.e. 8443) and it will work.
 
-Now we should be able to access Jenkins over HTTPS with port 8443 at `https://<jenkins-dns/ip>:8443`
-
-> **Chrome: Bypass "Your connection is not private" Message**
->
-> * Option 1 - **Simply Proceed**: If Chrome says the security certificate is from the same domain we are attempting to
->   login to, it is likely there is nothing to worry about when this warning appears. To proceed, simply choose the
->   "**Advanced**" link, then choose "**Proceed to <link> (unsafe)**".
->
->
->   ![Error loading Chrome-Advanced.png]({{ "/assets/img/Chrome-Advanced.png" | relative_url}})
->   ![Error loading Chrome-proceed-unsafe.png]({{ "/assets/img/Chrome-proceed-unsafe.png" | relative_url}})
->
-> * Option 2 - **Prevent Warning**: Click a blank section of the denial page and use our keyboard, type `thisisunsafe`.
->   This will add the website to a safe list, where we should not be prompted again. _Strange steps, but it surely
->   works!_
+Now we should be able to access Jenkins over HTTPS with port 8443 at `https://jenkins.some-domain.com:8443`
 
 #### Post-Installation Setup Wizard
 
