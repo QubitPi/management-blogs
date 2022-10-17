@@ -1345,6 +1345,16 @@ kubectl config set-context --current --namespace=<insert-namespace-name-here>
 kubectl config view --minify | grep namespace:
 ```
 
+### Kubernetes Command Line Reference
+
+Delete Namespace:
+
+    kubectl delete namespace <namespace-name> --force --grace-period=0
+
+Delete Pod:
+
+    kubectl delete pods --namespace=<namespace-name> <pod-name> --grace-period=0 --force
+
 
 Kubernetes on AWS (EKS)
 -----------------------
