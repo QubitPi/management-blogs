@@ -1,6 +1,7 @@
 [![License Badge](https://img.shields.io/badge/License-Apache%202.0-orange.svg?style=for-the-badge) ](https://www.apache.org/licenses/LICENSE-2.0)
 
-# [A Complete Jersey Guide Book](https://qubitpi.github.io/jersey-guide/)
+[A Complete Jersey Guide Book](https://qubitpi.github.io/jersey-guide/)
+------------------------------
 
 I was reading a very nicely-written book the other day, called
 "[The Back of the Napkin: Solving Problems and Selling Ideas with Pictures](https://www.goodreads.com/book/show/2420301.The_Back_of_the_Napkin)".
@@ -17,7 +18,8 @@ came to this [Jersey Guide](https://qubitpi.github.io/jersey-guide/), which I th
 Jersey has been an industry standard for standing up Webservices; I love it; and you shall find it pretty useful
 to learn and play with, believe me~
 
-# License
+License
+-------
 
 The use and distribution terms for this software are covered by the Apache License, Version 2.0
 ( http://www.apache.org/licenses/LICENSE-2.0.html ).
