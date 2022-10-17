@@ -216,6 +216,12 @@ The package installation will:
 * Setup Jenkins as a daemon launched on start. Run **`systemctl cat jenkins`** for more details.
 * Create a "**jenkins**" user to run this service. This username is very important because it would be used latter
   during [HTTPS/SSL configuration](#enable-ssl-on-jenkins-server-ubuntu)
+  
+  > To verify user "jenkins" has been created, run `cat /etc/passwd`. Every user on a Linux system, whether created as 
+  > an account for a real human being or associated with a particular service or system function, is stored in a file 
+  > called "**/etc/passwd**", which contains information about the users on the system. Each line describes a distinct 
+  > user.
+  
 * Direct console log output to `systemd-journald`. Run **`journalctl -u jenkins.service -r`** if we are troubleshooting
   Jenkins.
 * Populate `/lib/systemd/system/jenkins.service` with configuration parameters for the launch, e.g `JENKINS_HOME`
@@ -1096,6 +1102,66 @@ first administrator user.
 
 Jenkins Reference Guide
 -----------------------
+
+### Jenkins controller
+
+The Jenkins controller is the Jenkins service itself and is where Jenkins is installed. It is a webserver that also acts 
+as a "brain" for deciding how, when and where to run tasks. Management tasks (configuration, authorization, and 
+authentication) are executed on the controller, which serves HTTP requests. Files written when a Pipeline executes are 
+written to the filesystem on the controller unless they are off-loaded to an artifact repository such as Nexus or 
+Artifactory.
+
+### Nodes
+
+Nodes are the "machines" on which build agents run. Jenkins monitors each attached node for disk space, free temp space, 
+free swap, clock time/sync and response time. A node is taken offline if any of these values go outside the configured 
+threshold.
+
+The Jenkins controller itself runs on a special built-in node. It is possible to run agents and executors on this 
+built-in node although this can degrade performance, reduce scalability of the Jenkins instance, and create serious 
+security problems and is strongly discouraged, especially for production environments.
+
+### Agents
+
+Agents manage the task execution on behalf of the Jenkins controller by using [executors](#executors). An agent is 
+actually a small (170KB single jar) Java client process that connects to a Jenkins controller and is assumed to be 
+unreliable. An agent can use any operating system that supports Java. Tools required for builds and tests are installed 
+on the node where the agent runs; they can be installed directly or in a container (Docker or Kubernetes). Each agent is 
+effectively a process with its own PID (Process Identifier) on the host machine.
+
+In practice, nodes and agents are essentially the same but it is good to remember that they are conceptually distinct.
+
+#### Creating Agents
+
+The Jenkins architecture is designed for distributed build environments. It allows us to use different environments for
+each build project balancing the workload among multiple agents running jobs in parallel.
+
+The **Jenkins controller** is the original node in the Jenkins installation. The Jenkins controller administers the
+**Jenkins agents** and orchestrates their work, including scheduling jobs on agents and monitoring agents. Agents may be
+connected to the Jenkins controller using either local or cloud computers.
+
+The agents require a Java installation and a network connection to the Jenkins controller and can be launched in
+physical machines, virtual machines, Kubernetes clusters, and with Docker images.
+
+
+### Executors
+
+An executor is a slot for execution of tasks; effectively, _it is a thread in the agent_. The number of executors on a 
+node defines the number of concurrent tasks that can be executed on that node at one time. In other words, this 
+determines the number of concurrent Pipeline stages that can execute on that node at one time.
+
+The proper number of executors per build node must be determined based on the resources available on the node and the 
+resources required for the workload. When determining how many executors to run on a node, consider CPU and memory 
+requirements as well as the amount of I/O and network activity:
+
+* One executor per node is the safest configuration.
+* One executor per CPU core may work well if the tasks being run are small.
+* Monitor I/O performance, CPU load, memory usage, and I/O throughput carefully when running multiple executors on a
+  node.
+
+##### Distributed Builds Architecture
+
+
 
 ### How to Configure a Jenkins Pipeline
 
