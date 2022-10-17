@@ -616,10 +616,16 @@ spec:
         - containerPort: 80
 ```
 
-In this example, a Deployment named "nginx-deployment" is created. The Deployment creates 3 replicated Pods. 
+In this example, a Deployment named "nginx-deployment" is created (indicated by the `.metadata.name` field). The 
+Deployment creates 3 replicated Pods (indicated by the `.spec.replicas` field). 
 
 > Note that the `.spec.selector` field defines how the Deployment finds which Pods to manage. In this case, we will
 > deploy and manage Pod defined by the `app:nginx` Pod template because its template label is equal to `app:nginx`.
+> However, more sophisticated selection rules are possible, as long as the Pod template itself satisfies the rule.
+> The `.spec.selector.matchLabels` field is a map of {key,value} pairs. A single {key,value} in the `matchLabels` map
+> is equivalent to an element of `matchExpressions`, whose key field is "key", the operator is "In", and the values
+> array contains only "value". All of the requirements, from both `matchLabels` and `matchExpressions`, must be
+> satisfied in order to match.
 
 The "template" field contains the following specifications:
 
@@ -731,9 +737,6 @@ Waiting for rollout to finish: 2 out of 3 new replicas have been updated...
 deployment "nginx-deployment" successfully rolled out
 ```
 
-
-
-
 #### Rollback a Deployment
 
 Sometimes, we may want to rollback a Deployment; for example, when the Deployment is not stable, such as crash looping.
@@ -744,8 +747,36 @@ By default, all of the Deployment's rollout history is kept in the system so tha
 > of the template. Other updates, such as scaling the Deployment, do not create a Deployment revision. This means that 
 > when we roll back to an earlier revision, only the Deployment's Pod template part is rolled back.
 
+#### Define Environment Variables for a Container
 
+When you create a Pod, you can set environment variables for the containers that run in the Pod. Those variables shows
+up in Rancher in the "Environment Variables" section in the workload page of a container
 
+![rancher-deployment-env-variables.png not loaded property]({{ "/assets/img/rancher-deployment-env-variables.png" | relative_url}})
+
+To set environment  variables, include the `env` or `envFrom` field in the configuration file:
+
+In this the example below, you create a Pod that runs one container. The configuration file for the Pod defines an
+environment variable with name "DEMO_GREETING" and value "Hello from the environment". Here is the configuration
+manifest for the Pod:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+    name: envar-demo
+    labels:
+        purpose: demonstrate-envars
+spec:
+    containers:
+    - name: envar-demo-container
+      image: gcr.io/google-samples/node-hello:1.0
+      env:
+      - name: DEMO_GREETING
+        value: "Hello from the environment"
+      - name: DEMO_FAREWELL
+        value: "Such a sweet sorrow"
+```
 
 ### StatefulSets
 
