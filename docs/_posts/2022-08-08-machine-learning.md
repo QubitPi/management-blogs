@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Machine Learning Basics
-tags: [Machine Learning, Decision Tree]
+tags: [Machine Learning]
 category: FINALIZED
 color: rgb(8, 169, 109)
 feature-img: "assets/img/post-cover/16-cover.png"
@@ -547,6 +547,80 @@ The general setting to which the Binomial distribution applies is:
 4. The probability that the random variable $$\mathit{R}$$ will take on a specific value $$\mathit{r}$$ (the probability
    of observing exactly $$\mathit{r}$$ errors) is given by the binomial distribution
 
+
+Artificial Neural Networks - Linear Algebra Basics
+--------------------------------------------------
+
+### Vector Spaces
+
+A **vector space** is denoted by $\mathbf{R^n}$, which is a space that consists of all column vectors with
+$\mathit{n}$ components.
+
+Within all vector spaces, we can add any two vectors, and we can multiply all vectors by scalars. A **real vector
+space** is a set of vectors together with rules for vector addition and multiplication by _real numbers_
+
+#### Subspace
+
+A **subspace** of a vector space is a nonempty subset that satisfies the requirements for a vector space: **Linear
+combinations stay in the subspace**
+
+1. If we add any vectors x and y in the subspace, x + y is in the subspace.
+2. If we multiply any vector x in the subspace by any scalar c, cx is in the subspace.
+
+A subspace is a subset that is "**closed**" under _addition_ and _scalar multiplication_. Those operations follow the
+rules of the host space, keeping us inside the subspace.
+
+### Triangular Factors and Row Exchanges
+
+Any system (or set) of linear equations can be written in the form of
+
+$$\mathit{ Ax = b }$$
+
+Elimination can transform the above into
+
+$$\mathit{ Ux = c }$$
+
+where matrix $$\mathit{U}$$ is upper triangular (i.e. all entries below the diagonal are zero) and is derived from
+$$\mathit{A}$$ via relationship
+
+$$ \mathit{GFEA = U} $$
+
+where $$\mathit{E}$$, $$\mathit{F}$$, $$\mathit{G}$$ are called **elementary matrices**
+
+To be continued...
+
+### Eigenvectors
+
+Given that any eigenvalue equation
+
+$$Ax = \lambda x$$
+
+The number $$\lambda$$is an **eigenvalue** of the matrix $$\mathit{A}$$, and the vector $$\mathit{x}$$ is the associated
+**eigenvector**. The goal is to find the eigenvalues and eigenvectors, $$\mathit{A}$$'s and $$\mathit{x}$$'s, and to use
+them.
+
+For example, an **eigenvalue problem** of
+
+$$\mathit{ 4y - 5z = \lambda y }$$
+
+$$\mathit{ 2y - 3z = \lambda z }$$
+
+is in the form of $$Ax = \lambda x$$
+
+To be continued...
+
+### Singular Value Decomposition
+
+> Any $$\mathit{m} \times \mathit{n}$$ matrix $$\mathit{A}$$ can be factored into
+>
+> $$ \mathit{ A = U \Sigma V^T = (\text{orthogonal})(\text{diagonal})(\text{orthogonal}) } $$
+>
+> where the columns of the $$\mathit{m \times m}$$ $$\mathit{U}$$ are eigenvectors of $$\mathit{AA^T}$$ and the columns
+> of the $$\mathit{n \times n}$$ $$\mathit{V}$$ are eigenvectors of $$\mathit{A^TA}$$. The $$\mathit{r}$$ singular
+> values on the diagonal of the $$\mathit{m \times n}$$ $$\Sigma$$ are the square roots of the nonzero eigenvalues of
+> both $$\mathit{AA^T}$$ and $$\mathit{A^TA}$$
+
+To be continued...
 
 TensorFlow 2
 ------------
