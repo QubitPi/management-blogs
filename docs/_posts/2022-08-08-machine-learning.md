@@ -406,7 +406,7 @@ Within this general setting we are interested in the following two questions:
    drawn from the same distribution?**
 2. **What is the probable error in this accuracy estimate?**
 
-### Sample Error and True Error
+#### Sample Error and True Error
 
 To answer these questions, we need to distinguish carefully between two notions of accuracy or, equivalently, error.
 
@@ -447,7 +447,7 @@ sample error $$\text{error}_\mathit{S}\mathit{(h)}$$ of the hypothesis for the d
 to have in hand. The main question is "**How good an estimate of $$\text{error}_{\mathcal{D}}\mathit{(h)}$$ is provided
 by $$\text{error}_\mathit{S}\mathit{(h)}$$?**"
 
-### True Error for Discrete-Valued Hypotheses
+#### True Error for Discrete-Valued Hypotheses
 
 We can answer the question above for $$\mathit{h}$$ that is a discrete-valued hypothesis based on its observed sample
 error over a sample $$\mathit{S}$$ where
@@ -488,9 +488,7 @@ $$\mathit{z_N}$$ given in table below
 >
 > $$ \mathit{n} \times \text{error}_\mathit{S}\mathit{(h)}\left( 1 - \text{error}_\mathit{S}\mathit{(h)} \right) \ge 5 $$
 
-
-Basics of Sampling Theory
--------------------------
+### Basics of Sampling Theory
 
 > Here is a well-studies problem in statistics:
 >
@@ -499,7 +497,7 @@ Basics of Sampling Theory
 
 In our case, the property of interest is that $$\mathit{h}$$ misclassifies the example.
 
-### Random Variable
+#### Random Variable
 
 We collect a random sample $$\mathit{S}$$ of $$\mathit{n}$$ independently drawn instances from the distribution
 $$\mathcal{D}$$, and then measure the sample error $$\text{error}_\mathit{S}\mathit{(h)}$$. If we were to repeat this
@@ -509,7 +507,7 @@ differences in the makeup of the various $$\mathit{S_i}$$. We say in such cases 
 $$\text{error}_\mathit{S}\mathit{(h)}$$, the outcome of the _i_-th such experiment, is a **random variable**. The value
 of random variable is the observed outcome of a random experiment
 
-### Binomial Distribution
+#### Binomial Distribution
 
 Imagine that we were to run $$\mathit{k}$$ such random experiments, measuring the random variables
 $$\text{error}_\mathit{S_1}\mathit{(h)}$$, $$\text{error}_\mathit{S_2}\mathit{(h)}$$, ...,
@@ -548,7 +546,6 @@ The general setting to which the Binomial distribution applies is:
    $$\mathit{R \equiv \sum_{i = 1}^{n}Y_i}$$
 4. The probability that the random variable $$\mathit{R}$$ will take on a specific value $$\mathit{r}$$ (the probability
    of observing exactly $$\mathit{r}$$ errors) is given by the binomial distribution
-
 
 
 [DecisionTreeClassifier]: https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier
