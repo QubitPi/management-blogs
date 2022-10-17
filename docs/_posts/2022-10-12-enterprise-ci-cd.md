@@ -217,8 +217,8 @@ The package installation will:
 * Create a "**jenkins**" user to run this service. This username is very important because it would be used latter
   during [HTTPS/SSL configuration](#enable-ssl-on-jenkins-server-ubuntu)
   
-  > To verify user "jenkins" has been created, run `cat /etc/passwd`. Every user on a Linux system, whether created as 
-  > an account for a real human being or associated with a particular service or system function, is stored in a file 
+  > 💡 To verify user "jenkins" has been created, run `cat /etc/passwd`. Every user on a Linux system, whether created
+  > as an account for a real human being or associated with a particular service or system function, is stored in a file 
   > called "**/etc/passwd**", which contains information about the users on the system. Each line describes a distinct 
   > user.
   
