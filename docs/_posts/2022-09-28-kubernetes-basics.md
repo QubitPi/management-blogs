@@ -749,12 +749,8 @@ By default, all of the Deployment's rollout history is kept in the system so tha
 
 #### Define Environment Variables for a Container
 
-When you create a Pod, you can set environment variables for the containers that run in the Pod. Those variables shows
-up in Rancher in the "Environment Variables" section in the workload page of a container
-
-![rancher-deployment-env-variables.png not loaded property]({{ "/assets/img/rancher-deployment-env-variables.png" | relative_url}})
-
-To set environment  variables, include the `env` or `envFrom` field in the configuration file:
+When you create a Pod, you can set environment variables for the containers that run in the Pod. To set environment the 
+variables, include the `env` or `envFrom` field in the configuration file:
 
 In this the example below, you create a Pod that runs one container. The configuration file for the Pod defines an
 environment variable with name "DEMO_GREETING" and value "Hello from the environment". Here is the configuration
@@ -777,6 +773,36 @@ spec:
       - name: DEMO_FAREWELL
         value: "Such a sweet sorrow"
 ```
+
+#### Using Environment Variables Inside of Your Config
+
+Environment variables that you define in a Pod's configuration can be used elsewhere in the configuration, for example
+in commands and arguments that you set for the Pod's containers. In the example configuration below, the `GREETING`,
+`HONORIFIC`, and `NAME` environment variables are set to "Warm greetings to", "The Most Honorable", and "Kubernetes",
+respectively. Those environment variables are then used in the CLI arguments passed to the env-print-demo container.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+    name: print-greeting
+spec:
+    containers:
+    - name: env-print-demo
+      image: bash
+      env:
+      - name: GREETING
+        value: "Warm greetings to"
+      - name: HONORIFIC
+        value: "The Most Honorable"
+      - name: NAME
+        value: "Kubernetes"
+      command: ["echo"]
+      args: ["$(GREETING) $(HONORIFIC) $(NAME)"]
+```
+
+Upon creation, the command `echo Warm greetings to The Most Honorable Kubernetes` is run on the container.
+
 
 ### StatefulSets
 
