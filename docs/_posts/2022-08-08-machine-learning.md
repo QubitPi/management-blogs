@@ -166,3 +166,120 @@ characteristics
 * Disjunctive descriptions may be required
 * The training data may contain errors
 * The training data may contain missing attribute values
+
+### ID3 Algorithm
+
+ID3 algorithm learns decision trees by constructing them topdown, beginning with the question "which attribute should be
+tested at the root of the tree?" To answer this question, each instance attribute is evaluated using a statistical test
+to determine how well it alone classifies the training examples. The best attribute is selected and used as the test at
+the root node of the tree. A descendant of the root node is then created for each possible value of this attribute, and
+the training examples are sorted to the appropriate descendant node (i.e., down the branch corresponding to the
+example's value for this attribute). The entire process is then repeated using the training examples associated with
+each descendant node to select the best attribute to test at that point in the tree. This forms a greedy search for an
+acceptable decision tree, in which the algorithm never backtracks to reconsider earlier choices. A simplified version of
+the algorithm, specialized to learning boolean-valued functions (i.e., concept learning), is described below
+
+> ID3(examples, targe_tattribute, attributes) $$\rightarrow$$ a decision tree that correctly classifies the given
+> "examples"
+>
+> | Concept            | Definition                                                                 |
+> |--------------------|----------------------------------------------------------------------------|
+> | "examples"         | the training examples                                                      |
+> | "targe_tattribute" | the attribute whose value is to be predicted by the tree                   |
+> | "attributes"       | a list of other attributes that may be tested by the learned decision tree |
+>
+> * Create a Root node for the tree
+> * If all "examples" are positive, return the single-node tree Root, with label = `+`
+> * If all "examples" are negative, return the single-node tree Root, with label = `-`
+> * If "attributes" is empty, return the single-node tree Root, with label = most common value of "target_attribute" in
+> * "examples"
+> * Otherwise begin
+>    1. $$\mathit{A}$$ $$\leftarrow$$ attribute from "attributes" that best* classifies "examples"
+>    2. The decision attribute for Root $$\leftarrow$$ $$\mathit{A}$$
+>    3. For each possible value, $$\mathit{v_i}$$, of $$\mathit{A}$$,
+>       * Add a new tree branch below Root, corresponding to the test $$\mathit{A}$$ = $$v_i$$
+>       * Let $$examples_{\mathit{v_i}}$$ be the subset of "examples" that have value $$\mathit{v_i}$$ for
+>         $$\mathit{A}$$
+>       * If $$examples_{\mathit{v_i}}$$ is empty
+>         - then below this new branch add a leaf node with label = most common value of "targe_tattribute" attribute in
+>           "examples"
+>         - else below this new branch add the subtree
+>           ID3($$examples_{\mathit{v_i}}$$, "targe_tattribute", "attributes" - $${\mathit{A}}$$)
+> * End
+> * Return Root
+
+\* The best attribute is the one with the highest [information gain](#which-attribute-is-the-best-classifier)
+
+### Which Attribute Is the Best Classifier?
+
+We will define a statistical property, called **Information Gain**, that measures how well a given attribute separates
+the training examples according to their target classification. ID3 uses this information gain measure to select among
+the candidate attributes at each step while growing the tree
+
+#### Entropy Measures Homogeneity of Examples
+
+In information theory, **Entropy** characterizes the (im)purity of an arbitrary collection of examples. Given a
+collection $$\mathit{S}$$, containing positive and negative examples of some target concept, the entropy of S relative to this
+boolean classification is
+
+$$ Entropy(\mathit{S}) \equiv \mathit{-p_\oplus \log_2 p_\oplus - p_\ominus \log_2 p_\ominus} $$
+
+where $$\mathit{p_\oplus}$$, is the proportion of positive examples in $$\mathit{S}$$ and $$\mathit{p_\ominus}$$ is the proportion of negative
+examples in $$\mathit{S}$$
+
+If the target attribute can take on $$\mathit{c}$$ different values, then the entropy of $$\mathit{S}$$ relative to this c-wise
+classification is defined as
+
+$$ Entropy(\mathit{S}) \equiv \mathit{\sum_{i = 1}^{c} -p_i \log_2 p_i} $$
+
+where $$\mathit{p_i}$$ is the proportion of $$\mathit{S}$$ belonging to class $$\mathit{i}$$.
+
+> The logarithm is still base 2 because entropy is a measure of the expected encoding length measured in bits.
+> If the target attribute can take on $$\mathit{c}$$ possible values, the entropy can be as large as $$\mathit{\log_2 c}$$.
+
+> **INFORMATION GAIN MEASURES THE EXPECTED REDUCTION IN ENTROPY**
+
+### Hypothesis Space Search in Decision Tree Learning
+
+* ID3's hypothesis space of all decision trees is a complete space of finite discrete-valued functions, relative to the
+  available attributes.
+* ID3 maintains only a single current hypothesis
+
+### Inductive Bias in Decision Tree Learning
+
+> 📋 Inductive bias is the set of assumptions that, together with the training data, deductively justify the
+> classifications assigned by the learner to future instances
+
+> **Approximate inductive bias of ID3**: _Shorter trees are preferred over larger trees_. Trees that place high
+> information gain attributes close to the root are preferred over those that do not.
+
+### Issues in Decision Tree Learning
+
+#### Avoiding Overfitting the Data
+
+> Given a hypothesis space $$\mathit{H}$$, a hypothesis $$\mathit{h \in H}$$ is said to **overfit** the training data if there exists some
+> alternative hypothesis $$\mathit{h' \in H}$$, such that $$\mathit{h}$$ has smaller error than $$\mathit{h'}$$ over the training examples, but
+> $$\mathit{h'}$$ has a smaller error than $$\mathit{h}$$ over the entire distribution of instances.
+
+Overfitting is a significant practical difficulty for decision tree learning and many other learning methods. There are
+several approaches to avoiding overfitting in decision tree learning. These can be grouped into two classes
+
+1. approaches that stop growing the tree earlier, before it reaches the point where it perfectly classifies the training
+   data
+2. approaches that allow the tree to overfit the data, and then post-prune the tree
+
+Although the first of these approaches might seem.more direct, the second approach of post-pruning overfit trees has
+been found to be more successful in practice. This is due to the difficulty in the first approach of estimating
+precisely when to stop growing the tree.
+
+##### What Criterion is to be Used to Determine the Correct Final Tree Size
+
+Approaches include:
+
+1. Use a separate set of examples, distinct from the training examples, to evaluate the utility of post-pruning nodes
+   from the tree (**training and validation set** approach).
+2. Use all the available data for training, but apply a statistical test to estimate whether expanding (or pruning) a
+   particular node is likely to produce an improvement beyond the training set.
+3. Use an explicit measure of the complexity for encoding the training examples and the decision tree, halting growth of
+   the tree when this encoding size is minimized. This approach is based on a heuristic called the **Minimum Description
+   Length principle**

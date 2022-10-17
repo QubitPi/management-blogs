@@ -59,7 +59,7 @@ If a `.gif` file can only be saved in static(e.g. jpg) format from website, just
 
     convert x.jpg x.gif
     
-## Decompose `.gif`
+## Decompose .gif
 
     convert x.gif y.png
     
@@ -84,7 +84,7 @@ order, use
     
 ## Batch Processing
 
-### Convert all `jpg` file to `png` with names starting with 1.png, 2.png, etc
+### Convert all .jpg file to .png with names starting with 1.png, 2.png, etc
 
 #### Using ImageMagic
 
