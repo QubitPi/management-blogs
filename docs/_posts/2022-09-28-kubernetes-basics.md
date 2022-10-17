@@ -803,6 +803,141 @@ spec:
 
 Upon creation, the command `echo Warm greetings to The Most Honorable Kubernetes` is run on the container.
 
+### Service
+
+Service is an abstract way to expose an application running on a set of Pods as a network service.  With Kubernetes you
+don't need to modify your application to use an unfamiliar service discovery mechanism. Kubernetes gives Pods their own
+IP addresses and a single DNS name for a set of Pods, and can load-balance across them.
+
+#### Motivation
+
+Kubernetes [Pods](https://kubernetes.io/docs/concepts/workloads/pods/) are created and destroyed to match the state of
+your cluster. Pods are nonpermanent resources. If you use a [Deployment](#deployments) to run your app, it can create
+and destroy Pods dynamically.
+
+Each Pod gets its own IP address however in a Deployment, the set of Pods running in one moment in time could be
+different from the set of Pods running that application a moment later.
+
+This leads to a problem: if some set of Pods (call them "backends") provides functionality to other Pods (call them
+"frontends") inside your cluster, how do the frontends find out and keep track of which IP address to connect to, so
+that the frontend can use the backend part of the workload?
+
+The answer is _services_
+
+In Kubernetes, a Service is an abstraction which defines a logical set of Pods and a policy by which to access them
+(sometimes this pattern is called a micro-service). The set of Pods targeted by a Service is usually determined by a
+**selector**. To learn about other ways to define Service endpoints, see
+[Services without selectors](#services-without-selectors).
+
+For example, consider a stateless image-processing backend which is running with 3 replicas. Those replicas are
+fungible - frontends do not care which backend they use. While the actual Pods that compose the backend set may change,
+the frontend clients should not need to be aware of that, nor should they need to keep track of the set of backends
+themselves.
+
+The Service abstraction enables this decoupling.
+
+##### Cloud-native Service Discovery
+
+If you're able to use Kubernetes APIs for service discovery in your application, you can query the
+[API server](#api-server) for Endpoints, that get updated whenever the set of Pods in a Service changes.
+
+For non-native applications, Kubernetes offers ways to place a network port or load balancer in between your application
+and the backend Pods.
+
+#### Defining a Service
+
+A Service in Kubernetes is a REST object, similar to a Pod. Like all of the REST objects, you can `POST` a Service
+definition to the API server to create a new instance. The name of a Service object must be a valid
+[RFC 1035 label name](https://kubernetes.io/docs/concepts/overview/working-with-objects/names#rfc-1035-label-names).
+
+For example, suppose you have a set of Pods where each listens on TCP port 9376 and contains a label `app=MyApp`:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+    name: my-service
+spec:
+    selector:
+        app: MyApp
+    ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 9376
+```
+
+The specification above creates a new Service object named "my-service", which targets TCP port 9376 on any Pod with the
+`app=MyApp` label.
+
+Kubernetes assigns this Service an IP address (sometimes called the "cluster IP"), which is used by the Service proxies
+(see [Virtual IPs and service proxies](#virtual-ips-and-service-proxies) below).
+
+**The controller for the Service selector continuously scans for Pods that match its selector, and then POSTs any
+updates to an Endpoint object also named "my-service"**.
+
+> 📋️ A Service can map any incoming `port` to a `targetPort`. By default and for convenience, the `targetPort` is set to
+> the same value as the `port` field.
+
+Port definitions in Pods have names, and you can reference these names in the `targetPort` attribute of a Service. This
+works even if there is a mixture of Pods in the Service using a single configured name, with the same network protocol
+available via different port numbers. This offers a lot of flexibility for deploying and evolving your Services. For
+example, you can change the port numbers that Pods expose in the next version of your backend software, without breaking
+clients.
+
+The default protocol for Services is TCP; you can also use any other
+[supported protocol](https://kubernetes.io/docs/concepts/services-networking/service/#protocol-support).
+
+As many Services need to expose more than one port, Kubernetes supports multiple port definitions on a Service object.
+Each port definition can have the same protocol, or a different one.
+
+###### Services without Selectors
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+    name: my-service
+spec:
+    ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 9376
+```
+
+Because this Service has no selector, the corresponding Endpoints object is not created automatically. You can manually
+map the Service to the network address and port where it's running, by adding an Endpoints object manually:
+
+```yaml
+apiVersion: v1
+kind: Endpoints
+metadata:
+    name: my-service
+subsets:
+    - addresses:
+        - ip: 192.0.2.42
+      ports:
+        - port: 9376
+```
+
+The name of the Endpoints object must be a valid
+[DNS subdomain name](https://kubernetes.io/docs/concepts/overview/working-with-objects/names#dns-subdomain-names).
+
+> ⚠️ The endpoint IPs must not be: loopback (127.0.0.0/8 for IPv4, ::1/128 for IPv6), or link-local (169.254.0.0/16 and
+> 224.0.0.0/24 for IPv4, fe80::/64 for IPv6).
+>
+> Endpoint IP addresses cannot be the cluster IPs of other Kubernetes Services, because
+> [kube-proxy](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/) doesn't support virtual
+> IPs as a destination.
+
+Accessing a Service without a selector works the same as if it had a selector. In the example above, traffic is routed
+to the single endpoint defined in the YAML: `192.0.2.42:9376` (TCP).
+
+An _ExternalName_ Service is a special case of Service that does not have selectors and uses DNS names instead. For more
+information, see the [ExternalName](https://kubernetes.io/docs/concepts/services-networking/service/#externalname)
+section later in this document.
+
+##### Virtual IPs and Service Proxies
+
 ### StatefulSets
 
 ### DaemonSet
