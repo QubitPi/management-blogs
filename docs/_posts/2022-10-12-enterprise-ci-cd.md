@@ -1186,6 +1186,8 @@ The agents require a Java installation and a network connection to the Jenkins c
 physical machines, virtual machines, Kubernetes clusters, and with Docker images.
 
 
+
+
 ### Executors
 
 An executor is a slot for execution of tasks; effectively, _it is a thread in the agent_. The number of executors on a 
