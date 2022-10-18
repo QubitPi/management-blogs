@@ -386,11 +386,11 @@ RHEL
 Ubuntu
 ------
 
-### Install `.deb` Packages
+### Install .deb Packages
 
     sudo dpkg -i DEB_PACKAGE
 
-### Uninstall `.deb` Packages
+### Uninstall .deb Packages
 
     sudo dpkg -r PACKAGE_NAME
 
@@ -599,17 +599,17 @@ sudo ./airport en1 prefs DisconnectOnLogout=NO
 
     ls -rS -lh
 
-### `gcsplit`
+### gcsplit
 
 [csplit](https://www.gnu.org/software/coreutils/manual/html_node/csplit-invocation.html#csplit-invocation) allows us to
 split file by pattern. For OS X users, however, the version of `csplit` that comes with the OS doesn't work. You'll want
 the version in coreutils (installable via Homebrew), which is called gcsplit.
 
-#### Install `gcsplit`
+#### Install gcsplit
 
     brew install coreutils
 
-#### Use `gcsplit`
+#### Use gcsplit
 
 Suppose you have a file(`t.txt`) that looks like the following:
 
