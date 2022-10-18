@@ -1002,6 +1002,187 @@ The takeaway is that you should not be using smaller networks because you are af
 use as big of a neural network as your computational budget allows, and use other regularization techniques to control
 overfitting.
 
+### Data Preprocessing
+
+There are three common forms of data preprocessing a data matrix $$\mathit{X}$$, where we will assume that
+$$\mathit{X}$$ is of size $$\mathit{[N \times D]}$$ ($$\mathit{N}$$ is the number of data, $$\mathit{D}$$ is their
+dimensionality).
+
+#### 1. Mean Subtraction
+
+Mean subtraction is the most common form of preprocessing. It involves subtracting the mean across every individual
+feature in the data, and has the geometric interpretation of _centering the cloud of data around the origin along every
+dimension_. In numpy, this operation would be implemented as: `X -= np.mean(X, axis = 0)`. With images specifically, for
+convenience it can be common to subtract a single value from all pixels (e.g. `X -= np.mean(X)`), or to do so separately
+across the three color channels.
+
+![Error loading ann-preprocessing-mean-norm.png]({{ "/assets/img/ann-preprocessing-mean-norm.png" | relative_url}})
+
+#### 2. Normalization
+
+Normalization refers to normalizing the data dimensions so that they are of approximately the same scale. There are two
+common normalization approaches. One is to divide each dimension by its standard deviation once it has been
+zero-centered: (`X /= np.std(X, axis = 0)`). Another form of this preprocessing normalizes each dimension so that the
+min and max along the dimension is -1 and 1 respectively. It only makes sense to apply this preprocessing if you have a
+reason to believe that different input features have different scales (or units), but they should be of approximately
+equal importance to the learning algorithm. In case of images, the relative scales of pixels are already approximately
+equal (and in range from 0 to 255), so it is not strictly necessary to perform this additional preprocessing step.
+
+#### 3. PCA & Whitening
+
+In this process, the data is first centered as described above. Then, we can compute the
+[covariance](https://en.wikipedia.org/wiki/Covariance) matrix which tells us about the correlation of the data inside
+matrix:
+
+```python
+# Assume input data matrix X of size [N x D]
+X -= np.mean(X, axis = 0) # zero-center the data (important)
+cov = np.dot(X.T, X) / X.shape[0] # get the data covariance matrix
+```
+
+The $$\mathit{(i, j)}$$ element of the covariance matrix contains the covariance between _i_-th and _j_-th dimension of
+the data. In particular, the diagonal of this matrix contains the variances. Furthermore, the covariance matrix is
+symmetric and
+[positive semi-definite](http://en.wikipedia.org/wiki/Positive-definite_matrix#Negative-definite.2C_semidefinite_and_indefinite_matrices).
+
+Then we compute the [SVD factorization](#singular-value-decomposition) of the covariance matrix:
+
+```python
+U,S,V = np.linalg.svd(cov)
+```
+
+where the columns of `U` are the eigenvectors and `S` is a 1-D array of the singular values. To decorrelate the data, we
+project the original (but zero-centered) data into the eigenbasis:
+
+```python
+Xrot = np.dot(X, U) # decorrelate the data
+```
+
+Notice that the columns of `U` are a set of orthonormal vectors (norm of 1, and orthogonal to each other), so they can be regarded as basis vectors. The projection therefore corresponds to a rotation of the data in `X` so that the new axes are the eigenvectors. If we were to compute the covariance matrix of `Xrot`, we would see that it is now diagonal. A nice property of `np.linalg.svd` is that in its returned value `U`, the eigenvector columns are sorted by their eigenvalues. We can use this to reduce the dimensionality of the data by only using the top few eigenvectors, and discarding the dimensions along which the data has no variance. This is also sometimes referred to as Principal Component Analysis (PCA) dimensionality reduction:
+
+```python
+Xrot_reduced = np.dot(X, U[:,:100]) # Xrot_reduced becomes [N x 100]
+```
+
+After this operation, we would have reduced the original dataset of size `[N x D]` to one of size `[N x 100]`, keeping
+the 100 dimensions of the data that contain the most variance. It is very often the case that you can get very good
+performance by training linear classifiers or neural networks on the PCA-reduced datasets, _obtaining savings in both
+space and time_.
+
+![Error loading ann-pca-and-whitening.png]({{ "/assets/img/ann-pca-and-whitening.png" | relative_url}})
+
+The last transformation you may see in practice is **whitening**. The whitening operation takes the data in the
+eigenbasis and divides every dimension by the eigenvalue to normalize the scale. The geometric interpretation of this
+transformation is that if the input data is a multivariable gaussian, then the whitened data will be a gaussian with
+zero mean and identity covariance matrix. This step would take the form:
+
+```python
+# whiten the data:
+# divide by the eigenvalues (which are square roots of the singular values)
+Xwhite = Xrot / np.sqrt(S + 1e-5)
+```
+
+> ⚠️ Note that we are adding 1e-5 (or a small constant) to prevent division by zero. One weakness of this transformation
+> is that it can greatly exaggerate the noise in the data, since it stretches all dimensions (including the irrelevant
+> dimensions of tiny variance that are mostly noise) to be of equal size in the input. This can in practice be mitigated
+> by stronger smoothing (i.e. increasing 1e-5 to be a larger number).
+
+We can also try to visualize these transformations with CIFAR-10 images. The training set of CIFAR-10 is of size
+50,000 $$\times$$ 3072, where every image is stretched out into a 3072-dimensional row vector. We can then compute the
+`[3072 x 3072]` covariance matrix and compute its SVD decomposition (which can be relatively expensive). What do the
+computed eigenvectors look like visually? An image might help:
+
+![Error loading ann-preprocessing-visual.png]({{ "/assets/img/ann-preprocessing-visual.png" | relative_url}})
+
+> ⚠️ An important point to make about the preprocessing is that any preprocessing statistics (e.g. the data mean) must
+> only be computed on the training data, and then applied to the validation / test data. E.g. computing the mean and
+> subtracting it from every image across the entire dataset and then splitting the data into train/val/test splits would
+> be a mistake. Instead, the mean must be computed only over the training data and then subtracted equally from all
+> splits (train/val/test).
+
+### Weight Initialization
+
+Lets start with what we should not do. Note that we do not know what the final value of every weight should be in the
+trained network, but with proper data normalization it is reasonable to assume that approximately half of the weights
+will be positive and half of them will be negative. A reasonable-sounding idea then might be to set all the initial
+weights to zero, which we expect to be the “best guess” in expectation. This turns out to be a mistake, because if every
+neuron in the network computes the same output, then they will also all compute the same gradients during
+backpropagation and undergo the exact same parameter updates. In other words, there is no source of asymmetry between
+neurons if their weights are initialized to be the same.
+
+Therefore, we still want the weights to be very close to zero, but as we have argued above, not identically zero. As a
+solution, it is common to initialize the weights of the neurons to small numbers and refer to doing so as **symmetry
+breaking**. The idea is that the neurons are all random and unique in the beginning, so they will compute distinct
+updates and integrate themselves as diverse parts of the full network. The implementation for one weight matrix might
+look like `W = 0.01* np.random.randn(D,H)`, where `randn` samples from a zero mean, unit standard deviation gaussian.
+With this formulation, **every neuron's weight vector is initialized as a random vector sampled from a multi-dimensional
+gaussian**, so the neurons point in random direction in the input space. It is also possible to use small numbers drawn
+from a uniform distribution, but this seems to have relatively little impact on the final performance in practice.
+
+> ⚠️ Itis not necessarily the case that smaller numbers will work strictly better. For example, a Neural Network layer
+> that has very small weights will during backpropagation compute very small gradients on its data (since this gradient
+> is proportional to the value of the weights). This could greatly diminish the “gradient signal” flowing backward
+> through a network, and could become a concern for deep networks.
+
+One problem with the multi-dimensional gaussian is that the distribution of the outputs from a randomly initialized
+neuron has a variance that grows with the number of inputs. It turns out that we can normalize the variance of each
+neuron's output to 1 by scaling its weight vector by the square root of its fan-in (i.e. its number of inputs). That is,
+the recommended heuristic is to initialize each neuron’s weight vector as: `w = np.random.randn(n) / sqrt(n)`, where `n`
+is the number of its inputs. This ensures that all neurons in the network initially have approximately the same output
+distribution and empirically improves the rate of convergence.
+
+The sketch of the derivation is as follows: Consider the inner product $$\mathit{s = \sum_i^n w_i x_i}$$ between the
+weights $$\mathit{w}$$ and input $$\mathit{x}$$, which gives the raw activation of a neuron before the non-linearity. We
+can examine the variance of $$\mathit{s}$$:
+
+![Error loading ann-scaling-variance.png]({{ "/assets/img/ann-scaling-variance.png" | relative_url}})
+
+where in the first 2 steps we have used [properties of variance](http://en.wikipedia.org/wiki/Variance). In third step
+we assumed _zero mean inputs and weights_, so $$\mathit{E[x_i] = E[w_i] = 0}$$. Note that this is not generally the
+case: For example ReLU units will have a positive mean. In the last step we assumed that all $$\mathit{w_i, x_i}$$ are
+identically distributed. From this derivation we can see that if we want $$\mathit{s}$$ to have the same variance as all
+of its inputs $$\mathit{x}$$, then during initialization we should make sure that the variance of every weight
+$$\mathit{w}$$ is $$\mathit{\frac{1}{n}}$$. And since $$\mathit{\text{Var}(aX) = a^2\text{Var}(X)}$$ for a random
+variable $$\mathit{X}$$ and a scalar $$\mathit{a}$$, this implies that we should draw from unit gaussian and then scale
+it by $$\mathit{a = \sqrt{\frac{1}{n}}}$$, to make its variance $$\mathit{\frac{1}{n}}$$. This gives the initialization
+`w = np.random.randn(n) / sqrt(n)`.
+
+A more recent paper on this topic,
+[Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification](http://arxiv-web3.library.cornell.edu/abs/1502.01852)
+by He et al., derives an initialization specifically for ReLU neurons, reaching the conclusion that the variance of
+neurons in the network should be $$\mathit{\frac{2.0}{n}}$$. This gives the initialization
+`w = np.random.randn(n) * sqrt(2.0/n)`, and is the current recommendation for use in practice in the specific case of
+neural networks with ReLU neurons.
+
+#### Sparse Initialization.
+
+Another way to address the uncalibrated variances problem is to set all weight matrices to zero, but to break symmetry
+every neuron is randomly connected (with weights sampled from a small gaussian as above) to a fixed number of neurons
+below it. A typical number of neurons to connect to may be as small as 10.
+
+#### Initializing the Biases.
+
+It is possible and common to initialize the biases to be zero, since the asymmetry breaking is provided by the small
+random numbers in the weights. For ReLU non-linearities, some people like to use small constant value such as 0.01 for
+all biases because this ensures that all ReLU units fire in the beginning and therefore obtain and propagate some
+gradient. However, it is not clear if this provides a consistent improvement (in fact some results seem to indicate that
+this performs worse) and it is more common to simply use 0 bias initialization.
+
+In practice, the recommendation is to use ReLU units and use the `w = np.random.randn(n) * sqrt(2.0/n)`, as discussed in
+He et al..
+
+#### Batch Normalization
+
+A recently developed technique by Ioffe and Szegedy called [Batch Normalization](http://arxiv.org/abs/1502.03167)
+alleviates a lot of headaches with properly initializing neural networks by explicitly forcing the activations
+throughout a network to take on a unit gaussian distribution at the beginning of the training. The core observation is
+that this is possible because normalization is a simple differentiable operation. In the implementation, applying this
+technique usually amounts to insert the BatchNorm layer immediately after fully connected layers (or convolutional
+layers), and before non-linearities. **It has become a very common practice to use Batch Normalization in neural
+networks**. In practice networks that use Batch Normalization are significantly more robust to bad initialization.
+Additionally, batch normalization can be interpreted as doing preprocessing at every layer of the network, but integrated
+into the network itself in a differentiable manner. Neat!
+
 TensorFlow 2
 ------------
 

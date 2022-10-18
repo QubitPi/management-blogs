@@ -1185,7 +1185,9 @@ connected to the Jenkins controller using either local or cloud computers.
 The agents require a Java installation and a network connection to the Jenkins controller and can be launched in
 physical machines, virtual machines, Kubernetes clusters, and with Docker images.
 
-
+1. https://www.jenkins.io/doc/book/using/using-agents/#:~:text=The%20Jenkins%20controller%20is%20the,either%20local%20or%20cloud%20computers.
+2. https://stackoverflow.com/a/45877135/14312712
+3. add inbound rules to security group: 4444, 22, tcp
 
 
 ### Executors
