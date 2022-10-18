@@ -1171,7 +1171,8 @@ unreliable. An agent can use any operating system that supports Java. Tools requ
 on the node where the agent runs; they can be installed directly or in a container (Docker or Kubernetes). Each agent is 
 effectively a process with its own PID (Process Identifier) on the host machine.
 
-In practice, nodes and agents are essentially the same but it is good to remember that they are conceptually distinct.
+In practice, **nodes and agents are essentially the same but it is good to remember that they are conceptually
+distinct**.
 
 #### Creating Agents
 
@@ -1388,6 +1389,22 @@ container:
    and online` on the last log line should appear short after
 
 **Congratulations**! _Jenkins controller has successfully obtained a distributed node for deployment_.
+
+##### (Optional) Run Jenkins Agent On EC2 Host Directly
+
+So far we have discussed how to run agent inside a Docker container with port forwarding from container SSH port 22 to
+EC2 host port 4444 so that Jenkins controller could ssh the agent at EC2 host port 4444. This approach has at least
+one "drawback" - everything runs inside a container. This becomes a little issue when we would CI/CD an App that's
+packaged in a Docker. Even though we have our EC2 node with Docker installed, we would still need to install Docker
+inside agent container, because **it is the agent that's executing the deployment, not the host**. A team which
+heavily dockerizes its infrastructure, this is not easy to deal with. 
+
+Now recall that [agent is simply a process running on a node](#agents), we could simply not run the agent in a
+container, but on EC2 host directly. So that our Jenkinsfile or deploy script could share and pick up the same resources
+pretty conveniently (although we would have to worry about complications by resource sharing, but that's not a bit
+deal in this context). 
+
+To do that, **we simply change the port number from 4444 back to 22** and that's it!
 
 ### Executors
 
