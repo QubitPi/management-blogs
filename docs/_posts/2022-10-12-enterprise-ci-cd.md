@@ -1183,10 +1183,211 @@ The **Jenkins controller** is the original node in the Jenkins installation. The
 connected to the Jenkins controller using either local or cloud computers.
 
 The agents require a Java installation and a network connection to the Jenkins controller and can be launched in
-physical machines, virtual machines, Kubernetes clusters, and with Docker images.
+physical machines, virtual machines, Kubernetes clusters, and with Docker images. This section connects _Docker_ agents
+to Jenkins with SSH.
 
+##### Generating an SSH key Pair on [Controller Node](#jenkins-controller)
 
+1. In the Jenkins Controller AWS EC2 terminal window run the command:
 
+   ```bash
+   ssh-keygen -f ~/.ssh/jenkins_agent_key
+   ```
+
+2. Provide a passphrase to use with the key (it can be empty)
+3. Confirm the output looks something like this:
+
+   ```
+   $ ssh-keygen -f ~/.ssh/jenkins_agent_key
+   Generating public/private rsa key pair.
+   Enter passphrase (empty for no passphrase):
+   Enter same passphrase again:
+   Your identification has been saved in /home/ubuntu/.ssh/jenkins_agent_key
+   Your public key has been saved in /home/ubuntu/.ssh/jenkins_agent_key.pub
+   The key fingerprint is:
+   SHA256:XqxxjqsLlvDD0ZHm9Y2iR7zC6IbsUlMEHo3ffy8TzGs
+   The key's randomart image is:
+   +---[RSA 3072]----+
+   |  o+             |
+   | ...o  .         |
+   |  .o .+ .        |
+   |    o+.+ o o     |
+   |  ... o.So* .    |
+   |  o+ = +.X=      |
+   | o oO + *..+     |
+   |. oo.o o .E .    |
+   | o... oo.. o     |
+   +----[SHA256]-----+
+   ```
+   
+4. Now look at the private key paddings using `cat ~/.ssh/jenkins_agent_key`. If the output ends with
+   "-----END **OPENSSH** PRIVATE KEY-----", then we will be seeing an SSH connection error when Jenkins controller tries
+   to ssh-connect to agent later with a `BadPaddingException`,
+   [this has to do with cipher default parameters](https://stackoverflow.com/a/31946825/14312712). The error indicates
+   that the format for private key in credential is not correct. [The Jenkins credential should be _**RSA**_ secret 
+   key](https://stackoverflow.com/a/54418715/14312712), i.e. we need to [convert this private key from the new OPENSSH 
+   format to the older PEM format](https://stackoverflow.com/a/61095760/14312712). We could
+   [accomplish this by using](https://stackoverflow.com/a/63188738/14312712) 
+
+   ```bash
+   cd ~/.ssh
+   ssh-keygen -f jenkins_agent_key -m PEM -p
+   ```
+
+##### Load Jenkins Credential
+
+1. Go to the Jenkins dashboard
+2. Click **Manage Jenkins** option in main menu and click on the **Manage Credentials** button;
+
+   ![Error loading jenkins-credentials-1.png]({{ "/assets/img/jenkins-credentials-1.png" | relative_url}})
+
+3. Select the drop option **Add Credentials** from the global item;
+
+   ![Error loading jenkins-credentials-2.png]({{ "/assets/img/jenkins-credentials-2.png" | relative_url}})
+
+4. Fill in the form:
+   - Kind: SSH Username with private key; 
+   - id: jenkins
+   - description: The Jenkins SSH Key 
+   - username: jenkins 
+   - Private Key: select **Enter directly** and press the **Add** button to insert the content of our private key file at 
+     **~/.ssh/jenkins_agent_key** (with the "**-----END RSA PRIVATE KEY-----**" padding included (NOT
+     ~~-----END OPENSSH PRIVATE KEY-----~~))
+   - Passphrase: fill our passphrase used to generate the SSH key pair (leave empty if we didn't use one at the previous 
+     step)
+   - press the **Create** button
+
+##### Allow Jenkins Controller to SSH passwordless into Agent Node
+
+When Jenkins was installed on Jenkins Controller EC2, a "**jenkins**" user has been created. Its working directory is
+/var/lib/jenkins on the Controller, we will copy our key pair credential to this user so Jenkins controller can use the
+key pair to ssh agent node with this "jenkins" user:
+
+```bash
+sudo mkdir -p /var/lib/jenkins/.ssh
+sudo mv ~/.ssh/jenkins_agent_key ~/.ssh/jenkins_agent_key.pub /var/lib/jenkins/.ssh/
+
+sudo chown -R jenkins /var/lib/jenkins
+sudo chown -R jenkins /var/lib/jenkins/.ssh
+sudo chmod 700 /var/lib/jenkins/.ssh
+```
+
+Next, **from the agent node's EC2 terminal**, switch to the root user and add a jenkins user with the home 
+"/var/lib/jenkins"
+
+```bash
+sudo su
+useradd -d /var/lib/jenkins jenkins
+```
+
+**From the Jenkins controller EC2 terminal**, copy the **/var/lib/jenkins/.ssh/id_rsa.pub** key from the "jenkins" user.
+
+**In the agent node's EC2 terminal, create an **authorized_keys** file for the "jenkins" user:
+
+```bash
+sudo mkdir -p /var/lib/jenkins/.ssh
+sudo touch /var/lib/jenkins/.ssh/authorized_keys
+```
+
+Paste the key from the Jenkins controller into the file "/var/lib/jenkins/.ssh/authorized_keys" and make sure the files 
+have the correct owner and permission.
+
+```bash
+sudo chown -R jenkins /var/lib/jenkins
+sudo chown -R jenkins /var/lib/jenkins/.ssh
+sudo chmod 600 /var/lib/jenkins/.ssh/authorized_keys
+sudo chmod 700 /var/lib/jenkins/.ssh
+```
+
+##### Creating Jenkins Agent Using Docker
+
+As we said earlier, there are several options to run agent and we choose one of them which is Docker image. With that
+being said, here is one important caveat to remember:
+
+> ⚠️ **After Jenkins controller successfully ssh/connects to Agent Docker container, **anything, including error
+> messages, we see in Jenkins Agent Log are from _container_, NOT agent node itself**. For example, when we see from log 
+> that says "Java not installed", we know it is the _container_ that needs to install Java, not AWS EC2 instance
+
+Here we will use the [docker-ssh-agent](https://github.com/jenkinsci/docker-ssh-agent) image to create the agent 
+container:
+
+```bash
+docker run -d --rm --name=jenkins-agent -p 22:22 \
+-e "JENKINS_AGENT_SSH_PUBKEY=[jenkins-controller-public-key]" \
+jenkins/ssh-agent:alpine
+```
+
+> 💡 In the command above, replace the tag "\[jenkins-controller-public-key\]" with the SSH public key generated in
+> the [previous step](#generating-an-ssh-key-pair-on-controller-nodejenkins-controller). The public key value in this 
+> example could be found by issuing `cat ~/.ssh/jenkins_agent_key.pub` on the Jenkins controller machine. Do NOT add the 
+> square brackets `[]` around the key value
+> 
+> If the EC2 instance machine already has a ssh server running on the 22 port (if we logged onto this machine using the 
+> `ssh` command, then that's the case), we should use another port for the docker command, such as **-p 4444:22** (
+> **but we will then need to configure a little more on this later so please keep reading**), in this case, make sure to
+> add a new inbound rule to the agent node's AWS security group: Custom TCP with port range equal to **4444** and
+> specify the client source that includes our Jenkins controller EC2 instace (can be its private IP or its containing
+> security group)
+
+Now run the following command to update the container environment:
+
+```bash
+$ VARS1="HOME=|USER=|MAIL=|LC_ALL=|LS_COLORS=|LANG="
+$ VARS2="HOSTNAME=|PWD=|TERM=|SHLVL=|LANGUAGE=|_="
+$ VARS="${VARS1}|${VARS2}"
+$ docker exec jenkins-agent sh -c "env | egrep -v '^(${VARS})' >> /etc/environment"
+```
+
+This step is necessary because the image is configured to reject changes to environment variables. when the Jenkins
+team fixes [this issue](https://github.com/jenkinsci/docker-ssh-agent/issues/33), we can ignore this step.
+
+Now the container "jenkins-agent" is running and we can verify this using `docker ps -a`
+
+> 💡 When we need to diagnose this container later, `docker container inspect jenkins-agent` can be used
+
+Now, if we move forward to the [next step](#connecting-to-agent-from-controller), we will see 2 errors ("Java 8/11 not 
+installed" & "Permission Denied on /var/lib/jenkins/ for 'jenkins' user") from agent (this could be fixed by Jenkins
+team in the future but for now, let's fact them), so we need to do 2 more setups for the Jenkins agent running
+container:
+
+1. **Install Java 11 inside Container**:
+
+   ```bash
+   sudo docker exec -it jenkins-agent bash
+   apk add openjdk11
+   ```
+
+4. **Create Jenkins user workspace manually this user access to it**:
+
+   ```bash
+   mkdir -p /var/lib/jenkins/
+   chown -R jenkins /var/lib/jenkins
+   ```
+
+##### Connecting to Agent from Controller
+
+1. Go to your Jenkins dashboard;
+2. Go to **Manage Jenkins** option in main menu;
+3. Go to **Manage Nodes and Clouds** item;
+
+   ![Error loading jenkins-manage-node-1.png]({{ "/assets/img/jenkins-manage-node-1.png" | relative_url}})
+
+4. Go to **New Node** option in side menu;
+5. Fill the Node/agent name (such as "Awesome App Agent") and select the type of **Permanent Agent**
+6. Now fill the fields in the next page prompted:
+   - Remote root directory: **/var/lib/jenkins**
+   - label: can be arbitrary 
+   - usage: **Only build jobs with label expression matching this node**
+   - Launch method: **Launch agents via SSH**
+     * Host: the **Private IPv4 addresses** of the EC2 instance running the agent 
+     * Credentials: **jenkins**
+     * Host Key verification Strategy: **Manually trusted key verification Strategy**
+     * Hit "**Advanced...**" and put **4444** as the port number because we have
+       [mapped container SSH port 22 to 4444 on EC2 host](#creating-jenkins-agent-using-docker)
+7. Press the **Save** button and the agent will be registered. Click on it. The message: `Agent successfully connected 
+   and online` on the last log line should appear short after
+
+**Congratulations**! _Jenkins controller has successfully obtained a distributed node for deployment_.
 
 ### Executors
 
@@ -1202,10 +1403,6 @@ requirements as well as the amount of I/O and network activity:
 * One executor per CPU core may work well if the tasks being run are small.
 * Monitor I/O performance, CPU load, memory usage, and I/O throughput carefully when running multiple executors on a
   node.
-
-##### Distributed Builds Architecture
-
-
 
 ### How to Configure a Jenkins Pipeline
 
