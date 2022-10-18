@@ -1659,6 +1659,206 @@ The key difference between [Perceptron Training Rule](#the-perceptron-training-r
 the error in the _thresholded_ perceptron output, whereas the latter updates weights based on the error in the
 _unthresholded_ linear combination of inputs.
 
+### Multilayer Networks & The Backpropagation Algorithm
+
+Single perceptrons, as we've discuessed so far, can only express linear decision surfaces. In contrast, the kind of
+multilayer networks learned by the Backpropagation algorithm are capable of expressing a rich variety of **nonlinear
+decision surfaces**.
+
+What type of unit shall we use as the basis for constructing multilayer networks? One solution is the **sigmoid unit** -
+a unit very much like a perceptron, but based on a smoothed, differentiable threshold function
+
+The sigmoid unit is illustrated in figure below
+
+![Error loading ann-sigmoid-threshold-unit.png]({{ "/assets/img/ann-sigmoid-threshold-unit.png" | relative_url}})
+
+Like the perceptron, the sigmoid unit first computes a linear combination of its inputs, then applies a threshold to
+the result. In the case of the sigmoid unit, however, the threshold output is a continuous function of its input. More
+precisely, the sigmoid unit computes its output $$\mathit{o}$$ as
+
+$$ \mathit{o} = \sigma(\mathit{\vec{w}} \cdot \mathit{\vec{x}}) $$
+
+where
+
+$$ \sigma(\mathit{y}) = \frac{1}{1 + \exp^{-\mathit{y}}} $$
+
+$$\sigma$$ is often called the **sigmoid function** or, alternatively, the **logistic function**
+
+> 📋 Note that the output of sigmoid function ranges between 0 and 1. Because it maps a very large input domain to a 
+> small range of outputs, it is often referred to as the **squashing function** of the unit
+
+The sigmoid function doesn't always have to be in the form stated above as long as it keeps the property that its
+derivative is easily expressed. For example, in this particular form, we can easily see
+
+$$ \frac{\mathit{d\sigma(y)}}{\mathit{dy}} = \sigma(\mathit{y})(1 - \sigma(\mathit{y})) $$
+
+Other differentiable functions, such as $$\frac{1}{1 + \exp^{-\mathit{ky}}}$$ where $$\mathit{k}$$ is some positive
+constant, and $$tanh$$ are sometimes used instead
+
+#### The Backpropagation Algorithm
+
+The Backpropagation algorithm learns the weights for a multilayer network, given a network with a fixed set of units and
+interconnections
+
+Because we are considering networks with multiple output units rather than single units as before, we begin by
+redefining $$\mathit{E}$$ to sum the errors over all of the network output unit
+
+$$
+
+\mathit{E(\vec{w})} \equiv \frac{1}{2}\sum_{\mathit{d \in D}}\sum_{\mathit{k \in \text{outputs}}}(\mathit{t_{kd} - o_{kd}})^2
+
+$$
+
+where "outputs" is the set of output units in the network, and $$\mathit{t_{kd}}$$ and $$\mathit{o_{kd}}$$ are the
+target and output values associated with the _k_-th output unit and training example $$\mathit{d}$$.
+
+The learning problem faced by Backpropagation Algorithm is to search a large hypothesis space defined by all possible
+weight values for all the units in the network. The algorithm below outlines the stochastic gradient descent version of
+the Backpropagation algorithm for feedforward networks containing **two** layers of sigmoid units, with _units at each
+layer connected to all units from the preceding layer_.
+
+The algorithm begins by constructing a network with the desired number of hidden and output units and initializing all
+network weights to small random values. Given this fixed network structure, the main loop of the algorithm then
+repeatedly iterates over the training examples. For each training example, it applies the network to the example,
+calculates the error of the network output for this example, computes the gradient with respect to the error on this
+example, then updates all weights in the network. This gradient descent step is iterated (often thousands of times,
+using the same training examples multiple times) until the network performs acceptably well
+
+> Backpropagation(training_examples, $$\eta$$, $$\mathit{n_{in}}$$, $$\mathit{n_{out}}$$, $$\mathit{n_{hidden}}$$)
+>
+> * Each training example is a pair of the form $$\left< \vec{\mathit{x}}, \mathit{\vec{t}} \right>$$, where
+>   $$\vec{\mathit{x}}$$ is the vector of the network input values, and $$\vec{\mathit{t}}$$ the vector of target
+>   network output values
+> * $$\eta$$ is the learning rate (e.g. 0.5)
+> * $$\mathit{n_{in}}$$ is the number of network inputs
+> * $$\mathit{n_{out}}$$ is the number of output units
+> * $$\mathit{n_{hidden}}$$ is the number of units in the hidden layer
+> * The input from unit $$\mathit{i}$$ into unit $$\mathit{j}$$ is denoted as $$\mathit{x_{ji}}$$ and the weight from
+>   unit $$\mathit{i}$$ to unit $$\mathit{j}$$ is denoted as $$\mathit{w_{ji}}$$
+>
+> 1. Create a feed-forward network with $$\mathit{n_{in}}$$ number of inputs, $$\mathit{n_{hidden}}$$ number of hidden
+>    units, and $$\mathit{n_{out}}$$ number of output units.
+> 2. Initialize all network weights to small random numbers (e.g. between -0.5 to 0.5)
+> 3. Until the termination condition is met, do
+>    * For each $$\left< \vec{\mathit{x}}, \mathit{\vec{t}} \right>$$ in training_examples, do
+>      - _Propagate the input forward through the network_:
+>        1. Input the instance $$\vec{\mathit{x}}$$ to the network and compute the output $$\mathit{o_u}$$ of ever unit
+>           $$\mathit{u}$$ in the network
+>      - _Propagate the errors backward through the network_:
+>        2. For each network output unit $$\mathit{k}$$, calculate its error term $$\delta_\mathit{k}$$
+>
+>           $$ \delta_\mathit{k} \leftarrow \mathit{o_k(1 - o_k)(t_k - o_l)}$$
+>
+>        3. For each hidden unit $$\mathit{h}$$, calculate its error term $$\delta_\mathit{h}$$
+>
+>           $$ \delta_\mathit{h} \leftarrow \mathit{o_h(1 - o_h)}\sum_{\mathit{k \in \text{outputs}}}\mathit{w_{kh}\delta_k} $$
+>
+>        4. Update each network weight $$\mathit{w_{ji}}$$
+>
+>           $$ \mathit{w_{ji}} \leftarrow \mathit{w_{ji}} + \Delta\mathit{w_{ji}} $$
+>
+>           where
+>
+>           $$ \mathit{w_{ji}} = \eta\delta_{\mathit{j}}\mathit{x_{ji}} $$
+
+> 📋 The algorithm updates weights incrementally, following the presentation of each training example. This corresponds
+> to a stochastic approximation to gradient descent
+
+The weight-update loop in Backpropagation maybe e iterated thousands of times in a typical application. A variety of
+termination conditions can be used to halt the procedure. One may choose to halt after a fixed number of iterations
+through the loop, or once the error on the training examples falls below some threshold, or once the error on a separate
+validation set of examples meets some criterion. The choice of termination criterion is an important one, because too
+few iterations can fail to reduce error sufficiently, and too many can lead to overfitting the training data
+
+One major difference in the case of multilayer networks is that the error surface can have multiple local minima, in
+contrast to the single-minimum parabolic error surface, which means that gradient descent, in this case, is guaranteed
+only to converge toward some local minimum
+
+##### Variations
+
+###### Updating Weight with Momentum
+
+Because Backpropagation is such a widely used algorithm, many variations have been developed. Perhaps the most common is
+to alter the weight-update rule. For example, one approach is making the weight update on the _n_-th iteration depend
+partially on the update that occurred during the _(n - 1)_-th iteration:
+
+$$ \Delta\mathit{w_{ji}(n)} = \mathit{\eta\delta_j x_{ji} + \alpha\Delta w_{ji}(n - 1)} $$
+
+where $$0 < \alpha < 1$$ is a constant called **momentum**. The second term on the right of the equation is called the
+**momentum term**. To see the effect of this momentum term, consider that the gradient descent search trajectory is
+analogous to that of a (momentumless) ball rolling down the error surface. The effect of $$\alpha$$ is to add momentum
+that tends to keep the ball rolling in the same direction from one iteration to the next. This can sometimes have the
+effect of keeping the ball rolling through small local minima in the error surface, or along flat regions in the surface
+where the ball would stop if there were no momentum. It also has the effect of gradually increasing the step size of the
+search in regions where the gradient is unchanging, thereby speeding convergence.
+
+##### Learning in Arbitrary Acyclic Networks
+
+To generalize the [two-layer network backpropagation algorithm](#the-backpropagation-algorithm) to feedforward
+networks of _arbitrary depth_, we only need to change the procedure for computing $$\delta$$. In general, the
+$$\delta_{\mathit{r}}$$ value for a unit $$\mathit{r}$$ in layer $$\mathit{m}$$ is computed from the $$\delta$$ value
+at the next deeper layer $$\mathit{m} + 1$$:
+
+$$ \delta_{\mathit{r}} = \mathit{o_r(1 - o_r)}\sum_{\mathit{s \in \text{layer} (m + 1)}} \mathit{w_{sr}\delta_s} $$
+
+> 📋 Note that this is the generalization of
+> $$ \delta_\mathit{h} \leftarrow \mathit{o_h(1 - o_h)}\sum_{\mathit{k \in \text{outputs}}}\mathit{w_{kh}\delta_k} $$
+> in the two-layer algorithm
+
+It is equally straightforward to generalize the algorithm to any _directed acyclic graph_, regardless of whether the
+network units are arranged in uniform layers as we have assumed up to now. In the case that they are not, the rule for
+calculating $$\delta$$ for any internal unit (i.e., any unit that is not an output) is
+
+$$ \delta_{\mathit{r}} = \mathit{o_r(1 - o_r)}\sum_{\mathit{s \in \text{Downstream}(r)}} \mathit{w_{sr}\delta_s} $$
+
+where Downstream(r) is the set of units immediately downstream from unit $$\mathit{r}$$ in the network: that is, all
+units whose inputs include the output of unit $$\mathit{r}$$
+
+###### Derivation of the Backpropagation Rule for Arbitrary Acyclic Networks
+
+#### Remarks of the Backpropagation Algorithm
+
+##### Convergence and Local Minima
+
+As shown above, the Backpropagation Algorithm implements a gradient descent search through the space of possible network
+weights, iteratively reducing the error $$\mathit{E}$$ between the training example target values and the network
+outputs. Because the error surface for multilayer networks may contain many different local minima, gradient descent can
+become trapped in any of these. As a result, Backpropagation Algorithm ultilayer networks is only guaranteed to converge
+toward some local minimum in E and not necessarily to the global minimum error.
+
+Despite the lack of assured convergence to the global minimum error, Backpropagation is a highly effective function
+approximation method in practice. In many practical applications the problem of local minima has not been found to
+be as severe as one might fear.
+
+To develop some intuition here, consider that networks with large numbers of weights correspond to error surfaces in
+very high dimensional spaces (one dimension per weight). When gradient descent falls into a local minimum with respect
+to one of these weights, it will not necessarily be in a local minimum with respect to the other weights. In fact, the
+more weights in the network, the more dimensions that might provide "escape routes" for gradient descent to fall away
+from the local minimum with respect to this single weight.
+
+A second perspective on local minima can be gained by considering the manner in which network weights evolve as the
+number of training iterations increases. Notice that if network weights are initialized to values near zero, then during
+early gradient descent steps the network will represent a very smooth function that is approximately linear in its
+inputs. This is because the sigmoid threshold function itself is approximately linear when the weights are close to
+zero. Only after the weights have had time to grow will they reach a point where they can represent highly nonlinear
+network functions. One might expect more local minima to exist in the region of the weight space that represents these
+more complex functions. One hopes that by the time the weights reach this point they have already moved close enough to
+the global minimum that even local minima in this region are acceptable.
+
+Common heuristics to attempt to alleviate the problem of local minima include:
+
+* Add a [momentum](#updating-weight-with-momentum) term to the weight-update rule. Momentum can sometimes carry the
+  gradient descent procedure through narrow local minima (though in principle it can also carry it through narrow global
+  minima into other local minima!).
+* Use stochastic gradient descent rather than true gradient descent. The stochastic approximation to gradient descent
+  effectively descends a different error surface for each training example, relying on the average of these to
+  approximate the gradient with respect to the full training set. These different error surfaces typically will have
+  different local minima, making it less likely that the process will get stuck in any one of them.
+* Train multiple networks using the same data, but initializing each network with different random weights. If the
+  different training efforts lead to different local minima, then the network with the best performance over a separate
+  validation data set can be selected. Alternatively, all networks can be retained and treated as a "committee" of
+  networks whose output is the (possibly weighted) average of the individual network outputs.
+
 TensorFlow 2
 ------------
 
