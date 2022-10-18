@@ -2338,13 +2338,15 @@ docker pull tensorflow/tensorflow:latest  # Download latest stable image
 docker run -it -p 8888:8888 tensorflow/tensorflow:latest-jupyter  # Start Jupyter server 
 ```
 
-### Additional Resources
+
+Additional Resources
+--------------------
 
 * [deeplearning.net tutorial](http://www.deeplearning.net/tutorial/mlp.html) with Theano
 * [ConvNetJS](http://cs.stanford.edu/people/karpathy/convnetjs/) demos for intuitions
 * [Michael Nielsen's tutorials](http://neuralnetworksanddeeplearning.com/chap1.html)
 
-#### Free Datasets
+### Free Datasets
 
 * [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html)
 
