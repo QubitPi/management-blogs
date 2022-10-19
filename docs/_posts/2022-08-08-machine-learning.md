@@ -2532,14 +2532,29 @@ Install TensorFlow with Python's pip package manager.
 
 ```bash
 # Requires the latest pip
-pip install --upgrade pip
+pip3 install --upgrade pip
 
 # Current stable release for CPU and GPU
-pip install tensorflow
-
-# Or try the preview build (unstable)
-pip install tf-nightly
+pip3 install tensorflow
 ```
+
+> 💡 In case we are running low on memory, `pip3 install tensorflow` might get "killed":
+> 
+> ```
+> $ pip3 install tensorflow
+> Defaulting to user installation because normal site-packages is not writeable
+> Collecting tensorflow
+> Downloading tensorflow-2.10.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (578.0 MB)
+> ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸ 578.0/578.0 MB 10.8 MB/s eta 0:00:01Killed
+> ```
+> 
+> Note the last word in the last line.
+> 
+> We could try instead with
+> 
+> ```bash
+> pip3 install tensorflow --no-cache-dir
+> ```
 
 Alternatively, the [TensorFlow Docker images](https://hub.docker.com/r/tensorflow/tensorflow/) are already configured to 
 run TensorFlow. A Docker container runs in a virtual environment and is the easiest way to set up GPU support.
