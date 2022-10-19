@@ -1092,7 +1092,7 @@ the first administrator user through which we can continue accessing Jenkins.
 ##### Unlocking Jenkins
 
 When we first access a new Jenkins instance, we are asked to unlock it using an automatically-generated password. Browse
-to `https://<jenkins-dns/ip>:8443` and wait until the Unlock Jenkins page appears.
+to `https://jenkins.my-domain.com:8443` and wait until the Unlock Jenkins page appears.
 
 ![Error loading unlock-jenkins.png]({{ "/assets/img/unlock-jenkins.png" | relative_url}})
 
