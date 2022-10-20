@@ -915,6 +915,10 @@ Next, we shall use the certificate for our Jenkins instance.
    > * `/etc/cron.*/*`
    > * `systemctl list-timers`
 
+###### HTTPS via Reverse Proxy
+
+At this point, we know Certbot utilizes Nginx to proxy request 
+
 ##### Convert SSL keys to PKCS12 format
 
 When [SSL is ready](#generating-ssl-certificates), let's enable secure connection to our Jenkins instance. We would need 
@@ -1508,6 +1512,8 @@ if (params.isFoo) {
 }
 ```
 
+### Backing-up/Restoring Jenkins
+
 ### Troubleshooting
 
 #### Echo Off in Jenkins Console Output
@@ -1521,6 +1527,10 @@ You can override this behaviour for the whole script by putting the following at
 ```bash
 #!/bin/bash +x
 ```
+
+
+Integrate Jenkins with DockerHub through Webhooks
+----------------------------------------------
 
 
 Integrate Jenkins with GitHub through Webhooks
