@@ -915,280 +915,6 @@ Next, we shall use the certificate for our Jenkins instance.
    > * `/etc/cron.*/*`
    > * `systemctl list-timers`
 
-###### HTTPS via Nginx Reverse Proxy
-
-Proxying is typically used to distribute the load among several servers, seamlessly show content from different
-websites, or pass requests for processing to application servers over protocols other than HTTP.
-
-> **What Is a Reverse Proxy Server?**
-> 
-> A proxy server is a go‑between or intermediary server that forwards requests for content from multiple clients to 
-> different servers across the Internet. A **reverse proxy server** is a type of proxy server that typically sits behind 
-> the firewall in a private network and directs client requests to the appropriate backend server. A reverse proxy 
-> provides an additional level of abstraction and control to ensure the smooth flow of network traffic between clients 
-> and servers.
-> 
-> Common uses for a reverse proxy server include:
-> 
-> * **Load balancing** A reverse proxy server can act as a "traffic cop" sitting in front of backend servers and 
->   distributing client requests across a group of servers in a manner that maximizes speed and capacity utilization 
->   while ensuring no one server is overloaded, which can degrade performance. If a server goes down, the load balancer 
->   redirects traffic to the remaining online servers.
-> * **Web acceleration** Reverse proxies can compress inbound and outbound data, as well as cache commonly requested 
->   content, both of which speed up the flow of traffic between clients and servers. They can also perform additional 
->   tasks such as SSL encryption to take load off of your web servers, thereby boosting their performance.
-> * **Security & Anonymity** By intercepting requests headed for your backend servers, a reverse proxy server protects 
->   their identities and acts as an additional defense against security attacks. It also ensures that multiple servers 
->   can be accessed from a single record locator or URL regardless of the structure of your local area network.
-
-![Error loading nginx-directives.png]({{ "/assets/img/nginx-directives.png" | relative_url}})
-
-While we know Certbot utilizes Nginx's capabilities, people are often confused by some of the conventions they find in 
-Nginx configuration files. In this section, we will focus first on the basic structure of an Nginx configuration file.
-
-The main Nginx configuration file is located at "**/etc/nginx/nginx.conf**" in our EC2 Ubuntu instance.
-
-One of the first things that we should notice when looking at the main configuration file is that it appears to be 
-organized in a tree-like structure, defined by sets of brackets (that look like `{` and `}`). In Nginx parlance, the 
-areas that these brackets define are called “contexts” because they contain configuration details that are separated 
-according to their area of concern. Basically, these divisions provide an organizational structure along with some 
-conditional logic to decide whether to apply the configurations within.
-
-Because contexts can be layered within one another, Nginx provides a level of directive inheritance. As a general rule, 
-if a directive is valid in multiple nested scopes, a declaration in a broader context will be passed on to any child 
-contexts as default values. The children contexts can override these values at will. It is worth noting that an override 
-to any array-type directives will replace the previous value, not append to it.
-
-Directives can only be used in the contexts that they were designed for. Nginx will error out on reading a configuration 
-file with directives that are declared in the wrong context. The
-[Nginx documentation](http://nginx.org/en/docs/dirindex.html) contains information about which contexts each directive
-is valid in, so it is a great reference if you are unsure.
-
-Next, we'll discuss the most common contexts in Nginx.
-
-**The Main Context**
-
-The most general context is the "main" or "global" context. It is the only context that is not contained within the 
-typical context blocks that look like this:
-
-```config
-# The main context is here, outside any other contexts
-
-. . .
-
-context {
-
-    . . .
-
-}
-```
-
-Any directive that exist entirely outside of these blocks is said to inhabit the "main" context. Keep in mind that if
-our Nginx configuration is set up in a modular fashion, some files will contain instructions that appear to exist
-outside of a bracketed context, but which will be included within such a context when the configuration is stitched 
-together.
-
-The main context represents the broadest environment for Nginx configuration. It is used to configure details that
-affect the entire application on a basic level. While the directives in this section affect the lower contexts, many of 
-these aren't inherited because they cannot be overridden in lower levels.
-
-Some common details that are configured in the main context are the user and group to run the worker processes as, the 
-number of workers, and the file to save the main process's PID. We can even define things like worker CPU affinity and 
-the "niceness" of worker processes. The default error file for the entire application can be set at this level (this can 
-be overridden in more specific contexts).
-
-**The Events Context**
-
-The "events" context is contained within the "main" context. It is used to set global options that affect how Nginx 
-**handles connections** at a general level. There can only be a single events context defined within the Nginx 
-configuration.
-
-This context will look like this in the configuration file, outside of any other bracketed contexts:
-
-```conf
-# main context
-
-events {
-
-    # events context
-    . . .
-
-}
-```
-
-Nginx uses an event-based connection processing model, so the directives defined within this context determine how
-worker processes should handle connections. Mainly, directives found here are used to either select the connection 
-processing technique to use, or to modify the way these methods are implemented.
-
-Usually, the connection processing method is automatically selected based on the most efficient choice that the platform 
-has available. For Linux systems, the _epoll_ method is usually the best choice.
-
-Other items that can be configured are the number of connections each worker can handle, whether a worker will only take 
-a single connection at a time or take all pending connections after being notified about a pending connection, and 
-whether workers will take turns responding to events.
-
-**The HTTP Context**
-
-When configuring Nginx as a web server or **reverse proxy**, the "http" context will hold the majority of the 
-configuration. This context will contain all of the directives and other contexts necessary to define how the program 
-will handle HTTP or **HTTPS** connections.
-
-The http context is a sibling of the events context, so they should be listed side-by-side, rather than nested. They
-both are children of the main context:
-
-```conf
-# main context
-
-events {
-    # events context
-
-    . . .
-
-}
-
-http {
-    # http context
-
-    . . .
-
-}
-```
-
-While lower contexts get more specific about how to handle requests, directives at this level control the defaults for 
-every virtual server defined within. A large number of directives are configurable at this context and below, depending 
-on how we would like the inheritance to function.
-
-Some of the directives that we are likely to encounter control the default locations for access and error logs 
-(**access_log** and **error_log**), configure asynchronous I/O for file operations (aio, sendfile, and directio), and 
-configure the server's statuses when errors occur (error_page). Other directives configure compression (gzip and 
-gzip_disable), fine-tune the TCP keep alive settings (**keepalive_disable**, **keepalive_requests**, and 
-**keepalive_timeout**), and the rules that Nginx will follow to try to optimize packets and system calls (sendfile, 
-tcp_nodelay, and tcp_nopush). Additional directives configure an application-level document root and index files (root 
-and index) and set up the various hash tables that are used to store different types of data (*_hash_bucket_size and 
-*_hash_max_size for server_names, types, and variables).
-
-**The Server Context**
-
-The "server" context is declared within the "http" context. This is our first example of nested, bracketed contexts. It 
-is also the first context that allows for multiple declarations.
-
-The general format for server context may look something like this. Remember that these reside within the http context:
-
-```conf
-# main context
-
-http {
-
-    # http context
-
-    server {
-
-        # first server context
-
-    }
-
-    server {
-
-        # second server context
-
-    }
-
-}
-```
-
-The reason for allowing multiple declarations of the server context is that **each instance defines a specific virtual 
-server to handle client requests**. You can have as many server blocks as you need, each of which can handle a specific 
-subset of connections.
-
-Due to the possibility and likelihood of multiple server blocks, this context type is also the first that Nginx must use 
-a selection algorithm to make decisions. Each client request will be handled according to the configuration defined in a 
-single server context, so Nginx must decide which server context is most appropriate based on details of the request.
-The directives which decide if a server block will be used to answer a request are:
-
-* **listen**: The _IP:port_ combination that this server block is designed to respond to. If a request is made by a 
-  client that matches these values, this block will potentially be selected to handle the connection.
-* **server_name**: This directive is the other component used to select a server block for processing. If there are 
-  multiple server blocks with listen directives of the same specificity that can handle the request, Nginx will parse
-  the "Host" header of the request and match it against this directive.
-
-The directives in this context can override many of the directives that may be defined in the http context, including 
-logging, the document root, compression, etc. In addition to the directives that are taken from the http context, we
-also can configure files to try to respond to requests (try_files), issue redirects and rewrites (return and rewrite), 
-and set arbitrary variables (set).
-
-**The Location Context**
-
-The next context that we will deal with regularly is the location context. Location contexts share many relational 
-qualities with server contexts. For example, multiple location contexts can be defined, each location is used to handle
-a certain type of client request, and each location is selected by virtue of matching the location definition against
-the client request through a selection algorithm.
-
-While the directives that determine whether to select a server block are defined within the server context, the
-component that decides on a location's ability to handle a request is located in the location definition (the line that 
-opens the location block).
-
-The general syntax looks like this:
-
-```config
-location match_modifier location_match {
-
-    . . .
-
-}
-```
-
-Location blocks live within server contexts and, unlike server blocks, can be nested inside one another. This can be 
-useful for creating a more general location context to catch a certain subset of traffic, and then further processing it 
-based on more specific criteria with additional contexts inside:
-
-```conf
-# main context
-
-server {
-    
-    # server context
-
-    location /match/criteria {
-
-        # first location context
-
-    }
-
-    location /other/criteria {
-
-        # second location context
-
-        location nested_match {
-
-            # first nested location
-
-        }
-
-        location other_nested {
-
-            # second nested location
-
-        }
-
-    }
-
-}
-```
-
-While server contexts are selected based on the requested IP address/port combination and the host name in the "Host" 
-header, location blocks further divide up the request handling within a server block by looking at the request URI. The 
-request URI is the portion of the request that comes after the domain name or IP address/port combination.
-
-For example, if a client requests "http://www.example.com/blog" on port 80, the "http", "www.example.com", and port 80 
-would all be used to determine which server block to select. After a server is selected, the "/blog" portion (the
-request URI), would be evaluated against the defined locations to determine which further context should be used to 
-respond to the request.
-
-Many of the directives you are likely to see in a location context are also available at the parent levels. New 
-directives at this level allow you to reach locations outside of the document root (alias), mark the location as only 
-internally accessible (internal), and proxy to other servers or locations (using http, fastcgi, scgi, and uwsgi
-proxying).
-
 ##### Convert SSL keys to PKCS12 format
 
 When [SSL is ready](#generating-ssl-certificates), let's enable secure connection to our Jenkins instance. We would need 
@@ -1355,6 +1081,306 @@ We would go with the 2nd option in this post. If we want to open the port for HT
 to adding HTTPS rule, we could also just add a "Custom TCP" rule for the desired port (i.e. 8443) and it will work.
 
 Now we should be able to access Jenkins over HTTPS with port 8443 at `https://jenkins.some-domain.com:8443`
+
+##### HTTPS via Nginx Reverse Proxy
+
+Proxying is typically used to distribute the load among several servers, seamlessly show content from different
+websites, or pass requests for processing to application servers over protocols other than HTTP.
+
+> **What Is a Reverse Proxy Server?**
+>
+> A proxy server is a go‑between or intermediary server that forwards requests for content from multiple clients to
+> different servers across the Internet. A **reverse proxy server** is a type of proxy server that typically sits behind
+> the firewall in a private network and directs client requests to the appropriate backend server. A reverse proxy
+> provides an additional level of abstraction and control to ensure the smooth flow of network traffic between clients
+> and servers.
+>
+> Common uses for a reverse proxy server include:
+>
+> * **Load balancing** A reverse proxy server can act as a "traffic cop" sitting in front of backend servers and
+    >   distributing client requests across a group of servers in a manner that maximizes speed and capacity utilization
+    >   while ensuring no one server is overloaded, which can degrade performance. If a server goes down, the load balancer
+    >   redirects traffic to the remaining online servers.
+> * **Web acceleration** Reverse proxies can compress inbound and outbound data, as well as cache commonly requested
+    >   content, both of which speed up the flow of traffic between clients and servers. They can also perform additional
+    >   tasks such as SSL encryption to take load off of your web servers, thereby boosting their performance.
+> * **Security & Anonymity** By intercepting requests headed for your backend servers, a reverse proxy server protects
+    >   their identities and acts as an additional defense against security attacks. It also ensures that multiple servers
+    >   can be accessed from a single record locator or URL regardless of the structure of your local area network.
+
+![Error loading nginx-directives.png]({{ "/assets/img/nginx-directives.png" | relative_url}})
+
+###### Understanding the Nginx Configuration File Structure and Configuration Contexts
+
+While we know Certbot utilizes Nginx's capabilities, people are often confused by some of the conventions they find in
+Nginx configuration files. In this section, we will focus first on the basic structure of an Nginx configuration file.
+
+The main Nginx configuration file is located at "**/etc/nginx/nginx.conf**" in our EC2 Ubuntu instance.
+
+One of the first things that we should notice when looking at the main configuration file is that it appears to be
+organized in a tree-like structure, defined by sets of brackets (that look like `{` and `}`). In Nginx parlance, the
+areas that these brackets define are called “contexts” because they contain configuration details that are separated
+according to their area of concern. Basically, these divisions provide an organizational structure along with some
+conditional logic to decide whether to apply the configurations within.
+
+Because contexts can be layered within one another, Nginx provides a level of directive inheritance. As a general rule,
+if a directive is valid in multiple nested scopes, a declaration in a broader context will be passed on to any child
+contexts as default values. The children contexts can override these values at will. It is worth noting that an override
+to any array-type directives will replace the previous value, not append to it.
+
+Directives can only be used in the contexts that they were designed for. Nginx will error out on reading a configuration
+file with directives that are declared in the wrong context. The
+[Nginx documentation](http://nginx.org/en/docs/dirindex.html) contains information about which contexts each directive
+is valid in, so it is a great reference if you are unsure.
+
+Next, we'll discuss the most common contexts in Nginx.
+
+**The Main Context**
+
+The most general context is the "main" or "global" context. It is the only context that is not contained within the
+typical context blocks that look like this:
+
+```config
+# The main context is here, outside any other contexts
+
+. . .
+
+context {
+
+    . . .
+
+}
+```
+
+Any directive that exist entirely outside of these blocks is said to inhabit the "main" context. Keep in mind that if
+our Nginx configuration is set up in a modular fashion, some files will contain instructions that appear to exist
+outside of a bracketed context, but which will be included within such a context when the configuration is stitched
+together.
+
+The main context represents the broadest environment for Nginx configuration. It is used to configure details that
+affect the entire application on a basic level. While the directives in this section affect the lower contexts, many of
+these aren't inherited because they cannot be overridden in lower levels.
+
+Some common details that are configured in the main context are the user and group to run the worker processes as, the
+number of workers, and the file to save the main process's PID. We can even define things like worker CPU affinity and
+the "niceness" of worker processes. The default error file for the entire application can be set at this level (this can
+be overridden in more specific contexts).
+
+**The Events Context**
+
+The "events" context is contained within the "main" context. It is used to set global options that affect how Nginx
+**handles connections** at a general level. There can only be a single events context defined within the Nginx
+configuration.
+
+This context will look like this in the configuration file, outside of any other bracketed contexts:
+
+```conf
+# main context
+
+events {
+
+    # events context
+    . . .
+
+}
+```
+
+Nginx uses an event-based connection processing model, so the directives defined within this context determine how
+worker processes should handle connections. Mainly, directives found here are used to either select the connection
+processing technique to use, or to modify the way these methods are implemented.
+
+Usually, the connection processing method is automatically selected based on the most efficient choice that the platform
+has available. For Linux systems, the _epoll_ method is usually the best choice.
+
+Other items that can be configured are the number of connections each worker can handle, whether a worker will only take
+a single connection at a time or take all pending connections after being notified about a pending connection, and
+whether workers will take turns responding to events.
+
+**The HTTP Context**
+
+When configuring Nginx as a web server or **reverse proxy**, the "http" context will hold the majority of the
+configuration. This context will contain all of the directives and other contexts necessary to define how the program
+will handle HTTP or **HTTPS** connections.
+
+The http context is a sibling of the events context, so they should be listed side-by-side, rather than nested. They
+both are children of the main context:
+
+```conf
+# main context
+
+events {
+    # events context
+
+    . . .
+
+}
+
+http {
+    # http context
+
+    . . .
+
+}
+```
+
+While lower contexts get more specific about how to handle requests, directives at this level control the defaults for
+every virtual server defined within. A large number of directives are configurable at this context and below, depending
+on how we would like the inheritance to function.
+
+Some of the directives that we are likely to encounter control the default locations for access and error logs
+(**access_log** and **error_log**), configure asynchronous I/O for file operations (aio, sendfile, and directio), and
+configure the server's statuses when errors occur (error_page). Other directives configure compression (gzip and
+gzip_disable), fine-tune the TCP keep alive settings (**keepalive_disable**, **keepalive_requests**, and
+**keepalive_timeout**), and the rules that Nginx will follow to try to optimize packets and system calls (sendfile,
+tcp_nodelay, and tcp_nopush). Additional directives configure an application-level document root and index files (root
+and index) and set up the various hash tables that are used to store different types of data (*_hash_bucket_size and
+*_hash_max_size for server_names, types, and variables).
+
+**The Server Context**
+
+The "server" context is declared within the "http" context. This is our first example of nested, bracketed contexts. It
+is also the first context that allows for multiple declarations.
+
+The general format for server context may look something like this. Remember that these reside within the http context:
+
+```conf
+# main context
+
+http {
+
+    # http context
+
+    server {
+
+        # first server context
+
+    }
+
+    server {
+
+        # second server context
+
+    }
+
+}
+```
+
+The reason for allowing multiple declarations of the server context is that **each instance defines a specific virtual
+server to handle client requests**. You can have as many server blocks as you need, each of which can handle a specific
+subset of connections.
+
+Due to the possibility and likelihood of multiple server blocks, this context type is also the first that Nginx must use
+a selection algorithm to make decisions. Each client request will be handled according to the configuration defined in a
+single server context, so Nginx must decide which server context is most appropriate based on details of the request.
+The directives which decide if a server block will be used to answer a request are:
+
+* **listen**: The _IP:port_ combination that this server block is designed to respond to. If a request is made by a
+  client that matches these values, this block will potentially be selected to handle the connection.
+* **server_name**: This directive is the other component used to select a server block for processing. If there are
+  multiple server blocks with listen directives of the same specificity that can handle the request, Nginx will parse
+  the "Host" header of the request and match it against this directive.
+
+The directives in this context can override many of the directives that may be defined in the http context, including
+logging, the document root, compression, etc. In addition to the directives that are taken from the http context, we
+also can configure files to try to respond to requests (try_files), issue redirects and rewrites (return and rewrite),
+and set arbitrary variables (set).
+
+**The Location Context**
+
+The next context that we will deal with regularly is the location context. Location contexts share many relational
+qualities with server contexts. For example, multiple location contexts can be defined, each location is used to handle
+a certain type of client request, and each location is selected by virtue of matching the location definition against
+the client request through a selection algorithm.
+
+While the directives that determine whether to select a server block are defined within the server context, the
+component that decides on a location's ability to handle a request is located in the location definition (the line that
+opens the location block).
+
+The general syntax looks like this:
+
+```config
+location match_modifier location_match {
+
+    . . .
+
+}
+```
+
+Location blocks live within server contexts and, unlike server blocks, can be nested inside one another. This can be
+useful for creating a more general location context to catch a certain subset of traffic, and then further processing it
+based on more specific criteria with additional contexts inside:
+
+```conf
+# main context
+
+server {
+    
+    # server context
+
+    location /match/criteria {
+
+        # first location context
+
+    }
+
+    location /other/criteria {
+
+        # second location context
+
+        location nested_match {
+
+            # first nested location
+
+        }
+
+        location other_nested {
+
+            # second nested location
+
+        }
+
+    }
+
+}
+```
+
+While server contexts are selected based on the requested IP address/port combination and the host name in the "Host"
+header, location blocks further divide up the request handling within a server block by looking at the request URI. The
+request URI is the portion of the request that comes after the domain name or IP address/port combination.
+
+For example, if a client requests "http://www.example.com/blog" on port 80, the "http", "www.example.com", and port 80
+would all be used to determine which server block to select. After a server is selected, the "/blog" portion (the
+request URI), would be evaluated against the defined locations to determine which further context should be used to
+respond to the request.
+
+Many of the directives you are likely to see in a location context are also available at the parent levels. New
+directives at this level allow you to reach locations outside of the document root (alias), mark the location as only
+internally accessible (internal), and proxy to other servers or locations (using http, fastcgi, scgi, and uwsgi
+proxying).
+
+###### How Certbot + Nginx Enable SSL
+
+Recall that we have made our Jenkins instance available at `https://jenkins.some-domain.com:8443` with a port number of 
+8443. If we would like to get rid of it and simply visit Jenkins at `https://jenkins.some-domain.com`, we will add an
+redirect to Certbot-managed Nginx config at **/etc/nginx/sites-enabled/default**:
+
+```config
+server {
+
+	location / {
+		proxy_pass https://localhost:8443;
+	}
+
+    listen [::]:443 ssl ipv6only=on;
+    listen 443 ssl;
+    ssl_certificate ...;
+    ssl_certificate_key ...;
+}
+```
+
+Note the proxying rule of `proxy_pass https://localhost:8443;`. If, instead, we have some other app that runs on top of
+HTTP only (with port 8080 for example) while our EC2 host has SSL certificate, we would simply have our EC2 instance 
+taking care of all the SSL stuff and proxy all HTTPS request to the HTTP app via `proxy_pass http://localhost:8080;`
 
 #### Post-Installation Setup Wizard
 
