@@ -1830,6 +1830,62 @@ Integrate Jenkins with DockerHub through Webhooks
 
 ![Error loading docker-jenkins.png]({{ "/assets/img/docker-jenkins.png" | relative_url}})
 
+Building a Docker image from a Dockerfile, creating a latest tag and pushing it on DockerHub are equivalent to executing 
+three different commands manually. That was not a big deal except when there is an additional task of immediately 
+triggering its deployment job configured on Jenkins. The deployment job performs application deployment using recently 
+updated Docker image on desired servers running in, for example, some production environment. This sections discusses 
+performing this on an already-existing Jenkin job.
+
+### Configuring Webhook on DockerHub
+
+Configure our Docker Hub repository with a webhook to our jenkins instance at
+`https://jenkins.some-domain.com:8443/dockerhub-webhook/notify/`
+
+> 💡 The example URL above follows our previous setup [Jenkins on EC2](#applying-for-a-certificate-using-certbot)
+
+1. Login to our DockerHub account.
+2. Navigate to the repository which we would like to trigger Jenkins deployment. Let's say the image is 
+   "**mydockerhub/my-image**"
+3. Click on "**Webhooks**"
+4. Provide our custome Webhook name under "**Webhook name**" field (for example "Jenkins Webhook").
+5. The "**Webhook URL**" follows the pattern of `http://JENKINS/dockerhub-webhook/notify`. In our case, we will put
+   `https://jenkins.some-domain.com:8443/dockerhub-webhook/notify/`
+6. Click "**Create**"
+
+We have completed the configuration on DockerHub side. Let's move on to the other side of configuration, which is
+Jenkins
+
+### Installing Jenkins Plugin
+
+We will be using
+[**CloudBees DockerHub Notification** Jenkins plugin](https://plugins.jenkins.io/dockerhub-notification/), which enables 
+us to trigger one or more Jenkins jobs by making use of DockerHub's webhook, thus creating a continuous delivery 
+pipeline. Whenever a new image is pushed, the configured Jenkins job will receive notification as webhook and triggers 
+the deployment job.
+
+We can install this plugin using Jenkins "Plugin Manager" (Manage Jenkins -> Plugin Manager).
+
+### Creating Release Definition on Jenkins Job
+
+> 💡 By "release definition", we mean the following section on Jenkins Job configuration page:
+> 
+> ![Error jenkins-script-for-dockerhub-webhook.png]({{ "/assets/img/jenkins-script-for-dockerhub-webhook.png" | relative_url}})
+
+### Modifying Deployment Job to be Triggered Immediately After Image Build
+
+Now we will modify the deployment job which we need to be executed whenever that Docker image is updated. Configure the 
+deployment job under "Build Triggers" as follows:
+
+![Error jenkins-with-dockerhub-build-trigger.png]({{ "/assets/img/jenkins-with-dockerhub-build-trigger.png.png" | relative_url}})
+
+Select "Monitor Docker Hub image changes", under this select "Any referenced Docker image can trigger this job". We can 
+make this job to be triggered on specified repositories by selecting "Specified repositories will trigger this job" and 
+specifying repository name against "Repositories" field. Multiple repositories can be specified in the text field, one 
+repository per line.
+
+Now, we have configured our deployment job to be triggered if any new image gets available in mydockerhub/my-image 
+repository.
+
 
 Integrate Jenkins with GitHub through Webhooks
 ----------------------------------------------
