@@ -1810,6 +1810,31 @@ if (params.isFoo) {
 
 ### Backing-up/Restoring Jenkins
 
+It is very important to have Jenkins backup with its data and configurations. It includes job configs, builds logs, 
+plugins, plugin configuration, etc.
+
+[Jenkins Thin Backup](https://plugins.jenkins.io/thinBackup/) is a popular plugin for backing up Jenkins. It backs up
+all the data based on your schedule and it handles the backup retention as well.
+
+Following are the core features for this plugin.
+
+* Full backup
+* Differential backup
+* File exclusions from Backup
+* Backup build results
+* Cleanup of differential backups
+* Archive old backups to ZIP format
+
+#### Step 1 - Install the Backup Plugin
+
+1. Go to **Manage Jenkins** –> **Manage Plugins**
+2. Click the **Available** tab and search for "**Thin backup**"
+
+   ![Error loading thin-backup.webp]({{ "/assets/img/thin-backup.webp" | relative_url}})
+
+3. Install the plugin and restart Jenkins.
+
+
 ### Troubleshooting
 
 #### Echo Off in Jenkins Console Output
