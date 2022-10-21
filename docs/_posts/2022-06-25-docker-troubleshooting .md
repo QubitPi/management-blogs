@@ -15,7 +15,29 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
-## Proxy
+
+Container
+---------
+
+If a container is not running:
+
+```
+$ docker ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS                      PORTS     NAMES
+234rgfq34tg3   image/name          "…"                18 minutes ago   Exited (1) 18 minutes ago             container-name
+```
+
+We can retrospect it using
+
+    docker logs 234rgfq34tg3
+
+or
+
+    docker logs container-name
+
+
+Proxy
+-----
 
 ```bash
 % docker pull ubuntu:latest
