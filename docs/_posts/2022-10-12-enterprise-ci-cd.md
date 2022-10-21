@@ -2012,3 +2012,21 @@ choose the trigger of your choice.
 
 That's it! Our GitHub repository has integrated with our Jenkins project. With this Jenkins GitHub integration, we can
 now use any file found in the GitHub repository and trigger the Jenkins job to run with every code commit.
+
+
+
+Deploying Docker Registry
+-------------------------
+
+The Registry is a stateless, highly scalable server side application that stores and lets you distribute Docker images. 
+The Registry is open-source, under the permissive Apache license. You can find the source code on GitHub.
+
+> **Difference Between Docker Hub and Docker Registry**
+> 
+> **Docker Hub** It is the **public** repository provided by the Docker itself for pushing and pulling the Images. Docker
+> Hub is for public use and the default repository, anyone can fetch and pull the Images using the "docker pull"
+> command.
+> 
+> **Registry** is the feature provided by the Docker to create your own **private** repository for storing the Images. 
+> Other systems on the network can access the repository using the valid credentials. Registry provides security as only 
+> the limited users within the organiztion will have access of the same.
