@@ -21,7 +21,7 @@ container and machine-wide.
 * TOC
 {:toc}
 
-## [cAdvisor](https://github.com/google/cadvisor) - The `docker stats` UI
+## [cAdvisor](https://github.com/google/cadvisor) - The "docker stats" UI
 
 Although [cAdvisor](https://github.com/google/cadvisor) has some prelimilary (useful though) UI. It also offers
 
