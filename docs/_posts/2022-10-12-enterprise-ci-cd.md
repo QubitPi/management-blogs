@@ -1813,6 +1813,8 @@ if (params.isFoo) {
 It is very important to have Jenkins backup with its data and configurations. It includes job configs, builds logs, 
 plugins, plugin configuration, etc.
 
+#### Plugins for Backup
+
 [Jenkins Thin Backup](https://plugins.jenkins.io/thinBackup/) is a popular plugin for backing up Jenkins. It backs up
 all the data based on your schedule and it handles the backup retention as well.
 
@@ -1825,15 +1827,53 @@ Following are the core features for this plugin.
 * Cleanup of differential backups
 * Archive old backups to ZIP format
 
-#### Step 1 - Install the Backup Plugin
+##### Step 1 - Install the Backup Plugin
 
-1. Go to **Manage Jenkins** –> **Manage Plugins**
+1. Go to **Manage Jenkins** -> **Manage Plugins**
 2. Click the **Available** tab and search for "**Thin backup**"
 
    ![Error loading thin-backup.webp]({{ "/assets/img/thin-backup.webp" | relative_url}})
 
 3. Install the plugin and restart Jenkins.
 
+##### Step 2 - Configuring Plugin
+
+Once the plugin is installed, follow the steps given below to configure the backup settings.
+
+1. Go to **Manage Jenkins** -> **ThinBackup**
+2. Click **Settings** option
+
+   ![Error loading thin-backup-configuration.webp]({{ "/assets/img/thin-backup-configuration.webp" | relative_url}})
+   
+3. Enter the backup options as shown below and save them. All the options are self-explanatory. The backup directory we 
+   specify should be writable by the user who is running the Jenkins service, i.e. 'jenkins'. The plugin saves the
+   backup to the backup directory you specify.
+
+##### Step 3 - Run Backup
+
+Now, we can test if the backup is working by clicking the **Backup Now** option. It will create a backup of Jenkins data 
+in the backup directory we specified in the settings.
+
+![Error loading thin-backup-now.webp]({{ "/assets/img/thin-backup-now.webp" | relative_url}})
+
+If we check the backup directory in the server, we can see the backup created. For every new backup, it will attach the 
+timestamp to the folder name and keeps the old backup based on the retention policy we defined in the settings.
+
+An example is shown below.
+
+```
+[devopscube@jenkins backup]$ pwd
+/var/lib/jenkins/backup
+[devopscube@jenkins backup]$ ls
+FULL-2017-08-20_05-42  FULL-2017-08-20_05-43  FULL-2017-08-20_05-44
+[devopscube@jenkins backup]$
+```
+
+##### Step 4 - Backing up the Jenkins Backup 
+
+It is not a good idea to keep the Jenkins backup in Jenkins itself. It is a single point of failure. It is a must to
+move thin backups to cloud storage or any other backup location. So that, even if the Jenkins server crashes we will
+have all the data.
 
 ### Troubleshooting
 
