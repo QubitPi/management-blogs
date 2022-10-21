@@ -781,6 +781,11 @@ Next, we shall use the certificate for our Jenkins instance.
 7. **Get and Install Certificates** Run this command to get a certificate and have Certbot edit our nginx configuration 
    automatically to serve it, turning on HTTPS access in a single step.
 
+   > ⚠️ **Prerequisite**
+   > 
+   > 1. A DNS domain record, e.g. "jenkins.my-domain.com", has been setup to use
+   > 2. The server running Jenkins can be reached at port 80 publicly
+
     ```bash
     $ sudo certbot --nginx
     ```
