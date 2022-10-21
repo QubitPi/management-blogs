@@ -1876,7 +1876,7 @@ We can install this plugin using Jenkins "Plugin Manager" (Manage Jenkins -> Plu
 Now we will modify the deployment job which we need to be executed whenever that Docker image is updated. Configure the 
 deployment job under "Build Triggers" as follows:
 
-![Error jenkins-with-dockerhub-build-trigger.png]({{ "/assets/img/jenkins-with-dockerhub-build-trigger.png.png" | relative_url}})
+![Error jenkins-with-dockerhub-build-trigger.png]({{ "/assets/img/jenkins-with-dockerhub-build-trigger.png" | relative_url}})
 
 Select "Monitor Docker Hub image changes", under this select "Any referenced Docker image can trigger this job". We can 
 make this job to be triggered on specified repositories by selecting "Specified repositories will trigger this job" and 
