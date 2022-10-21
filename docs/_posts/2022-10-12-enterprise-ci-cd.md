@@ -1826,7 +1826,9 @@ You can override this behaviour for the whole script by putting the following at
 
 
 Integrate Jenkins with DockerHub through Webhooks
-----------------------------------------------
+-------------------------------------------------
+
+![Error loading docker-jenkins.png]({{ "/assets/img/docker-jenkins.png" | relative_url}})
 
 
 Integrate Jenkins with GitHub through Webhooks
