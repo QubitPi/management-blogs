@@ -35,6 +35,15 @@ or
 
     docker logs container-name
 
+To enter in a Docker container already running with a new TTY, with docker 1.3, there is a new command
+[**docker exec**](https://docs.docker.com/engine/reference/commandline/exec/). This allows us to enter a running
+container:
+
+    docker exec -it [container-id] bash
+
+> This assumes `bash` is installed on our container. We may run `sh` or whatever interactive shell is installed on the 
+> container.
+
 
 Proxy
 -----
