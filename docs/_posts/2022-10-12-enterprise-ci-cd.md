@@ -1818,6 +1818,17 @@ if (params.isFoo) {
 It is very important to have Jenkins backup with its data and configurations. It includes job configs, builds logs, 
 plugins, plugin configuration, etc.
 
+> ⚠️ **Never Include the Controller Key in Jenkins Backup**
+> 
+> The controller key is used to encrypt data and is stored at "$JENKINS_HOME/secrets/hudson.util.Secret", which is
+> encrypted with "master.key" in the same directory. If we need to restore a system from a backup, we will need this
+> file. _If someone else accesses our backups and has this key, they will have full access to all our information_.
+> 
+> We should, therefore, treat our controller key like our SSH private key and NEVER include it in a regular backup.
+> In fact, we must **back up the "master.key" file separately** and store it in a very secure location away from other
+> backups. If we need to do a full system restore, we will restore the rest of the system and then apply the backup of
+> the "master.key" file separately
+
 #### Plugins for Backup
 
 [Jenkins Thin Backup](https://plugins.jenkins.io/thinBackup/) is a popular plugin for backing up Jenkins. It backs up
