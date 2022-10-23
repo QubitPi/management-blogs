@@ -1103,15 +1103,15 @@ websites, or pass requests for processing to application servers over protocols 
 > Common uses for a reverse proxy server include:
 >
 > * **Load balancing** A reverse proxy server can act as a "traffic cop" sitting in front of backend servers and
-    >   distributing client requests across a group of servers in a manner that maximizes speed and capacity utilization
-    >   while ensuring no one server is overloaded, which can degrade performance. If a server goes down, the load balancer
-    >   redirects traffic to the remaining online servers.
+>   distributing client requests across a group of servers in a manner that maximizes speed and capacity utilization
+>   while ensuring no one server is overloaded, which can degrade performance. If a server goes down, the load balancer
+>   redirects traffic to the remaining online servers.
 > * **Web acceleration** Reverse proxies can compress inbound and outbound data, as well as cache commonly requested
-    >   content, both of which speed up the flow of traffic between clients and servers. They can also perform additional
-    >   tasks such as SSL encryption to take load off of your web servers, thereby boosting their performance.
+>   content, both of which speed up the flow of traffic between clients and servers. They can also perform additional
+>   tasks such as SSL encryption to take load off of your web servers, thereby boosting their performance.
 > * **Security & Anonymity** By intercepting requests headed for your backend servers, a reverse proxy server protects
-    >   their identities and acts as an additional defense against security attacks. It also ensures that multiple servers
-    >   can be accessed from a single record locator or URL regardless of the structure of your local area network.
+>   their identities and acts as an additional defense against security attacks. It also ensures that multiple servers
+>   can be accessed from a single record locator or URL regardless of the structure of your local area network.
 
 ![Error loading nginx-directives.png]({{ "/assets/img/nginx-directives.png" | relative_url}})
 
@@ -1610,9 +1610,9 @@ sudo chmod 700 /var/lib/jenkins/.ssh
 As we said earlier, there are several options to run agent and we choose one of them which is Docker image. With that
 being said, here is one important caveat to remember:
 
-> ⚠️ **After Jenkins controller successfully ssh/connects to Agent Docker container, **anything, including error
-> messages, we see in Jenkins Agent Log are from _container_, NOT agent node itself**. For example, when we see from log 
-> that says "Java not installed", we know it is the _container_ that needs to install Java, not AWS EC2 instance
+> ⚠️ After Jenkins controller successfully ssh/connects to Agent Docker container, **anything, including error messages, 
+> we see in Jenkins Agent Log are from _container_, NOT agent node itself**. For example, when we see from log that says 
+> "Java not installed", we know it is the _container_ that needs to install Java, not AWS EC2 instance
 
 Here we will use the [docker-ssh-agent](https://github.com/jenkinsci/docker-ssh-agent) image to create the agent 
 container:
@@ -1828,6 +1828,10 @@ plugins, plugin configuration, etc.
 > In fact, we must **back up the "master.key" file separately** and store it in a very secure location away from other
 > backups. If we need to do a full system restore, we will restore the rest of the system and then apply the backup of
 > the "master.key" file separately
+
+#### Which Files Should Be Backed Up?
+
+
 
 #### Plugins for Backup
 
