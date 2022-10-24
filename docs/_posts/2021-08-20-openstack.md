@@ -751,3 +751,9 @@ object in it.
 In the case of download, a request comes in for an account/container/object. Using the same consistent hashing, the 
 partition index is determined. A lookup in the ring reveals which storage nodes contain that partition. A request is
 made to one of the storage nodes to fetch the object and, if that fails, requests are made to the other nodes.
+
+### Install Guide
+
+Structurally, a full-fledged Swift cluster includes the following components:
+
+
