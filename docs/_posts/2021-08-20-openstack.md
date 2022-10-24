@@ -1,6 +1,6 @@
 ---
 layout: post
-title: OpenStack Reference Guide
+title: OpenStack Basics
 tags: [OpenStack, LXC, LXD, Virtualization, Linux, Container]
 category: FINALIZED
 color: rgb(250, 154, 133)
