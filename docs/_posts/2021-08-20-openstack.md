@@ -621,3 +621,53 @@ Object Storage uses the following components to deliver high availability, high 
 
 ![Error loading swift-objectstorage-buildingblocks.png]({{ "/assets/img/swift-objectstorage-buildingblocks.png" | relative_url}})
 
+#### Proxy Servers
+
+Proxy servers are the public face of Object Storage and handle all incoming API requests. Once a proxy server receives a
+request, it determines the storage node based on the object's URL, for example,
+`https://swift.example.com/v1/account/container/object`. Proxy servers also coordinate responses, handles failures, and
+coordinate timestamps.
+
+Proxy servers use a [shared-nothing architecture](https://en.wikipedia.org/wiki/Shared-nothing_architecture) and can be
+scaled as needed based on projected workloads. A minimum of two proxy servers should be deployed behind a
+separately-managed load balancer. If one proxy server fails, the other take over.
+
+#### Rings
+
+A ring represents a mapping between the names of entities stored in the cluster and their physical locations on disks. 
+There are separate rings for accounts, containers, and objects. When components of the system need to perform an
+operation on an object, container, or account, they need to interact with the corresponding ring to determine the 
+appropriate location in the cluster.
+
+The ring maintains this mapping using zones, devices, partitions, and replicas. Each partition in the ring is
+replicated, by default, three times across the cluster, and partition locations are stored in the mapping maintained by 
+the ring. The ring is also responsible for determining which devices are used as handoffs in failure scenarios.
+
+Data can be isolated into zones in the ring. Each partition replica will try to reside in a different zone. A zone could 
+represent a drive, a server, a cabinet, a switch, or even a data center.
+
+The partitions of the ring are distributed among all of the devices in the Object Storage installation. When partitions 
+need to be moved around (for example, if a device is added to the cluster), the ring ensures that a minimum number of 
+partitions are moved at a time, and only one replica of a partition is moved at a time.
+
+You can use weights to balance the distribution of partitions on drives across the cluster. This can be useful, for 
+example, when differently sized drives are used in a cluster.
+
+The ring is used by the proxy server and several background processes (like replication).
+
+These rings are externally managed. The server processes themselves do not modify the rings, they are instead given new 
+rings modified by other tools.
+
+The ring uses a configurable number of bits from an MD5 hash for a path as a partition index that designates a device.
+The number of bits kept from the hash is known as the partition power, and 2 to the partition power indicates the 
+partition count. Partitioning the full MD5 hash ring allows other parts of the cluster to work in batches of items at
+once which ends up either more efficient or at least less complex than working with each item separately or the entire 
+cluster all at once.
+
+Another configurable value is the replica count, which indicates how many of the partition-device assignments make up a 
+single ring. For a given partition index, each replica’s device will not be in the same zone as any other replica’s 
+device. Zones can be used to group devices based on physical locations, power separations, network separations, or any 
+other attribute that would improve the availability of multiple replicas at the same time.
+
+#### Zones
+
