@@ -691,3 +691,19 @@ and each container database references each object.
 
 #### Partitions
 
+A partition is a collection of stored data. This includes account databases, container databases, and objects.
+Partitions are core to the replication system.
+
+Think of a partition as a bin moving throughout a fulfillment center warehouse. Individual orders get thrown into the
+bin. The system treats that bin as a cohesive entity as it moves throughout the system. A bin is easier to deal with
+than many little things. It makes for fewer moving parts throughout the system.
+
+System replicators and object uploads/downloads operate on partitions. As the system scales up, its behavior continues
+to be predictable because the number of partitions is a fixed number.
+
+Implementing a partition is conceptually simple: a partition is just a directory sitting on a disk with a corresponding 
+hash table of what it contains.
+
+![Error loading objectstorage-partitions.png]({{ "/assets/img/objectstorage-partitions.png" | relative_url}})
+
+
