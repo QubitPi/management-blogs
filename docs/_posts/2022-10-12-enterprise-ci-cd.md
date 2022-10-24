@@ -1387,6 +1387,8 @@ Note the proxying rule of `proxy_pass https://localhost:8443;`. If, instead, we 
 HTTP only (with port 8080 for example) while our EC2 host has SSL certificate, we would simply have our EC2 instance 
 taking care of all the SSL stuff and proxy all HTTPS request to the HTTP app via `proxy_pass http://localhost:8080;`
 
+> 💡 We may need to restart EC2 instance for the change above to take effect
+
 #### Post-Installation Setup Wizard
 
 After downloading, installing and running Jenkins on SSL, the post-installation setup wizard begins.
@@ -1445,6 +1447,31 @@ first administrator user.
     - If the page does not automatically refresh after a minute, use our web browser to refresh the page manually.
 3. If required, log in to Jenkins with the credentials of the user we just created and we are ready to start using
    Jenkins!
+
+### Deploying Jenkins through Docker
+
+   docker run -d --name=jenkins -p 8080:8080 -p 50000:50000 --restart=on-failure -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk11
+
+* The `-d` commands runs the container in
+  [detached mode](https://docs.docker.com/language/nodejs/run-containers/#run-in-detached-mode)
+* The `$JENKINS_HOME` inside container will be **/var/jenkins_home**:
+
+  ```
+  $ docker exec -it jenkins bash
+  jenkins@3ae9fd9220:/$ ls /var/jenkins_home
+  config.xml			  jobs		    secret.key		      userContent
+  copy_reference_file.log		  nodeMonitors.xml  secret.key.not-so-secret  users
+  hudson.model.UpdateCenter.xml	  nodes		    secrets		      war
+  jenkins.telemetry.Correlator.xml  plugins	    updates
+  ```
+  
+* Since all Jenkins data lives in there, including plugins and configuration, in `/var/jenkins_home`, we will also want 
+  to make that an explicit volume so we can manage it and attach to another container for upgrades. So we create a 
+* "jenkins_home" [docker volume](https://qubitpi.github.io/jersey-guide/finalized/2022/10/24/docker-basics.html#volumes) 
+  on the host machine. Docker volumes retain their content even when the container is stopped, started, or deleted.
+
+#### Backing Up Data
+
 
 
 Jenkins Reference Guide
