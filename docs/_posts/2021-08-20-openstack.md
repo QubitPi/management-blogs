@@ -610,3 +610,14 @@ Object Storage uses the following components to deliver high availability, high 
 
 * **Proxy servers** handles all of the incoming API requests.
 * **Rings** maps logical names of data to locations on particular disks.
+* **Zones** solates data from other zones. A failure in one zone does not impact the rest of the cluster as data 
+  replicates across zones.
+* **Accounts and containers** Each account and container are individual databases that are distributed across the
+  cluster. An account database contains the list of containers in that account. A container database contains the list
+  of objects in that container.
+* **Objects** are the **data** itself.
+* **Partitions** store objects, account databases, and container databases and helps manage locations where data lives
+  in the cluster.
+
+![Error loading swift-objectstorage-buildingblocks.png]({{ "/assets/img/swift-objectstorage-buildingblocks.png" | relative_url}})
+
