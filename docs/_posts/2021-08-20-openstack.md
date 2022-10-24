@@ -761,5 +761,3 @@ made to one of the storage nodes to fetch the object and, if that fails, request
 > backed up.
 
 Structurally, a full-fledged Swift cluster includes the following components:
-
-
