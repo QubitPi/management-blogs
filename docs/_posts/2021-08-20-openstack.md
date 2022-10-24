@@ -671,3 +671,23 @@ other attribute that would improve the availability of multiple replicas at the 
 
 #### Zones
 
+Object Storage allows configuring zones in order to isolate failure boundaries. If possible, each data replica resides
+in a separate zone. At the smallest level, a zone could be a single drive or a grouping of a few drives. If there were 
+five object storage servers, then each server would represent its own zone. Larger deployments would have an entire rack 
+(or multiple racks) of object servers, each representing a zone. The goal of zones is to allow the cluster to tolerate 
+significant outages of storage servers without losing all replicas of the data.
+
+![Error loading objectstorage-zones.png]({{ "/assets/img/objectstorage-zones.png" | relative_url}})
+
+#### Accounts and Containers
+
+Each account and container is an individual SQLite database that is distributed across the cluster. An account database 
+contains the list of containers in that account. A container database contains the list of objects in that container.
+
+![Error loading objectstorage-accountscontainers.png]({{ "/assets/img/objectstorage-accountscontainers.png" | relative_url}})
+
+To keep track of object data locations, each account in the system has a database that references all of its containers, 
+and each container database references each object.
+
+#### Partitions
+
