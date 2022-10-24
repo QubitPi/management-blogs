@@ -44,6 +44,17 @@ If your container generates non-persistent state data, consider using a
 [tmpfs mount](https://docs.docker.com/storage/tmpfs/) to avoid storing the data anywhere permanently, and to **increase
 the container's performance** by avoiding writing into the container’s writable layer.
 
+Volumes use rprivate bind propagation, and bind propagation is not configurable for volumes.
+
+> 📋 **Bind propagation** refers to whether or not mounts created within a given bind-mount can be propagated to
+> replicas of that mount. Consider a mount point `/mnt`, which is also mounted on `/tmp`. The propagation settings
+> control whether a mount on `/tmp/a` would also be available on `/mnt/a`. Each propagation setting has a recursive 
+> counterpoint. In the case of recursion, consider that `/tmp/a` is also mounted as `/foo`. The propagation settings 
+> control whether `/mnt/a` and/or `/tmp/a` would exist.
+> 
+> Meanwhile "**rprivate**" means that any changes to the mount or mounts underneath that mount point are prevented from 
+> affecting the host.
+
 #### Create and Manage Volumes
 
 Unlike a bind mount, you can create and manage volumes outside the scope of any container. To create a volume
@@ -84,7 +95,74 @@ docker volume rm my-vol
 
 #### Start a Container with a Volume
 
+If we start a container with a volume that does not yet exist, Docker creates the volume for us. The following example 
+mounts the volume `myvol2` into `/app/` in the container.
 
+```bash
+docker run -d --name devtest -v myvol2:/app nginx:latest
+```
+
+Use `docker inspect devtest` to verify that the volume was created and mounted correctly. Look for the Mounts section:
+
+```json
+"Mounts": [
+    {
+        "Type": "volume",
+        "Name": "myvol2",
+        "Source": "/var/lib/docker/volumes/myvol2/_data",
+        "Destination": "/app",
+        "Driver": "local",
+        "Mode": "",
+        "RW": true,
+        "Propagation": ""
+    }
+],
+```
+
+This shows that the mount is a volume, it shows the correct source and destination, and that the mount is read-write.
+
+Stop the container and remove the volume. Note volume removal is a separate step.
+
+```bash
+docker container stop devtest
+docker container rm devtest
+docker volume rm myvol2
+```
+
+#### Use a Volume with docker-compose
+
+A single docker compose service with a volume looks like this:
+
+```yaml
+version: "3.9"
+services:
+  frontend:
+    image: node:lts
+    volumes:
+      - myapp:/home/node/app
+volumes:
+  myapp:
+```
+
+On the first invocation of `docker-compose up` the volume will be created. The same volume will be reused on following 
+invocations.
+
+A volume may be created directly outside of compose with docker volume create and then referenced inside
+docker-compose.yml as follows:
+
+```yaml
+version: "3.9"
+services:
+  frontend:
+    image: node:lts
+    volumes:
+      - myapp:/home/node/app
+volumes:
+  myapp:
+    external: true
+```
+
+For more information about using volumes with compose see the compose reference.
 
 
 Docker cAdvisor
