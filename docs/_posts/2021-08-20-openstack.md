@@ -754,6 +754,12 @@ made to one of the storage nodes to fetch the object and, if that fails, request
 
 ### Install Guide
 
+> 💡 As a good starting point, [a single-node docker image](https://github.com/FNNDSC/docker-swift-onlyone) will make it 
+> easy for developers to get used to using object storage instead of a file system, and when they need the eventual 
+> consistency and multiple replicas provided by a larger OpenStack Swift cluster they can work on implementing that by 
+> following this section. One replica is not an issue in small systems or for a proof-of-concept because it can just be 
+> backed up.
+
 Structurally, a full-fledged Swift cluster includes the following components:
 
 
