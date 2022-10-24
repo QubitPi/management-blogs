@@ -46,7 +46,44 @@ the container's performance** by avoiding writing into the container’s writabl
 
 #### Create and Manage Volumes
 
-Unlike a bind mount, you can create and manage volumes outside the scope of any container.
+Unlike a bind mount, you can create and manage volumes outside the scope of any container. To create a volume
+
+```bash
+docker volume create my-vol
+```
+
+To list volumes
+
+```bash
+docker volume ls
+
+local               my-vol
+```
+
+To inspect a volume:
+
+```bash
+docker volume inspect my-vol
+[
+    {
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/my-vol/_data",
+        "Name": "my-vol",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+```
+
+To remove a volume:
+
+```bash
+docker volume rm my-vol
+```
+
+#### Start a Container with a Volume
+
 
 
 
