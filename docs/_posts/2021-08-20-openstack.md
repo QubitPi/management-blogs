@@ -1,7 +1,7 @@
 ---
 layout: post
-title: OpenStack Reference Guide (Updated Daily...)
-tags: [OpenStack]
+title: OpenStack Reference Guide
+tags: [OpenStack, LXC, LXD, Virtualization, Linux, Container]
 category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/20-cover.png"
@@ -31,14 +31,242 @@ install some or all services.
 > housing, operating and maintaining it. The client typically pays on a per-use basis. IaaS is a model for providing
 > cloud services.
 
-## Hypervisor Baiscs
+Hypervisor Baiscs
+-----------------
 
 * [QEMU](https://www.qemu.org/)
 * [KVM](https://www.linux-kvm.org/page/Main_Page)
 * [LXC](https://qubitpi.github.io/jersey-guide/2020/08/25/34-lxc.html)
 * [LXD](https://qubitpi.github.io/jersey-guide/2020/08/24/33-lxd.html)
 
-## The OpenStack Architecture
+### Linux Containers (LXC)
+
+[Linux Containers(LXC)](https://linuxcontainers.org/lxc/introduction/) are lightweight virtualization technology and
+provide a free software virtualization system for computers running GNU/Linux. This is accomplished through kernel level
+isolation, it allows one to run multiple virtual units(containers) simultaneously on the same host.
+
+A container is a way to isolate a group of processes from the others on a running Linux system. By making use of
+existing functionality like the Linux kernel's new resource management and resource isolation features(Cgroups and name
+spaces), these processes can have their own private view of the operating system with its own process ID(PID) space,
+file system structure and network interfaces.
+
+Containers share the same kernel with anything else that is running on it, but can be constrained to only use a defined
+amount of resources such as CPU, memory or I/O. By combining containers with other features like the Btrfs file system,
+it will be possible to quickly set up multiple lightweight isolated Linux instances on a single host. Therefore
+containers are better compared to Solaris zones or BSD jails.
+
+Other benefits of containers are
+
+* **Lightweight and resource-friendly** - Enables running multiple instances of an operating system or application on a
+  single host, without inducing overhead on CPU and memory. This saves both rack space and power.
+* **Comprehensive process and resource isolation** - Safely and securely run multiple applications on a single system
+  without the risk of them interfering with each other. If security of one container has been compromised, the other
+  containers are unaffected.
+* **Run multiple distributions on a single server** - For example, we can run CentOS and Arch on Ubuntu host.
+* **Rapid and Easy deployment** - Containers can be useful to quickly set up a "sandbox" environment, e.g. to test a new
+  version of a Linux distribution or to simulate a "clean" environment for testing/QA purposes. When using the Btrfs
+  file system for a container repository, new instances can be cloned and spawned in seconds.
+
+#### Install LXC on Ubuntu
+
+    sudo apt-get update
+    sudo apt-get install lxc
+
+#### Use LXC
+
+**Create an Ubuntu Container**
+
+    sudo lxc-create -t ubuntu -n <containerName>
+
+**Start the Container**
+
+    sudo lxc-start -n <containerName> -d
+    sudo lxc-console -n <containerName>
+
+This will default to using the same version and architecture as your machine, additional options are obviously available
+(`-help` will list them). Login/Password are `ubuntu`/`ubuntu`.
+
+**Stop the Container**
+
+Once you are done, hit `Ctrl+a` then `q` to exit container console and stop the container using
+
+    sudo lxc-stop -n <containerName>
+
+**Get Info about a Container**
+
+In some cases when you need to know IP address of a container, you can do
+
+    sudo lxc-info -n <containerName>
+
+which will print various information about a container, including its IP address.
+
+> 📁 For More About LXC
+> * [Debian](https://wiki.debian.org/LXC)
+> * [Oracle](https://www.oracle.com/linux/technologies/oracle-linux-containers.html)
+
+#### LXC Web Panel
+
+For Newbie I would recommend to use ***[LXC Webpanel](https://lxc-webpanel.github.io/install.html)***, The good part is
+that if you make a container through cli mode, It will show up in LXC Web Panel
+
+    sudo apt-get install lxc debootstrap bridge-utils -y
+    sudo su
+    wget https://lxc-webpanel.github.com/tools/install.sh -O - | bash
+
+Open Web Browser and Connect `http://your_ip_address:5000/`. Login with user **admin** and password **admin**
+
+![lxc-web-panel-1]({{ "/assets/img/lxc-web-panel-1.png" | relative_url}})
+![lxc-web-panel-2]({{ "/assets/img/lxc-web-panel-2.png" | relative_url}})
+
+**LXC Network**
+
+![lxc-web-panel-3]({{ "/assets/img/lxc-web-panel-3.png" | relative_url}})
+
+**Container Settings**
+
+![lxc-web-panel-4]({{ "/assets/img/lxc-web-panel-4.png" | relative_url}})
+
+**Resource Limitation**
+
+![lxc-web-panel-5]({{ "/assets/img/lxc-web-panel-5.png" | relative_url}})
+
+**User Modification (Create, Delete Modify)**
+
+![lxc-web-panel-6]({{ "/assets/img/lxc-web-panel-6.png" | relative_url}})
+![lxc-web-panel-7]({{ "/assets/img/lxc-web-panel-7.png" | relative_url}})
+
+### LXD
+
+#### Install LXD
+
+    sudo apt-add-repository ppa:ubuntu-lxc/stable
+    sudo apt-get update
+    sudo apt-get dist-upgrade
+    sudo apt-get install lxd
+    newgrp lxd
+
+#### Storage backends
+
+LXD supports multiple kinds of storage backends. But it doesn't support moving existing containers or images between
+different storage backends.
+
+One storage backend is ZFS which supports all the features LXD needs to offer the fastest and most reliable container
+experience. This includes per-container disk quotas, immediate snapshot/restore, optimized migration(send/receive) and
+instant container creation from an image.
+
+To use ZFS as storage backend, install it using
+
+    sudo apt-add-repository ppa:zfs-native/stable
+    sudo apt-get update
+    sudo apt-get install ubuntu-zfs
+
+Next, configure LXD daemon to use ZFS
+
+    sudo lxd init
+
+The command above iteractively setup LXD and ZFS. In the example below, I'm simply using a sparse, loopback file for the
+ZFS pool. Note that production servers might require different configurations.
+
+    Name of the storage backend to use (dir or zfs): zfs
+    Create a new ZFS pool (yes/no)? yes
+    Name of the new ZFS pool: lxd
+    Would you like to use an existing block device (yes/no)? no
+    Size in GB of the new loop device (1GB minimum): 2
+    Would you like LXD to be available over the network (yes/no)? no
+    LXD has been successfully configured.
+
+Now we can check the ZFS pool
+
+    sudo zpool list
+    sudo zpool status
+
+#### Managing Containers
+
+**Create Container**
+
+LXD command line client comes with some official Ubuntu image sources. You can list them using this command
+
+    lxc image list ubuntu:
+
+To get the latest, tested, stable image of Ubuntu 14.04 LTS, for example, and name it
+
+    lxc launch ubuntu:14.04 containerName
+
+If you don't specify it, container will be assigned a random name. If you want a specific architecture, say a 32bit
+Intel image, you can build a container with that image with
+
+    lxc launch ubuntu:14.04/i386 container_name
+
+**Listing Containers**
+
+    lxc list
+
+lists all your containers with default displayed information. On systems with a lot of containers, displaying the
+default result can be a bit slow(retrieve network information from the containers), you may instead want
+
+    lxc list --fast
+
+which shows a different set of columns that require less processing on the server side.
+
+You can also filter based on name or properties.
+
+    lxc list security.privileged=true
+
+In this example, only containers that are privileged(user namespace disabled) are listed.
+
+    lxc list --fast alpine
+
+which lists only the containers that have “alpine” in their names(complex regular expressions are also supported).
+
+**Details About a Container**
+
+    lxc info containerName
+
+This command queries information about an specific container.
+
+**tart Container**
+
+    lxc start containerName
+
+**Stop Container**
+
+    lxc stop containerName (--force)
+
+**Restart Container**
+
+    lxc restart containerName (--force)
+
+**Pause Container**
+
+    lxc pause containerName
+
+When a container is "paused", all the container tasks will be sent the equivalent of a SIGSTOP which means that they
+will still be visible and will still be using memory but they won't get any CPU time from the scheduler. This is useful
+if you have a CPU hungry container that takes quite a while to start but that you aren't constantly using. You can let
+it start, then pause it, then start it again when needed.
+
+**Delete Container**
+
+    lxc delete containerName
+
+#### ZFS
+
+ZFS is a combination of logical volume manager and filesystem. Containers use it for their filesystem for the following
+benefits
+
+* snapshots
+* copy-on-write cloning - "copy-on-write" means that everyone has a single shared copy of the same data until it's
+  written, and then a copy is made. Usually, copy-on-write is used to resolve concurrency problems. In ZFS data blocks
+  on disk of a container are allocated copy-on-write, a copy of this container shares the same data blocks. A copy of a
+  block will be sent to the clone only if that block is modified in the original container. This reduces the number of
+  new blocks that are to be allocated.
+* continuous integrity checking against data corruption
+* automatic repair
+* efficient data compression
+
+
+The OpenStack Architecture
+--------------------------
 
 ### Conceptual Architecture
 
@@ -366,7 +594,19 @@ for recovery scenarios.
 
 **To be continued...**
 
-## Use Cases (Learn from Others)
+Use Cases (Learn from Others)
+-----------------------------
 
 * [How Yahoo! Uses Neutron for Ironic](https://www.openstack.org/videos/summits/tokio-2015/how-yahoo-uses-neutron-for-ironic)
 * [Yahoo Engineering - Operating OpenStack at Scale](https://yahooeng.tumblr.com/post/159795571841/operating-openstack-at-scale)
+
+
+Swift
+-----
+
+### Components
+
+Object Storage uses the following components to deliver high availability, high durability, and high concurrency:
+
+* **Proxy servers** handles all of the incoming API requests.
+* **Rings** maps logical names of data to locations on particular disks.
