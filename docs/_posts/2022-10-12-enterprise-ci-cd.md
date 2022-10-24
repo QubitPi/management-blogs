@@ -2029,7 +2029,6 @@ That's it! Our GitHub repository has integrated with our Jenkins project. With t
 now use any file found in the GitHub repository and trigger the Jenkins job to run with every code commit.
 
 
-
 Deploying Docker Registry
 -------------------------
 
@@ -2045,3 +2044,9 @@ The Registry is open-source, under the permissive Apache license. You can find t
 > **Registry** is the feature provided by the Docker to create your own **private** repository for storing the Images. 
 > Other systems on the network can access the repository using the valid credentials. Registry provides security as only 
 > the limited users within the organiztion will have access of the same.
+
+
+Additional Resources
+
+* [Jenkins Design Library](https://weekly.ci.jenkins.io/design-library/)
+* [Jenkins Discourse](https://community.jenkins.io/)
