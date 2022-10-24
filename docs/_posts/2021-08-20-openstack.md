@@ -704,12 +704,27 @@ hash table of what it contains.
 
 ![Error loading objectstorage-partitions.png]({{ "/assets/img/objectstorage-partitions.png" | relative_url}})
 
-#### 
+#### Replicators
 
-In order to ensure that there are three copies of the data everywhere, replicators continuously examine each partition. For each local partition, the replicator compares it against the replicated copies in the other zones to see if there are any differences.
+In order to ensure that there are three copies of the data everywhere, replicators continuously examine each partition. 
+For each local partition, the replicator compares it against the replicated copies in the other zones to see if there
+are any differences.
 
-The replicator knows if replication needs to take place by examining hashes. A hash file is created for each partition, which contains hashes of each directory in the partition. For a given partition, the hash files for each of the partition’s copies are compared. If the hashes are different, then it is time to replicate, and the directory that needs to be replicated is copied over.
+The replicator knows if replication needs to take place by examining hashes. A hash file is created for each partition, 
+which contains hashes of each directory in the partition. For a given partition, the hash files for each of the 
+partition’s copies are compared. If the hashes are different, then it is time to replicate, and the directory that needs 
+to be replicated is copied over.
 
-This is where partitions come in handy. With fewer things in the system, larger chunks of data are transferred around (rather than lots of little TCP connections, which is inefficient) and there is a consistent number of hashes to compare.
+This is where partitions come in handy. With fewer things in the system, larger chunks of data are transferred around 
+(rather than lots of little TCP connections, which is inefficient) and there is a consistent number of hashes to
+compare.
 
-The cluster has an eventually-consistent behavior where old data may be served from partitions that missed updates, but replication will cause all partitions to converge toward the newest data.
+The cluster has an eventually-consistent behavior where old data may be served from partitions that missed updates, but 
+replication will cause all partitions to converge toward the newest data.
+
+If a zone goes down, one of the nodes containing a replica notices and proactively copies data to a handoff location.
+
+#### Use Cases
+
+To conclude the component intro section, let's show some examples for object uploads and downloads
+
