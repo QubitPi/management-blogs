@@ -44,7 +44,46 @@ It's very easy to define, run, and scale services with the Docker platform -- ju
 
 #### docker-compose
 
-A **docker-compose.yml** file is a YAML file that defines how Docker containers should behave in production.
+A **docker-compose.yml** file is a YAML file that defines how Docker containers should behave in production. Here is an
+example:
+
+```yaml
+version: "3"
+services:
+  web:
+    # replace username/repo:tag with name and image details accordingly
+    image: username/repo:tag
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "4000:80"
+    networks:
+      - webnet
+networks:
+  webnet:
+```
+
+This docker-compose.yml file tells Docker to do the following:
+
+* Pull a image "username/repo" from registry.
+* Run 5 instances of that image as a service called "web", limiting each one to use, at most, 10% of the CPU (across all 
+  cores), and 50MB of RAM.
+* Immediately restart containers if one fails.
+* Map port 4000 on the host to web's port 80.
+* Instruct web’s containers to share port 80 via a load-balanced network called "webnet". (Internally, the containers 
+  themselves publish to web's port 80 at an ephemeral port.)
+
+Define the webnet network with the default settings (which is a load-balanced overlay network).
+
+### Swarms
+
+
 
 ### Volumes
 
