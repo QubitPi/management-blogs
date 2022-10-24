@@ -38,7 +38,17 @@ In addition, volumes are often a better choice than persisting data in a contain
 does not increase the size of the containers using it, and the volume’s contents exist outside the lifecycle of a given 
 container.
 
-types-of-mounts-volume.png
+![Error loading types-of-mounts-volume.png]({{ "/assets/img/types-of-mounts-volume.png" | relative_url}})
+
+If your container generates non-persistent state data, consider using a
+[tmpfs mount](https://docs.docker.com/storage/tmpfs/) to avoid storing the data anywhere permanently, and to **increase
+the container's performance** by avoiding writing into the container’s writable layer.
+
+#### Create and Manage Volumes
+
+Unlike a bind mount, you can create and manage volumes outside the scope of any container.
+
+
 
 Docker cAdvisor
 ---------------
