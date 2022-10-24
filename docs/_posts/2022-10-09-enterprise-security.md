@@ -44,8 +44,8 @@ used between communication partners in networks. Without the correct use of the 
 
 #### Protocols and Layers
 
-There are a large number of protocols involved in any action you take when you access the Internet or a PC in your local
-network. Your **Network Interface Card (NIC)** will communicate with a hub, a switch, or a router. Your application will
+There are a large number of protocols involved in any action we take when we access the Internet or a PC in our local
+network. Our **Network Interface Card (NIC)** will communicate with a hub, a switch, or a router. Our application will
 communicate with its partner on a server on another PC, and many more protocol-based communication procedures are
 necessary to exchange data.
 
