@@ -601,8 +601,20 @@ Use Cases (Learn from Others)
 * [Yahoo Engineering - Operating OpenStack at Scale](https://yahooeng.tumblr.com/post/159795571841/operating-openstack-at-scale)
 
 
-Swift
------
+Object Storage (Swift)
+----------------------
+
+OpenStack Object Storage (Swift) is used for redundant, scalable data storage using clusters of standardized servers to 
+store petabytes of accessible data. It is a long-term storage system for large amounts of static data which can be 
+retrieved and updated. Object Storage uses a distributed architecture with no central point of control, providing
+greater scalability, redundancy, and permanence. Objects are written to multiple hardware devices, with the OpenStack 
+software responsible for ensuring data replication and integrity across the cluster. Storage clusters scale horizontally 
+by adding new nodes. Should a node fail, OpenStack works to replicate its content from other active nodes. Because 
+OpenStack uses software logic to ensure data replication and distribution across different devices, inexpensive
+commodity hard drives and servers can be used in lieu of more expensive equipment.
+
+Object Storage is ideal for cost effective, scale-out storage. It provides a fully distributed, API-accessible storage 
+platform that can be integrated directly into applications or used for backup, archiving, and data retention.
 
 ### Components
 
@@ -728,3 +740,14 @@ If a zone goes down, one of the nodes containing a replica notices and proactive
 
 To conclude the component intro section, let's show some examples for object uploads and downloads
 
+A client uses the REST API to make a HTTP request to PUT an object into an existing container. The cluster receives the 
+request. First, the system must figure out where the data is going to go. To do this, the account name, container name, 
+and object name are all used to determine the partition where this object should live. Then a lookup in the ring figures 
+out which storage nodes contain the partitions in question. The data is then sent to each storage node where it is
+placed in the appropriate partition. At least two of the three writes must be successful before the client is notified 
+that the upload was successful. Next, the container database is updated asynchronously to reflect that there is a new 
+object in it.
+
+In the case of download, a request comes in for an account/container/object. Using the same consistent hashing, the 
+partition index is determined. A lookup in the ring reveals which storage nodes contain that partition. A request is
+made to one of the storage nodes to fetch the object and, if that fails, requests are made to the other nodes.
