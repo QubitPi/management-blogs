@@ -1831,7 +1831,76 @@ plugins, plugin configuration, etc.
 
 #### Which Files Should Be Backed Up?
 
+The number of files we back up affects both the time required to run the backup and the size of the resulting backup. It
+also impacts the complexity of restoring the system from the backup. Here we discuss why various files should be backed
+up and list some files that could safely be excluded from at least some backups
 
+##### $JENKINS_HOME
+
+Backing up the entire `$JENKINS_HOME` directory preserves the entire Jenkins instance. To restore the system, simply
+copy the entire backup to the new system.
+
+Note, however, that `JENKINS_HOME` includes a number of files that do not really need to be backed up. Selecting
+specific directories and files to back up yields smaller backups but may require a greater effort to restore a system. 
+One approach is to back up different directories on different schedules.
+
+##### Configuration Files
+
+Configuration files are stored directly in the `$JENKINS_HOME` directory. `./config.xml` is the main Jenkins 
+configuration file. Other configuration files also have the `.xml` suffix. Specify `$JENKINS_HOME/*.xml` to back up all 
+configuration files.
+
+Configuration files can also be stored in an SCM repository. This keeps copies of all previous versions of each file
+that can be retrieved using standard SCM facilities.
+
+##### ./jobs Subdirectory
+
+The `$JENKINS_HOME/jobs` directory contains information related to all the jobs you create in Jenkins.
+
+* **./builds** - Contains build records
+* **./builds/archive** - Contains archived artifacts
+  - Back this up if it is important to retain these artifacts long-term
+  - _These can be very large and may make your backups very large_
+* **./workspace** - Contains files checked out from the SCM
+  - It is usually not necessary to back up these files. We can perform a clean checkout after restoring the system.
+* **./plugins/*.hpi** - Plugin packages with specific versions used on our system
+* **./plugins/*.jpi** - Plugin packages with specific versions used on our system
+
+#### What May Not Need to be Backed Up
+
+The following files and directories do not usually need to be included in every routine backup because you can download 
+the latest version when you are restoring a system. However, some disaster recovery experts recommend against doing any 
+upgrades while restoring the system, to avoid delays caused by compatibility issues that might arise. If a disaster
+recovery plan specifies that we restore the system using the same software versions that were previously running, we can 
+make an infrequent backup of the system and all downloaded tools and use that to restore the system.
+
+* **./war** To restore a system, download the latest war file.
+* **./cache** Downloaded tools. To restore a system, download the current version of the tools.
+* **./tools** Extracted tools. To restore a system, extract the tools again.
+* **./plugins/xxx** - Subdirectories of installed plugins
+
+These will be automatically populated on the next restart.
+
+#### Validating a Backup
+
+Our backup strategy should include validation of each backup. We do not want to learn that our backup is no good when we 
+need it!
+
+A simple way to validate a full backup is to restore it to a temporary location. Create a directory for the test 
+validation (such as **/mnt/backup-test**) and restore the backup to that directory.
+
+Set **$JENKINS_HOME** to point to this directory, specifying a random HTTP port so you do not collide with the real 
+Jenkins instance:
+
+```bash
+export JENKINS_HOME=/mnt/backup-test
+```
+
+Now execute the restored Jenkins instance:
+
+```bash
+java -jar jenkins.war ---httpPort=9999
+```
 
 #### Plugins for Backup
 
