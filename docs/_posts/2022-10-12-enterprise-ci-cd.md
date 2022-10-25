@@ -2271,6 +2271,10 @@ continues to include excellent support for users of Apache Maven.
 
 ##### Maven Repository Format Overview
 
+> Looking at the Maven repository format and associated concepts and ideas allows us to grasp some of the details and 
+> intricacies involved with different tools and repository formats, that will help us appreciate the need for repository 
+> management.
+
 Maven developers are familiar with the concept of a repository, since repositories are used by default. The primary type 
 of a binary component in a Maven format repository is a JAR file containing Java byte-code. This is due to the Java 
 background of Maven and the fact that the default component type is a JAR. Practically however, there is no limit to what
@@ -2353,3 +2357,33 @@ Maven also downloads the corresponding POM for "commons-lang 1.2.0" from:
 
 This POM may contain references to other components, which are then retrieved from the same repository using the same
 URL patterns.
+
+###### Release and Snapshot Repositories
+
+A Maven repository stores two types of components: 
+
+1. **Release repositories** are for stable, static release components. A release component is a component which was 
+   created by a specific, versioned release. For example, consider the "1.2.0" release of the "commons-lang" library 
+   stored in the Central Repository. This release component, "commons-lang-1.2.0.jar", and the associated POM, 
+   "commons-lang-1.2.0.pom", are static objects which will never change in the Central Repository. Released components 
+   are considered to be solid, stable and perpetual in order to guarantee that builds which depend upon them are 
+   repeatable over time. The released JAR component is associated with a PGP signature, an MD5, and a SHA check-sum
+   which can be used to verify both the authenticity and integrity of the binary software component.
+2. **Snapshot repositories** are frequently updated repositories that store binary software components from projects 
+   under constant development. Snapshot components are components generated during the development of a software
+   project. A Snapshot component has both a version number such as "1.3.0" or "1.3" and a timestamp in its name. For 
+   example, a snapshot component for "commons-lang 1.3.0" might have the name
+   "commons-lang-1.3.0.-20090314.182342-1.jar". The associated POM, MD5 and SHA hashes would also have a similar name.
+   To facilitate collaboration during the development of software components, Maven and other clients that know how to 
+   consume snapshot components from a repository also know how to interrogate the metadata associated with a Snapshot 
+   component to retrieve the latest version of a Snapshot dependency from a repository.
+
+**While it is possible to create a repository which serves both release and snapshot components, repositories are
+usually segmented into release or snapshot repositories serving different consumers and maintaining different standards 
+and procedures for deploying components**. Much like the difference between networks, a release repository is considered 
+like a production network and a snapshot repository is more like a development or a testing network. While there is a 
+higher level of procedure and ceremony associated with deploying to a release repository, snapshot components can be 
+deployed and changed frequently without regard for stability and repeatability concerns.
+
+> 📋 A project under active development produces snapshot components that change over time. A release is comprised of 
+> components which will remain unchanged over time.
