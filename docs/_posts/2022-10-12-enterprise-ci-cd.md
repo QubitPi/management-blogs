@@ -2309,3 +2309,12 @@ assembled. Here are some of the properties of release repositories such as the C
 * **Component Security** The Central Repository contains cryptographic hashes and PGP signatures that can be used to 
   verify the authenticity and integrity of software components served and supports connections in a secure manner via 
   **HTTPS**.
+* **Performance** The Central Repository is exposed to the users globally via a high performance content delivery network 
+  of servers.
+
+In addition to the Central Repository, there are a number of major organizations, such as Red Hat, Oracle or the Apache 
+Software foundation, which maintain separate additional repositories. Best practice to facilitate these available 
+repositories with Nexus Repository Manager OSS is to proxy and cache the contents on our own network.
+
+###### Component Coordinates and the Repository Format
+
