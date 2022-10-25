@@ -2295,8 +2295,8 @@ and retrieve software components on-demand from a repository.
 
 When you download and install Maven without any customization, it retrieves components from the Central Repository. It 
 serves millions of Maven users every single day. It is the default, built-in repository using the Maven repository format 
-and is _managed by Sonatype_. Statistics about the size of the Central Repository are available at
-https://search.maven.org/stats.
+and is _managed by Sonatype_. We can also view statistics about the size of the Central Repository
+[online](https://search.maven.org/stats).
 
 The Central Repository is the largest repository for Java-based components. It can be easily used from other build tools 
 as well. One can look at the Central Repository as an example of how Maven repositories operate and how they are 
