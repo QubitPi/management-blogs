@@ -2550,7 +2550,7 @@ By default, the repository manager ships with the following configured proxy rep
 
 ###### Hosted Repository
 
-A repository with the type hosted, also known as a hosted repository, is a repository that stores components in the 
+A repository with the type hosted, also known as a **hosted repository**, is a repository that stores components in the 
 repository manager as the authoritative location for these components.
 
 By default, the repository manager ships with the following configured hosted repositories:
@@ -2560,5 +2560,33 @@ By default, the repository manager ships with the following configured hosted re
   third-party components that are not available in external repositories and can therefore not be retrieved via a 
   configured proxy repository. Examples of these components could be commercial, proprietary libraries such as an Oracle 
   JDBC driver that may be referenced by the organization.
-* **maven-snapshots** This hosted repository uses the maven2 repository format with a snapshot version policy. It is intended to be the repository where your organization publishes internal development versions, also known as snapshots.
+* **maven-snapshots** This hosted repository uses the maven2 repository format with a snapshot version policy. It is 
+  intended to be the repository where the organization publishes internal development versions, also known as snapshots.
+* **nuget-hosted**  This hosted repository is where the organization can publish internal releases in repository using 
+  the nuget repository format. We can also use this repository for third-party components that are not available in 
+  external repositories, that could potentially be proxied to gain access to the components.
 
+###### Repository Group
+
+A repository with the type group, also known as **repository group**, represents a powerful feature of Nexus Repository 
+Manager. They allow us to combine multiple repositories and other repository groups in a single repository. This in turn 
+means that our users can rely on a single URL for their configuration needs, while the administrators can add more 
+repositories and therefore components to the repository group.
+
+> ⚠️ When a user is given a privilege to a group repository, then that user will also have that privilege to all 
+> transitive members of that group repository **only when their request is directed to the group repository**. Direct 
+> requests to individual member repositories will only work if the user is given explicit permission to the individual 
+> repository.
+
+The repository manager ships with the following groups:
+
+* **maven-public** The maven-public group is a repository group of maven2 formatted repositories and combines the 
+  important **external proxy repository for the Central Repository** with the hosted repositories **maven-releases** and 
+  maven-snapshots. This allows us to _expose the components of the Central Repository as well as our internal
+  components in one single, simple-to-use repository_ and therefore URL.
+* **nuget-group** This group combines the nuget formatted repositories nuget-hosted and nuget.org-proxy into a single 
+  repository for .Net development with NuGet.
+
+##### Managing Repositories and Repository Groups
+
+TBA
