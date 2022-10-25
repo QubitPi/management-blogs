@@ -2262,3 +2262,30 @@ and some additional custom interaction with the XML files.
 
 Other repositories formats use database for storage and REST API interactions, or different directory structures wit
 format specific files for the metadata
+
+
+#### Setting Up Maven Repositories
+
+Historically Nexus Repository Manager started as a repository manager supporting the Maven repository format and it 
+continues to include excellent support for users of Apache Maven.
+
+##### Maven Repository Format Overview
+
+Maven developers are familiar with the concept of a repository, since repositories are used by default. The primary type 
+of a binary component in a Maven format repository is a JAR file containing Java byte-code. This is due to the Java 
+background of Maven and the fact that the default component type is a JAR. Practically however, there is no limit to what
+type of component can be stored in a Maven repository. For example, we can easily deploy WAR or EAR files, source 
+archives, Flash libraries and applications, Android archives or applications or Ruby libraries to a Maven repository.
+
+Every software component is described by an XML document called a Project Object Model (POM). This POM contains 
+information that describes a project and lists a project’s dependencies - the binary software components, which a given 
+component depends upon for successful compilation or execution.
+
+When Maven downloads a component like a dependency or a plugin from a repository, it also downloads that component's
+POM. _Given a component's POM, Maven can then download any other components that are required by that component_.
+
+Maven, which interacts with a Maven repository to search for binary software components, model the projects they manage 
+and retrieve software components on-demand from a repository.
+
+###### The Central Repository
+
