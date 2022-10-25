@@ -2427,6 +2427,7 @@ To do this, we add a mirror configuration and override the default configuration
       <url>https://nexus-host/repository/maven-public/</url>
     </mirror>
   </mirrors>
+   
   <profiles>
     <profile>
       <id>nexus</id>
@@ -2450,9 +2451,19 @@ To do this, we add a mirror configuration and override the default configuration
       </pluginRepositories>
     </profile>
   </profiles>
+   
   <activeProfiles>
     <!--make the profile active all the time -->
     <activeProfile>nexus</activeProfile>
   </activeProfiles>
 </settings>
 ```
+
+In the configuration above, a single profile called **nexus** is defined. It configures a repository and a 
+pluginRepository with the id **central** that overrides the same repositories in the Super POM. The _Super POM_ is 
+internal to every Apache Maven install and establishes default values. These overrides are important since they change 
+the repositories by enabling snapshots and replacing the URL with a bogus URL. This URL is overridden by the **mirror** 
+setting in the same settings.xml file to point to the URL of our single repository group. This repository group can, 
+therefore, contain release as well as snapshot components and Maven will pick them up. 
+
+In addition, The mirrorOf pattern of * causes any repository request to be redirected to this mirror and to your single repository group, which in the example is the public group.
