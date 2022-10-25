@@ -2469,4 +2469,31 @@ therefore, contain release as well as snapshot components and Maven will pick th
 In addition, The **mirrorOf** pattern of `*` causes any repository request to be redirected to this mirror and to our 
 single repository group, which in the example is the public group.
 
-> 💡 It is possible to use other patterns in the "mirrorOf" field. A possible valuable setting is to use external:*. This matches all repositories except those using localhost or file based repositories. This is used in conjunction with a repository manager when you want to exclude redirecting repositories that are defined for integration testing. The integration test runs for Apache Maven itself require this setting.
+> 💡 It is possible to use other patterns in the "mirrorOf" field. A possible valuable setting is to use **external:***. 
+> This matches all repositories except those using "localhost" or file based repositories. This is used in conjunction 
+> with a repository manager when you want to exclude redirecting repositories that are defined for integration testing. 
+> The integration test runs for Apache Maven itself require this setting.
+> 
+> More documentation about mirror settings can be found in the
+> [mini guide on the Maven web site](http://maven.apache.org/guides/mini/guide-mirror-settings.html).
+
+Deployment to a repository is configured in the pom.xml for the respective project in the "distributionManagement" 
+section. Using the default repositories of the repository manager:
+
+```xml
+<project>
+...
+<distributionManagement>
+    <repository>
+      <id>nexus</id>
+      <name>Releases</name>
+      <url>http://localhost:8081/repository/maven-releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus</id>
+      <name>Snapshot</name>
+      <url>http://localhost:8081/repository/maven-snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+...
+```
