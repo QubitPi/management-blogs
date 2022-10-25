@@ -2404,10 +2404,10 @@ Every repository has one of the 3 **version policies** configured:
 ##### Hosting Maven Repositories
 
 A hosted Maven repository can be used to deploy our own as well as third-party components. A default installation of 
-Nexus Repository Manager includes two hosted Maven repositories. The maven-releases repository uses a release version 
-policy and the maven-snapshots repository uses a snapshot version policy.
+Nexus Repository Manager includes two hosted Maven repositories. The **maven-releases** repository uses a release
+version policy and the **maven-snapshots** repository uses a snapshot version policy.
 
-##### Using Repository manager with Apache Maven
+###### Using Repository Manager with Apache Maven
 
 To use repository manager with [Apache Maven](http://maven.apache.org/), configure Maven to check the repository manager 
 instead of the default, built-in connection to the Central Repository.
@@ -2517,3 +2517,8 @@ server contains "nexus" as the id, along with the default username and password:
 
 A full build of project, including downloading the declared dependencies and uploading the build output to the
 repository manager can be invoked with `mvn clean deploy`.
+
+
+
+#### Repository Management
+
