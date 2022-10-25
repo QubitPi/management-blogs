@@ -2480,6 +2480,8 @@ single repository group, which in the example is the public group.
 Deployment to a repository is configured in the pom.xml for the respective project in the "distributionManagement" 
 section. Using the default repositories of the repository manager:
 
+> 💡 Replace the "nexus-host" with the NDS address pointing to the actual Nexus instance.
+
 ```xml
 <project>
 ...
@@ -2487,13 +2489,31 @@ section. Using the default repositories of the repository manager:
     <repository>
       <id>nexus</id>
       <name>Releases</name>
-      <url>http://localhost:8081/repository/maven-releases</url>
+      <url>https://nexus-host/repository/maven-releases</url>
     </repository>
     <snapshotRepository>
       <id>nexus</id>
       <name>Snapshot</name>
-      <url>http://localhost:8081/repository/maven-snapshots</url>
+      <url>https://nexus-host/repository/maven-snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 ...
 ```
+
+The credentials used for the deployment are found in the "server" section of the settings.xml. In the example below 
+server contains "nexus" as the id, along with the default username and password: 
+
+```xml
+<settings>
+....
+  <servers>
+    <server>
+      <id>nexus</id>
+      <username>admin</username>
+      <password>admin123</password>
+    </server>
+  </servers>
+```
+
+A full build of project, including downloading the declared dependencies and uploading the build output to the
+repository manager can be invoked with `mvn clean deploy`.
