@@ -2390,8 +2390,69 @@ deployed and changed frequently without regard for stability and repeatability c
 
 ##### Version policy
 
+Every repository has one of the 3 **version policies** configured:
+
+* **Release** A Maven repository can be configured to be suitable for release components with the Release version
+  policy. The Central Repository uses a release version policy.
+* **Snapshot** Continuous development is typically performed with snapshot versions supported by the Snapshot version 
+  policy. These version values have to **end with -SNAPSHOT in the POM file**. This allows repeated uploads where the 
+  actual number used is composed of a date/timestamp and an enumerator and the retrieval can still use the -SNAPSHOT 
+  version string. The repository manager and client tools manage the metadata files that manage this translation from
+  the snapshot version to the timestamp value.
+* **Mixed** The Mixed version policy allows you to support both approaches within one repository.
+
 ##### Hosting Maven Repositories
 
 A hosted Maven repository can be used to deploy our own as well as third-party components. A default installation of 
 Nexus Repository Manager includes two hosted Maven repositories. The maven-releases repository uses a release version 
 policy and the maven-snapshots repository uses a snapshot version policy.
+
+##### Using Repository manager with Apache Maven
+
+To use repository manager with [Apache Maven](http://maven.apache.org/), configure Maven to check the repository manager 
+instead of the default, built-in connection to the Central Repository.
+
+To do this, we add a mirror configuration and override the default configuration for the central repository in our 
+"~/.m2/settings.xml", shown below:
+
+> 💡 Replace the "nexus-host" with the NDS address pointing to the actual Nexus instance.
+
+```xml
+<settings>
+  <mirrors>
+    <mirror>
+      <!--This sends everything else to /public -->
+      <id>nexus</id>
+      <mirrorOf>*</mirrorOf>
+      <url>https://nexus-host/repository/maven-public/</url>
+    </mirror>
+  </mirrors>
+  <profiles>
+    <profile>
+      <id>nexus</id>
+      <!--Enable snapshots for the built in central repo to direct -->
+      <!--all requests to nexus via the mirror -->
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+      </repositories>
+     <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>http://central</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <!--make the profile active all the time -->
+    <activeProfile>nexus</activeProfile>
+  </activeProfiles>
+</settings>
+```
