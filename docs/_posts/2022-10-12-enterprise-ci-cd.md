@@ -2294,3 +2294,18 @@ serves millions of Maven users every single day. It is the default, built-in rep
 and is _managed by Sonatype_. Statistics about the size of the Central Repository are available at
 https://search.maven.org/stats.
 
+The Central Repository is the largest repository for Java-based components. It can be easily used from other build tools 
+as well. One can look at the Central Repository as an example of how Maven repositories operate and how they are 
+assembled. Here are some of the properties of release repositories such as the Central Repository:
+
+* **Component Metadata** All software components added to the Central Repository require proper metadata, including a 
+  Project Object Model (POM) for each component that describes the component itself and any dependencies that software 
+  component might have.
+* **Release Stability** Once published to the Central Repository, a component and the metadata describing that component 
+  never change. This property of a release repository, like the Central Repository,  guarantees that projects that
+  depend on releases will be repeatable and stable over time. While new software components are being published every 
+  day, once a component is assigned a release number on the Central Repository, there is a strict policy against 
+  modifying the contents of a software component after a release.
+* **Component Security** The Central Repository contains cryptographic hashes and PGP signatures that can be used to 
+  verify the authenticity and integrity of software components served and supports connections in a secure manner via 
+  **HTTPS**.
