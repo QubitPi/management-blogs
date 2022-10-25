@@ -2518,7 +2518,47 @@ server contains "nexus" as the id, along with the default username and password:
 A full build of project, including downloading the declared dependencies and uploading the build output to the
 repository manager can be invoked with `mvn clean deploy`.
 
-
-
 #### Repository Management
+
+We've seen that repositories are the containers for the components provided to our users. Creating and managing 
+repositories is an essential part of our Nexus Repository configuration, since it allows us to expose more components to 
+our users. It supports proxy repositories, hosted repositories and repository groups in a number of different repository 
+formats.
+
+> 💡 To manage repositories select the **Repositories** item in the Repository sub menu of the **Administration** menu.
+
+The binary parts of a repository are stored in **blob stores**, which can be configured by selecting Blob Stores from
+the Repository sub menu of the Administration menu.
+
+##### Repository Types
+
+###### Proxy Repository
+
+**A repository with the type proxy, also known as a proxy repository, is a repository that is linked to a remote 
+repository**. Any request for a component is verified against the local content of the proxy repository. If no local 
+component is found, the request is forwarded to the remote repository. The component is then retrieved and stored
+locally in the repository manager, which acts as a cache. Subsequent requests for the same component are then fulfilled 
+from the local storage, therefore eliminating the network bandwidth and time overhead of retrieving the component from 
+the remote repository again.
+
+By default, the repository manager ships with the following configured proxy repositories:
+
+* **maven-central** This proxy repository accesses the Central Repository, formerly known as Maven Central. It is the 
+  default component repository built into Apache Maven
+* **nuget.org-proxy** This proxy repository accesses the [NuGet Gallery](https://www.nuget.org/). It is the default 
+  component repository used by the `nuget` package management tool used for .Net development.
+
+###### Hosted Repository
+
+A repository with the type hosted, also known as a hosted repository, is a repository that stores components in the 
+repository manager as the authoritative location for these components.
+
+By default, the repository manager ships with the following configured hosted repositories:
+
+* **maven-releases** This hosted repository uses the maven2 repository format with a release version policy. It is 
+  intended to be the repository where an organization publishes internal releases. We can also use this repository for 
+  third-party components that are not available in external repositories and can therefore not be retrieved via a 
+  configured proxy repository. Examples of these components could be commercial, proprietary libraries such as an Oracle 
+  JDBC driver that may be referenced by the organization.
+* **maven-snapshots** This hosted repository uses the maven2 repository format with a snapshot version policy. It is intended to be the repository where your organization publishes internal development versions, also known as snapshots.
 
