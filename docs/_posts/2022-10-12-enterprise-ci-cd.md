@@ -2318,3 +2318,38 @@ repositories with Nexus Repository Manager OSS is to proxy and cache the content
 
 ###### Component Coordinates and the Repository Format
 
+Component coordinates create a unique identifier for a component. Maven coordinates use the following values: groupId, 
+artifactId, version, and packaging. This set of coordinates is often referred to as a **GAV coordinate**, which is short 
+for Group, Artifact, Version coordinate. The GAV coordinate standard is the foundation for Maven's ability to manage 
+dependencies. Four elements of this coordinate system are described below:
+
+* **groupId** A group identifier groups a set of components into a logical group. Groups are often designed to reflect 
+  the **organization** under which a particular software component is being produced. For example, software components 
+  produced by the Maven project at the Apache Software Foundation are available under the groupId "org.apache.maven"
+* **artifactId** An artifactId is an identifier for a software component and should be a descriptive name. The 
+  combination of groupId and artifactId must be unique for a specific project.
+* **version** The version of a project ideally follows the established convention of
+  [**semantic versioning**](http://semver.org/). For example, if our simple-library component has a major release version 
+  of 1, a minor release version of 2 and point release version of 3, the version would be 1.2.3. Versions can also have 
+  **alphanumeric qualifiers** which are often used to denote release status. An example of such a qualifier would be a 
+  version like "1.2.3-BETA" where BETA signals a stage of testing meaningful to consumers of a software component.
+* **packaging** Maven was initially created to handle JAR files, but a Maven repository is completely agnostic about the 
+  type of component it is managing. Packaging can be anything that describes any binary software format including: zip, 
+  nar, war, ear, sar and aar.
+
+Tools designed to interact Maven repositories translate component coordinates into a URL which corresponds to a location 
+in a Maven repository. If a tool such as Maven is looking for version "1.2.0" of the "commons-lang" JAR in the group 
+"org.apache.commons", this request is translated into:
+
+```
+<repoURL>/org/apache/commons/commons-lang/1.2.0/commons-lang-1.2.0.jar
+```
+
+Maven also downloads the corresponding POM for "commons-lang 1.2.0" from:
+
+```
+<repoURL>/org/apache/commons/commons-lang/1.2.0/commons-lang-1.2.0.pom
+```
+
+This POM may contain references to other components, which are then retrieved from the same repository using the same
+URL patterns.
