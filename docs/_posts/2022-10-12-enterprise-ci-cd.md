@@ -2466,4 +2466,7 @@ the repositories by enabling snapshots and replacing the URL with a bogus URL. T
 setting in the same settings.xml file to point to the URL of our single repository group. This repository group can, 
 therefore, contain release as well as snapshot components and Maven will pick them up. 
 
-In addition, The mirrorOf pattern of * causes any repository request to be redirected to this mirror and to your single repository group, which in the example is the public group.
+In addition, The **mirrorOf** pattern of `*` causes any repository request to be redirected to this mirror and to our 
+single repository group, which in the example is the public group.
+
+> 💡 It is possible to use other patterns in the "mirrorOf" field. A possible valuable setting is to use external:*. This matches all repositories except those using localhost or file based repositories. This is used in conjunction with a repository manager when you want to exclude redirecting repositories that are defined for integration testing. The integration test runs for Apache Maven itself require this setting.
