@@ -2387,3 +2387,11 @@ deployed and changed frequently without regard for stability and repeatability c
 
 > 📋 A project under active development produces snapshot components that change over time. A release is comprised of 
 > components which will remain unchanged over time.
+
+##### Version policy
+
+##### Hosting Maven Repositories
+
+A hosted Maven repository can be used to deploy our own as well as third-party components. A default installation of 
+Nexus Repository Manager includes two hosted Maven repositories. The maven-releases repository uses a release version 
+policy and the maven-snapshots repository uses a snapshot version policy.
