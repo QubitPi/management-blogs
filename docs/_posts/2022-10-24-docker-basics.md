@@ -272,14 +272,13 @@ Then in the next volume backup command, we will:
 
   > 💡 **Named Volumes** v.s. **Path Based Volumes**
   > 
-  > **Named volumes** look like this `my-volume:/var/lib/postgresql/data`. Docker will manage the volume for us. On
+  > * **Named volumes** look like this `my-volume:/var/lib/postgresql/data`. Docker will manage the volume for us. On
   > Linux, that volume will get saved to `/var/lib/docker/volumes/my-volume/_data`. On Windows or MacOS, however, it
   > will get saved to
   > [somewhere else](https://nickjanetakis.com/blog/docker-tip-70-gain-access-to-the-mobylinux-vm-on-windows-or-macos), 
   > but the moral of the story is, we don't need to worry about it. We can set it and forget it, and it will work across 
   > all systems.
-  >
-  > **Path based volumes** serve the same purpose as named volumes, except we are responsible for managing where the 
+  > * **Path based volumes** serve the same purpose as named volumes, except we are responsible for managing where the 
   > volume gets saved on the Docker host. For example if we do `./my-volume:/var/lib/postgresql/data` then a my-volume/ 
   > _directory_ would get created in the _current directory_ on the Docker host.
 
