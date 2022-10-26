@@ -303,6 +303,25 @@ our host machine
 
 #### Restore Volume From Backup
 
+With the backup just created, we can restore it to a new container of the same image.
+
+Let's say "my-container" from the [previous section](#back-up-a-volume) is gone (crashed, or somebody had some fun with 
+`sudo rm -rf /` inside container, or we simply want to restore the container to a previous backed up state), and we just
+instantiated a new container (whose name is, for example, "**new-container**") of the same image. We will now load our 
+backup data into the "new-container"
+
+The "new-container" was created with a new volume (let's give it a name "new-volume") mounted at the same container path
+of "/app-data"
+
+We also have our `backup.tar` we [just created](#back-up-a-volume) located at `$(pwd)`. Assuming "new-container" is
+properly running now, executing the command below will effectively put un-compressed content of `backup.tar`, i.e. the
+original backed up data, into the `/app-data` directory in "new-container":
+
+```bash
+docker run --rm --volumes-from new-container -v $(pwd):/backup ubuntu bash -c "cd /app-data && mv /backup/backup.tar . && tar xvf backup.tar --strip 1"
+```
+
+We can use this technique to automate backup, migration and restore testing using our preferred tools.
 
 
 Docker cAdvisor
