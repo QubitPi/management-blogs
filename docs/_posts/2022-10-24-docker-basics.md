@@ -244,25 +244,66 @@ For more information about using volumes with compose see
 
 #### Start a Service with Volumes
 
-### Backup Volume
+### Backup, Restore, or Migrate Data Volumes
 
-Volumes are useful for backups, restores, and migrations. Use the **--volumes-from** flag to create a new container that 
-mounts that volume.
+Volumes are useful for backups, restores, and migrations. It is, however, not a good idea to keep the volume on the
+host machine. It is a single point of failure. We need to "back up the container backup" or "back up the volume"
 
-Suppose we have a running container whose name is "my-container" with a volume called "my-volume". This volume has been
-linked to the `/container-data` directory inside "my-container"
+It is a must to move the volume to cloud storage or any other backup location. So that, even if the container crashes
+we will have all the data.
 
-Then in the next command, we:
+### Back Up a Volume
 
-* Launch a new container and mount the volume from "my-container"
-* Mount a local host directory as "/backup"
-* Pass a command that tars the contents of the volume to a **backup.tar** file inside our "/backup: directory
+Suppose we have a running container whose name is "my-container" eactly as we seen in 
 
-```bash
-docker run --rm --volumes-from my-container -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /container-data
+```
+$ docker ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                    NAMES
+h32y87888we2   my-image          ...                      59 minutes ago  Up 59 minutes  0.0.0.0:3456->3456/tcp   my-container
 ```
 
-When the command completes and the container stops, we are left with a backup of our "my-volume" volume.
+This container started with a volume called "my-volume". This volume has been mounted to the `/app-data` directory
+inside "my-container"
+
+Then in the next volume backup command, we will:
+
+* launch a new Ubuntu container and mount "my-volume" to that container
+* mount the _current_ local host directory to the Ubuntu container at "/backup" in the container
+
+  > 💡 **Named Volumes** v.s. **Path Based Volumes**
+  > 
+  > **Named volumes** look like this `my-volume:/var/lib/postgresql/data`. Docker will manage the volume for us. On
+  > Linux, that volume will get saved to `/var/lib/docker/volumes/my-volume/_data`. On Windows or MacOS, however, it
+  > will get saved to
+  > [somewhere else](https://nickjanetakis.com/blog/docker-tip-70-gain-access-to-the-mobylinux-vm-on-windows-or-macos), 
+  > but the moral of the story is, we don't need to worry about it. We can set it and forget it, and it will work across 
+  > all systems.
+  >
+  > **Path based volumes** serve the same purpose as named volumes, except we are responsible for managing where the 
+  > volume gets saved on the Docker host. For example if we do `./my-volume:/var/lib/postgresql/data` then a my-volume/ 
+  > _directory_ would get created in the _current directory_ on the Docker host.
+
+* Pass, inside the Ubuntu container, a command that compresses (`tar`) the contents of the volume to a **backup.tar**
+  file which will be located at `/backup/backup.tar` in the Ubuntu container
+
+```bash
+docker run --rm --volumes-from my-container -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /app-data
+```
+
+> 💡 Note that the Ubuntu container has 2 volumes mounted and, therefore, has access to paths in both volumes:
+> 
+> 1. "my-volume" from "my-container"
+> 2. a path-based volume located at `$(pwd)` of out host machine
+> 
+> What the `tar` command just did was compressing the data in "my-volume" and put the compressed in the path-based
+> volume.
+
+When the command completes and the container stops, we are left with a backup of our "my-volume" located `$(pwd)` on
+our host machine
+
+#### Restore Volume From Backup
+
+
 
 Docker cAdvisor
 ---------------
