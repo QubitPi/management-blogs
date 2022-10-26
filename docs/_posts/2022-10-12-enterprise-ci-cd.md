@@ -2333,10 +2333,11 @@ dependencies. Four elements of this coordinate system are described below:
 * **artifactId** An artifactId is an identifier for a software component and should be a descriptive name. The 
   combination of groupId and artifactId must be unique for a specific project.
 * **version** The version of a project ideally follows the established convention of
-  [**semantic versioning**](http://semver.org/). For example, if our simple-library component has a major release version 
-  of 1, a minor release version of 2 and point release version of 3, the version would be 1.2.3. Versions can also have 
-  **alphanumeric qualifiers** which are often used to denote release status. An example of such a qualifier would be a 
-  version like "1.2.3-BETA" where BETA signals a stage of testing meaningful to consumers of a software component.
+  [**semantic versioning**](http://semver.org/). For example, if our simple-library component has a major release
+  version of 1, a minor release version of 2 and point release version of 3, the version would be 1.2.3. Versions can 
+  also have **alphanumeric qualifiers** which are often used to denote release status. An example of such a qualifier 
+  would be a version like "1.2.3-BETA" where BETA signals a stage of testing meaningful to consumers of a software 
+  component.
 * **packaging** Maven was initially created to handle JAR files, but a Maven repository is completely agnostic about the 
   type of component it is managing. Packaging can be anything that describes any binary software format including: zip, 
   nar, war, ear, sar and aar.
@@ -2730,14 +2731,74 @@ evaluated against expressions written in **CSEL** (**Content Selector Expression
 
 Content selectors allow us to define what content users are allowed to access. We can define, in a simplified example, a 
 selector named "Apache Maven" with a search expression of `path =~ "^/org/apache/maven/"`. This would match all 
-components that start with the designated component path.
+components that start with the designated component path. Another, yet more complete, example would be to "select all 
+maven2 content along a path that starts with `org.apache.commons`":
+`format == "maven2" and path =~ "^/org/apache/commons/.*"`
 
 ###### Creating a Query
 
 Before we identify user permissions for our selector, create the query first. Click **Content Selectors** located in 
 **Repository**, from the **Administration** menu. Click **Create Selector** to open a new form.
 
+![Error loading nexus3-content-selector-example.png]({{ "/assets/img/nexus3-content-selector-example.png" | relative_url}})
 
+> 💡 We can preview our selector and what results it will return by clicking the **Preview** results button located 
+> somewhere in the middle section of the page. Select a repository or grouping of repositories from the
+> **Preview Repository** dropdown and click the **Preview** button. Assets that match will be returned in the space
+> below the filter and can be filtered upon if we wish to check on a specific result.
+
+Once we are satisfied with our fields, click **Save** to create the content selector. All saved selector queries we 
+create will be listed in the **Content Selectors** screen.
+
+###### Finer Access Control with "Content Selector privilege"
+
+As part of our security setup, we can create user permissions to manage the filters we built in the _Create Selector_
+form. We can add a new privilege that controls operations of read, edit, delete or * (all) for components matching that 
+selector. The privilege can even span multiple repositories.
+
+To create a new **content selector privilege**, click **Privileges** in the **Security** section of the 
+**Administration** panel. Then click the **Create privilege** button. Locate and click **Repository Content Selector** 
+from the list of options in **Select Privilege Type**. We will see a form that displays the following:
+
+* Name: Create a name for the content selector privilege.
+* Description: Add a brief description for the privilege.
+* Content Selector: Use this dropdown to select from a list of selectors we created.
+* Repository: Use this dropdown to select from either a range of all repository contents, all repository contents of an 
+  individual format, or repositories created by us.
+* Actions: Grant read, edit, delete, or * (all) privileges for user access control.
+
+To complete the form, save the new privilege by clicking **Create privilege**. We can use our new privilege to regulate 
+what permissible data we want the user to access. We could group all related privileges into a [role](#roles). 
+Ultimately, we could assign our roles to a [user](#users).
+
+###### Content Selector Query Reference
+
+Below are the allowable attributes for content selectors that define path and format as values supported by Nexus 
+Repository Manager.
+
+| **Attribute** | **Allowed Values**                            |
+|---------------|-----------------------------------------------|
+| format        | The format of the content for which you query |
+| path          | The path of your repository content           |
+
+Valid Operators are
+
+| Operator   | Definition                                | Example                                                                         |
+|:----------:|:-----------------------------------------:|:-------------------------------------------------------------------------------:|
+| `==`       | Matches text _exactly_                    | `format == "maven2"`                                                            |
+| `=~`       | Matches a Java regular expression pattern | `path =~ "^/org/apache/commons/.*"`                                             |
+| `=^`       | Starts with text.                         | `path =^ "/com/example/"`                                                       |
+| `and`      | Match all expressions                     | `format == "maven2" and path =~ "^/org/apache/commons/.*"`                      |
+| `or`       | Match any expression                      | `format == "maven2" or format == "npm"`                                         |
+| `( expr )` | Group multiple expressions.               | `format == "npm" or (format == "maven2" and path =~ "^/org/apache/commons/.*")` |
+
+> 💡 **Version Range Regular Expressions**
+> 
+> To avoid encountering database errors, you should escape dashes in version range regular expressions. For example,
+> `path =~ “[0-9a-zA-Z\-_]”`
+
+> ⚠️ When writing a content selector, remember that the asset's path will always begin with a leading slash when the 
+> selector is evaluated. This is true even though the leading slash is not displayed when searching or browsing assets.
 
 ##### Roles
 
@@ -2745,7 +2806,7 @@ Before we identify user permissions for our selector, create the query first. Cl
 
 #### Troubleshooting
 
-##### 413 Request Entity Too Large
+##### "413 Request Entity Too Large"
 
 If deploying, for example, a Maven JAR or Docker image to some Nexus repository results in "413 Request Entity Too
 Large" error, that's due to, in the case of Nginx as reverse proxy in front of the Nexus, our server block having a 
@@ -2757,3 +2818,8 @@ To resolve this, we will need to add the following line to our server block (`/e
 
 For more information, such as where "client_max_body_size" directive should be placed, please refer to
 [Nginx documentation](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size)
+
+##### "400 Repository does not allow updating assets"
+
+The version already exists on a release repository. We will need to either bump component version or let Nexus admin
+to delete the root folder of that component.
