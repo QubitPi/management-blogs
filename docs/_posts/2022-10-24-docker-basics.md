@@ -317,6 +317,9 @@ We also have our `backup.tar` we [just created](#back-up-a-volume) located at `$
 properly running now, executing the command below will effectively put un-compressed content of `backup.tar`, i.e. the
 original backed up data, into the `/app-data` directory in "new-container":
 
+> 💡 For some images, we might need to restart container so that it will reload "app-data", which has been out backup
+> data
+
 ```bash
 docker run --rm --volumes-from new-container -v $(pwd):/backup ubuntu bash -c "cd /app-data && mv /backup/backup.tar . && tar xvf backup.tar --strip 1"
 ```
