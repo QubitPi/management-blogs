@@ -2722,14 +2722,38 @@ In another example, a _Repository View_ privilege type is created:
 The form provides Name, Description, Format, Repository, and Actions in figure above. The form is completed for a 
 privilege granting sufficient access to publish images to a specific hosted repository. A user with this privilege can view and read the contents of the repository as well as publish new images to it, but not delete images.
 
+##### Content Selectors
+
+Content selectors provide a means for us to select specific content from all of our content. The content we select is 
+evaluated against expressions written in **CSEL** (**Content Selector Expression Language**). CSEL is a light version of 
+**JEXL** used to script queries along specific paths and coordinates available to our repository manager formats.
+
+Content selectors allow us to define what content users are allowed to access. We can define, in a simplified example, a 
+selector named "Apache Maven" with a search expression of `path =~ "^/org/apache/maven/"`. This would match all 
+components that start with the designated component path.
+
+###### Creating a Query
+
+Before we identify user permissions for our selector, create the query first. Click **Content Selectors** located in 
+**Repository**, from the **Administration** menu. Click **Create Selector** to open a new form.
+
+
+
 ##### Roles
 
 ##### Users
 
+#### Troubleshooting
 
+##### 413 Request Entity Too Large
 
+If deploying, for example, a Maven JAR or Docker image to some Nexus repository results in "413 Request Entity Too
+Large" error, that's due to, in the case of Nginx as reverse proxy in front of the Nexus, our server block having a 
+default value for **client_max_body_size** of around 1MB in size when unset.
 
+To resolve this, we will need to add the following line to our server block (`/etc/nginx/nginx.conf`):
 
-Default Role
-Content Selectors
+![Error loading nexus-413-solution.png]({{ "/assets/img/nexus-413-solution.png" | relative_url}})
 
+For more information, such as where "client_max_body_size" directive should be placed, please refer to
+[Nginx documentation](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size)
