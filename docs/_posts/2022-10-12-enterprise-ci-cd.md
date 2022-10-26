@@ -2200,7 +2200,7 @@ Using a repository manager provides a number of benefits, including
 * unified method to provide components to consumer reducing complexity overheads
 * improved collaboration due to the simplified exchange of binary components
 
-### Nexus Repository Manager OSS
+### Nexus 3 Repository Manager OSS
 
 #### Concepts
 
@@ -2591,8 +2591,6 @@ The repository manager ships with the following groups:
 
 TBA
 
-
-
 #### Access Control
 
 Nexus Repository uses **role-based access contro**l (**RBAC**) to give administrators fine-grained control over user 
@@ -2652,18 +2650,28 @@ with **eoi-** for example.
 
 ###### Privilege Types
 
-The privilege list displays an icon for the privilege Type as the first column in the list.
+The privilege list displays an icon for the privilege Type as the first column in the list:
+
+> 💡 **Privilege Permissions**
+>
+> Privilege permissions are represented by a colon separated list of text segments, where each segment can be one of:
+> 
+> * a single text value
+> * a comma separated list of text values
+> * an asterisk character * to represent all values in that segment 
+>
+> The internal segment matching algorithm uses
+> [Apache Shiro wildcard permissions](https://shiro.apache.org/permissions.html).
+
 
 | **Type**                        | **Permission Segments**                                                      | **Applicable Actions**          | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 |---------------------------------|------------------------------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **application**                 | nexus:{name}:{actions}                                                       | create,read,update,delete       | Application type privileges are most commonly the built-in privileges that control access to specific product feature areas in the Administration **UI**.
-
-For example, "nexus:blobstores:create,read" means allowing for creating and reading blobstores                                                                                                                                                                                                                                           |
+| **application**                 | nexus:{name}:{actions}                                                       | create,read,update,delete       | Application type privileges are most commonly the built-in privileges that control access to specific product feature areas in the Administration **UI**. <br>For example, "nexus:blobstores:create,read" means allowing for creating and reading blobstores                                                                                                                                                                                                                                        |
 | **repository-admin**            | nexus:repository-admin:{format}:{repository}:{actions}                       | browse,read,edit,add,delete     | Repository Admin privileges control administration of **configuration** for specific repositories or repository formats.
-
+<br>
 For example, "nexus:repository-admin:nuget:nuget.org-proxy:browse,read" means allowing viewing of the repository configuration for the nuget format repository named "nuget.org-proxy"
-
-**These privileges do not control access to repository content.**                                                                                                                 |
+<br>
+**These privileges do not control access to repository content.**                                                                                                         |
 | **repository-content-selector** | nexus:repository-content-selector:{selector}:{format}:{repository}:{actions} | browse,read,edit,add,delete     | Repository Content Selector privileges provide fine-grained control over access to content within a repository by way of a content selector .
 
 For example, "nexus:repository-content-selector:*:maven2:*:read" means allowing a user for read access to any content matching a content selector defined for the maven2 format.                                                                                                                                                                     |
@@ -2676,6 +2684,43 @@ For example, "nexus:repository-view:maven2:central:browse,read" means allow brow
 
 For example, "nexus:script:*:read" means allowing for read access to all scripts of any name. "nexus:script:my-uploaded-script:run" means allowing the calling user for running (executing) the script named my-uploaded-script |
 | **wildcard**                    | *                                                                            | *                               | Wildcard privileges allow one to build a privilege string using a free-form series of segments. All other privilege types are more specific segment forms of a wildcard privilege. There is only one wildcard privilege included by default named **nx-all** with permission **nexus:***  that gives access to all functionality.                                                                                                                                                                   |
+
+
+> 💡 **Privilege Actions**
+> 
+> Actions are functions allowing an explicit behavior the privilege can perform with the associated function. 
+>
+> The Actions to choose from are
+> 
+> * **add** allows privileges to add repositories or scripts.
+> * **read** allows privileges to view various configuration lists and scripts. Without **read**, any associated action 
+>   will permit a privilege to see these lists but not its contents. The **read** action also allows privileges to 
+>   utilize tools that can look at content from the command line.
+> * **browse**  allows privileges to view the contents of associated repositories. Unlike **read**, privilege types with 
+>   browse can only view and administrate repository _contents_ from _UI_.
+> * **create** allows privileges to create applicable configurations within the repository manager. Since a **read** 
+>   permission is required to view a configuration, this action is associated with most existing create privileges.
+> * **delete** allows privileges to delete repository manager configurations, repository contents, and scripts. A
+>   **read** action is generally associated with delete actions, so the actor can view these configurations to remove
+>   them.
+> * **edit** allows privileges to modify associated scripts, repository content, and repository administration.
+> * **update** allows privileges to update repository manager configurations. Most existing privileges with update 
+>   include **read** actions. Therefore, if creating custom privileges with update, the actor should consider adding read 
+>   to the privilege in order to view repository manager configuration updates.
+> * **`*`**, the wildcard, gives us the ability to group all actions together.
+>
+> We must assign a single or combination of comma-delimited actions when creating new privileges. The privilege type to 
+> which we apply any of these Actions will perform the action's implied behavior. Consider how each action behaves when 
+> applied to a privilege type:
+
+###### Creating a Privilege
+
+Click the **Create privilege** button to view a list of privilege types
+
+![Error loading nexnus3-privileges-types.png]({{ "/assets/img/nexnus3-privileges-types.png" | relative_url}})
+
+
+
 
 
 ##### Roles
