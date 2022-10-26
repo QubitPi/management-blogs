@@ -244,6 +244,25 @@ For more information about using volumes with compose see
 
 #### Start a Service with Volumes
 
+### Backup Volume
+
+Volumes are useful for backups, restores, and migrations. Use the **--volumes-from** flag to create a new container that 
+mounts that volume.
+
+Suppose we have a running container whose name is "my-container" with a volume called "my-volume". This volume has been
+linked to the `/container-data` directory inside "my-container"
+
+Then in the next command, we:
+
+* Launch a new container and mount the volume from "my-container"
+* Mount a local host directory as "/backup"
+* Pass a command that tars the contents of the volume to a **backup.tar** file inside our "/backup: directory
+
+```bash
+docker run --rm --volumes-from my-container -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /container-data
+```
+
+When the command completes and the container stops, we are left with a backup of our "my-volume" volume.
 
 Docker cAdvisor
 ---------------
