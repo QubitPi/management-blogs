@@ -2590,3 +2590,102 @@ The repository manager ships with the following groups:
 ##### Managing Repositories and Repository Groups
 
 TBA
+
+
+
+#### Access Control
+
+Nexus Repository uses **role-based access contro**l (**RBAC**) to give administrators fine-grained control over user 
+rights to the following:
+
+* Access to the Nexus Repository web application
+* Read access to a component path in a repository
+* Administator access to configuration
+* Publish or upload files to a repository
+
+The default configuration ships with the administrator role and optional anonymous access to browse and read all 
+repositories. **We should not use the default anonymous role if we need to create protected repositories**. 
+
+##### Realms
+
+> 💡 **What Is a Realm?**
+> 
+> A realm is a security policy domain defined for a web or application server. The protected resources on a server can be 
+> partitioned into a set of protection spaces, **each with its own authentication scheme** and/or authorization database 
+> containing a collection of users and groups.
+
+The realms can be accessed via the **Realms** menu item located under **Security**, in the Administration main menu.
+
+![Error loading nexus3-realms.png]({{ "/assets/img/nexus3-realms.png" | relative_url}})
+
+Effectively, the configuration shown above determines what authentication realm is used to grant a user access and the 
+order the realms are used.
+
+* **Local Authenticating Realm and Local Authorizing Realm** These are the built-in realms used by default. They allow 
+  the repository manager to manage security setup without additional external systems. Sonatype recommends keeping the 
+  Local realms at the top of the active list.  In the event of system recovery, if you have them lower in the order (or 
+  removed), restoration may be more difficult.
+
+##### Privileges
+
+Privileges define actions which can be performed against specific functionality. Privileges can be only be assigned to 
+roles.
+
+To access Privileges go to **Security** in the Administration menu, where it's listed as a sub-section. An extensive list 
+of privileges is already built in the repository manager and is partially shown in the figure below
+
+![Error loading nexus3-privileges-partial-list.png]({{ "/assets/img/nexus3-privileges-partial-list.png" | relative_url}})
+
+This feature allows us to inspect existing privileges and create custom privileges as required. Users will need 
+_nx-privilege_ or _nx-all_ privileges to access this page.
+
+###### Privilege Names
+
+Names are unique identifiers. Privileges included by default are prefixed with **nx-** . Privileges that are migrated 
+from Nexus Repository 2 will be named as they were in Repository 2. Privileges that we create ourselves can only consist 
+of letters, digits, underscores(`_`), hyphens(`-`), and dots(`.`). A privilege name cannot start with an underscore or
+dot.
+
+For custom privileges, it is encouraged that we use a **simple convention** to namespace our privileges. For example 
+using a simple acronym representing our organization name. "Example Organization Inc." could prefix its privilege names
+with **eoi-** for example.
+
+###### Privilege Types
+
+The privilege list displays an icon for the privilege Type as the first column in the list.
+
+| **Type**                        | **Permission Segments**                                                      | **Applicable Actions**          | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|---------------------------------|------------------------------------------------------------------------------|---------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **application**                 | nexus:{name}:{actions}                                                       | create,read,update,delete       | Application type privileges are most commonly the built-in privileges that control access to specific product feature areas in the Administration **UI**.
+
+For example, "nexus:blobstores:create,read" means allowing for creating and reading blobstores                                                                                                                                                                                                                                           |
+| **repository-admin**            | nexus:repository-admin:{format}:{repository}:{actions}                       | browse,read,edit,add,delete     | Repository Admin privileges control administration of **configuration** for specific repositories or repository formats.
+
+For example, "nexus:repository-admin:nuget:nuget.org-proxy:browse,read" means allowing viewing of the repository configuration for the nuget format repository named "nuget.org-proxy"
+
+**These privileges do not control access to repository content.**                                                                                                                 |
+| **repository-content-selector** | nexus:repository-content-selector:{selector}:{format}:{repository}:{actions} | browse,read,edit,add,delete     | Repository Content Selector privileges provide fine-grained control over access to content within a repository by way of a content selector .
+
+For example, "nexus:repository-content-selector:*:maven2:*:read" means allowing a user for read access to any content matching a content selector defined for the maven2 format.                                                                                                                                                                     |
+| **repository-view**             | nexus:repository-view:{format}:{repository}:{actions}                        | browse,read,edit,add,delete     | Repository View privileges control general access to all content contained within specific repositories or repository formats.
+
+For example, "nexus:repository-view:maven2:central:browse,read" means allow browsing and viewing content within the maven2 format repository named central
+
+**These privileges do not allow changing configuration of a repository.**                                                                                                                               |
+| **script**                      | nexus:script:{script name}:{actions}                                         | browse,read,edit,add,delete,run | Script privileges control access to using the Groovy Script related REST APIs as documented in [REST and Integration API](https://help.sonatype.com/repomanager3/integrations/rest-and-integration-api) . These privileges do not control general REST API access.
+
+For example, "nexus:script:*:read" means allowing for read access to all scripts of any name. "nexus:script:my-uploaded-script:run" means allowing the calling user for running (executing) the script named my-uploaded-script |
+| **wildcard**                    | *                                                                            | *                               | Wildcard privileges allow one to build a privilege string using a free-form series of segments. All other privilege types are more specific segment forms of a wildcard privilege. There is only one wildcard privilege included by default named **nx-all** with permission **nexus:***  that gives access to all functionality.                                                                                                                                                                   |
+
+
+##### Roles
+
+##### Users
+
+
+
+
+
+Default Role
+Content Selectors
+
