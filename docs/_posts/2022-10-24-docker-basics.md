@@ -324,6 +324,9 @@ original backed up data, into the `/app-data` directory in "new-container":
 docker run --rm --volumes-from new-container -v $(pwd):/backup ubuntu bash -c "cd /app-data && mv /backup/backup.tar . && tar xvf backup.tar --strip 1"
 ```
 
+> 📋 Note that at this moment we've also successfully loaded backup data into "new-volume", which links to the
+> "new-container"
+
 We can use this technique to automate backup, migration and restore testing using our preferred tools.
 
 
