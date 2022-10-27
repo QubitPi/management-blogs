@@ -2278,6 +2278,15 @@ The requirements assume there are no other significant memory hungry processes r
 
 ###### Disk Space
 
+**Application Directory** - The size of this directory varies slightly each release. It currently around 330 MB. It is 
+normal to have multiple application directories installed on the same host over time as repository manager is upgraded.
+
+**Data Directory** - On first start, repository manager creates the base files needed to operate. The bulk of disk space 
+will be held by your deployed and proxied artifacts, as well as any search indexes. This is highly installation
+specific, and will be dependent on the repository formats used, the number of artifacts stored, the size of your teams 
+and projects, etc.  It's best to plan for a lot though, formats like Docker and Maven can use very large amounts of 
+storage (500Gb easily).  **When available disk space drops below 4GB the database will switch to read-only mode**.
+
 
 #### Setting Up Maven Repositories
 
