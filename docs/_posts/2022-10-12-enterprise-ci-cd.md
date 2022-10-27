@@ -2913,3 +2913,8 @@ Troubleshooting
 When we have increased the size of the volume attached a running EC2 instance. We are able to see the new volume using
 `lsblk`:
 
+![Error loading ec2-volume-1.png]({{ "/assets/img/ec2-volume-1.png" | relative_url}})
+
+But when `df -h` command still displays the old volume size:
+
+![Error loading ec2-volume-2.png]({{ "/assets/img/ec2-volume-2.png" | relative_url}})
