@@ -2924,8 +2924,9 @@ This is because new volumes should be formatted to be accessible. Resized existi
 is given in the following AWS documentation:
 
 * [Making an Amazon EBS volume available for use on Linux](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html)
-Extending a Linux file system after resizing a volume
-Based on the discussion in comments, two commands were used to successfully solve the problem:
+* [Extending a Linux file system after resizing a volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html)
+
+* Based on the discussion in comments, two commands were used to successfully solve the problem:
 
 sudo growpart /dev/xvda 1
 sudo resize2fs /dev/xvda1
