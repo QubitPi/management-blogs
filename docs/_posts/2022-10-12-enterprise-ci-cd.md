@@ -2841,7 +2841,7 @@ For more information, such as where "client_max_body_size" directive should be p
 The version already exists on a release repository. We will need to either bump component version or let Nexus admin
 to delete the root folder of that component.
 
-##### 
+##### A database 
 
 ![Error loading nexus3-strange-error.png]({{ "/assets/img/nexus3-strange-error.png" | relative_url}})
 
