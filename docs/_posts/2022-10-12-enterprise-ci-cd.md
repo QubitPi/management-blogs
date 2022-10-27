@@ -2263,7 +2263,6 @@ and some additional custom interaction with the XML files.
 Other repositories formats use database for storage and REST API interactions, or different directory structures wit
 format specific files for the metadata
 
-
 #### Setting Up Maven Repositories
 
 Historically Nexus Repository Manager started as a repository manager supporting the Maven repository format and it 
@@ -2841,3 +2840,8 @@ For more information, such as where "client_max_body_size" directive should be p
 
 The version already exists on a release repository. We will need to either bump component version or let Nexus admin
 to delete the root folder of that component.
+
+##### 
+
+![Error loading nexus3-strange-error.png]({{ "/assets/img/nexus3-strange-error.png" | relative_url}})
+
