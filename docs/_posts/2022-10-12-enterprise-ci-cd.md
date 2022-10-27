@@ -2263,7 +2263,7 @@ and some additional custom interaction with the XML files.
 Other repositories formats use database for storage and REST API interactions, or different directory structures wit
 format specific files for the metadata
 
-#### Deploying Nexus3 Repository Manager OSS Using Docker
+#### Deploying Nexus 3 Repository Manager OSS Using Docker
 
 ##### System Requirements
 
@@ -2294,6 +2294,14 @@ because it can be used for backup later as well.
 
 ```bash
 docker volume create --name nexus-data
+```
+
+##### Start Nexus 3 Container
+
+Withe volume created, we will pull the Nexus 3 image and run the container using:
+
+```bash
+docker run -d -p 8081:8081 --name nexus -v nexus-data:/nexus-data sonatype/nexus3
 ```
 
 #### Setting Up Maven Repositories
