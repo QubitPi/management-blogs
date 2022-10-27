@@ -2886,7 +2886,7 @@ For example, assume that we have a group in LDAP named "scm" and we want to make
 administrative privileges.
 
 Select **External Role Mapping** and **LDAP** to see a list of roles managed by that external realm in a dialog. Pick
-the desired scm group and confirm by pressing Create mapping.
+the desired scm group and confirm by pressing **Save** mapping.
 
 ##### Users
 
