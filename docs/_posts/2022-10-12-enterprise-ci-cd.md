@@ -2809,7 +2809,7 @@ The repository manager ships with a predefined _admin_ as well as an _anonymous 
 **Roles** feature view accessible via the **Roles** item in the **Security** section of the **Administration** main
 menu. A simple example is shown in figure below. The list displays the _Name_ and _Description_ of the role as well as 
 the **Source**, which displays whether the role is internal (Nexus) or a mapping to an external source like LDAP. In 
-order to access these functions, a user must have _nx-roles_ or _nx-all_ privileges.
+order to access these functions, a user must have _nx-roles_ or _nx-all_ [privileges](#privileges).
 
 ![Error loading nexus3-roles-list.png]({{ "/assets/img/nexus3-roles-list.png" | relative_url}})
 
