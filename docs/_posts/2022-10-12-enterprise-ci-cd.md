@@ -2871,6 +2871,8 @@ list of _Contained_ roles.
 
 Finally press the **Save** button to get the role created.
 
+An existing role can be inspected and edited by clicking on the row in the list. This role-specific view allows you to delete the role with the Delete role button. The built-in roles are managed by the repository manager and cannot be edited or deleted. The Settings section displays the same section as the creation view as displayed in Figure: “Creating a New Role".
+
 ##### Users
 
 #### Troubleshooting
