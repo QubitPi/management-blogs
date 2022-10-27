@@ -2856,7 +2856,11 @@ order to access these functions, a user must have _nx-roles_ or _nx-all_ [privil
 To create a new role, click on the **Create Role** button, select **Nexus role** and fill out the Role creation feature 
 view:
 
+> To use functions of creating, editing and deleting roles, a user without the _nx-all_ privilege also will need 
+> _nx-privilege-read_. This is because the roles page lists privileges on it.
+
 ![Error loading nexus3-roles-create.png]({{ "/assets/img/nexus3-roles-create.png" | relative_url}})
+
 
 
 
