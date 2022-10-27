@@ -2903,8 +2903,10 @@ The log file we will be looking at, in the case of running inside Docker contain
 `/nexus-data/log/nexus.log`
 
 
-FAQ
----
+Troubleshooting
+---------------
 
 ### Amazon AWS
+
+#### New Volume in EC2 Instance Not Reflecting
 
