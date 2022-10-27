@@ -2291,6 +2291,10 @@ storage (500Gb easily).  **When available disk space drops below 4GB the databas
 
 
 
+```bash
+docker volume create --name nexus-data
+```
+
 #### Setting Up Maven Repositories
 
 Historically Nexus Repository Manager started as a repository manager supporting the Maven repository format and it 
