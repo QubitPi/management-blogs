@@ -330,8 +330,10 @@ We can use this technique to automate backup, migration and restore testing usin
 
 > 💡 **Fixing "scp: Permission denied" issue**
 > 
-> The migration often involves loading the backup file (i.e. "backup.tar") onto the new server using 'scp'. 
-
+> The migration often involves loading the backup file (i.e. "backup.tar") onto the new server using 'scp'. The
+> permission error occurs when the backup file already existed in the scp target location and the existing file had 
+> read-only permissions (preventing the file from being overwritten). In this case, we simply logged into the server and 
+> deleted the existing file and that will resolve the problem.
 
 Docker cAdvisor
 ---------------
