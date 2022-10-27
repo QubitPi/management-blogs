@@ -2267,6 +2267,10 @@ format specific files for the metadata
 
 ##### System Requirements
 
+###### Memory Requirements
+
+
+
 
 #### Setting Up Maven Repositories
 
