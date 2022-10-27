@@ -2263,6 +2263,10 @@ and some additional custom interaction with the XML files.
 Other repositories formats use database for storage and REST API interactions, or different directory structures wit
 format specific files for the metadata
 
+#### Deploying Nexus3 Repository Manager OSS Using Docker
+
+
+
 #### Setting Up Maven Repositories
 
 Historically Nexus Repository Manager started as a repository manager supporting the Maven repository format and it 
