@@ -2271,6 +2271,10 @@ format specific files for the metadata
 
 The requirements assume there are no other significant memory hungry processes running on the same host.
 
+| ****                     | **JVM Heap** | **JVM Direct**                           | **Host Physical/RAM** |
+|:------------------------:|:------------:|:----------------------------------------:|:---------------------:|
+| **Minimum ( default ) ** | 2703MB       | 2703MB                                   | 8GB                   |
+| **Maximum**              | 4GB          | (host physical/RAM * 2/3) - JVM max heap | no limit              |
 
 
 
