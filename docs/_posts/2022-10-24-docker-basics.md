@@ -328,6 +328,10 @@ docker run --rm --volumes-from new-container -v $(pwd):/backup ubuntu bash -c "c
 
 We can use this technique to automate backup, migration and restore testing using our preferred tools.
 
+> 💡 **Fixing "scp: Permission denied" issue**
+> 
+> The migration often involves loading the backup file (i.e. "backup.tar") onto the new server using 'scp'
+
 
 Docker cAdvisor
 ---------------
