@@ -2802,6 +2802,11 @@ Valid Operators are
 
 ##### Roles
 
+Roles aggregate [privileges](#privileges) into a related context and can, in turn, be grouped to create more complex
+roles.
+
+The repository manager ships with a predefined admin as well as an anonymous role. These can be inspected in the Roles feature view accessible via the Roles item in the Security section of the Administration main menu. A simple example is shown in Figure: “Viewing the List of Defined Roles”. The list displays the Name and Description of the role as well as the Source, which displays whether the role is internal (Nexus) or a mapping to an external source like LDAP. In order to access these functions, a user must have nx-roles or nx-all privileges.
+
 ##### Users
 
 #### Troubleshooting
