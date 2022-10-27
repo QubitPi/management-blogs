@@ -2910,5 +2910,6 @@ Troubleshooting
 
 #### New Volume in EC2 Instance Not Reflecting
 
-When we have increased the size of the volume attached a running EC2 instance. We are able to see the new volume:
+When we have increased the size of the volume attached a running EC2 instance. We are able to see the new volume using
+`lsblk`:
 
