@@ -2863,7 +2863,8 @@ view:
 
 When creating a new role, we will need to supply a **Role ID** and a **Role Name** and optionally a **Description**. 
 Roles are comprised of other roles and individual privileges. To assign a role or privilege to a role, drag and drop the 
-desired privileges from the Available list to the Given list under the Privileges header. You can use the Filter input to narrow down the list of displayed privileges and the arrow buttons to add or remove privileges.
+desired privileges from the _Available_ list to the _Given_ list under the _Privileges_ header. You can use the Filter 
+input to narrow down the list of displayed privileges and the arrow buttons to add or remove privileges.
 
 
 ##### Users
