@@ -2882,6 +2882,9 @@ an external authorization system configured in the repository manager such as LD
 want to grant every member of an externally managed group (such as an LDAP group) a number of privileges and roles in
 the repository manager
 
+For example, assume that we have a group in LDAP named "scm" and we want to make sure that everyone in the scm group has 
+administrative privileges.
+
 ##### Users
 
 #### Troubleshooting
