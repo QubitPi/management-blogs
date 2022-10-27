@@ -2901,3 +2901,10 @@ about the error by going down to the Nexus server log.
 
 The log file we will be looking at, in the case of running inside Docker container, is located at
 `/nexus-data/log/nexus.log`
+
+
+FAQ
+---
+
+### Amazon AWS
+
