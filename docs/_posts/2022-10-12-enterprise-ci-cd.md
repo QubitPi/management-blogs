@@ -2289,7 +2289,8 @@ storage (500Gb easily).  **When available disk space drops below 4GB the databas
 
 ##### Create Docker Volume
 
-Since docker volumes are persistent, a volume can be created specifically for this purpose. This is the recommended approach.
+Since docker volumes are persistent, a volume can be created specifically for persisting data. This is the recommended 
+because it can be used for backup as well.
 
 ```bash
 docker volume create --name nexus-data
