@@ -2891,6 +2891,13 @@ the desired scm group and confirm by pressing **Create** mapping.
 > 💡 For faster access or if we cannot see our group name, we can also type in a portion or the whole name of the group 
 > and it will limit the dropdown to the selected text.
 
+Once the external role has been selected, creates a linked role. We can then assign other roles and privileges to this 
+new externally mapped role like we would do for any other role.
+
+Any user that is part of the scm group in LDAP, receives all the privileges defined in the created role allowing us to 
+adapt our generic role in LDAP to the repository manager-specific use cases we want these users to be allowed to
+perform.
+
 ##### Users
 
 #### Troubleshooting
