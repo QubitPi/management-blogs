@@ -2900,7 +2900,53 @@ perform.
 
 ##### Users
 
+The repository manager ships with two users by default: _admin_ and _anonymous_. The _admin_ user has all privileges and 
+the _anonymous_ user has read-only privileges. The initial password for the admin user can be found in an
+"admin.password" file found in the `$data-dir` directory after starting the server.
 
+The Users feature view displayed in figure below can be accessed via the **Users** item in the **Security** section of 
+the **Administration** menu. Users must have _nx-users_ or _nx-all_ [privileges](#privileges) to see this page. On page 
+load, the security Source of "Local" is selected and represents the local NXRM realm. The filtered list shows the users' 
+User ID, First Name, Last Name, Email and Status from the security Source selected in the dropdown.
+
+![Error loading nexus3-users-list.png]({{ "/assets/img/nexus3-users-list.png" | relative_url}})
+
+Clicking on a user in the list or clicking on the **Create local user** button displays the details view to edit or 
+create the account shown in figure below. For external users, such as LDAP or Crowd, once we have our external realm 
+setup we can edit their permissions here as well. Simply select the realm the user is on from the **Source** dropdown. 
+Then type the user ID into the field to the right of that dropdown and search for it. Then click on the result desired
+to edit, same as a local user.
+
+> To use functions of creating, editing and deleting users, a user without the _nx-all_ privilege also will need 
+> _nx-roles-read_. This is because the users page lists roles on it.
+
+![Error loading nexus3-users-create.png]({{ "/assets/img/nexus3-users-create.png" | relative_url}})
+
+The **ID** can be defined upon initial creation and remains fixed thereafter. In addition we can specify the users
+**First Name**, **Last Name** and **Email address**.  We also must enter and confirm a **Password**.
+
+The Status allows us to set an account to be _Disabled_ or _Active_. The [_Roles_](#roles) control allows us to add and 
+remove defined roles to the user and therefore control the privileges assigned to the user. A user can be assigned one
+or more roles that in turn can include references to other roles or to individual privileges.
+
+On edit, we can select **Change Password** item in the drop down. The password can be changed in a dialog, provided the 
+user is managed by the built-in security realm.
+
+##### Default Role
+
+The Default Role is a role that is automatically granted to all authenticated users.
+
+To enable appending a default role to all authenticated users, navigate to the **Capabilities** item in the **System** 
+section of the **Administration** menu; then hit **Create capability** and choose capability type **Default Role** as 
+pictured below; we will then be able to select the role that we want applied to users.
+
+![Error loading nexus3-default-role.png]({{ "/assets/img/nexus3-default-role.png" | relative_url}})
+
+Once this is saved, the _Default Role Realm_ will be added to the active list of security realms and start applying the 
+new role to all authenticated users.
+
+> ⚠️ This default role is appended to authenticated users dynamically, and will **NOT** show up as assigned to any user 
+> via the User administration page.
 
 #### Troubleshooting
 
