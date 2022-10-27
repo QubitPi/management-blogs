@@ -2923,7 +2923,7 @@ This is because new volumes should be formatted to be accessible. Resized existi
 (resized) from the inside of the operating system. The general information on how to do this safely (e.g. with snapshots)
 is given in the following AWS documentation:
 
-Making an Amazon EBS volume available for use on Linux
+* [Making an Amazon EBS volume available for use on Linux](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html)
 Extending a Linux file system after resizing a volume
 Based on the discussion in comments, two commands were used to successfully solve the problem:
 
