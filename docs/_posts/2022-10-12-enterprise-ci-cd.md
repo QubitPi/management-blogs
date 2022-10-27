@@ -2269,6 +2269,8 @@ format specific files for the metadata
 
 ###### Memory Requirements
 
+The requirements assume there are no other significant memory hungry processes running on the same host.
+
 
 
 
