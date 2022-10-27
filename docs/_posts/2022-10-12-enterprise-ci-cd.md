@@ -2866,8 +2866,8 @@ Roles are comprised of other roles and individual privileges. To assign a role o
 desired privileges from the _Available_ list to the _Given_ list under the _Privileges_ header. We can use the
 **Filter** input to narrow down the list of displayed privileges and the arrow buttons to add or remove privileges.
 
-The same functionality is available under the _Roles_ header to select among the Available roles and add them to the list 
-of Contained roles.
+The same functionality is available under the _Roles_ header to select among the _Available_ roles and add them to the 
+list of _Contained_ roles.
 
 ##### Users
 
