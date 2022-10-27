@@ -2877,7 +2877,10 @@ edited or deleted.
 
 ###### Mapping External Groups to Nexus Roles
 
-In addition to creating an internal role, the **Create Role** button allows us to create an External role mapping  to an external authorization system configured in the repository manager such as LDAP. This is something you would do, if you want to grant every member of an externally managed group (such as an LDAP group) a number of privileges and roles in the repository manager
+In addition to creating an internal role, the **Create Role** button allows us to create an **External Role Mapping** to 
+an external authorization system configured in the repository manager such as LDAP. This is something we would do, if we 
+want to grant every member of an externally managed group (such as an LDAP group) a number of privileges and roles in
+the repository manager
 
 ##### Users
 
