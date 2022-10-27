@@ -2841,7 +2841,16 @@ For more information, such as where "client_max_body_size" directive should be p
 The version already exists on a release repository. We will need to either bump component version or let Nexus admin
 to delete the root folder of that component.
 
-##### A database 
+##### "A database error occurred"
+
+When we perform some disk I/O related task on UI and we see the following on the top right corner of the page:
 
 ![Error loading nexus3-strange-error.png]({{ "/assets/img/nexus3-strange-error.png" | relative_url}})
+
+The error itself does not indicate any information about the nature of the error. We will then need to know more details
+about the error by going down to the Nexus server log. 
+
+> 💡 
+> 
+> 
 
