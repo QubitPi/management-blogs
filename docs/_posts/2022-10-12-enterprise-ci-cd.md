@@ -2816,10 +2816,10 @@ Ultimately, we could assign our roles to a [user](#users).
 Below are the allowable attributes for content selectors that define path and format as values supported by Nexus 
 Repository Manager.
 
-| **Attribute** | **Allowed Values**                            |
-|---------------|-----------------------------------------------|
-| format        | The format of the content for which you query |
-| path          | The path of your repository content           |
+| **Attribute** | **Allowed Values**                           |
+|---------------|----------------------------------------------|
+| format        | The format of the content for which we query |
+| path          | The path of our repository content           |
 
 Valid Operators are
 
@@ -2834,7 +2834,7 @@ Valid Operators are
 
 > 💡 **Version Range Regular Expressions**
 > 
-> To avoid encountering database errors, you should escape dashes in version range regular expressions. For example,
+> To avoid encountering database errors, we should escape dashes in version range regular expressions. For example,
 > `path =~ “[0-9a-zA-Z\-_]”`
 
 > ⚠️ When writing a content selector, remember that the asset's path will always begin with a leading slash when the 
@@ -2887,6 +2887,9 @@ administrative privileges.
 
 Select **External Role Mapping** and **LDAP** to see a list of roles managed by that external realm in a dialog. Pick
 the desired scm group and confirm by pressing **Save** mapping.
+
+> 💡 For faster access or if we cannot see our group name, we can also type in a portion or the whole name of the group 
+> and it will limit the dropdown to the selected text.
 
 ##### Users
 
