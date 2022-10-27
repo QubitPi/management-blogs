@@ -2813,7 +2813,7 @@ order to access these functions, a user must have _nx-roles_ or _nx-all_ [privil
 
 ![Error loading nexus3-roles-list.png]({{ "/assets/img/nexus3-roles-list.png" | relative_url}})
 
-To create a new role, click on the Create role button, select Nexus Role and fill out the Role creation feature view shown in Figure: “Creating a New Role”.
+To create a new role, click on the **Create Role** button, select **Nexus Role** and fill out the Role creation feature view shown in Figure: “Creating a New Role”.
 
 
 ##### Users
