@@ -2910,3 +2910,4 @@ Troubleshooting
 
 #### New Volume in EC2 Instance Not Reflecting
 
+When we have increased the size of the volume attached a running EC2 instance. We are able to see that the new volume using the below command
