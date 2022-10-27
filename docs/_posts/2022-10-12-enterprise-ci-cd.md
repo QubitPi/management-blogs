@@ -2882,7 +2882,8 @@ about the error by going down to the Nexus server log.
 > 
 > where `nexus-container-name` can be seen using `docker ps -a`
 
-The log file we will be looking at, in the case of running inside Docker container, is located at `/nexus-data/log/`
+The log file we will be looking at, in the case of running inside Docker container, is located at
+`/nexus-data/log/nexus.log`
 
 
 
