@@ -2850,7 +2850,12 @@ When we perform some disk I/O related task on UI and we see the following on the
 The error itself does not indicate any information about the nature of the error. We will then need to know more details
 about the error by going down to the Nexus server log. 
 
-> 💡 
+> 💡 In case Nexus is running as a Docker container, we need to jump into the container first by executing
 > 
+> ```bash
+> docker exec -it <nexus-container-name> bash
+> ```
 > 
+> where `nexus-container-name` can be seen using `docker ps -a`
+
 
