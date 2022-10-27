@@ -2928,5 +2928,7 @@ is given in the following AWS documentation:
 
 * Based on the discussion in comments, two commands were used to successfully solve the problem:
 
+```bash
 sudo growpart /dev/xvda 1
 sudo resize2fs /dev/xvda1
+```
