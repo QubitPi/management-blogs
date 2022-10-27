@@ -2918,3 +2918,14 @@ When we have increased the size of the volume attached a running EC2 instance. W
 But when `df -h` command still displays the old volume size:
 
 ![Error loading ec2-volume-2.png]({{ "/assets/img/ec2-volume-2.png" | relative_url}})
+
+This is because new volumes should be formatted to be accessible. Resized existing volumes should also be modified 
+(resized) from the inside of the operating system. The general information on how to do this safely (e.g. with snapshots)
+is given in the following AWS documentation:
+
+Making an Amazon EBS volume available for use on Linux
+Extending a Linux file system after resizing a volume
+Based on the discussion in comments, two commands were used to successfully solve the problem:
+
+sudo growpart /dev/xvda 1
+sudo resize2fs /dev/xvda1
