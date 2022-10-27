@@ -330,7 +330,7 @@ We can use this technique to automate backup, migration and restore testing usin
 
 > 💡 **Fixing "scp: Permission denied" issue**
 > 
-> The migration often involves loading the backup file (i.e. "backup.tar") onto the new server using 'scp'
+> The migration often involves loading the backup file (i.e. "backup.tar") onto the new server using 'scp'. 
 
 
 Docker cAdvisor
