@@ -2276,6 +2276,7 @@ The requirements assume there are no other significant memory hungry processes r
 | **Minimum ( default ) ** | 2703MB       | 2703MB                                   | 8GB                   |
 | **Maximum**              | 4GB          | (host physical/RAM * 2/3) - JVM max heap | no limit              |
 
+###### Disk Space
 
 
 #### Setting Up Maven Repositories
