@@ -15,6 +15,18 @@ excerpt_separator: <!--more-->
 * TOC
 {:toc}
 
+## Batch Convert .jpg to .png and Keep the Same Name for Converted Image
+
+Use the `-set` and formatting options.
+
+```bash
+convert *.jpg -set filename:base "%[basename]" "%[filename:base].png"
+```
+
+See "[Long Form Attribute Percent Escapes](http://www.imagemagick.org/script/escape.php)" and
+"[Filename Percent Escapes](http://www.imagemagick.org/Usage/files/#save_escapes)" docs.
+
+
 ## [Generate Favicon File](https://unix.stackexchange.com/a/89276)
 
 ```bash

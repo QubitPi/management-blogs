@@ -1450,7 +1450,10 @@ first administrator user.
 
 ### Deploying Jenkins through Docker
 
-   docker run -d --name=jenkins -p 8080:8080 -p 50000:50000 --restart=on-failure -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk11
+```bash
+docker volume create --name jenkins-data
+docker run -d --name=jenkins -p 8080:8080 -p 50000:50000 --restart=on-failure -v jenkins-data:/var/jenkins_home jenkins/jenkins:lts-jdk11
+```
 
 * The `-d` commands runs the container in
   [detached mode](https://docs.docker.com/language/nodejs/run-containers/#run-in-detached-mode)
@@ -2558,6 +2561,95 @@ server contains "nexus" as the id, along with the default username and password:
 
 A full build of project, including downloading the declared dependencies and uploading the build output to the
 repository manager can be invoked with `mvn clean deploy`.
+
+> 📋 For startup who doesn't really need to proxy the entire Maven Central at the moment, another approach is to set up
+> multiple repositories. In each project they are working on, they will still fetch everything from Maven Central
+> except for their hosted component from Nexus
+> 
+> There are two different ways that we can specify the use of multiple repositories. The first way is to specify in a
+> POM which repositories we want to use. That is supported both inside and outside of build profiles:
+> 
+> ```xml
+> <project>
+>     ...
+> 
+>     <repositories>
+>         <repository>
+>             <id>my-repo1</id>
+>             <name>your custom repo</name>
+>             <url>http://jarsm2.dyndns.dk</url>
+>         </repository>
+>         <repository>
+>             <id>my-repo2</id>
+>             <name>your custom repo</name>
+>             <url>http://jarsm2.dyndns.dk</url>
+>         </repository>
+>     </repositories>
+> 
+>     ...
+> </project>
+> ```
+> 
+> The other way we can specify multiple repositories is by creating a profile in the `${user.home}/.m2/settings.xml` or 
+> `${maven.home}/conf/settings.xml` file like the following:
+>
+> ```xml
+> <settings>
+>     ...
+>     <profiles>
+>         ...
+>         <profile>
+>             <id>myprofile</id>
+>             <repositories>
+>                 <repository>
+>                     <id>my-repo2</id>
+>                     <name>your custom repo</name>
+>                     <url>http://jarsm2.dyndns.dk</url>
+>                 </repository>
+>             </repositories>
+>         </profile>
+>         ...
+>     </profiles>
+>     
+>      <activeProfiles>
+>          <activeProfile>myprofile</activeProfile>
+>      </activeProfiles>
+>      ...
+> </settings>
+> ```
+> 
+> If we specify repositories in profiles we must remember to activate that particular profile. As we can see above we do 
+> this by registering a profile to be active in the `activeProfiles` element.
+> 
+> We could also activate this profile on the command like by executing the following command:
+> 
+> ```bash
+> mvn -Pmyprofile ...
+> ```
+> 
+> In fact the `-P` option will take a CSV list of profiles to activate if we wish to activate multiple profiles 
+> simultaneously.
+> 
+> The settings descriptor documentation can be found on the
+> [Maven Local Settings Model Website](https://maven.apache.org/maven-settings/settings.html).
+
+Remote repository URLs are queried in the following order for artifacts until one returns a valid result:
+
+1. Global settings.xml
+2. User settings.xml
+3. Local pom.xml
+4. Parent POMs, recursively
+5. Super POM
+6. effective POMs from dependency path to the artifact.
+
+For each of these locations, the repositories within the profiles are queried first in the order outlined at
+[Introduction to build profiles](https://maven.apache.org/guides/introduction/introduction-to-profiles.html).
+
+Before downloading from a repository,
+[mirrors configuration](https://maven.apache.org/guides/mini/guide-mirror-settings.html) is applied.
+
+Effective settings and local build POM, with profile taken into account, can easily be reviewed to see their
+repositories order with `mvn help:effective-settings` and mvn `help:effective-pom -Dverbose`.
 
 #### Repository Management
 
