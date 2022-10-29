@@ -1450,6 +1450,10 @@ first administrator user.
 
 ### Deploying Jenkins through Docker
 
+Running Jenkins inside Docker has a couple of advantages, for example, [setting up Jenkins agents](#creating-agents) 
+directly on EC2 host will corrupt SSL which prevent Jenkins site from being available at HTTPS; this would not be a
+problem if Jenkins is running inside a container.
+
 ```bash
 docker volume create --name jenkins-data
 docker run -d --name=jenkins -p 8080:8080 -p 50000:50000 --restart=on-failure -v jenkins-data:/var/jenkins_home jenkins/jenkins:lts-jdk11
@@ -1583,6 +1587,7 @@ to Jenkins with SSH.
 
 4. Fill in the form:
    - Kind: SSH Username with private key; 
+   - Scope: Global
    - id: jenkins
    - description: The Jenkins SSH Key 
    - username: jenkins 
@@ -2307,6 +2312,79 @@ Withe volume created, we will pull the Nexus 3 image and run the container using
 docker run -d -p 8081:8081 --name nexus -v nexus-data:/nexus-data sonatype/nexus3
 ```
 
+#### Repository Management
+
+We've seen that repositories are the containers for the components provided to our users. Creating and managing
+repositories is an essential part of our Nexus Repository configuration, since it allows us to expose more components to
+our users. It supports proxy repositories, hosted repositories and repository groups in a number of different repository
+formats.
+
+> 💡 To manage repositories select the **Repositories** item in the Repository sub menu of the **Administration** menu.
+
+The binary parts of a repository are stored in **blob stores**, which can be configured by selecting Blob Stores from
+the Repository sub menu of the Administration menu.
+
+##### Repository Types
+
+###### Proxy Repository
+
+**A repository with the type proxy, also known as a proxy repository, is a repository that is linked to a remote
+repository**. Any request for a component is verified against the local content of the proxy repository. If no local
+component is found, the request is forwarded to the remote repository. The component is then retrieved and stored
+locally in the repository manager, which acts as a cache. Subsequent requests for the same component are then fulfilled
+from the local storage, therefore eliminating the network bandwidth and time overhead of retrieving the component from
+the remote repository again.
+
+By default, the repository manager ships with the following configured proxy repositories:
+
+* **maven-central** This proxy repository accesses the Central Repository, formerly known as Maven Central. It is the
+  default component repository built into Apache Maven
+* **nuget.org-proxy** This proxy repository accesses the [NuGet Gallery](https://www.nuget.org/). It is the default
+  component repository used by the `nuget` package management tool used for .Net development.
+
+###### Hosted Repository
+
+A repository with the type hosted, also known as a **hosted repository**, is a repository that stores components in the
+repository manager as the authoritative location for these components.
+
+By default, the repository manager ships with the following configured hosted repositories:
+
+* **maven-releases** This hosted repository uses the maven2 repository format with a release version policy. It is
+  intended to be the repository where an organization publishes internal releases. We can also use this repository for
+  third-party components that are not available in external repositories and can therefore not be retrieved via a
+  configured proxy repository. Examples of these components could be commercial, proprietary libraries such as an Oracle
+  JDBC driver that may be referenced by the organization.
+* **maven-snapshots** This hosted repository uses the maven2 repository format with a snapshot version policy. It is
+  intended to be the repository where the organization publishes internal development versions, also known as snapshots.
+* **nuget-hosted**  This hosted repository is where the organization can publish internal releases in repository using
+  the nuget repository format. We can also use this repository for third-party components that are not available in
+  external repositories, that could potentially be proxied to gain access to the components.
+
+###### Repository Group
+
+A repository with the type group, also known as **repository group**, represents a powerful feature of Nexus Repository
+Manager. They allow us to combine multiple repositories and other repository groups in a single repository. This in turn
+means that our users can rely on a single URL for their configuration needs, while the administrators can add more
+repositories and therefore components to the repository group.
+
+> ⚠️ When a user is given a privilege to a group repository, then that user will also have that privilege to all
+> transitive members of that group repository **only when their request is directed to the group repository**. Direct
+> requests to individual member repositories will only work if the user is given explicit permission to the individual
+> repository.
+
+The repository manager ships with the following groups:
+
+* **maven-public** The maven-public group is a repository group of maven2 formatted repositories and combines the
+  important **external proxy repository for the Central Repository** with the hosted repositories **maven-releases** and
+  maven-snapshots. This allows us to _expose the components of the Central Repository as well as our internal
+  components in one single, simple-to-use repository_ and therefore URL.
+* **nuget-group** This group combines the nuget formatted repositories nuget-hosted and nuget.org-proxy into a single
+  repository for .Net development with NuGet.
+
+##### Managing Repositories and Repository Groups
+
+TBA
+
 #### Setting Up Maven Repositories
 
 Historically Nexus Repository Manager started as a repository manager supporting the Maven repository format and it 
@@ -2651,78 +2729,53 @@ Before downloading from a repository,
 Effective settings and local build POM, with profile taken into account, can easily be reviewed to see their
 repositories order with `mvn help:effective-settings` and mvn `help:effective-pom -Dverbose`.
 
-#### Repository Management
+#### Setting Up Docker Registry
 
-We've seen that repositories are the containers for the components provided to our users. Creating and managing 
-repositories is an essential part of our Nexus Repository configuration, since it allows us to expose more components to 
-our users. It supports proxy repositories, hosted repositories and repository groups in a number of different repository 
-formats.
+Docker containers and their usage have revolutionized the way applications and the underlying operating system are 
+packaged and deployed to development, testing and production systems. The creation of the [Open Container Initiative]
+(https://opencontainers.org/), and the involvement of a large number of stakeholders, guarantees that the ecosystem of 
+tools around the lightweight containers and their usage will continue to flourish.
+[Docker Hub](https://hub.docker.com/) is the original registry for Docker container images and it is being joined by
+more and more other publicly available registries such as the
+[Google Container Registry](https://cloud.google.com/container-registry/) and others.
 
-> 💡 To manage repositories select the **Repositories** item in the Repository sub menu of the **Administration** menu.
+Nexus Repository Manager OSS support Docker registries as the Docker repository format for **hosted** and **proxy** 
+repositories. We can expose these repositories to the client-side tools directly or as a
+[repository group](#repository-group), which is a repository that merges and exposes the contents of multiple 
+repositories in one convenient URL. This allows us to reduce time and bandwidth usage for accessing Docker images in a 
+registry as well as share our images within our organization in a hosted repository. Users can then launch containers 
+based on those images, resulting in a completely private Docker registry with all the features available in the 
+repository manager.
 
-The binary parts of a repository are stored in **blob stores**, which can be configured by selecting Blob Stores from
-the Repository sub menu of the Administration menu.
+##### Docker Port Scalability
 
-##### Repository Types
+The Docker client has strict requirements about how it can retrieve content from a repository (i.e., a registry). These 
+requirements mainly center around the path at which it expects everything to be hosted.
 
-###### Proxy Repository
+While it is possible to tell the Docker client to use a chosen host from which to retrieve (or to which to upload) 
+images, it is not possible to tell it to use an arbitrary base path where images are stored in a registry.
 
-**A repository with the type proxy, also known as a proxy repository, is a repository that is linked to a remote 
-repository**. Any request for a component is verified against the local content of the proxy repository. If no local 
-component is found, the request is forwarded to the remote repository. The component is then retrieved and stored
-locally in the repository manager, which acts as a cache. Subsequent requests for the same component are then fulfilled 
-from the local storage, therefore eliminating the network bandwidth and time overhead of retrieving the component from 
-the remote repository again.
+To further explain, the Docker client is given a registry to contact by specifying only the hostname + port. It's also 
+given a specific path to an image in that registry. So, for example, it would be given
+"**example:443/some/custom/image**" to specify an image. You are not able to specify a registry application path.
 
-By default, the repository manager ships with the following configured proxy repositories:
+Nexus Repository exposes its Docker registries with a repository path of "/repository/<repo_name>/" and, by default, and 
+application context path of "/".
 
-* **maven-central** This proxy repository accesses the Central Repository, formerly known as Maven Central. It is the 
-  default component repository built into Apache Maven
-* **nuget.org-proxy** This proxy repository accesses the [NuGet Gallery](https://www.nuget.org/). It is the default 
-  component repository used by the `nuget` package management tool used for .Net development.
+So, a full Docker image in the repository "docker-hosted" might be accessible at full URL
+"example:443/nexus3/repository/docker-hosted/some/custom/image", which can be broken down as follows:
 
-###### Hosted Repository
+* **example.com** = host name
+* **443** = port
+* /nexus3 = application context path
+* /repository/docker-hosted = base registry path
+* **/some/custom/image** = specific image path in the registry
 
-A repository with the type hosted, also known as a **hosted repository**, is a repository that stores components in the 
-repository manager as the authoritative location for these components.
+There is no way to give the Docker client the application context path or base registry path. Docker needs the registry 
+exposed at the root of the host + port that it is accessing.
 
-By default, the repository manager ships with the following configured hosted repositories:
-
-* **maven-releases** This hosted repository uses the maven2 repository format with a release version policy. It is 
-  intended to be the repository where an organization publishes internal releases. We can also use this repository for 
-  third-party components that are not available in external repositories and can therefore not be retrieved via a 
-  configured proxy repository. Examples of these components could be commercial, proprietary libraries such as an Oracle 
-  JDBC driver that may be referenced by the organization.
-* **maven-snapshots** This hosted repository uses the maven2 repository format with a snapshot version policy. It is 
-  intended to be the repository where the organization publishes internal development versions, also known as snapshots.
-* **nuget-hosted**  This hosted repository is where the organization can publish internal releases in repository using 
-  the nuget repository format. We can also use this repository for third-party components that are not available in 
-  external repositories, that could potentially be proxied to gain access to the components.
-
-###### Repository Group
-
-A repository with the type group, also known as **repository group**, represents a powerful feature of Nexus Repository 
-Manager. They allow us to combine multiple repositories and other repository groups in a single repository. This in turn 
-means that our users can rely on a single URL for their configuration needs, while the administrators can add more 
-repositories and therefore components to the repository group.
-
-> ⚠️ When a user is given a privilege to a group repository, then that user will also have that privilege to all 
-> transitive members of that group repository **only when their request is directed to the group repository**. Direct 
-> requests to individual member repositories will only work if the user is given explicit permission to the individual 
-> repository.
-
-The repository manager ships with the following groups:
-
-* **maven-public** The maven-public group is a repository group of maven2 formatted repositories and combines the 
-  important **external proxy repository for the Central Repository** with the hosted repositories **maven-releases** and 
-  maven-snapshots. This allows us to _expose the components of the Central Repository as well as our internal
-  components in one single, simple-to-use repository_ and therefore URL.
-* **nuget-group** This group combines the nuget formatted repositories nuget-hosted and nuget.org-proxy into a single 
-  repository for .Net development with NuGet.
-
-##### Managing Repositories and Repository Groups
-
-TBA
+This is important because Nexus Repository uses request paths to separate content between different repositories. There 
+are a few potential ways to overcome this Docker limitation:
 
 #### Access Control
 
