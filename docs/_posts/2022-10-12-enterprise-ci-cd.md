@@ -1604,6 +1604,29 @@ When Jenkins was installed on Jenkins Controller EC2, a "**jenkins**" user has b
 /var/lib/jenkins on the Controller, we will copy our key pair credential to this user so Jenkins controller can use the
 key pair to ssh agent node with this "jenkins" user:
 
+> 💡 If Jenkins is running inside [container](https://github.com/jenkinsci/docker/blob/master/README.md), we should 
+> enter container using this command:
+> 
+> ```bash
+> docker exec -u 0 -it jenkins-container-name bash
+> ```
+> 
+> instead of regular
+> 
+> ```bash
+> docker exec -it jenkins-container-name bash
+> ```
+> 
+> otherwise we will enter as 'jenkins' user:
+> 
+> ```
+> $ docker exec -it jenkins bash
+> jenkins@4fh7irw45hr:/$ whoami
+> jenkins
+> ```
+> 
+> This user does not have enough privileges to execute commands mentioned below.
+
 ```bash
 sudo mkdir -p /var/lib/jenkins/.ssh
 sudo mv ~/.ssh/jenkins_agent_key ~/.ssh/jenkins_agent_key.pub /var/lib/jenkins/.ssh/
@@ -1611,6 +1634,17 @@ sudo mv ~/.ssh/jenkins_agent_key ~/.ssh/jenkins_agent_key.pub /var/lib/jenkins/.
 sudo chown -R jenkins /var/lib/jenkins
 sudo chown -R jenkins /var/lib/jenkins/.ssh
 sudo chmod 700 /var/lib/jenkins/.ssh
+```
+
+> 💡 The commands above, in the case of Docker container, becomes
+> 
+> ```bash
+> mkdir -p /var/lib/jenkins/.ssh
+> mv /var/jenkins_home/.ssh/jenkins_agent_key /var/jenkins_home/.ssh/jenkins_agent_key.pub /var/lib/jenkins/.ssh/
+> 
+> chown -R jenkins /var/lib/jenkins
+> chown -R jenkins /var/lib/jenkins/.ssh
+> chmod 700 /var/lib/jenkins/.ssh
 ```
 
 Next, **from the agent node's EC2 terminal**, switch to the root user and add a jenkins user with the home 
@@ -1621,9 +1655,10 @@ sudo su
 useradd -d /var/lib/jenkins jenkins
 ```
 
-**From the Jenkins controller EC2 terminal**, copy the **/var/lib/jenkins/.ssh/id_rsa.pub** key from the "jenkins" user.
+**From the Jenkins controller EC2 terminal**, copy the **/var/lib/jenkins/.ssh/jenkins_agent_key.pub** key from the 
+"jenkins" user.
 
-**In the agent node's EC2 terminal, create an **authorized_keys** file for the "jenkins" user:
+In the **agent** node's EC2 terminal, create an **authorized_keys** file for the "jenkins" user:
 
 ```bash
 sudo mkdir -p /var/lib/jenkins/.ssh
@@ -1721,7 +1756,7 @@ container:
    - usage: **Only build jobs with label expression matching this node**
    - Launch method: **Launch agents via SSH**
      * Host: the **Private IPv4 addresses** of the EC2 instance running the agent 
-     * Credentials: **jenkins**
+     * Credentials: [**jenkins**](#load-jenkins-credential)
      * Host Key verification Strategy: **Manually trusted key verification Strategy**
      * Hit "**Advanced...**" and put **4444** as the port number because we have
        [mapped container SSH port 22 to 4444 on EC2 host](#creating-jenkins-agent-using-docker)
@@ -1745,6 +1780,10 @@ pretty conveniently (although we would have to worry about complications by reso
 deal in this context). 
 
 To do that, **we simply change the port number from 4444 back to 22** and that's it!
+
+1. Change the port number from 4444 back to 22
+2. Install Java 11: `sudo apt install openjdk-11-jre`
+3. Have the EC2 instance running agent configure network so that it allows SSH access from Jenkins controller to agent.
 
 ### Executors
 
