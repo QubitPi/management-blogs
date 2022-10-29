@@ -1477,9 +1477,6 @@ docker run -d --name=jenkins -p 8080:8080 -p 50000:50000 --restart=on-failure -v
 * "jenkins_home" [docker volume](https://qubitpi.github.io/jersey-guide/finalized/2022/10/24/docker-basics.html#volumes) 
   on the host machine. Docker volumes retain their content even when the container is stopped, started, or deleted.
 
-#### Backing Up Data
-
-
 
 Jenkins Reference Guide
 -----------------------
