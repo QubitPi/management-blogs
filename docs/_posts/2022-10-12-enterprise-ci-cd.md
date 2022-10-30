@@ -1781,6 +1781,7 @@ To do that, **we simply change the port number from 4444 back to 22** and that's
 1. Change the port number from 4444 back to 22
 2. Install Java 11: `sudo apt install openjdk-11-jre`
 3. Have the EC2 instance running agent configure network so that it allows SSH access from Jenkins controller to agent.
+4. [Allow Jenkins Controller SSH access](#allow-jenkins-controller-to-ssh-passwordless-into-agent-node)
 
 ### Executors
 
