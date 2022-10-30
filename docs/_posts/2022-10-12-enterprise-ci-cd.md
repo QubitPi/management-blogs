@@ -1626,7 +1626,7 @@ key pair to ssh agent node with this "jenkins" user:
 
 ```bash
 sudo mkdir -p /var/lib/jenkins/.ssh
-sudo mv ~/.ssh/jenkins_agent_key ~/.ssh/jenkins_agent_key.pub /var/lib/jenkins/.ssh/
+sudo cp ~/.ssh/jenkins_agent_key ~/.ssh/jenkins_agent_key.pub /var/lib/jenkins/.ssh/
 
 sudo chown -R jenkins /var/lib/jenkins
 sudo chown -R jenkins /var/lib/jenkins/.ssh
@@ -1637,7 +1637,7 @@ sudo chmod 700 /var/lib/jenkins/.ssh
 > 
 > ```bash
 > mkdir -p /var/lib/jenkins/.ssh
-> mv /var/jenkins_home/.ssh/jenkins_agent_key /var/jenkins_home/.ssh/jenkins_agent_key.pub /var/lib/jenkins/.ssh/
+> cp /var/jenkins_home/.ssh/jenkins_agent_key /var/jenkins_home/.ssh/jenkins_agent_key.pub /var/lib/jenkins/.ssh/
 > 
 > chown -R jenkins /var/lib/jenkins
 > chown -R jenkins /var/lib/jenkins/.ssh
@@ -2168,6 +2168,12 @@ choose the trigger of your choice.
 
 That's it! Our GitHub repository has integrated with our Jenkins project. With this Jenkins GitHub integration, we can
 now use any file found in the GitHub repository and trigger the Jenkins job to run with every code commit.
+
+#### Access Private GitHub Repository From Jenkins
+
+
+
+
 
 
 Additional Jenkins Resources
