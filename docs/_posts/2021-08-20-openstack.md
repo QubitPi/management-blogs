@@ -31,6 +31,14 @@ install some or all services.
 > housing, operating and maintaining it. The client typically pays on a per-use basis. IaaS is a model for providing
 > cloud services.
 
+
+OpenStack Use Cases
+-------------------
+
+* [How Yahoo! Uses Neutron for Ironic](https://www.openstack.org/videos/summits/tokio-2015/how-yahoo-uses-neutron-for-ironic)
+* [Yahoo Engineering - Operating OpenStack at Scale](https://yahooeng.tumblr.com/post/159795571841/operating-openstack-at-scale)
+
+
 Hypervisor Baiscs
 -----------------
 
@@ -594,12 +602,6 @@ for recovery scenarios.
 
 **To be continued...**
 
-Use Cases (Learn from Others)
------------------------------
-
-* [How Yahoo! Uses Neutron for Ironic](https://www.openstack.org/videos/summits/tokio-2015/how-yahoo-uses-neutron-for-ironic)
-* [Yahoo Engineering - Operating OpenStack at Scale](https://yahooeng.tumblr.com/post/159795571841/operating-openstack-at-scale)
-
 
 Object Storage (Swift)
 ----------------------
@@ -754,10 +756,23 @@ made to one of the storage nodes to fetch the object and, if that fails, request
 
 ### Install Guide
 
-> 💡 As a good starting point, [a single-node docker image](https://github.com/FNNDSC/docker-swift-onlyone) will make it 
-> easy for developers to get used to using object storage instead of a file system, and when they need the eventual 
-> consistency and multiple replicas provided by a larger OpenStack Swift cluster they can work on implementing that by 
-> following this section. One replica is not an issue in small systems or for a proof-of-concept because it can just be 
-> backed up.
+> 💡 As a good starting point, [a single-node docker image](https://github.com/paion-data/docker-swift-onlyone) will
+> make it easy for developers to get used to using object storage instead of a file system, and when they need the
+> eventual consistency and multiple replicas provided by a larger OpenStack Swift cluster they can work on implementing 
+> that by following this section. One replica is not an issue in small systems or for a proof-of-concept because it can 
+> just be backed up.
+> 
+> Its Dockerfile uses [supervisord](http://supervisord.org/) to manage the processes. The most idiomatic way to use
+> docker is one container one service, but in this particular Dockerfile we will be starting several services in the 
+> container, such as rsyslog, memcached, and all the required OpenStack Swift daemons (of which there are quite a few).
+> So in this case we're using Docker more as a role-based system, and the roles are both a Swift proxy and Swift
+> storage, ie. a Swift "onlyone."" All of the required Swift services are running in this one container.
+> 
+> To use this container:
+> 
+> ```bash
+> docker volume create swift-data
+> docker run -d --name swift -p 12345:8080 -v swift-data:/srv -t fnndsc/docker-swift-onlyone
+> ```
 
 Structurally, a full-fledged Swift cluster includes the following components:
