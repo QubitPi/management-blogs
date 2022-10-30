@@ -2176,28 +2176,83 @@ now use any file found in the GitHub repository and trigger the Jenkins job to r
 
 #### Access Private GitHub Repository From Jenkins
 
-You can launch projects from a repository on GitHub.com to your server by using a deploy key, which is an SSH key that grants access to a single repository. GitHub attaches the public part of the key directly to your repository instead of a personal account, and the private part of the key remains on your server. For more information, see "Delivering deployments."
+You can "git clone" a private repository on GitHub.com to our Jenkins Node server by using a **deploy key**, which is an SSH key that grants access to a single repository. GitHub attaches the public part of the key directly to the private repository instead of a personal account, and the private part of the key remains on the Jenkins Node server. For more information, see "[Delivering deployments](https://docs.github.com/en/rest/guides/delivering-deployments)".
 
+Deploy keys with write access can perform the same actions as an organization member with admin access, or a collaborator on a personal repository. 
+
+**Pros**
+
+* Anyone with access to the repository and server has the ability to deploy the project.
+* Users don't have to change their local SSH settings.
+* Deploy keys are read-only by default, but we can give them write access when adding them to a repository.
+
+**Cons**
+
+* Deploy keys only grant access to a single repository. More complex projects may have many repositories to pull to the same server.
+* Deploy keys are usually not protected by a passphrase, making the key easily accessible if the server is compromised.
+
+##### Generate SSH Key Pair of Jenkins Agent Node
+
+```bash
 ssh-keygen
+```
 
+> Note that the key pair must be "id_rsa" and "id_rsa.pub"; we will explain that later
 
+##### Add Public Key as Deploy Key to GitHub Private Repository
 
+Navigate to the private repository UI on GitHub, from there, From the repository, click **Settings**.
 
+![Error loading repo-settings.png]({{ "/assets/img/repo-settings.png" | relative_url}})
 
-docker exec -it -u 0 jenkins bash
+In the sidebar, click **Deploy Keys**, then click **Add deploy key**.
 
-cd /var/jenkins_home/.ssh/
-cp jenkins_agent_key id_rsa
-cp jenkins_agent_key.pub id_rsa.pub
-chown -R jenkins /var/jenkins_home/.ssh/
+![Error loading add-deploy-key.png]({{ "/assets/img/add-deploy-key.png" | relative_url}})
 
-> ssh -T git@github.com -v
+Provide a title, paste in the public key (File content of `id_rsa.pub` we generated in previous step).
 
+![Error loading deploy-key.png]({{ "/assets/img/deploy-key.png" | relative_url}})
 
-add new credential 
+> Make sure the pasted content in the text box ends with
+> an empty line
+> 
+> Select **Allow write access** if we want this key to have write access to the repository. A deploy key with write access lets a deployment push to the repository.
 
+Click **Add key**.
+
+##### Load Key Pair on Jenkins Agent Node
+
+Since Jenkins agent runs under "jenkins" user, we muat let this user own the [key pair we just generated](#generate-ssh-key-pair-of-jenkins-agent-node)
+
+We need to make sure "jenkins" user exits on this agent node first. If it's not there, we will do
+
+```bash
+sudo su
+useradd -d /var/lib/jenkins jenkins
+sudo mkdir -p /var/lib/jenkins/.ssh
+```
+
+Note that if we've already gone through the [controller-agent setup process](#allow-jenkins-controller-to-ssh-passwordless-into-agent-node), the 3 commands above will not need to be run.
+
+Now we will load the Key pair onto "jenkins" user:
+
+```bash
+cd ~/.ssh
+sudo cp id_rsa id_rsa.pub /var/lib/jenkins/.ssh/
+
+sudo chown -R jenkins /var/lib/jenkins
+sudo chown -R jenkins /var/lib/jenkins/.ssh
+sudo chmod 700 /var/lib/jenkins/.ssh
+```
+
+As the last step, we will manually verify ssh GitHub host 
+keys using
+
+```bash
 sudo su -s /bin/bash jenkins
+cd ~
 ssh -T git@github.com
+```
 
 
 Additional Jenkins Resources
@@ -2210,8 +2265,8 @@ Additional Jenkins Resources
 Deploying Docker Registry
 -------------------------
 
-The Registry is a stateless, highly scalable server side application that stores and lets you distribute Docker images. 
-The Registry is open-source, under the permissive Apache license. You can find the source code on GitHub.
+The Registry is a stateless, highly scalable server side application that stores and lets us distribute Docker images. 
+The Registry is open-source, under the permissive Apache license. We can find the source code on GitHub.
 
 > **Difference Between Docker Hub and Docker Registry**
 > 
@@ -2219,7 +2274,7 @@ The Registry is open-source, under the permissive Apache license. You can find t
 > Hub is for public use and the default repository, anyone can fetch and pull the Images using the "docker pull"
 > command.
 > 
-> **Registry** is the feature provided by the Docker to create your own **private** repository for storing the Images. 
+> **Registry** is the feature provided by the Docker to create our own **private** repository for storing the Images. 
 > Other systems on the network can access the repository using the valid credentials. Registry provides security as only 
 > the limited users within the organiztion will have access of the same.
 
@@ -2357,8 +2412,8 @@ The requirements assume there are no other significant memory hungry processes r
 normal to have multiple application directories installed on the same host over time as repository manager is upgraded.
 
 **Data Directory** - On first start, repository manager creates the base files needed to operate. The bulk of disk space 
-will be held by your deployed and proxied artifacts, as well as any search indexes. This is highly installation
-specific, and will be dependent on the repository formats used, the number of artifacts stored, the size of your teams 
+will be held by our deployed and proxied artifacts, as well as any search indexes. This is highly installation
+specific, and will be dependent on the repository formats used, the number of artifacts stored, the size of our teams 
 and projects, etc.  It's best to plan for a lot though, formats like Docker and Maven can use very large amounts of 
 storage (500Gb easily).  **When available disk space drops below 4GB the database will switch to read-only mode**.
 
@@ -2481,7 +2536,7 @@ and retrieve software components on-demand from a repository.
 
 ###### The Central Repository
 
-When you download and install Maven without any customization, it retrieves components from the Central Repository. It 
+When we download and install Maven without any customization, it retrieves components from the Central Repository. It 
 serves millions of Maven users every single day. It is the default, built-in repository using the Maven repository format 
 and is _managed by Sonatype_. We can also view statistics about the size of the Central Repository
 [online](https://search.maven.org/stats).
@@ -2588,7 +2643,7 @@ Every repository has one of the 3 **version policies** configured:
   actual number used is composed of a date/timestamp and an enumerator and the retrieval can still use the -SNAPSHOT 
   version string. The repository manager and client tools manage the metadata files that manage this translation from
   the snapshot version to the timestamp value.
-* **Mixed** The Mixed version policy allows you to support both approaches within one repository.
+* **Mixed** The Mixed version policy allows us to support both approaches within one repository.
 
 ##### Hosting Maven Repositories
 
@@ -2824,7 +2879,7 @@ images, it is not possible to tell it to use an arbitrary base path where images
 
 To further explain, the Docker client is given a registry to contact by specifying only the hostname + port. It's also 
 given a specific path to an image in that registry. So, for example, it would be given
-"**example:443/some/custom/image**" to specify an image. You are not able to specify a registry application path.
+"**example:443/some/custom/image**" to specify an image. We are not able to specify a registry application path.
 
 Nexus Repository exposes its Docker registries with a repository path of "/repository/<repo_name>/" and, by default, and 
 application context path of "/".
@@ -2874,7 +2929,7 @@ order the realms are used.
 
 * **Local Authenticating Realm and Local Authorizing Realm** These are the built-in realms used by default. They allow 
   the repository manager to manage security setup without additional external systems. Sonatype recommends keeping the 
-  Local realms at the top of the active list.  In the event of system recovery, if you have them lower in the order (or 
+  Local realms at the top of the active list.  In the event of system recovery, if we have them lower in the order (or 
   removed), restoration may be more difficult.
 
 ##### Privileges
