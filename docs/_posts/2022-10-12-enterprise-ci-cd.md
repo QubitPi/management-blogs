@@ -1672,10 +1672,34 @@ sudo chmod 600 /var/lib/jenkins/.ssh/authorized_keys
 sudo chmod 700 /var/lib/jenkins/.ssh
 ```
 
-##### Creating Jenkins Agent Using Docker
+##### Creating Jenkins Agent
 
-As we said earlier, there are several options to run agent and we choose one of them which is Docker image. With that
-being said, here is one important caveat to remember:
+As we said earlier, there are several options to run agent and we choose one of them which is _running the agent
+directly on EC2 host_.
+
+Now recall that [agent is simply a process running on a node](#agents), we could simply not run the agent in a
+container, but on EC2 host directly. So that our Jenkinsfile or deploy script could share and pick up the same resources
+pretty conveniently (although we would have to worry about complications by resource sharing, but that's not a bit
+deal in this context).
+
+To do that, **we simply change the port number from 4444 back to 22** and that's it!
+
+1. Change the port number from 4444 back to 22
+2. Install Java 11: `sudo apt install openjdk-11-jre`
+3. Have the EC2 instance running agent configure network so that it allows SSH access from Jenkins controller to agent.
+4. [Allow Jenkins Controller SSH access](#allow-jenkins-controller-to-ssh-passwordless-into-agent-node)
+
+###### Running Agent Inside Docker Container
+
+We could also run Jenkins agent inside a Docker container.
+
+> ⚠️ Before considering this option, it should be known that this approach has at least one "drawback" - everything runs 
+> inside a container. This becomes a little issue when we would CI/CD an App that's packaged in a Docker. Even though we 
+> have our EC2 node with Docker installed, we would still need to install Docker inside agent container, because **it is 
+> the agent that's executing the deployment, not the host**. A team which heavily dockerizes its infrastructure, this is 
+> not easy to deal with.
+> 
+> On the other hand, though, running agent inside container avoids resource sharing issues
 
 > ⚠️ After Jenkins controller successfully ssh/connects to Agent Docker container, **anything, including error messages, 
 > we see in Jenkins Agent Log are from _container_, NOT agent node itself**. For example, when we see from log that says 
@@ -1748,6 +1772,7 @@ container:
 4. Go to **New Node** option in side menu;
 5. Fill the Node/agent name (such as "Awesome App Agent") and select the type of **Permanent Agent**
 6. Now fill the fields in the next page prompted:
+
    - Remote root directory: **/var/lib/jenkins**
    - label: can be arbitrary 
    - usage: **Only build jobs with label expression matching this node**
@@ -1755,33 +1780,15 @@ container:
      * Host: the **Private IPv4 addresses** of the EC2 instance running the agent 
      * Credentials: [**jenkins**](#load-jenkins-credential)
      * Host Key verification Strategy: **Manually trusted key verification Strategy**
-     * Hit "**Advanced...**" and put **4444** as the port number because we have
-       [mapped container SSH port 22 to 4444 on EC2 host](#creating-jenkins-agent-using-docker)
+   
+   If we have decided to [run Jenkins agent inside Docker container](#running-agent-inside-docker-container), there is
+   an extra followup step. Hit "**Advanced...**" under **Launch method** sub-menue and put **4444** as the port number 
+   because we have [mapped container SSH port 22 to 4444 on EC2 host](#running-agent-inside-docker-container)
+
 7. Press the **Save** button and the agent will be registered. Click on it. The message: `Agent successfully connected 
    and online` on the last log line should appear short after
 
 **Congratulations**! _Jenkins controller has successfully obtained a distributed node for deployment_.
-
-##### (Optional) Run Jenkins Agent On EC2 Host Directly
-
-So far we have discussed how to run agent inside a Docker container with port forwarding from container SSH port 22 to
-EC2 host port 4444 so that Jenkins controller could ssh the agent at EC2 host port 4444. This approach has at least
-one "drawback" - everything runs inside a container. This becomes a little issue when we would CI/CD an App that's
-packaged in a Docker. Even though we have our EC2 node with Docker installed, we would still need to install Docker
-inside agent container, because **it is the agent that's executing the deployment, not the host**. A team which
-heavily dockerizes its infrastructure, this is not easy to deal with. 
-
-Now recall that [agent is simply a process running on a node](#agents), we could simply not run the agent in a
-container, but on EC2 host directly. So that our Jenkinsfile or deploy script could share and pick up the same resources
-pretty conveniently (although we would have to worry about complications by resource sharing, but that's not a bit
-deal in this context). 
-
-To do that, **we simply change the port number from 4444 back to 22** and that's it!
-
-1. Change the port number from 4444 back to 22
-2. Install Java 11: `sudo apt install openjdk-11-jre`
-3. Have the EC2 instance running agent configure network so that it allows SSH access from Jenkins controller to agent.
-4. [Allow Jenkins Controller SSH access](#allow-jenkins-controller-to-ssh-passwordless-into-agent-node)
 
 ### Executors
 
@@ -2171,9 +2178,28 @@ now use any file found in the GitHub repository and trigger the Jenkins job to r
 
 #### Access Private GitHub Repository From Jenkins
 
+You can launch projects from a repository on GitHub.com to your server by using a deploy key, which is an SSH key that grants access to a single repository. GitHub attaches the public part of the key directly to your repository instead of a personal account, and the private part of the key remains on your server. For more information, see "Delivering deployments."
+
+ssh-keygen
 
 
 
+
+
+docker exec -it -u 0 jenkins bash
+
+cd /var/jenkins_home/.ssh/
+cp jenkins_agent_key id_rsa
+cp jenkins_agent_key.pub id_rsa.pub
+chown -R jenkins /var/jenkins_home/.ssh/
+
+> ssh -T git@github.com -v
+
+
+add new credential 
+
+sudo su -s /bin/bash jenkins
+ssh -T git@github.com
 
 
 Additional Jenkins Resources
