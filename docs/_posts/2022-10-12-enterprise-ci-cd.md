@@ -1672,22 +1672,20 @@ sudo chmod 600 /var/lib/jenkins/.ssh/authorized_keys
 sudo chmod 700 /var/lib/jenkins/.ssh
 ```
 
-##### Creating Jenkins Agent
+As the last step, we need to have the EC2 instance running Jenkins agent with a network configuration that allows SSH 
+access from Jenkins controller to agent, we could do that through [Security Group](#creating-a-security-group)
+
+##### Start Jenkins Agent on Node
 
 As we said earlier, there are several options to run agent and we choose one of them which is _running the agent
 directly on EC2 host_.
 
-Now recall that [agent is simply a process running on a node](#agents), we could simply not run the agent in a
-container, but on EC2 host directly. So that our Jenkinsfile or deploy script could share and pick up the same resources
-pretty conveniently (although we would have to worry about complications by resource sharing, but that's not a bit
-deal in this context).
+It it important to know that [a Jenkins agent is simply a Java process running on a node](#agents). We will simply have
+Java 11 installed on the EC2 Node running the Jenking agent:
 
-To do that, **we simply change the port number from 4444 back to 22** and that's it!
-
-1. Change the port number from 4444 back to 22
-2. Install Java 11: `sudo apt install openjdk-11-jre`
-3. Have the EC2 instance running agent configure network so that it allows SSH access from Jenkins controller to agent.
-4. [Allow Jenkins Controller SSH access](#allow-jenkins-controller-to-ssh-passwordless-into-agent-node)
+```bash
+sudo apt install openjdk-11-jre
+```
 
 ###### Running Agent Inside Docker Container
 
