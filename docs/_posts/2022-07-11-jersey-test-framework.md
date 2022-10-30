@@ -153,6 +153,116 @@ Following is a brief description of all container factories supported in Jersey 
       <version>2.36</version>
   </dependency>
   ```
+  
+### Jersey Test with Standalone Jetty
+
+In addition to Jetty container mentioned above, integration tests could also spin up a "real" Jetty with its POM having
+
+```xml
+<!--Jetty-->
+<dependency>
+    <groupId>org.eclipse.jetty</groupId>
+    <artifactId>jetty-server</artifactId>
+    <version>9.4.8.v20171121</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.eclipse.jetty</groupId>
+    <artifactId>jetty-webapp</artifactId>
+    <version>9.4.8.v20171121</version>
+    <scope>test</scope>
+</dependency>
+```
+
+Now we will define a Jetty Server as the following:
+
+```java
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
+
+import jakarta.validation.constraints.NotNull;
+import net.jcip.annotations.Immutable;
+import net.jcip.annotations.ThreadSafe;
+
+import java.util.Objects;
+
+import javax.ws.rs.core.Application;
+
+/**
+ * {@link JettyServerFactory} is provides embedded Jersey-Jetty instances for testing purposes.
+ * <p>
+ * Note that {@link JettyServerFactory} is designed only for testing purposes. Any production uses are not assumed.
+ */
+@Immutable
+@ThreadSafe
+public final class JettyServerFactory {
+
+    /**
+     * Constructor.
+     * <p>
+     * Suppress default constructor for noninstantiability.
+     */
+    private JettyServerFactory() {
+        throw new AssertionError();
+    }
+
+    /**
+     * Returns a embedded Jersey-Jetty server for local testing purposes.
+     *
+     * @param port  The port number serving all testing requests on the embedded Jetty
+     * @param pathSpec  The common path of all API's, e.g. "/v1/*"
+     * @param resourceConfig  A Jersey subclass of JAX-RS {@link Application}
+     *
+     * @return the embedded Jetty server for local testing purposes
+     *
+     * @throws NullPointerException if {@code pathSpec} or {@code resourceConfig} is {@code null}
+     */
+    @NotNull
+    public static Server newInstance(
+            final int port,
+            final @NotNull String pathSpec,
+            final @NotNull ResourceConfig resourceConfig
+    ) {
+        Objects.requireNonNull(pathSpec);
+        Objects.requireNonNull(resourceConfig);
+        final Server server = new Server(port);
+
+        final ServletContainer servletContainer = new ServletContainer(resourceConfig);
+        final ServletHolder servletHolder = new ServletHolder(servletContainer);
+        final ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        servletContextHandler.addServlet(servletHolder, pathSpec);
+        server.setHandler(servletContextHandler);
+
+        return server;
+    }
+}
+```
+
+Then the integration tests shall programmatically obtain a programmatic standalone Jetty with:
+
+```java
+/**
+ * Spins up a Webservice instance in Jetty standalone mode.
+ *
+ * @throws IllegalStateException if an error occurs during the resource binding phase
+ */
+@NotNull
+private static void startWebservice() {
+    SYSTEM_CONFIG.setProperty(RESOURCE_BINDER_CONFIG_KEY, RESOURCE_BINDER_FACTORY);
+
+    final Server server = JettyServerFactory.newInstance(8080, "/v1/*", new ResourceConfig());
+    
+    try {
+        server.start();
+    } catch (final Exception exception) {
+        throw new IllegalStateException("Jetty server failed to start.", exception);
+    }
+}
+```
+
 
 Running TestNG Tests
 --------------------
