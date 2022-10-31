@@ -2297,6 +2297,43 @@ The original triple and the corrupted triple are added in the training batch, an
 optimizing a scoring function. At the end of the algorithm, the learned embeddings should have extracted the semantic
 meaning from the triples and should correctly unseen true facts in the knowledge graph.
 
+### RDF Concepts
+
+RDF uses the following key concepts:
+
+* [Graph data model](#graph-data-model)
+* [URI-based vocabulary](#uri-based-vocabulary-and-node-identification)
+* Datatypes
+* Literals
+* XML serialization syntax
+* Expression of simple facts
+* Entailment
+
+#### Graph Data Model
+
+The underlying structure of any expression in RDF is a collection of **triple**s, each consisting of a **subject**, a
+**predicate** and an **object**. A set of such triples is called an **RDF graph**. This can be illustrated by a node
+and directed-arc diagram, in which each triple is represented as a node-arc-node link (hence the term "graph").
+
+![Error loading rdf-triple.png!]({{ "/assets/img/rdf-triple.png" | relative_url}})
+
+Each triple represents a statement of a relationship between the things denoted by the nodes that it links. Each triple has three parts:
+
+1. a subject,
+2. an object, and
+3. a predicate (also called a property) that denotes a relationship.
+
+_The direction of the arc is significant: it always points toward the object._
+
+The nodes of an RDF graph are its subjects and objects.
+
+**The assertion of an RDF triple says that some relationship, indicated by the predicate, holds between the things
+denoted by subject and object of the triple. The assertion of an RDF graph amounts to asserting all the triples in it,
+so the meaning of an RDF graph is the conjunction (logical AND) of the statements corresponding to all the triples it
+contains**. A formal account of the meaning of RDF graphs is given in [RDF-SEMANTICS].
+
+#### URI-based Vocabulary and Node Identification
+
 ### Best Python Packages (Tools) for Knowledge Graphs
 
 A Knowledge Graph is a reusable data layer that is used to answer sophisticated queries across multiple data silos. With
