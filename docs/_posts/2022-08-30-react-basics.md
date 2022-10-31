@@ -28,6 +28,12 @@ pre-computes artifacts to achieve faster runtime performance.
 React IDE's
 ----------
 
+React from Facebook is one of the most popular web development frameworks as of today and has fast replaced PHP, Ruby, 
+Python, and Angular in many areas as frameworks of choice. Apart from React, React Native too has made its way to one of 
+the most used technologies for mobile apps development. Due to the vast popularity of the React ecosystem as a whole, 
+most of the feature-rich and popular IDE and editors have been upgraded to support React and React Native in the past 
+couple of years.
+
 ### Rekit Studio
 
 ![Error loading rekit-front-page.png]({{ "/assets/img/rekit-front-page.png" | relative_url}})
