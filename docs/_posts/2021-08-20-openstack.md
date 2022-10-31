@@ -776,3 +776,10 @@ made to one of the storage nodes to fetch the object and, if that fails, request
 > ```
 
 Structurally, a full-fledged Swift cluster includes the following components:
+
+
+Additional Resources
+--------------------
+
+* [**JOSS**](http://javaswift.org/) Dedicated Java binding for accessing the Swift REST API.
+* [Swift REST API examples](https://gist.github.com/drewkerrigan/2876196)
