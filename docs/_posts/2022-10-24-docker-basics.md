@@ -3,7 +3,7 @@ layout: post
 title: Docker Basics
 tags: [Docker, Virtualization]
 category: FINALIZED
-color: rgb(43, 164, 78)
+color: rgb(37, 150, 236)
 feature-img: "assets/img/post-cover/32-cover.png"
 thumbnail: "assets/img/post-cover/32-cover.png"
 author: QubitPi
