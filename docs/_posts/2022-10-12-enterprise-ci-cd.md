@@ -2139,11 +2139,10 @@ repository.
 Integrate Jenkins with GitHub through Webhooks
 ----------------------------------------------
 
-This approach  for most enterprise GitHub repos (i.e. private repos).
+This approach works great for most enterprise GitHub repos (i.e. private repos), whose CI/CD logics are not publicly
+visible
 
-* CI/CD logics doesn't shown 
-
-### Configuring GitHub
+### Step 1 - Configuring Webhook on GitHub
 
 **Step 1**: go to your GitHub repository and click on "**Settings**".
 
@@ -2166,7 +2165,95 @@ checked and click on "**Add webhook**".
 
 We're done with the configuration on GitHub’s side! Now let's move on to Jenkins.
 
-### Configuring Jenkins
+### Step 2 - Allow Access Private GitHub Repository From Jenkins
+
+You can "git clone" a private repository on GitHub.com to our Jenkins Node server by using a **deploy key**, which is an 
+SSH key that grants access to a single repository. GitHub attaches the public part of the key directly to the private 
+repository instead of a personal account, and the private part of the key remains on the Jenkins Node server. For more 
+information, see "[Delivering deployments](https://docs.github.com/en/rest/guides/delivering-deployments)".
+
+Deploy keys with write access can perform the same actions as an organization member with admin access, or a
+collaborator on a personal repository.
+
+**Pros**
+
+* Anyone with access to the repository and server has the ability to deploy the project.
+* Users don't have to change their local SSH settings.
+* Deploy keys are read-only by default, but we can give them write access when adding them to a repository.
+
+**Cons**
+
+* Deploy keys only grant access to a single repository. More complex projects may have many repositories to pull to the same server.
+* Deploy keys are usually not protected by a passphrase, making the key easily accessible if the server is compromised.
+
+#### Generate and Load SSH Key Pair on Jenkins Agent Node
+
+Since Jenkins agent runs under "jenkins" user, we muat let this user own the
+[key pair we just generated](#generate-ssh-key-pair-of-jenkins-agent-node)
+
+We need to make sure "jenkins" user exits on this agent node first. If it's not there, we will do
+
+```bash
+sudo su
+useradd -d /var/lib/jenkins jenkins
+sudo mkdir -p /var/lib/jenkins/.ssh
+```
+
+Note that if we've already gone through the [controller-agent setup process](#allow-jenkins-controller-to-ssh-passwordless-into-agent-node), the 3 commands above will not need to be run.
+
+Now we will generate and load the Key pair onto "jenkins" user:
+
+```bash
+ssh-keygen
+```
+
+> Note that the key pair must be "id_rsa" and "id_rsa.pub"; we will explain that later
+
+```bash
+cd ~/.ssh
+sudo cp id_rsa id_rsa.pub /var/lib/jenkins/.ssh/
+
+sudo chown -R jenkins /var/lib/jenkins
+sudo chown -R jenkins /var/lib/jenkins/.ssh
+sudo chmod 700 /var/lib/jenkins/.ssh
+```
+
+#### Add Public Key as Deploy Key to GitHub Private Repository
+
+Navigate to the private repository UI on GitHub, from there, From the repository, click **Settings**.
+
+![Error loading repo-settings.png]({{ "/assets/img/repo-settings.png" | relative_url}})
+
+In the sidebar, click **Deploy Keys**, then click **Add deploy key**.
+
+![Error loading add-deploy-key.png]({{ "/assets/img/add-deploy-key.png" | relative_url}})
+
+Provide a title, paste in the public key (File content of `id_rsa.pub` we generated in previous step).
+
+![Error loading deploy-key.png]({{ "/assets/img/deploy-key.png" | relative_url}})
+
+> Make sure the pasted content in the text box ends with
+> an empty line
+>
+> Select **Allow write access** if we want this key to have write access to the repository. A deploy key with write access lets a deployment push to the repository.
+
+Click **Add key**.
+
+#### Complete Key Verification on Agent Node
+
+As the last step, we will manually verify ssh GitHub host keys using
+
+```bash
+sudo su -s /bin/bash jenkins
+cd ~
+ssh -T git@github.com
+```
+
+> 📋 If we look at verbose output of the last command using `ssh -T git@github.com` we will see why the aforementioned 
+> `ssh-keygen` command must be required to generate the fixed name of "id_rsa" and "id_rsa.pub", which turns out are
+> picked up as hard-coded name.
+
+### Step 3 - Configuring Jenkins Job
 
 **Step 5**: In Jenkins, click on "**New Item**" to create a new project.
 
@@ -2191,86 +2278,6 @@ choose the trigger of your choice.
 
 That's it! Our GitHub repository has integrated with our Jenkins project. With this Jenkins GitHub integration, we can
 now use any file found in the GitHub repository and trigger the Jenkins job to run with every code commit.
-
-##### Load Key Pair on Jenkins Agent Node
-
-Since Jenkins agent runs under "jenkins" user, we muat let this user own the [key pair we just generated](#generate-ssh-key-pair-of-jenkins-agent-node)
-
-We need to make sure "jenkins" user exits on this agent node first. If it's not there, we will do
-
-```bash
-sudo su
-useradd -d /var/lib/jenkins jenkins
-sudo mkdir -p /var/lib/jenkins/.ssh
-```
-
-Note that if we've already gone through the [controller-agent setup process](#allow-jenkins-controller-to-ssh-passwordless-into-agent-node), the 3 commands above will not need to be run.
-
-Now we will load the Key pair onto "jenkins" user:
-
-```bash
-cd ~/.ssh
-sudo cp id_rsa id_rsa.pub /var/lib/jenkins/.ssh/
-
-sudo chown -R jenkins /var/lib/jenkins
-sudo chown -R jenkins /var/lib/jenkins/.ssh
-sudo chmod 700 /var/lib/jenkins/.ssh
-```
-
-As the last step, we will manually verify ssh GitHub host
-keys using
-
-```bash
-sudo su -s /bin/bash jenkins
-cd ~
-ssh -T git@github.com
-```
-
-#### Access Private GitHub Repository From Jenkins
-
-You can "git clone" a private repository on GitHub.com to our Jenkins Node server by using a **deploy key**, which is an SSH key that grants access to a single repository. GitHub attaches the public part of the key directly to the private repository instead of a personal account, and the private part of the key remains on the Jenkins Node server. For more information, see "[Delivering deployments](https://docs.github.com/en/rest/guides/delivering-deployments)".
-
-Deploy keys with write access can perform the same actions as an organization member with admin access, or a collaborator on a personal repository. 
-
-**Pros**
-
-* Anyone with access to the repository and server has the ability to deploy the project.
-* Users don't have to change their local SSH settings.
-* Deploy keys are read-only by default, but we can give them write access when adding them to a repository.
-
-**Cons**
-
-* Deploy keys only grant access to a single repository. More complex projects may have many repositories to pull to the same server.
-* Deploy keys are usually not protected by a passphrase, making the key easily accessible if the server is compromised.
-
-##### Generate SSH Key Pair of Jenkins Agent Node
-
-```bash
-ssh-keygen
-```
-
-> Note that the key pair must be "id_rsa" and "id_rsa.pub"; we will explain that later
-
-##### Add Public Key as Deploy Key to GitHub Private Repository
-
-Navigate to the private repository UI on GitHub, from there, From the repository, click **Settings**.
-
-![Error loading repo-settings.png]({{ "/assets/img/repo-settings.png" | relative_url}})
-
-In the sidebar, click **Deploy Keys**, then click **Add deploy key**.
-
-![Error loading add-deploy-key.png]({{ "/assets/img/add-deploy-key.png" | relative_url}})
-
-Provide a title, paste in the public key (File content of `id_rsa.pub` we generated in previous step).
-
-![Error loading deploy-key.png]({{ "/assets/img/deploy-key.png" | relative_url}})
-
-> Make sure the pasted content in the text box ends with
-> an empty line
-> 
-> Select **Allow write access** if we want this key to have write access to the repository. A deploy key with write access lets a deployment push to the repository.
-
-Click **Add key**.
 
 
 Additional Jenkins Resources
