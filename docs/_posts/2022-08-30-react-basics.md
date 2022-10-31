@@ -512,7 +512,7 @@ root.render(<Garage />);
 
 #### React State
 
-> ⚠️ In order React code bases, class components were primarily used. The React state was initially intended to be used
+> ⚠️ In older React code bases, class components were primarily used. The React state was initially intended to be used
 > in class components. Since React 16.8, it was suggested to use function components along with [Hooks](#react-hooks).
 > Thus this section serves as preliminary concept discussion with no expected hands-on applications
 
