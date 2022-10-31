@@ -1867,7 +1867,7 @@ The [Security Realm](#security-realm), or authentication, indicates _who_ can ac
 piece of the puzzle is Authorization, which indicates _what_ they can access in the Jenkins environment. By default 
 Jenkins supports a few different Authorization options:
 
-> 💡 The "Configure Global Security" section of the web UI allows a Jenkins administrator to configure authorization 
+> 💡 The "**Configure Global Security**" section of the web UI allows a Jenkins administrator to configure authorization 
 > features
 > 
 > ![Error loading jenkins-configure-global-security.png]({{ "/assets/img/jenkins-configure-global-security.png" | relative_url}})
