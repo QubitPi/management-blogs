@@ -52,7 +52,7 @@ Check out more about Rekit here at - [Rekit IDE for React](https://rekit.js.org/
 * [Rekit for Mac](https://github.com/rekit/rekit-app/releases) (local)
 * [Rekit Studio](https://github.com/rekit/rekit) (online)
 
-### Element diagram
+### Element Diagram
 
 Open an element from project explorer, then we can see the element diagram under the diagram tab. It provides a very 
 intuitive view of how an element is created or used by others. That is the complication of a module.
