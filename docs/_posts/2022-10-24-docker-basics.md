@@ -81,6 +81,51 @@ This docker-compose.yml file tells Docker to do the following:
 
 Define the webnet network with the default settings (which is a load-balanced overlay network).
 
+### Docker Compose
+
+#### Networking in Compose
+
+By default Compose sets up a single [network](https://docs.docker.com/engine/reference/commandline/network_create/) for 
+our app. Each container for a service joins the default network and is both reachable by other containers on that
+network, and **_discoverable by them at a hostname identical to the container name_**.
+
+> 💡 Our app's network is given a name based on the "project name", which is based on the _name of the directory it
+> lives in_. We can override the project name with either the
+> [**--project-name** flag](https://docs.docker.com/compose/reference/) or the
+> [**COMPOSE_PROJECT_NAME** environment variable](https://docs.docker.com/compose/reference/envvars/#compose_project_name).
+
+For example, suppose our app is in a directory called "myapp", and our "docker-compose.yml" looks like this:
+
+```yaml
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+  db:
+    image: postgres
+    ports:
+      - "8001:5432"
+```
+
+When we run `docker compose up`, the following happens:
+
+A network called "myapp_default" is created.
+A container is created using `web`'s configuration. It joins the network "myapp_default" under the name "**web**".
+A container is created using `db`'s configuration. It joins the network "myapp_default" under the name "**db**".
+
+Each container can now look up the hostname **web** or **db** and get back the appropriate container's IP address. For 
+example, **web**'s application code could connect to the URL **postgres://db:5432** and start using the Postgres
+database.
+
+It is important to note the distinction between **HOST_PORT** and **CONTAINER_PORT**. In the example above, for **db**, 
+the HOST_PORT is 8001 and the container port is 5432 (postgres default). **Networked service-to-service communication
+uses the CONTAINER_PORT**. When HOST_PORT is defined, the service is accessible outside the swarm as well.
+
+Within the **web** container, the connection string to **db** would look like "postgres://db:5432", and from the host 
+machine, the connection string would look like "postgres://{DOCKER_IP}:8001".
+
 ### Swarms
 
 A **swarm** is a group of machines that are running Docker and joined into a cluster. After that has happened, we
