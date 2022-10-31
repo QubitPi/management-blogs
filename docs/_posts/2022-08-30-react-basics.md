@@ -25,6 +25,38 @@ pre-computes artifacts to achieve faster runtime performance.
 {:toc}
 
 
+React IDE's
+----------
+
+### Rekit Studio
+
+![Error loading rekit-front-page.png]({{ "/assets/img/rekit-front-page.png" | relative_url}})
+
+Rekit is another IDE focused specifically on developing apps using React. Rekit studio works as an IDE as well as a 
+toolkit that can be used for developing scalable web apps using React, react-router, and redux.
+
+Rekit studio runs on a node server and is an npm package, and for that reason, it runs in our browser. The only thing I 
+like about Rekit is that every react app has its own Rekit studio, so things remain simple and controlled.
+
+The basic features like refactoring, unit tests, code generation, support for Less and Sass, react-router, command-line 
+tools, etc. We can also extend Rekit functionality by developing our own plugins.
+
+Check out more about Rekit here at - [Rekit IDE for React](https://rekit.js.org/)
+
+* [Rekit for Mac](https://github.com/rekit/rekit-app/releases) (local)
+* [Rekit Studio](https://github.com/rekit/rekit) (online)
+
+### Element diagram
+
+Open an element from project explorer, then we can see the element diagram under the diagram tab. It provides a very 
+intuitive view of how an element is created or used by others. That is the complication of a module.
+
+![Error loading rekit.png]({{ "/assets/img/rekit.png" | relative_url}})
+
+For example, SidePanel is a complicated component which uses many other components and actions. And it has dependencies 
+from other features. Maybe it’s a component to refactor to become simple and easy to understand.
+
+
 React Basics
 ------------
 
