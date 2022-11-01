@@ -850,7 +850,7 @@ $ curl -v -H 'X-Storage-User: system:jack' -H 'X-Storage-Pass: testpass' http://
 > X-Storage-Pass: testing
 > 
 < HTTP/1.1 200 OK
-< X-Storage-Url: http://localhost:12345/v1/AUTH_system
+< X-Storage-Url: http://localhost:6000/v1/AUTH_system
 < X-Auth-Token-Expires: ...
 < X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899
 < Content-Type: ...
@@ -859,10 +859,10 @@ $ curl -v -H 'X-Storage-User: system:jack' -H 'X-Storage-Pass: testpass' http://
 ```
 
 In this case, _X-Auth-Token_ is "AUTH_tk65840af9f6f74d1aaefac978cb8f0899" and storage URL which we will be using from
-now one is "http://localhost:12345/v1/AUTH_system"
+now one is "http://localhost:6000/v1/AUTH_system"
 
 > Note that the storage URL does vary based on the username. For example, if username is not "system:jack", but others
-> like "foo:bar", the storage URL becomes "http://localhost:12345/v1/AUTH_foo" instead
+> like "foo:bar", the storage URL becomes "http://localhost:6000/v1/AUTH_foo" instead
 
 * To get metadata associated with a Swift account "system":
 
