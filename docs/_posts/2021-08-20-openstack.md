@@ -21,8 +21,8 @@ create the OpenStack project.
 
 OpenStack provides an Infrastructure-as-a-Service (IaaS) solution through
 [a set of interrelated services](https://www.openstack.org/software/project-navigator/openstack-components). Each
-service offers an Application Programming Interface (API) that facilitates this integration. Depending on your needs, you can
-install some or all services.
+service offers an Application Programming Interface (API) that facilitates this integration. Depending on our needs, we
+can install some or all services.
 
 > **Infrastructure-as-a-Service (IaaS)**
 > 
@@ -30,6 +30,8 @@ install some or all services.
 > storage, hardware, servers, and networking components. A service provider owns the equipment and is responsible for
 > housing, operating and maintaining it. The client typically pays on a per-use basis. IaaS is a model for providing
 > cloud services.
+
+![Error loading openstack-map.png]({{ "/assets/img/openstack-map.png" | relative_url}})
 
 
 OpenStack Use Cases
@@ -603,7 +605,7 @@ for recovery scenarios.
 **To be continued...**
 
 
-Object Storage (Swift)
+Swift (Object Storage)
 ----------------------
 
 OpenStack Object Storage (Swift) is used for redundant, scalable data storage using clusters of standardized servers to 
@@ -777,9 +779,25 @@ made to one of the storage nodes to fetch the object and, if that fails, request
 
 Structurally, a full-fledged Swift cluster includes the following components:
 
-
-Additional Resources
---------------------
+### Additional Resources
 
 * [**JOSS**](http://javaswift.org/) Dedicated Java binding for accessing the Swift REST API.
 * [Swift REST API examples](https://gist.github.com/drewkerrigan/2876196)
+
+
+Keystone (Identity Service)
+---------------------------
+
+Keystone is an OpenStack service that provides API client authentication, service discovery, and distributed
+multi-tenant authorization by implementing
+[OpenStack's Identity API](https://docs.openstack.org/api-ref/identity/index.html).
+
+### Keystone Architecture
+
+#### Services
+
+Keystone is organized as a group of internal services exposed on one or many endpoints. Many of these services are used
+in a combined fashion by the frontend. For example, an authenticate call will validate user/project credentials with the 
+Identity service and, upon success, create and return a token with the Token service.
+
+
