@@ -779,10 +779,180 @@ made to one of the storage nodes to fetch the object and, if that fails, request
 
 Structurally, a full-fledged Swift cluster includes the following components:
 
+### The Auth System
+
+Swift supports a number of auth systems that share the following common characteristics:
+
+* The authentication/authorization part can be an external system or a subsystem run within Swift as WSGI middleware
+* The user of Swift passes in an auth token with each request
+* Swift validates each token with the external auth system or auth subsystem and caches the result
+
+The token does not change from request to request, but does expire it can be passed into Swift using the
+**X-Auth-Token** or the **X-Storage-Token** header. Both have the same format: just a simple string representing the 
+token. Some auth systems use UUID tokens, some an MD5 hash of something unique, some use "something else" but the
+salient point is that the token is a string which can be sent _as-is_ back to the auth system for validation.
+
+Swift will make calls to the auth system, giving the auth token to be validated. For a valid token, the auth system 
+responds with an overall expiration time in seconds from now. To avoid the overhead in validating the same token over
+and over again, Swift will cache the token for a configurable time, but no longer than the expiration time.
+
+The Swift project includes two auth systems:
+
+1. TempAuth 
+2. Keystone Auth
+
+It is also possible to write our own auth system by
+[Extending Auth](https://docs.openstack.org/swift/latest/overview_auth.html#extending-auth).
+
+#### TempAuth
+
+TempAuth is used primarily in Swift’s functional test environment and can be used in other test environments (such as 
+**SAIO (Swift All In One)**). It is not recommended to use TempAuth in a production system. However, TempAuth is fully 
+functional and can be used as a model to develop our own auth system.
+
+TempAuth has the concept of **admin** and **non-admin** users within an account. Admin users can do anything within the 
+account. Non-admin users can only perform read operations. Some privileged metadata such as X-Container-Sync-Key is not 
+accessible to non-admin users.
+
+##### Swift API though TempAuth
+
+In this process two components are involved
+
+1. the Swift proxy server, and
+2. the Swift client
+
+The client should contain the following information:
+
+* storage URL, and
+* authentication information, including the HTTP methods and other metadata information
+
+To begin with the client will send its auth details in the HTTP header using **X-AUTH-USER** and **X-AUTH-KEY**. The
+Swift server then responds with the **X-AUTH-TOKEN** and **X-Storage-Url** to the client. The client will, then, use 
+X-AUTH-TOKEN and X-Storage-Url to perform the HTTP operations such as uploading and downloading files from Swift.
+
+This auth system is default and known as the **TempAuth**.
+
+To put it into action, let's say we have a **username of "system:jack"**, and **password of "testpass"**. Our Swift 
+instance is running locally at port [6000](https://docs.openstack.org/install-guide/firewalls-default-ports.html).
+Execute the following command and make a note of _X-Auth-Token_. We will need this token to use in all subsequent
+request:
+
+```bash
+curl -v -H 'X-Storage-User: system:jack' -H 'X-Storage-Pass: testpass' http://localhost:6000/auth/v1.0
+```
+
+The response looks like the following:
+
+```
+$ curl -v -H 'X-Storage-User: system:jack' -H 'X-Storage-Pass: testpass' http://localhost:6000/auth/v1.0
+...
+> X-Storage-User: chris:chris1234
+> X-Storage-Pass: testing
+> 
+< HTTP/1.1 200 OK
+< X-Storage-Url: http://localhost:12345/v1/AUTH_system
+< X-Auth-Token-Expires: ...
+< X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899
+< Content-Type: ...
+< X-Storage-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899
+...
+```
+
+In this case, _X-Auth-Token_ is "AUTH_tk65840af9f6f74d1aaefac978cb8f0899" and storage URL which we will be using from
+now one is "http://localhost:12345/v1/AUTH_system"
+
+> Note that the storage URL does vary based on the username. For example, if username is not "system:jack", but others
+> like "foo:bar", the storage URL becomes "http://localhost:12345/v1/AUTH_foo" instead
+
+* To get metadata associated with a Swift account "system":
+
+  ```bash
+  curl -v -X HEAD -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/
+  ```
+  
+  > 💡 We can request the data from Swift in XML or JSON format by specifying the "**format**" paramater. For example
+  > 
+  > ```bash
+  > curl -v -X HEAD -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/?format=json
+  > curl -v -X HEAD -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/?format=xml
+  > ```
+  > 
+  > This parameter can be applied to any of the requests below as well
+
+curl -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://10.80.83.68:8077/v1/AUTH_system/?format=json
+curl -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://10.80.83.68:8077/v1/AUTH_system/?format=xml
+
+* To create a container called "my-container"
+
+  ```bash
+  curl -X PUT -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/my-container
+  ```
+
+* To get metadata associated with a container called "my-container":
+
+  ```bash
+  curl -v -X HEAD -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/my-container
+  ```
+
+* To list all containers in current account:
+
+  ```bash
+  curl -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/
+  ```
+  
+* To upload a file called "my-file.pdf" to container "my-container"
+
+  ```bash
+  curl -X PUT -T my-file.pdf -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/my-container/
+  ```
+  
+* To list all objects in a container:
+
+  ```bash
+  curl -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/my-container
+  ```
+
+* To list all objects in a container that starts with a particular prefix "my-":
+
+  ```bash
+  curl -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/my-container/?prefix=my-
+  ```
+
+* To download a particular file named "my-file.pdf" from the container "my-container":
+
+  ```bash
+  curl -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/my-container/my-file.pdf
+  ```
+  
+* To download named "my-file.pdf" and save it locally as "local-file.pdf":
+
+  ```bash
+  curl -o local-file.pdf -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/my-container/my-file.pdf
+  ```
+
+* To delete a specific file called "my-file.pdf" from "my-container"
+
+  ```bash
+  curl -X DELETE -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/my-container/my-file.pdf
+  ```
+
+* To delete the container "my-container"
+
+  ```bash
+  curl -X DELETE -H 'X-Auth-Token: AUTH_tk65840af9f6f74d1aaefac978cb8f0899' http://localhost:6000/v1/AUTH_system/my-container
+  ```
+
+More information is at [Swift Object Storage API](https://docs.openstack.org/api-ref/object-store/index.html)
+
+
+#### Keystone Auth
+
+Swift is able to authenticate against [OpenStack Keystone](#keystone-identity-service). In this environment, Keystone is 
+responsible for creating and validating tokens.
+
 ### Additional Resources
 
 * [**JOSS**](http://javaswift.org/) Dedicated Java binding for accessing the Swift REST API.
-* [Swift REST API examples](https://gist.github.com/drewkerrigan/2876196)
 
 
 Keystone (Identity Service)
