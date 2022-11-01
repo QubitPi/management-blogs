@@ -142,6 +142,17 @@ ES6 stands for ECMAScript 6. **ECMAScript** was created to standardize JavaScrip
 ECMAScript. It is also known as ECMAScript 2015 since it was published in 2015. We discuss ES6 here because React uses
 ES6.
 
+#### Array Methods
+
+There are many JavaScript array methods. One of the most useful in React is the **.map()** array method, which allows us
+to run a function on each item in the array, returning a new array as the result. In React, `map()` can be used to 
+generate lists. For example
+
+{% highlight react %}
+const myArray = ['apple', 'banana', 'orange'];
+const myList = myArray.map((item) => <p>{item}</p>)
+{% endhighlight %}
+
 #### Destructuring
 
 To illustrate destructuring, let's make a sandwich. Do you take everything out of the refrigerator to make your
