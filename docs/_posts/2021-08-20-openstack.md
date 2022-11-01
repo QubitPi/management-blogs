@@ -534,7 +534,7 @@ with their users.
 
 For a user of a massively scalable OpenStack public cloud, there are no expectations for control over security,
 performance, or availability. Users expect only SLAs related to uptime of API services, and very basic SLAs for services
-offered. It is the user’s responsibility to address these issues on their own. The exception to this expectation is the
+offered. It is the user's responsibility to address these issues on their own. The exception to this expectation is the
 rare case of a massively scalable cloud infrastructure built for a private or government organization that has specific
 requirements.
 
@@ -679,7 +679,7 @@ once which ends up either more efficient or at least less complex than working w
 cluster all at once.
 
 Another configurable value is the replica count, which indicates how many of the partition-device assignments make up a 
-single ring. For a given partition index, each replica’s device will not be in the same zone as any other replica’s 
+single ring. For a given partition index, each replica's device will not be in the same zone as any other replica's 
 device. Zones can be used to group devices based on physical locations, power separations, network separations, or any 
 other attribute that would improve the availability of multiple replicas at the same time.
 
@@ -728,7 +728,7 @@ are any differences.
 
 The replicator knows if replication needs to take place by examining hashes. A hash file is created for each partition, 
 which contains hashes of each directory in the partition. For a given partition, the hash files for each of the 
-partition’s copies are compared. If the hashes are different, then it is time to replicate, and the directory that needs 
+partition's copies are compared. If the hashes are different, then it is time to replicate, and the directory that needs 
 to be replicated is copied over.
 
 This is where partitions come in handy. With fewer things in the system, larger chunks of data are transferred around 
@@ -806,7 +806,7 @@ It is also possible to write our own auth system by
 
 #### TempAuth
 
-TempAuth is used primarily in Swift’s functional test environment and can be used in other test environments (such as 
+TempAuth is used primarily in Swift's functional test environment and can be used in other test environments (such as 
 **SAIO (Swift All In One)**). It is not recommended to use TempAuth in a production system. However, TempAuth is fully 
 functional and can be used as a model to develop our own auth system.
 
