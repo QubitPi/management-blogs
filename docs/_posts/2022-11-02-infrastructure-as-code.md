@@ -3,7 +3,7 @@ layout: post
 title: Infrastructure as Code (IaC)
 tags: [IaC, CHEF]
 category: FINALIZED
-color: rgb(255, 163, 0)
+color: rgb(218, 25, 132)
 feature-img: "assets/img/post-cover/33-cover.png"
 thumbnail: "assets/img/post-cover/33-cover.png"
 author: QubitPi
@@ -112,3 +112,107 @@ service 'httpd' do
 end
 ```
 
+Chef also works as a tool for implementing better DevOps. DevOps is a set of practices that combines software
+development (Dev) and IT operations (Ops). DevOps is a fundamental aspect of collaboration between engineering and IT 
+operations to deploy better code, faster, in an **automated** manner. DevOps helps to improve an organization's velocity 
+to deliver apps and services. It's all about alignment -- alignment of engineering and IT ops via improved collaboration 
+and communication.
+
+![Error loading devops-lifecycle.png]({{ "/assets/img/devops-lifecycle.png" | relative_url}})
+
+Open Source Software at Chef are
+
+* [**Chef Infra**](https://community.chef.io/tools/chef-infra/), a powerful automation platform that transforms 
+  infrastructure configuration into code. Whether we're operating in the cloud, on-premises, or in a hybrid environment, 
+  Chef Infra _automates how infrastructure is configured, deployed, and managed across our network_.
+
+  At the heart of this tool is the [Chef Infra Client](#chef-infra-client), which typically runs as an agent on the 
+  systems managed by Chef. The client runs Chef libraries called [Cookbooks](#cookbooks), which declare the desired
+  state of our system using infrastructure-as-code. The client then ensures our system is inline with the declared
+  policy.
+* [**Chef InSpec**](https://community.chef.io/tools/chef-inspec), which provides a language for describing security and 
+  compliance rules that can be shared between software engineers, operators, and security engineers.
+
+  > **Compliance Automation**
+  >
+  > Compliance automation refers to automatically ensuring our infrastructure complies with security standards set by 
+  > authorities such as the [Center for Internet Security](https://www.cisecurity.org/) (CIS). Compliance automation
+  > helps ensure our infrastructure is protected from malicious intrusions and other security issues.
+  > 
+  > ![Error loading chef-automateui.png]({{ "/assets/img/chef-automateui.png" | relative_url}})
+  > 
+  > The Chef Compliance solution can automatically scan our infrastructure to identify and report security compliance 
+  > issues. Then we can use the Chef Infra to remediate such security issues.
+  > 
+  > Chef Compliance uses the Chef InSpec language to create and run compliance profiles, which contain the logic to scan 
+  > for security issues.
+  > 
+  > Here is an example of the Chef InSpec language that tests a node for security compliance. In this example, InSpec is 
+  > testing the node to ensure the ssh_config protocol should be 2. If the actual value from the node is not protocol 2,
+  > a critical issue is reported and can be displayed in the Chef Automate UI shown above
+  > 
+  > ![Error loading chef-inspec.png]({{ "/assets/img/chef-inspec.png" | relative_url}})
+
+  InSpec is a language used to declare security requirements, or tests, called "controls" that are packaged into groups 
+  called [profiles](#profiles). These profiles can be used to describe the requirements for all the environments that
+  need to be audited on a regular basis, such as production systems running business-critical applications.
+
+* **Chef Habitat**, an open source automation solution for defining, packaging, and delivering applications to almost any environment regardless of operating system or platform.
+
+  > **Application Automation**
+  >
+  > Application Automation refers to defining, packaging and delivering applications to almost any environment
+  > regardless of operating system or deployment platform. At Chef, the Chef Habitat solution enables DevOps and 
+  > application teams to:
+  > 
+  > * Build continuous delivery pipelines across all applications and all change events
+  > * Create artifacts that can be deployed on-demand to bare-metal, VMs, or containers without any rewriting or
+  >   refactoring
+  > * Scale the adoption of agile delivery practices across development and operations
+
+  With Chef Habitat, an application that is built and run in development will be exactly the same as what's deployed in 
+  production environments. This is accomplished by declaring the build and runtime instructions for the application in a 
+  Habitat Plan file. The application is then built in a cleanroom environment that bundles the application alongside its 
+  deployment instructions into a single deployable Habitat artifact file (.HART). This artifact is then deployed by the 
+  Habitat Supervisor, which monitors the application lifecycle, including deploying runtime configuration updates
+  without having the rebuild the application.
+
+  Habitat allows for application automation to live alongside the app's source code. This reduces misunderstandings 
+  between developers and operators about how an app is built or deployed, since these groups are using the same 
+  source-of-truth to define how an app works.
+
+* **Chef Workstation** bundles together all the common software needed when building automation instructions for tools like Chef Infra and Chef InSpec. It also includes common debugging and testing tools for all our automation code. Chef Workstation includes:
+
+  - _The Chef Workstation App_
+  - _Chef Infra Client_
+  - _Chef InSpec_
+  - _Chef Command Line Tool_, which allows you to apply dynamic, repeatable configurations to your servers directly over
+    SSH or WinRM via chef-run. This provides a quick way to apply config changes to the systems we manage whether or not 
+    they're being actively managed by Chef Infra, without requiring any pre-installed software.
+  - _Test Kitchen_, which can test cookbooks across any combination of platforms and test suites before we deploy those 
+    cookbooks to actual infrastructure nodes
+  - _Cookstyle_, which is a code linting tool that helps us write better Chef Infra cookbooks by detecting and automatically correcting style, syntax, and logic mistakes in our code
+  - Plus various Test Kitchen and Knife plugins
+
+* **Chef Automate**, an enterprise visibility and metrics tool that provides actionable insights for any systems that
+  we manage using Chef tools and products. The dashboard and analytics tool enables cross-team collaboration with 
+  actionable insights for configuration and compliance, such as a history of changes to environments to make audits
+  simple and reliable. Chef Automate can be used with a number of Chef Software products and solutions, and segregates 
+  information into separate dashboards for quick access and filtering.
+
+  The goal of Chef Automate is to make infrastructure management, application delivery and continuous compliance
+  realities by enabling cross-team collaboration using a single source-of-truth. All Chef OSS tools like Infra, InSpec
+  and Habitat can be configured to report into Chef Automate to provide a window into the status and health of every 
+  application and system in your organization.
+
+  ![Error loading chef-automatenodes.png]({{ "/assets/img/chef-automatenodes.png" | relative_url}})
+
+### Chef Infra
+
+#### Chef Infra Client
+
+##### Cookbooks
+
+### Chef InSpec
+
+#### Profiles
