@@ -16,6 +16,13 @@ excerpt_separator: <!--more-->
 {:toc}
 
 
+Continuous Delivery
+-------------------
+
+Continuous Delivery is the ability to get changes of all types - including new features, configuration changes, bug
+fixes and experiments - into production, or into the hands of users, _safely_ and _quickly_ in a _sustainable_ way.
+
+
 Deploying Jenkins to AWS
 ------------------------
 

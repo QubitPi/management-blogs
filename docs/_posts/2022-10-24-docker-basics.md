@@ -126,6 +126,26 @@ uses the CONTAINER_PORT**. When HOST_PORT is defined, the service is accessible 
 Within the **web** container, the connection string to **db** would look like "postgres://db:5432", and from the host 
 machine, the connection string would look like "postgres://{DOCKER_IP}:8001".
 
+#### Command-line Reference
+
+##### docker compose up
+
+##### docker compose down
+
+_Stops_ containers and _removes_ containers, networks, volumes, and images created by [up](#docker-compose-up).
+
+By default, the only things removed are:
+
+* Containers for services defined in the Compose file
+* Networks defined in the `networks` section of the Compose file
+* The default network, if one is used
+
+Networks and volumes defined as external are never removed.
+
+Anonymous volumes are not removed by default. However, as they don't have a stable name, they will not be automatically 
+mounted by a subsequent [up](#docker-compose-up). For data that needs to persist between updates, use explicit paths as 
+bind mounts or named volumes.
+
 ### Swarms
 
 A **swarm** is a group of machines that are running Docker and joined into a cluster. After that has happened, we
@@ -379,6 +399,7 @@ We can use this technique to automate backup, migration and restore testing usin
 > permission error occurs when the backup file already existed in the scp target location and the existing file had 
 > read-only permissions (preventing the file from being overwritten). In this case, we simply logged into the server and 
 > deleted the existing file and that will resolve the problem.
+
 
 Docker cAdvisor
 ---------------
