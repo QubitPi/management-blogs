@@ -1930,8 +1930,38 @@ Case-by-case soulutions would be either upgrading sass versions or [downgrading 
 React Bootstrap
 ---------------
 
+React-Bootstrap replaces the Bootstrap JavaScript. Each component has been built from scratch as a true React component, 
+without unneeded dependencies like jQuery. As one of the oldest React libraries, React-Bootstrap has evolved and grown 
+alongside React, making it an excellent choice as our UI foundation.
 
+The React component model allows for more control over form and function of each component.
 
+### Installation
+
+React-Bootstrap has started a repo with a few basic
+[CodeSandbox examples](https://github.com/react-bootstrap/code-sandbox-examples/blob/master/README.md). Basically, to
+a incorporate a create-react-app with React-Bootstrap components
+
+1. Put bootstrap dependency in "package.json"
+
+   ```json
+   "dependencies": {
+       ...
+       "bootstrap": "^5.2.2",
+       "react-bootstrap": "^2.5.0"
+       ....
+   }
+   ```
+2. Because React-Bootstrap doesn't depend on a very precise version of Bootstrap, it doesn't ship with any included CSS. 
+   However, some stylesheet is required to use these components
+
+   ```javascript
+   {/* The following line can be included in your src/index.js or App.js file */}
+
+   import 'bootstrap/dist/css/bootstrap.min.css';
+   ```
+   
+#### Customize Bootstrap
 
 Relay Baics
 -----------
