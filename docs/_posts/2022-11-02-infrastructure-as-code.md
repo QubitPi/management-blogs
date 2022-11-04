@@ -207,6 +207,76 @@ Open Source Software at Chef are
 
   ![Error loading chef-automatenodes.png]({{ "/assets/img/chef-automatenodes.png" | relative_url}})
 
+### Ruby Essentials
+
+Ruby is a simple programming language. Chef uses Ruby as its reference language to define the patterns that are found in 
+resources, recipes, and cookbooks. Chef also uses these patterns to configure, deploy, and manage nodes across the
+network.
+
+#### Instally Ruby
+
+##### Mac OS
+
+Ruby comes pre-installed on macOS. However, pre-installed Ruby might be a few versions behind. The latest version can be 
+installed using a package manager like Homebrew, making it easy to install Ruby. Just run the following command.
+
+```bash
+brew install ruby
+```
+
+##### Linux
+
+Linux and Ubuntu use the apt package manager for installation. Run the following command in the terminal to install
+Ruby.
+
+```bash
+sudo apt-get install ruby-full
+```
+
+#### Ruby Syntax
+
+##### Control Flow
+
+Ruby's `if` statement takes an expression and executes the code based on the evaluation of that expression. If the 
+expression evaluates to `true`, Ruby executes the block of code following the `if` statement. If the expression
+evaluates to `false`, then it doesn't execute the code. For example,
+
+```ruby
+x = 10
+if x > 7
+    puts "x is greater than 7"
+end
+```
+
+The `else` statement is the partner of the `if` statement. If the expression evaluates to `true`, then the statement 
+following the condition is executed. If the expression evaluates to `false`, then the statement following the else 
+statement is executed.
+
+```ruby
+x = 10
+
+if x < 7
+ puts "x is less than 7"
+else
+ puts "x is greater than 7"
+end
+```
+
+The `if…else` structure keeps us restricted to two options. What if we want to have more options in our program? Here, 
+`elsif` comes to the rescue and allows us to add alternatives to the traditional `if…else`.
+
+```ruby
+x = 10
+
+if x < 7
+ puts "x is less than 7"
+elsif x > 7
+ puts "x is greater than 7"
+else
+ puts "x is equal to 7"
+end
+```
+
 ### Chef Infra
 
 #### Chef Infra Client
