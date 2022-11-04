@@ -930,6 +930,178 @@ curl localhost:3000
 
 ### Chef Infra
 
+### Install Workstation
+
+In order to define the policies we want enforced in our infrastructure, you'll use the Chef language. _Chef Workstation
+is a downloadable package that gives us access to the Chef language_, as well as a number of other useful development
+and testing tools
+
+Chef Workstation installs to **/opt/chef-workstation/** on MacOS/Linux and **C:\opscode\chef-workstation\** on Windows. 
+These file locations help avoid interference between these components and other applications that may be running on the 
+target machine.
+
+#### MacOS Install
+
+1. Visit the [Chef Workstation downloads page](https://www.chef.io/downloads/tools/workstation) and select the
+   appropriate package for our MacOS version. Hit on the **Download** button.
+2. Follow the steps to accept the license and install Chef Workstation.
+
+Alternately, install Chef Workstation using the [Homebrew](https://brew.sh/) package manager:
+
+```bash
+brew install --cask chef-workstation
+```
+
+From command prompt, ensure that we can access Chef Workstation by running `chef --version` to verify the version.
+
+```
+$ chef --version
+Chef Workstation version: 0.17.5
+Chef Infra Client version: 15.8.23
+Chef InSpec version: 4.18.100
+Chef CLI version: 2.0.0
+Test Kitchen version: 2.4.0
+Cookstyle version: 5.22.6
+```
+
+### Setup local Virtualization
+
+When we use Chef to write code that defines our infrastructure, the code needs to be tested, just like a regular
+software. For that, Chef allows us to setup a test environment when we have VirualBox and Vagrant installed on our
+local machine
+
+#### Install VirtualBox
+
+We can [download VirtualBox](https://www.virtualbox.org/wiki/Downloads) from the Oracle website and install in a
+regular way. After that, run the following command to verify VirtualBox is installed.
+
+```bash
+$ VBoxManage --version
+6.1.6r137129
+```
+
+#### Install Vagrant
+
+Similarly, we can [download Vagrant](https://www.vagrantup.com/downloads.html) from the HashiCorp website and run the 
+following to verify that Vagrant is installed.
+
+```bash
+$ vagrant --version
+Vagrant 2.2.8
+```
+
+#### Create a Cookbook
+
+We will use a Chef Workstation command called **chef generate** to create the minimum file structure needed to create a 
+default testing instance. Run the command **chef generate cookbook learn_chef** from command line.
+
+```bash
+$ chef generate cookbook learn_chef
+Generating cookbook learn_chef
+- Ensuring correct cookbook content
+- Committing cookbook files to git
+
+Your cookbook is ready. Type `cd learn_chef` to enter it.
+
+There are several commands you can run to get started locally developing and testing your cookbook.
+Type `delivery local --help` to see a full list of local testing commands.
+
+Why not start by writing an InSpec test? Tests for the default recipe are stored at:
+
+test/integration/default/default_test.rb
+
+If you'd prefer to dive right in, the default recipe can be found at:
+
+recipes/default.rb
+```
+
+Let's first look at a file in the newly created "learn_chef" directory called **kitchen.yml**. Change directories into 
+"path/to/learn_chef" and view the contents of "kitchen.yml". Inside this file, we'll find several key-value pairs:
+
+* **platforms** - The operating system(s) or target environment(s) on which our policies are to be tested. eg: Windows, 
+  Ubuntu, CentOS, RHEL
+* **suites** - The policies and code which will be enforced on the test instance(s).
+* **driver** - The lifecycle manager responsible for implementing the instance-specific actions (in this case, Vagrant); 
+  these actions can include creating, destroying, and installing the tools necessary to test our code on the test 
+  instance(s).
+* **provisioner** - The tool responsible for executing the suites against the test instance(s). Since we'll be learning 
+  the Chef language, we'll use Chef's Test Kitchen provisioner, [chef-solo](https://docs.chef.io/chef_solo/).
+
+```yaml
+---
+driver:
+  name: vagrant
+
+## The forwarded_port port feature lets you connect to ports on the VM guest via
+## localhost on the host.
+## see also: https://www.vagrantup.com/docs/networking/forwarded_ports.html
+
+#  network:
+#    - ["forwarded_port", {guest: 80, host: 8080}]
+
+provisioner:
+  name: chef_zero
+
+  ## product_name and product_version specifies a specific Chef product and version to install.
+  ## see the Chef documentation for more details: https://docs.chef.io/config_yml_kitchen.html
+  #  product_name: chef
+  #  product_version: 15
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: ubuntu-18.04
+  - name: centos-7
+
+suites:
+  - name: default
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+```
+
+This file instructs Test Kitchen to use Vagrant to create two instances, one Ubuntu and one CentOS, and then to use Chef 
+Infra to provision the test instances. On our command line, run the command **`kitchen list`**. This command, in
+addition to validating that our "kitchen.yml" is typo-free, will list the information for each instance in our test 
+environment.
+
+```bash
+$ kitchen list
+Instance             Driver   Provisioner  Verifier  Transport  Last Action    Last Error
+default-ubuntu-1804  Vagrant  ChefInfra    Inspec    Ssh
+default-centos-7     Vagrant  ChefInfra    Inspec    Ssh
+```
+
+Finally, create our test instances by using the command **`kitchen create`**. This command will download an image of the 
+appropriate operating system(s) and deploy it against our test instances; it may take a few minutes to fully complete.
+
+```bash
+$ kitchen create
+-----> Starting Test Kitchen (v2.4.0)
+-----> Creating ...
+       Bringing machine 'default' up with 'virtualbox' provider...
+       ==> default: Box 'bento/ubuntu-18.04' could not be found. Attempting to find and install...
+           default: Box Provider: virtualbox
+           default: Box Version: >= 0
+...
+```
+
+Once Test Kitchen has created the test instances, we can log into the machine using **`kitchen login <INSTANCE>`**, 
+replacing `<INSTANCE>` with the platform you wish to test, eg. centos or ubuntu. To log back out of the test instance, 
+simply run `exit`.
+
+```bash
+kitchen login centos
+Last login: Wed May  6 19:35:02 2020 from 10.0.2.2
+[vagrant@default-centos-7 ~]$ exit
+logout
+Connection to 127.0.0.1 closed.
+```
+
+Now it's time to decide what policies we actually want to enforce and codify our goals.
+
 #### Chef Infra Client
 
 ##### Cookbooks
