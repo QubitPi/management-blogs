@@ -1955,13 +1955,28 @@ a incorporate a create-react-app with React-Bootstrap components
 2. Because React-Bootstrap doesn't depend on a very precise version of Bootstrap, it doesn't ship with any included CSS. 
    However, some stylesheet is required to use these components
 
-   ```javascript
+   ```js
    {/* The following line can be included in your src/index.js or App.js file */}
 
    import 'bootstrap/dist/css/bootstrap.min.css';
    ```
    
 #### Customize Bootstrap
+
+If we wish to customize the Bootstrap theme or any Bootstrap variables we can create a custom Sass file:
+
+```sass
+/* The following block can be included in a custom.scss */
+
+/* make the customizations */
+$theme-colors: (
+    "info": tomato,
+    "danger": teal
+);
+
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";
+```
 
 Relay Baics
 -----------
