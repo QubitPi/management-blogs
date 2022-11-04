@@ -1978,6 +1978,32 @@ $theme-colors: (
 @import "~bootstrap/scss/bootstrap";
 ```
 
+> Make sure to add the [scss dependency](https://www.npmjs.com/package/sass) `"sass": "1.56.0"` to package.json as well
+
+Then import it on the main Sass file.
+
+```scss
+/* The following line can be included in a src/App.scss */
+
+@import "relative/path/to/custom";
+```
+
+> 💡 **Adding a Sass Stylesheet as App.scss to React App** (`react-scripts@2.0.0` and higher.)
+> 
+> Assuming "sass" has been npm-installed using package.json mentioned above, we can now rename **src/App.css** (created 
+> by `npx create-react-app`) to **src/App.scss** and update **src/App.js** to import **src/App.scss**. This file and any
+> other file will be automatically compiled if imported with the extension .scss or .sass:
+> 
+> ```js
+> // App.js
+> 
+> import './App.scss';
+> ```
+
+##### Bootstrap Variables
+
+
+
 Relay Baics
 -----------
 
