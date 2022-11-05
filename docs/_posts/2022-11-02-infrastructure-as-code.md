@@ -1311,6 +1311,17 @@ include_recipe 'cookbook::configure'
 If a specific recipe is included more than once with the `include_recipe` method or elsewhere in the run_list directly, 
 only the first instance is processed and subsequent inclusions are ignored.
 
+To include recipes from the same cookbook, **include_recipe** uses the first part every time as the cookbook name. So we 
+have to specify the cookbook - name + recipe name:
+
+```ruby
+include_recipe '::my-included-recipe'
+
+# or
+
+include_recipe 'my-cookbook-name::my-included-recipe
+```
+
 #### Resources
 
 A resource is a statement of configuration policy that:
@@ -1427,6 +1438,13 @@ The following examples demonstrate various approaches for using the **apt_update
   ```ruby
   apt_update 'update'
   ```
+  
+#### apt_package Resource
+
+Use the **apt_package** resource to manage packages on Debian, Ubuntu, and other platforms that use the APT package
+system.
+
+> In many cases, it is better to use the package resource instead of this one. This is because when the package resource is used in a recipe, Chef Infra Client will use details that are collected by Ohai at the start of a Chef Infra Client run to determine the correct package application. Using the package resource allows a recipe to be authored in a way that allows it to be used across many platforms.
 
 ### Chef Workstation
 
