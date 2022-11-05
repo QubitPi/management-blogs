@@ -1259,9 +1259,22 @@ contains everything that is required to support that scenario:
   Server correctly deploy cookbooks to each node. A "metadata.rb" file is located at the top level of a cookbook's 
   directory structure.
 
-#### Cookbooks
+###### Policy
+
+Policy maps business and operational requirements, process, and workflow to settings and objects stored on the Chef  
+Server:
+
+* Roles define server types, such as "web server" or "database server".
+* Environments define process, such as "dev", “staging”, or "production"
+* Certain types of data - passwords, user account data, and other sensitive items - can be placed in data bags, which
+  are located in a secure sub-area on the Chef Server that can only be accessed by nodes that authenticate to the Chef  
+  Server with the correct SSL certificates
 
 #### chef-solo
+
+#### Cookbooks
+
+
 
 #### Resources
 
