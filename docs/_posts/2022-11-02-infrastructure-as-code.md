@@ -1272,6 +1272,18 @@ Server:
 
 #### chef-solo
 
+**chef-solo** is a command that executes Chef Client in a way that does not require the Chef Server to converge 
+cookbooks. chef-solo uses Chef Client's _Chef local mode_, and does not support the following functionality present in 
+Chef Client/server configurations:
+
+* Centralized distribution of cookbooks
+* A centralized API that interacts with and integrates infrastructure components
+* Authentication or authorization
+
+chef-solo stores its node objects as JSON files on local disk. By default, chef-solo stores these files in a `nodes` 
+folder in the same directory as `cookbooks` directory. We can control the location of this directory using the 
+`node_path` value in configuration file.
+
 #### Cookbooks
 
 
@@ -1282,6 +1294,67 @@ Server:
 
 
 ### Chef Workstation
+
+#### chef-run (executable)
+
+chef-run is a tool to execute ad-hoc tasks on one or more target nodes using Chef Client.
+
+##### Running a Recipe
+
+To run a full recipe, specify a recipe using its path:
+
+```bash
+chef-run host1 /path/to/recipe.rb
+chef-run host1 recipe.rb
+```
+
+If the recipe is in a cookbook we can also specify that cookbook:
+
+```bash
+chef-run host1 /cookbooks/my_cookbook/recipes/default.rb
+chef-run host1 /cookbooks/my_cookbook
+```
+
+If we specify the path to the cookbook, `chef-run` will execute the default recipe from the cookbook on the target node.
+
+chef-run also supports looking up our cookbook in a local cookbook repository. Assuming we have our cookbook repository 
+at "/cookbooks", run:
+
+```bash
+cd /cookbooks
+chef-run host1 my_cookbook
+chef-run host1 my_cookbook::non_default_recipe
+```
+
+chef-run reads our local Chef Workstation configuration file **~/.chef-workstation/config.toml** and Chef configuration 
+file **~/.chef/config.rb**. It looks for cookbooks in the paths specified in both files. The configuration value is an 
+array and looks something like this:
+
+For `~/.chef-workstation/config.toml`:
+
+```toml
+[chef]
+cookbook_repo_paths = [
+  "/path/1",
+  "/path/b"
+]
+```
+
+and for `~/.chef/config.rb`:
+
+```ruby
+cookbook_path ['/path/1', '/path/b']
+```
+
+If we run `chef-run host1 my_cookbook` and the current directory does not have a cookbook named "my_cookbook", then 
+chef-run searches the configured paths, with those configured in "~/.chef-workstation/config.toml" taking priority over 
+those in "~/.chef/config.rb".
+
+To specify the search paths as command line arguments instead of using a configuration file, use:
+
+```bash
+chef-run host1 my_cookbook --cookbook-repo-paths '/path/1,/path/b'
+```
 
 #### Test Kitchen
 
