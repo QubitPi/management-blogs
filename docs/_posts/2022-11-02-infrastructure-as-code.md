@@ -899,7 +899,7 @@ you best.
 
 To receive HTTP requests, we need a way to listen to HTTP requests on a network port. For this purpose, we can write our 
 own HTTP server or choose one from Ruby Toolbox. To keep it simple, let's use **WEBrick**, which is included in the 
-standard Ruby library and doesn’t require any extra installation.
+standard Ruby library and doesn't require any extra installation.
 
 ```ruby
 require 'webrick'
@@ -930,7 +930,9 @@ curl localhost:3000
 
 ### Chef Infra
 
-### Install Workstation
+#### Getting Started
+
+##### Install Workstation
 
 In order to define the policies we want enforced in our infrastructure, you'll use the Chef language. _Chef Workstation
 is a downloadable package that gives us access to the Chef language_, as well as a number of other useful development
@@ -940,7 +942,7 @@ Chef Workstation installs to **/opt/chef-workstation/** on MacOS/Linux and **C:\
 These file locations help avoid interference between these components and other applications that may be running on the 
 target machine.
 
-#### MacOS Install
+###### MacOS Install
 
 1. Visit the [Chef Workstation downloads page](https://www.chef.io/downloads/tools/workstation) and select the
    appropriate package for our MacOS version. Hit on the **Download** button.
@@ -964,13 +966,13 @@ Test Kitchen version: 2.4.0
 Cookstyle version: 5.22.6
 ```
 
-### Setup local Virtualization
+##### Setup local Virtualization
 
 When we use Chef to write code that defines our infrastructure, the code needs to be tested, just like a regular
 software. For that, Chef allows us to setup a test environment when we have VirualBox and Vagrant installed on our
 local machine
 
-#### Install VirtualBox
+###### Install VirtualBox
 
 We can [download VirtualBox](https://www.virtualbox.org/wiki/Downloads) from the Oracle website and install in a
 regular way. After that, run the following command to verify VirtualBox is installed.
@@ -980,7 +982,7 @@ $ VBoxManage --version
 6.1.6r137129
 ```
 
-#### Install Vagrant
+###### Install Vagrant
 
 Similarly, we can [download Vagrant](https://www.vagrantup.com/downloads.html) from the HashiCorp website and run the 
 following to verify that Vagrant is installed.
@@ -990,7 +992,7 @@ $ vagrant --version
 Vagrant 2.2.8
 ```
 
-#### Create a Cookbook
+##### Create a Cookbook
 
 We will use a Chef Workstation command called **chef generate** to create the minimum file structure needed to create a 
 default testing instance. Run the command **chef generate cookbook learn_chef** from command line.
@@ -1088,6 +1090,32 @@ $ kitchen create
 ...
 ```
 
+> 💡 **Troubleshooting** - If Executing `kitchen create` results in the following error:
+>
+> ```
+> $ kitchen create
+> -----> Starting Test Kitchen
+> -----> Creating <default-ubuntu-...>...
+>        Bringing machine 'default' up with 'virtualbox' provider...
+>        ==> default: Checking if box 'bento/ubuntu' version '...' is up to date...
+>        ==> default: Machine not provisioned because `--no-provision` is specified.
+>        Waiting for SSH service on 127.0.0.1:2222, retrying in 3 seconds
+>        Waiting for SSH service on 127.0.0.1:2222, retrying in 3 seconds
+>        Waiting for SSH service on 127.0.0.1:2222, retrying in 3 seconds
+>        Waiting for SSH service on 127.0.0.1:2222, retrying in 3 seconds
+>        Waiting for SSH service on 127.0.0.1:2222, retrying in 3 seconds
+>        Waiting for SSH service on 127.0.0.1:2222, retrying in 3 seconds
+>        Waiting for SSH service on 127.0.0.1:2222, retrying in 3 seconds
+>        Waiting for SSH service on 127.0.0.1:2222, retrying in 3 seconds
+>        Waiting for SSH service on 127.0.0.1:2222, retrying in 3 seconds
+>        ...
+> ```
+> 
+> there are a couple of hints that could possibly resolve this:
+> 
+> 1. Try an older version of platform. For example, downgrade Ubuntu 18.04 to 16.04
+> 2. The issue could have to do entirely with the version matrix of Vagrant, VirtualBox, and bento boxes in play.
+
 Once Test Kitchen has created the test instances, we can log into the machine using **`kitchen login <INSTANCE>`**, 
 replacing `<INSTANCE>` with the platform you wish to test, eg. centos or ubuntu. To log back out of the test instance, 
 simply run `exit`.
@@ -1102,9 +1130,147 @@ Connection to 127.0.0.1 closed.
 
 Now it's time to decide what policies we actually want to enforce and codify our goals.
 
-#### Chef Infra Client
+##### Write Policy (Define Infrastructure)
 
-##### Cookbooks
+If we approach our policies, i.e, our desired infrastructure state, the same way Test Kitchen approaches its 
+configuration settings, then we can think of the various packages, services, files, and other desirable ingredients on 
+our systems as key-value pairs as well. In the Chef language, these ingredients are called "**resources**"
+
+> 📋 Remember that:
+>
+> * **Resources** are a statement of defined policy; in other words, they're the ingredients that make up whatever
+>   recipe or set of policies we want to write or enforce. 
+> * **Recipes** are a collection resources intended to accomplish a similar goal; for example, to configure an Apache or 
+>   IIS web server.
+> * **Cookbooks** are a collection of related recipes; like a cookbook used in a real kitchen, they not only contain 
+>   related recipes, but also which attributes can be manipulated, and information about how or why the recipes relate, 
+>   when they were written and last updated, and who wrote or maintains them.
+
+To store our policy, or _Chef code_, we'll create another YAML file and list the different resources we want configured 
+on our system. This YAML file is called a "**recipe**" in the Chef language because it will eventually contain the 
+ingredients and instructions necessary to configure a server to our standards.
+
+We may have noticed when `chef generate` ran, it created a subdirectory called "/recipes", in which we will find a file 
+called **default.rb**. When Test Kitchen installs our Chef code on the test instance, it will look to this default.rb 
+first to determine how to configure the instance.
+
+##### Deploy Policy
+
+Finally, deploy the recipe using the Test Kitchen command **kitchen converge**. Be sure we are at
+/path/to/learn_chef directory before runing this kitchen command.
+
+```bash
+$ kitchen converge
+-----> Starting Test Kitchen (v2.4.0)
+-----> Converging ...
+       Preparing files for transfer
+       Installing cookbooks for Policyfile /Users/cheftv/learn-chef-infra/learn_chef/Policyfile.rb using `chef install`
+       Installing cookbooks from lock
+       Installing learn_chef 0.1.0
+       Preparing dna.json
+...
+
+Finished converging  (0m12.71s).
+-----> Test Kitchen is finished. (0m45.63s)
+```
+
+When Test Kitchen finishes, we can use `kitchen login <INSTANCE>` to verify the state of our server.
+
+#### Overview
+
+So far we have a rough idea that Chef Infra is a powerful automation platform that transforms infrastructure into code. 
+Whether we are operating in the cloud, on-premises, or in a hybrid environment, Chef Infra automates how infrastructure 
+is configured, deployed, and managed across your network, no matter its size.
+
+This diagram shows how we develop, test, and deploy your Chef Infra code.
+
+![Error loading start-chef.svg]({{ "/assets/img/start-chef.svg" | relative_url}})
+
+* **Chef Workstation** is the location where users interact with Chef Infra. With Chef Workstation, users can _author_ 
+  and _test cookbooks_ using tools such as Test Kitchen and interact with the Chef Infra Server using the knife and chef 
+  command line tools.
+* **Chef Infra Client** Chef Infra Client runs on systems that are managed by Chef Infra. The Chef Infra Client executes 
+  on a schedule to configure a system to the desired state.
+* **Chef Infra Server** acts as a hub for configuration data. Chef Infra Server stores cookbooks, the policies that are 
+  applied to nodes, and metadata that describes each registered node that is being managed by Chef. Nodes use the Chef 
+  Infra Client to ask the Chef Infra Server for configuration details, such as recipes, templates, and file
+  distributions.
+
+
+##### Chef Infra Components
+
+![Error loading chef-overview-2020.svg]({{ "/assets/img/chef-overview-2020.svg" | relative_url}})
+
+> Note that in the diagram above, "Chef Client" is the same thing as "Chef Infra Client"
+
+###### Cookbooks
+
+A cookbook is the fundamental unit of configuration and policy distribution in Chef. A cookbook defines a scenario and 
+contains everything that is required to support that scenario:
+
+* Recipesthat specify which Chef built-in resources to use, as well as the order in which they are to be applied
+
+  A recipe is the most fundamental configuration element within the organization. **A** recipe:
+
+  - Is authored using Ruby, which is a programming language designed to read and behave in a predictable manner
+  - Is mostly a collection of [resources](#resources), defined using patterns (resource names, attribute-value pairs,
+    and actions); helper code is added around this using Ruby, when needed
+  - Must define everything that is required to configure **part of** a system
+  - Must be stored in a cookbook
+  - May be included in another recipe
+  - May have a dependency on one (or more) recipes
+  - May use the results of a search query and read the contents of a data bag (including an encrypted data bag)
+  - Must be added to a run-list before it can be used by Chef Infra Client
+  - Is always executed in the same order as listed in a run-list
+
+  The Chef Client will run a recipe only when asked. When the Chef Client runs the same recipe more than once, the 
+  results will be the same system state each time. When a recipe is run against a system, but nothing has changed on 
+  either the system or in the recipe, the Chef Infra Client will not change anything.
+
+  The Chef Language is a comprehensive systems configuration language with resources and helpers for configuring 
+  operating systems. The language is primarily used in Chef recipes and custom resources to tell the Chef Client what 
+  action(s) to take to configure a system. The Chef Language provides resources for system-level components such as 
+  packages, users, or firewalls, and it also includes helpers to allow us to make configuration decisions based on 
+  operating systems, clouds, virtualization hypervisors, and more.
+
+* Attribute values, which allow _environment-based_ configurations such as **dev** or **production**.
+
+  An attribute can be defined in a cookbook (or a recipe) and then used to override the default settings on a node. When 
+  a cookbook is loaded during a Chef Client run, these attributes are compared to the attributes that are already present 
+  on the node. Attributes that are defined in attribute files are first loaded according to cookbook order. For each 
+  cookbook, attributes in the _default.rb_ file are loaded first, and then additional attribute files (if present) are 
+  loaded in **lexical** sort order. When the cookbook attributes take precedence over the default attributes, Chef  
+  Client applies those new settings and values during a Chef Client run on the node.
+
+* [Custom Resources](#custom-resources) for extending Chef beyond the [built-in resources](#resources). A resource is a 
+  statement of configuration policy that:
+
+  - Describes the desired state for a configuration item 
+  - Declares the steps needed to bring that item to the desired state 
+  - Specifies a resource type - such as package, template, or service 
+  - Lists additional details (also known as resource properties), as necessary 
+  - Are grouped into recipes, which describe working configurations
+
+
+* Files and Templates for distributing information to systems.
+* Custom Ohai Plugins for extending system configuration collection beyond the Ohai defaults.
+* The "metadata.rb" file, which describes the cookbook itself and any dependencies it may have. Every cookbook requires
+  a small amount of metadata. The contents of the "metadata.rb" file provides information that helps Chef Client and 
+  Server correctly deploy cookbooks to each node. A "metadata.rb" file is located at the top level of a cookbook's 
+  directory structure.
+
+#### Cookbooks
+
+#### chef-solo
+
+#### Resources
+
+### Custom Resources
+
+
+### Chef Workstation
+
+#### Test Kitchen
 
 ### Chef InSpec
 
