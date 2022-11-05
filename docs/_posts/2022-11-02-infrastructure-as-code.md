@@ -1384,6 +1384,50 @@ apt_update 'name' do
 end
 ```
 
+where:
+
+* `apt_update` is the resource.
+* `name` is the name given to the resource block.
+* `action` identifies which steps Chef Client will take to bring the node into the desired state. The **apt_update** 
+  resource has the following actions:
+
+  - `:update` - Update the Apt repository at the start of a Chef Client run.
+  - `:nothing` - This resource block does not act unless notified by another resource to take action. Once notified,
+    this resource block either runs immediately or is queued up to run at the end of a Chef Client run.
+  - `:periodic` - Update the Apt repository at the interval specified by the `frequency` property. (default)
+
+* `frequency` (**Ruby Type**: Integer | **Default Value**: 86400) determines how frequently (in seconds) APT repository 
+  updates are made. Use this property when the `:periodic` action is specified.
+
+This resource can be **nameless**. Add the resource itself to a recipe to get the default behavior:
+
+```ruby
+apt_update
+```
+
+will behave the same as:
+
+```ruby
+apt_update 'update'
+```
+
+The following examples demonstrate various approaches for using the **apt_update** resource in recipes:
+
+* Update the Apt repository at a specified interval:
+
+  ```ruby
+  apt_update 'all platforms' do
+    frequency 86400
+    action :periodic
+  end
+  ```
+
+* Update the Apt repository at the start of a Chef Infra Client run:
+
+  ```ruby
+  apt_update 'update'
+  ```
+
 ### Chef Workstation
 
 #### chef-run (executable)
@@ -1448,6 +1492,15 @@ chef-run host1 my_cookbook --cookbook-repo-paths '/path/1,/path/b'
 ```
 
 #### Test Kitchen
+
+Use [Test Kitchen](https://kitchen.ci/) to automatically test cookbooks across any combination of platforms and test 
+suites. Test suites are defined in a **kitchen.yml** file. See the
+[configuration documentation](https://docs.chef.io/workstation/config_yml_kitchen/) for options and syntax information.
+
+Test Kitchen use a comprehensive set of operating system base images from Chefs
+[Bento project](https://github.com/chef/bento), which produces base testing VirtualBox, Parallels, and VMware boxes for 
+multiple operating systems for use with Test Kitchen. By default, Test Kitchen uses the base images provided by Bento 
+although custom images may also be built using HashiCorp Packer.
 
 ### Chef InSpec
 
