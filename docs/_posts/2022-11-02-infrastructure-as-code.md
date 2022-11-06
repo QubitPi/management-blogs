@@ -966,6 +966,37 @@ Test Kitchen version: 2.4.0
 Cookstyle version: 5.22.6
 ```
 
+###### Linux
+
+1. Visit the [Chef Workstation downloads page](https://www.chef.io/downloads/tools/workstation) and download the
+appropriate package for our Linux distribution:
+
+  * Red Hat Enterprise Linux
+
+    ```bash
+    wget https://packages.chef.io/files/stable/chef-workstation/21.10.640/el/8/chef-workstation-21.10.640-1.el8.x86_64.rpm
+    ```
+
+  * Debian/Ubuntu
+
+    ```bash
+    wget https://packages.chef.io/files/stable/chef-workstation/21.10.640/ubuntu/20.04/chef-workstation_21.10.640-1_amd64.deb
+    ```
+
+2. Use distribution's package manager to install Chef Workstation:
+
+  * Red Hat Enterprise Linux:
+
+    ```bash
+    yum localinstall chef-workstation-21.10.640-1.el8.x86_64.rpm
+    ```
+  
+  * Debian/Ubuntu:
+
+    ```bash
+    dpkg -i chef-workstation_21.10.640-1_amd64.deb
+    ```
+
 ##### Setup local Virtualization
 
 When we use Chef to write code that defines our infrastructure, the code needs to be tested, just like a regular
@@ -1379,7 +1410,20 @@ end
 
 In both cases, Chef Client will use the default action (`:install`) to install the tar package.
 
-#### Policies
+##### package Resource
+
+Use the **package** resource to manage packages. When the package is installed from a local file (such as with RubyGems, 
+dpkg, or RPM Package Manager), the file must be added to the node using the **remote_file** or **cookbook_file**
+resources.
+
+A **package** resource block manages a package on a node, typically by installing it. The simplest use of the package 
+resource is:
+
+```ruby
+package 'httpd'
+```
+
+which will install Apache using all of the default options and the default action (:install).
 
 ### Custom Resources
 
@@ -1438,13 +1482,15 @@ The following examples demonstrate various approaches for using the **apt_update
   ```ruby
   apt_update 'update'
   ```
-  
+
 #### apt_package Resource
 
 Use the **apt_package** resource to manage packages on Debian, Ubuntu, and other platforms that use the APT package
 system.
 
 > In many cases, it is better to use the package resource instead of this one. This is because when the package resource is used in a recipe, Chef Infra Client will use details that are collected by Ohai at the start of a Chef Infra Client run to determine the correct package application. Using the package resource allows a recipe to be authored in a way that allows it to be used across many platforms.
+
+#### Policies
 
 ### Chef Workstation
 
