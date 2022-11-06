@@ -996,6 +996,26 @@ appropriate package for our Linux distribution:
     ```bash
     dpkg -i chef-workstation_21.10.640-1_amd64.deb
     ```
+    
+###### Verify the Installation
+
+To verify the installation, run:
+
+```bash
+chef -v
+```
+
+Which returns the versions of all installed Chef tools:
+
+```
+Chef Workstation version: 21.10.640
+Chef Infra Client version: 17.6.18
+Chef InSpec version: 4.46.13
+Chef CLI version: 5.4.2
+Chef Habitat version: 1.6.351
+Test Kitchen version: 3.1.0
+Cookstyle version: 7.25.6
+```
 
 ##### Setup local Virtualization
 
