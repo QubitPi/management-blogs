@@ -14,8 +14,9 @@ excerpt_separator: <!--more-->
 
 * TOC
 {:toc}
-  
-#### I Forgot Password
+
+
+### I Forgot Password
 
 Let's say you want to login to MySQL shell as root, whose password is lost. You could do
 
@@ -58,6 +59,40 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 mysql>
 ```
+
+If `mysql` still complains about access denied after `mysql.server start --skip-grant-tables`, uninstall mysql and
+mysql-client with
+
+```bash
+brew uninstall mysql mysql-client
+```
+
+Then do not install mysql through homebrew, but from
+[MySQL official page](https://downloads.mysql.com/archives/community/) instead.
+
+> ⚠️ It is very important to remember that the installation will show us a temporary root password. Please DO make sure
+> to copy this as we will be needing it to reset our root password later
+
+We will, however, still install mysql-client using homebrew"
+
+```bash
+brew install mysql-client
+```
+
+Then we can do
+
+```bash
+mysql -h localhost -u root -p
+```
+
+MySQL won't allow us to do anything further unless we reset password using the temporary one given during the
+installation step:
+
+```mysql
+SET PASSWORD = PASSWORD('your_new_password');
+```
+
+Exit mysql shell and re-enter it. We shall start using MySQL now.
 
 ### [Implicit Default Handling](https://dev.mysql.com/doc/refman/8.0/en/data-type-defaults.html)
 
