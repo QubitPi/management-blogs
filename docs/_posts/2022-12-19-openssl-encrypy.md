@@ -5,7 +5,7 @@ tags: [Security, OpenSSL]
 color: rgb(43, 164, 78)
 feature-img: "assets/img/post-cover/32-cover.png"
 thumbnail: "assets/img/post-cover/32-cover.png"
-author:
+authors:
   - linuxconfig.org
   - QubitPi
 excerpt_separator: <!--more-->
@@ -21,7 +21,9 @@ messages and files using OpenSSL.
 * TOC
 {:toc}
 
-## Encrypt and Decrypt Messages
+
+Encrypt and Decrypt Messages
+----------------------------
 
 First we can start by encrypting simple messages. The following linux command will encrypt a message "Welcome to
 LinuxCareer.com" using Base64 Encoding:
@@ -41,8 +43,8 @@ Welcome to LinuxCareer.com
 
 The encryption above is simple to use, however, it lacks an important feature of a password, which should be used for 
 encryption. _The procedure above simply exposes the original password in another plain text in the form of of
-**echo "V2VsY29tZSB0byBMaW51eENhcmVlci5jb20K" | openssl enc -base64 -d**, which essentially does nothing about "hiding"
-at all_.
+**echo "V2VsY29tZSB0byBMaW51eENhcmVlci5jb20K" | openssl enc -base64 -d**, which essentially does nothing about "hiding
+secrets" at all_.
 
 What will do next is, instead of decrypting using `openssl enc -base64 -d`, decrypting with a **password**. Try to
 decrypt the following string with a password "pass":
@@ -75,4 +77,81 @@ Verifying - enter aes-256-cbc encryption password:
 U2FsdGVkX185E3H2me2D+qmCfkEsXDTn8nCn/4sblr8=
 ```
 
-If you wish to store OpenSSL’s output to a file instead of STDOUT simply use STDOUT redirection “>”. When storing encrypted output to a file you can also omit -a option as you no longer need the output to be ASCII text based:
+If we wish to store OpenSSL's output to a file instead of STDOUT simply use STDOUT redirection `>`. When storing
+encrypted output to a file we can also omit the `-a` option as we no longer need the output to be ASCII text based:
+
+```bash
+echo "LinuxCareer.com" | openssl enc -aes-256-cbc > openssl.dat
+```
+
+```bash
+$ echo "LinuxCareer.com" | openssl enc -aes-256-cbc > openssl.dat
+enter aes-256-cbc encryption password:
+Verifying - enter aes-256-cbc encryption password:
+$ file openssl.dat 
+openssl.dat: openssl enc'd data with salted password
+```
+
+To decrypt the "openssl.dat" file back to its original message use:
+
+```bash
+openssl enc -aes-256-cbc -d -in openssl.dat 
+```
+
+```bash
+$ openssl enc -aes-256-cbc -d -in openssl.dat 
+enter aes-256-cbc decryption password:
+LinuxCareer.com
+```
+
+
+Encrypt and Decrypt File
+------------------------
+
+To encrypt files with OpenSSL is as simple as encrypting messages. The only difference is that instead of the echo
+command we use the **-in** option with the actual file we would like to encrypt and **-out** option, which will instruct 
+OpenSSL to store the encrypted file under a given name:
+
+> ⚠️ Ensure that the encrypted output file is given a different filename than the original plain input file. It is also 
+> recommended to do few encrypt/decrypt test runs on dummy data before encrypting important content.
+
+```bash
+openssl enc -aes-256-cbc -in /etc/services -out services.dat
+```
+
+To decrypt back our services file use:
+
+```bash
+$ openssl enc -aes-256-cbc -d -in services.dat > services.txt
+enter aes-256-cbc decryption password:
+```
+
+
+Encrypt and Decrypt Directory
+-----------------------------
+
+In case that we needed to use OpenSSL to encrypt an entire directory we would, first need to create gzip **tarball** and
+then encrypt the tarball with the above method or we can do both at the same time by using pipe:
+
+```bash
+$ tar cz /etc | openssl enc -aes-256-cbc -out etc.tar.gz.dat
+tar: Removing leading `/' from member names
+enter aes-256-cbc encryption password:
+Verifying - enter aes-256-cbc encryption password:
+```
+
+To decrypt and extract the entire etc/ directory to you current working directory use:
+
+```bash
+$ openssl enc -aes-256-cbc -d -in etc.tar.gz.dat | tar xz
+enter aes-256-cbc decryption password:
+```
+
+**The method above can be quite useful for automated encrypted backups**.
+
+
+Using Public and Private keys
+-----------------------------
+
+
+
