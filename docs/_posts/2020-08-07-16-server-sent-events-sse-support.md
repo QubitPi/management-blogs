@@ -5,7 +5,7 @@ tags: [Server-Sent Events, SSE, Broadcasting]
 color: rgb(221, 65, 36)
 feature-img: "assets/img/post-cover/16-cover.png"
 thumbnail: "assets/img/post-cover/16-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

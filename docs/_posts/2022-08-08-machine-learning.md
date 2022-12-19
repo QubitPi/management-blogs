@@ -5,7 +5,7 @@ tags: [Machine Learning, Philosophy]
 color: rgb(8, 169, 109)
 feature-img: "assets/img/post-cover/16-cover.png"
 thumbnail: "assets/img/post-cover/16-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

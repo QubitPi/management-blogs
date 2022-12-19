@@ -5,7 +5,7 @@ tags: [HTTP, HTTPS]
 color: rgb(0, 196, 0)
 feature-img: "assets/img/post-cover/29-cover.png"
 thumbnail: "assets/img/post-cover/29-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

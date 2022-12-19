@@ -5,7 +5,7 @@ tags: [Docker, CI/CD]
 color: rgb(8, 86, 112)
 feature-img: "assets/img/post-cover/31-cover.png"
 thumbnail: "assets/img/post-cover/31-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

@@ -5,7 +5,7 @@ tags: [Database, Design]
 color: rgb(242, 146, 33)
 feature-img: "assets/img/post-cover/13-cover.png"
 thumbnail: "assets/img/post-cover/13-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

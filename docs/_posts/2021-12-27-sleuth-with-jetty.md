@@ -5,7 +5,7 @@ tags: [Spring, Visualization, Tracing, Jetty, Sleuth, Zipkin]
 color: rgb(252, 57, 13)
 feature-img: "assets/img/post-cover/19-cover.png"
 thumbnail: "assets/img/post-cover/19-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

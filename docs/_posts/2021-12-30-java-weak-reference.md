@@ -5,7 +5,7 @@ tags: [Java]
 color: rgb(245, 111, 27)
 feature-img: "assets/img/post-cover/22-cover.png"
 thumbnail: "assets/img/post-cover/22-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

@@ -5,7 +5,7 @@ tags: [Request, Response, Serialization, Deserialization]
 color: LightCoral
 feature-img: "assets/img/post-cover/8-cover.png"
 thumbnail: "assets/img/post-cover/8-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

@@ -5,9 +5,7 @@ tags: [Security, OpenSSL]
 color: rgb(43, 164, 78)
 feature-img: "assets/img/post-cover/32-cover.png"
 thumbnail: "assets/img/post-cover/32-cover.png"
-authors:
-  - linuxconfig.org
-  - QubitPi
+authors [linuxconfig.org, QubitPi]
 excerpt_separator: <!--more-->
 ---
 

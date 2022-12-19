@@ -3,7 +3,7 @@ layout: post
 title: Entity Data Filtering
 tags: [GraphQL, Filtering]
 color: rgb(151, 127, 215)
-author: QubitPi
+authors: [QubitPi]
 feature-img: "assets/img/post-cover/20-cover.png"
 thumbnail: "assets/img/post-cover/20-cover.png"
 excerpt_separator: <!--more-->

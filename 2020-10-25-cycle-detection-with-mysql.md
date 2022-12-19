@@ -5,7 +5,7 @@ tags: [MySQL, Database]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/pexels/design-art/northern-lights.png"
 thumbnail: "assets/img/pexels/design-art/northern-lights.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

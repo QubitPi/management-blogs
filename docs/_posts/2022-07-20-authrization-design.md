@@ -5,7 +5,7 @@ tags: [Security, ACL, RBAC, ABAC, SaaS]
 color: rgb(255, 185, 1)
 feature-img: "assets/img/post-cover/8-cover.png"
 thumbnail: "assets/img/post-cover/8-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

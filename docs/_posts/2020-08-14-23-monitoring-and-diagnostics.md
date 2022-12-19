@@ -5,7 +5,7 @@ tags: [Monitoring]
 color: rgb(0, 83, 156)
 feature-img: "assets/img/post-cover/23-cover.png"
 thumbnail: "assets/img/post-cover/23-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

@@ -5,7 +5,7 @@ tags: [HK2, Injection, Annotation, Lifecycle]
 color: rgb(254, 132, 14)
 feature-img: "assets/img/post-cover/24-cover.png"
 thumbnail: "assets/img/post-cover/24-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 --- 
 

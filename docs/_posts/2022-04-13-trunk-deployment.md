@@ -5,7 +5,7 @@ tags: [CI/CD]
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/32-cover.png"
 thumbnail: "assets/img/post-cover/32-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

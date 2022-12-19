@@ -5,7 +5,7 @@ tags: [Asynchronous API, AsyncResponse, Callback, Chunked Output, Chunked Input]
 color: rgb(255, 111, 97)
 feature-img: "assets/img/post-cover/11-cover.png"
 thumbnail: "assets/img/post-cover/11-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

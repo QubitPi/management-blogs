@@ -5,7 +5,7 @@ tags: [OSS]
 color: rgb(236, 29, 35)
 feature-img: "assets/img/post-cover/6-cover.png"
 thumbnail: "assets/img/post-cover/6-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

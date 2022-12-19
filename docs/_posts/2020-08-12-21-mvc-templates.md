@@ -3,7 +3,7 @@ layout: post
 title: MVC Templates
 tags: [MVC, Mustache]
 color: rgb(146, 168, 209)
-author: QubitPi
+authors: [QubitPi]
 feature-img: "assets/img/post-cover/21-cover.png"
 thumbnail: "assets/img/post-cover/21-cover.png"
 excerpt_separator: <!--more-->

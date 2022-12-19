@@ -5,7 +5,7 @@ tags: [Software Engineering]
 color: rgb(0, 136, 0)
 feature-img: "assets/img/post-cover/22-cover.png"
 thumbnail: "assets/img/post-cover/22-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

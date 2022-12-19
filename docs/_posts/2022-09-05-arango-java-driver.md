@@ -5,7 +5,7 @@ tags: [ArangoDB, Database, Knowledge Graph, Java]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/10-cover.png"
 thumbnail: "assets/img/post-cover/10-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

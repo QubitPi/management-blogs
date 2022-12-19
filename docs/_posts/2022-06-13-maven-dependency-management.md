@@ -5,7 +5,7 @@ tags: [Maven]
 color: rgb(126, 31, 255)
 feature-img: "assets/img/post-cover/20-cover.png"
 thumbnail: "assets/img/post-cover/20-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

@@ -5,7 +5,7 @@ tags: [Virtualization, Kubernetes]
 color: rgb(49, 109, 230)
 feature-img: "assets/img/post-cover/28-cover.png"
 thumbnail: "assets/img/post-cover/28-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

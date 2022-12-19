@@ -5,7 +5,7 @@ tags: [Python]
 color: rgb(59, 118, 167)
 feature-img: "assets/img/post-cover/36-cover.png"
 thumbnail: "assets/img/post-cover/36-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 
