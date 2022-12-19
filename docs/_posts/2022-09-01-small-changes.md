@@ -5,7 +5,7 @@ tags: [Git, Management]
 color: rgb(246, 77, 39)
 feature-img: "assets/img/post-cover/4-cover.png"
 thumbnail: "assets/img/post-cover/4-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

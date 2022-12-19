@@ -5,7 +5,7 @@ tags: [Java, Observer, ReactiveX, Functional Programming, Async, RxJava]
 color: rgb(216, 26, 96)
 feature-img: "assets/img/post-cover/35-cover.png"
 thumbnail: "assets/img/post-cover/35-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

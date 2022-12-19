@@ -5,7 +5,7 @@ tags: [Dependency, POM]
 feature-img: "assets/img/post-cover/2-cover.png"
 thumbnail: "assets/img/post-cover/2-cover.png"
 color: green
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

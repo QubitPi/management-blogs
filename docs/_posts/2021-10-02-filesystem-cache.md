@@ -5,7 +5,7 @@ tags: [Linux, Performance]
 color: rgb(240,78,35)
 feature-img: "assets/img/post-cover/6-cover.png"
 thumbnail: "assets/img/post-cover/6-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

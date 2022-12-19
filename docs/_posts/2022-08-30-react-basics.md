@@ -5,7 +5,7 @@ tags: [React, JavaScript]
 color: rgb(4, 170, 109)
 feature-img: "assets/img/post-cover/2-cover.png"
 thumbnail: "assets/img/post-cover/2-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

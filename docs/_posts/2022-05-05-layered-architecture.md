@@ -5,7 +5,7 @@ tags: [Architecture]
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/18-cover.png"
 thumbnail: "assets/img/post-cover/18-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

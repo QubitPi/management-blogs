@@ -5,7 +5,7 @@ tags: [Groovy, Groovy Spock, Software Testing, Unit Test, Integration Test, Func
 color: rgb(237, 127, 34)
 feature-img: "assets/img/post-cover/8-cover.png"
 thumbnail: "assets/img/post-cover/8-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

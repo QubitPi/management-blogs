@@ -5,7 +5,7 @@ tags: [Validation, Bean, Hibernate, Constraint Annotations]
 color: rgb(233, 84, 32)
 feature-img: "assets/img/post-cover/19-cover.png"
 thumbnail: "assets/img/post-cover/19-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

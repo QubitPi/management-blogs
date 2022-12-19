@@ -5,7 +5,7 @@ tags: [Elasticsearch, Performance]
 color: rgb(0, 171, 229)
 feature-img: "assets/img/post-cover/5-cover.png"
 thumbnail: "assets/img/post-cover/5-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

@@ -5,7 +5,7 @@ tags: [Management]
 color: rgb(244, 130, 36)
 feature-img: "assets/img/post-cover/5-cover.png"
 thumbnail: "assets/img/post-cover/5-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

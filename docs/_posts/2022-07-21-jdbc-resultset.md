@@ -5,7 +5,7 @@ tags: [Java, JDBC, SQL]
 color: rgb(226, 46, 45)
 feature-img: "assets/img/post-cover/10-cover.png"
 thumbnail: "assets/img/post-cover/10-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

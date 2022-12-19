@@ -3,7 +3,7 @@ layout: post
 title: Jersey Configuration
 tags: [Configuration, Microprofile, Jakarta EE, Helidon, SmallRye]
 color: rgb(214, 80, 118)
-author: QubitPi
+authors: [QubitPi]
 feature-img: "assets/img/post-cover/15-cover.png"
 thumbnail: "assets/img/post-cover/15-cover.png"
 excerpt_separator: <!--more-->

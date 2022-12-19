@@ -5,7 +5,7 @@ tags: [Apache Airflow]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/27-cover.png"
 thumbnail: "assets/img/post-cover/27-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

@@ -5,7 +5,7 @@ tags: [B2B, Knowledge Graph, Finance]
 color: rgb(240,78,35)
 feature-img: "assets/img/post-cover/2-cover.png"
 thumbnail: "assets/img/post-cover/2-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

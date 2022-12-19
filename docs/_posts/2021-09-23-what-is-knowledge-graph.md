@@ -5,7 +5,7 @@ tags: [Data, Graph]
 color: rgb(240,78,35)
 feature-img: "assets/img/post-cover/33-cover.png"
 thumbnail: "assets/img/post-cover/33-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

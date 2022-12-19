@@ -5,7 +5,7 @@ tags: [CI, Maven, Software Release, SonarCloud]
 color: rgb(243, 112, 42)
 feature-img: "assets/img/post-cover/35-cover.png"
 thumbnail: "assets/img/post-cover/35-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

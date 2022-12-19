@@ -5,7 +5,7 @@ tags: [Algorithm]
 color: rgb(244, 128, 34)
 feature-img: "assets/img/post-cover/27-cover.png"
 thumbnail: "assets/img/post-cover/27-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

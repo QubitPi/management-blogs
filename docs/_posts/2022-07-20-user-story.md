@@ -5,7 +5,7 @@ tags: [Product]
 color: rgb(0, 82, 204)
 feature-img: "assets/img/post-cover/9-cover.png"
 thumbnail: "assets/img/post-cover/9-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

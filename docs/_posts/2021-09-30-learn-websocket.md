@@ -5,7 +5,7 @@ tags: [Java, Webservice, JavaEE]
 color: rgb(240,78,35)
 feature-img: "assets/img/post-cover/4-cover.png"
 thumbnail: "assets/img/post-cover/4-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

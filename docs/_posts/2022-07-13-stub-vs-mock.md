@@ -5,7 +5,7 @@ tags: [Testing]
 color: rgb(240, 91, 161)
 feature-img: "assets/img/post-cover/6-cover.png"
 thumbnail: "assets/img/post-cover/6-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

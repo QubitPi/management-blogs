@@ -5,7 +5,7 @@ tags: [Entrepreneurship]
 color: rgb(34, 126, 254)
 feature-img: "assets/img/post-cover/25-cover.png"
 thumbnail: "assets/img/post-cover/25-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

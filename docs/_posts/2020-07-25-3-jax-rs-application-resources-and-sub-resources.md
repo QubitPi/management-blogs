@@ -5,7 +5,7 @@ tags: [Application, Resources, Sub-Resources]
 color: brown
 feature-img: "assets/img/post-cover/3-cover.png"
 thumbnail: "assets/img/post-cover/3-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

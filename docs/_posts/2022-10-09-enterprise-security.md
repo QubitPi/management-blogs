@@ -5,7 +5,7 @@ tags: [Security, VPN, Entrepreneurship]
 color: rgb(27, 185, 115)
 feature-img: "assets/img/post-cover/30-cover.png"
 thumbnail: "assets/img/post-cover/30-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

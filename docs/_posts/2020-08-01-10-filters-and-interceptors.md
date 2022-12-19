@@ -5,7 +5,7 @@ tags: [Filter, Interceptor, Request, Response, Name Binding, Dynamic Binding, Pr
 color: rgb(255, 105, 180)
 feature-img: "assets/img/post-cover/10-cover.png"
 thumbnail: "assets/img/post-cover/10-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

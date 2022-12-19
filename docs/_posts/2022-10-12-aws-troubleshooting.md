@@ -5,7 +5,7 @@ tags: [AWS]
 color: rgb(43, 164, 78)
 feature-img: "assets/img/post-cover/31-cover.png"
 thumbnail: "assets/img/post-cover/31-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

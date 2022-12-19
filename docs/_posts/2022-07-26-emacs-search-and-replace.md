@@ -5,7 +5,7 @@ tags: [Emacs]
 color: rgb(127, 90, 182)
 feature-img: "assets/img/post-cover/11-cover.png"
 thumbnail: "assets/img/post-cover/11-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

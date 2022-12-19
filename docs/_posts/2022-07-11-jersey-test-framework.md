@@ -5,7 +5,7 @@ tags: [Jersey, Testing]
 color: rgb(244, 126, 54)
 feature-img: "assets/img/post-cover/5-cover.png"
 thumbnail: "assets/img/post-cover/5-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

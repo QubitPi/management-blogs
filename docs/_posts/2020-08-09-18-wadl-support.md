@@ -5,7 +5,7 @@ tags: [WADL]
 color: rgb(195, 68, 122)
 feature-img: "assets/img/post-cover/18-cover.png"
 thumbnail: "assets/img/post-cover/18-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

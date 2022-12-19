@@ -5,7 +5,7 @@ tags: [CI, Maven, Software Release]
 color: rgb(11, 164, 105)
 feature-img: "assets/img/post-cover/34-cover.png"
 thumbnail: "assets/img/post-cover/34-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

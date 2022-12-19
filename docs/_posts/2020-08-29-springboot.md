@@ -5,7 +5,7 @@ tags: [Spring Boot, Spring]
 color: rgb(0, 210, 0)
 feature-img: "assets/img/post-cover/1-cover.png"
 thumbnail: "assets/img/post-cover/1-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 

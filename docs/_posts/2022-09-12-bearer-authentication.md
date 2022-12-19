@@ -5,7 +5,7 @@ tags: [Security]
 color: rgb(133, 235, 43)
 feature-img: "assets/img/post-cover/21-cover.png"
 thumbnail: "assets/img/post-cover/21-cover.png"
-author: QubitPi
+authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 
