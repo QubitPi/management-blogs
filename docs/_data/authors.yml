@@ -4,8 +4,8 @@ QubitPi:
   url: "https://www.linkedin.com/in/jack20191124"
 linuxconfig.org:
   name: linuxconfig.org
-  avatar: https://linuxconfig.org/wp-content/uploads/2021/07/logo-lc.png
-  url: https://linuxconfig.org/
+  avatar: "https://linuxconfig.org/wp-content/uploads/2021/07/logo-lc.png"
+  url: "https://linuxconfig.org/"
 
 #rohanchandra: # author-id
 #  name: "Rohan Chandra"
