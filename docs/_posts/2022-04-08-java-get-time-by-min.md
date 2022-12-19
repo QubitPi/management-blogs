@@ -2,7 +2,6 @@
 layout: post
 title: Get Current Time With Minute Precision Exclusively
 tags: [HTTP, HTTPS]
-category: FINALIZED
 color: rgb(0, 196, 0)
 feature-img: "assets/img/post-cover/30-cover.png"
 thumbnail: "assets/img/post-cover/30-cover.png"

@@ -2,7 +2,6 @@
 layout: post
 title: Tired of Null Pointer Exceptions? Consider Using Java SE 8's "Optional"
 tags: [Java]
-category: FINALIZED
 color: rgb(199, 70, 51)
 feature-img: "assets/img/post-cover/15-cover.png"
 thumbnail: "assets/img/post-cover/15-cover.png"

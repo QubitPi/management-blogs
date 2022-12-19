@@ -2,7 +2,6 @@
 layout: post
 title: Amazon AWS Troubleshooting
 tags: [AWS]
-category: FINALIZED
 color: rgb(43, 164, 78)
 feature-img: "assets/img/post-cover/31-cover.png"
 thumbnail: "assets/img/post-cover/31-cover.png"

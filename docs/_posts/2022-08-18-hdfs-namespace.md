@@ -2,7 +2,6 @@
 layout: post
 title: What is HDFS Namespace
 tags: [Hadoop, HDFS, Architecture]
-category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/34-cover.png"
 thumbnail: "assets/img/post-cover/34-cover.png"

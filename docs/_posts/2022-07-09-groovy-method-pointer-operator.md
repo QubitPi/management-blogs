@@ -2,7 +2,6 @@
 layout: post
 title: Groovy Method Pointer Operator
 tags: [Groovy, Testing]
-category: FINALIZED
 color: rgb(220, 73, 0)
 feature-img: "assets/img/post-cover/2-cover.png"
 thumbnail: "assets/img/post-cover/2-cover.png"

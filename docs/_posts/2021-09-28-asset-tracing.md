@@ -2,7 +2,6 @@
 layout: post
 title: What is Asset Tracing?
 tags: [B2B, Knowledge Graph, Finance]
-category: FINALIZED
 color: rgb(240,78,35)
 feature-img: "assets/img/post-cover/2-cover.png"
 thumbnail: "assets/img/post-cover/2-cover.png"

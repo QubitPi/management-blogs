@@ -2,7 +2,6 @@
 layout: post
 title: MVC Templates
 tags: [MVC, Mustache]
-category: FINALIZED
 color: rgb(146, 168, 209)
 author: QubitPi
 feature-img: "assets/img/post-cover/21-cover.png"

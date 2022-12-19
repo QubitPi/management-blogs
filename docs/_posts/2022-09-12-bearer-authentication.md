@@ -2,7 +2,6 @@
 layout: post
 title: Bearer Authentication
 tags: [Security]
-category: FINALIZED
 color: rgb(133, 235, 43)
 feature-img: "assets/img/post-cover/21-cover.png"
 thumbnail: "assets/img/post-cover/21-cover.png"

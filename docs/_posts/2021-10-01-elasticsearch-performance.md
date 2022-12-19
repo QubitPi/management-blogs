@@ -2,7 +2,6 @@
 layout: post
 title: Elasticsearch Performance
 tags: [Elasticsearch, Performance]
-category: FINALIZED
 color: rgb(0, 171, 229)
 feature-img: "assets/img/post-cover/5-cover.png"
 thumbnail: "assets/img/post-cover/5-cover.png"

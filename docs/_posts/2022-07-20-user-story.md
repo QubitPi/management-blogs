@@ -2,7 +2,6 @@
 layout: post
 title: User Stories with Examples and a Template
 tags: [Product]
-category: FINALIZED
 color: rgb(0, 82, 204)
 feature-img: "assets/img/post-cover/9-cover.png"
 thumbnail: "assets/img/post-cover/9-cover.png"

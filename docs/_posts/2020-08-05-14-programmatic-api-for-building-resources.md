@@ -2,7 +2,6 @@
 layout: post
 title: Programmatic API for Building Resources
 tags: [API, Resources, Programmatic]
-category: FINALIZED
 color: rbg(136, 176, 75)
 feature-img: "assets/img/post-cover/14-cover.png"
 thumbnail: "assets/img/post-cover/14-cover.png"

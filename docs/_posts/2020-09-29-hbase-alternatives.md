@@ -2,7 +2,6 @@
 layout: post
 title: HBase and Alternatives
 tags: [HBase, Hadoop]
-category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/31-cover.png"
 thumbnail: "assets/img/post-cover/31-cover.png"

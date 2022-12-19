@@ -2,7 +2,6 @@
 layout: post
 title: WADL Support
 tags: [WADL]
-category: FINALIZED
 color: rgb(195, 68, 122)
 feature-img: "assets/img/post-cover/18-cover.png"
 thumbnail: "assets/img/post-cover/18-cover.png"

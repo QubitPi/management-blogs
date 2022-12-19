@@ -2,7 +2,6 @@
 layout: post
 title: Java Memory Model
 tags: [Java]
-category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/11-cover.png"
 thumbnail: "assets/img/post-cover/11-cover.png"

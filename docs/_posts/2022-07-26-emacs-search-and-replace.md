@@ -2,7 +2,6 @@
 layout: post
 title: Emacs Search and Replace on Mac OS
 tags: [Emacs]
-category: FINALIZED
 color: rgb(127, 90, 182)
 feature-img: "assets/img/post-cover/11-cover.png"
 thumbnail: "assets/img/post-cover/11-cover.png"

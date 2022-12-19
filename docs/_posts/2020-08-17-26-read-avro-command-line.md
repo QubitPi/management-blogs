@@ -2,7 +2,6 @@
 layout: post
 title: Reading and Writing Avro Files from the Command Line
 tags: [Apache Avro]
-category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/26-cover.png"
 thumbnail: "assets/img/post-cover/26-cover.png"

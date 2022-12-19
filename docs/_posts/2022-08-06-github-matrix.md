@@ -2,7 +2,6 @@
 layout: post
 title: Using a GitHub Action Matrix to Define Variations for Each Job
 tags: [CI/CD, GitHub]
-category: FINALIZED
 color: rgb(36, 41, 46)
 feature-img: "assets/img/post-cover/29-cover.png"
 thumbnail: "assets/img/post-cover/29-cover.png"

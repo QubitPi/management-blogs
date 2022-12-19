@@ -2,7 +2,6 @@
 layout: post
 title: Developing a Strategy for Organization's Open Source Project
 tags: [OSS]
-category: MANAGEMENT
 color: rgb(236, 29, 35)
 feature-img: "assets/img/post-cover/6-cover.png"
 thumbnail: "assets/img/post-cover/6-cover.png"

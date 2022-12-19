@@ -2,7 +2,6 @@
 layout: post
 title: Machine Learning Basics
 tags: [Machine Learning, Philosophy]
-category: FINALIZED
 color: rgb(8, 169, 109)
 feature-img: "assets/img/post-cover/16-cover.png"
 thumbnail: "assets/img/post-cover/16-cover.png"

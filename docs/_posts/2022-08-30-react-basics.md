@@ -2,7 +2,6 @@
 layout: post
 title: React - The GraphQL Frontend
 tags: [React, JavaScript]
-category: FINALIZED
 color: rgb(4, 170, 109)
 feature-img: "assets/img/post-cover/2-cover.png"
 thumbnail: "assets/img/post-cover/2-cover.png"

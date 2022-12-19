@@ -2,7 +2,6 @@
 layout: post
 title: Managing Hierarchical Data in MySQL
 tags: [SQL, Database, Modeling]
-category: FINALIZED
 color: rgb(6, 152, 98)
 feature-img: "assets/img/post-cover/26-cover.png"
 thumbnail: "assets/img/post-cover/26-cover.png"

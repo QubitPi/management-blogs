@@ -2,7 +2,6 @@
 layout: post
 title: Documentation Guide
 tags: [HTTP, HTTPS]
-category: FINALIZED
 color: rgb(0, 196, 0)
 feature-img: "assets/img/post-cover/29-cover.png"
 thumbnail: "assets/img/post-cover/29-cover.png"

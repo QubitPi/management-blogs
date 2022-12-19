@@ -2,7 +2,6 @@
 layout: post
 title: ArangoDB Query Language (AQL)
 tags: [ArangoDB, Database, Knowledge Graph]
-category: FINALIZED
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/7-cover.png"
 thumbnail: "assets/img/post-cover/7-cover.png"

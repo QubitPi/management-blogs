@@ -2,7 +2,6 @@
 layout: post
 title: URIs and Links
 tags: [URI, Links]
-category: FINALIZED
 color: rgb(107, 91, 149)
 feature-img: "assets/img/post-cover/12-cover.png"
 thumbnail: "assets/img/post-cover/12-cover.png"

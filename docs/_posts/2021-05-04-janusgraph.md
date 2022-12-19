@@ -2,7 +2,6 @@
 layout: post
 title: JanusGraph Reference
 tags: [JanusGraph, Graph, Database]
-category: FINALIZED
 color: rgb(224, 1, 152)
 feature-img: "assets/img/post-cover/17-cover.png"
 thumbnail: "assets/img/post-cover/17-cover.png"

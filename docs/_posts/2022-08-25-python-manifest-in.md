@@ -2,7 +2,6 @@
 layout: post
 title: Including Files in Source Distributions with MANIFEST.in
 tags: [Python]
-category: FINALIZED
 color: rgb(59, 118, 167)
 feature-img: "assets/img/post-cover/36-cover.png"
 thumbnail: "assets/img/post-cover/36-cover.png"

@@ -2,7 +2,6 @@
 layout: post
 title: Monitoring and Diagnostics
 tags: [Monitoring]
-category: FINALIZED
 color: rgb(0, 83, 156)
 feature-img: "assets/img/post-cover/23-cover.png"
 thumbnail: "assets/img/post-cover/23-cover.png"

@@ -2,7 +2,6 @@
 layout: post
 title: Spring Boot References
 tags: [Spring Boot, Spring]
-category: FINALIZED
 color: rgb(0, 210, 0)
 feature-img: "assets/img/post-cover/1-cover.png"
 thumbnail: "assets/img/post-cover/1-cover.png"

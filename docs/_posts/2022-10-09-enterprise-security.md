@@ -2,7 +2,6 @@
 layout: post
 title: Building Enterprise Security
 tags: [Security, VPN, Entrepreneurship]
-category: FINALIZED
 color: rgb(27, 185, 115)
 feature-img: "assets/img/post-cover/30-cover.png"
 thumbnail: "assets/img/post-cover/30-cover.png"

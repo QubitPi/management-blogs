@@ -2,7 +2,6 @@
 layout: post
 title: Reactive JAX-RS Client API
 tags: [Reactive, API]
-category: FINALIZED
 color: purple
 feature-img: "assets/img/post-cover/6-cover.png"
 thumbnail: "assets/img/post-cover/6-cover.png"

@@ -2,7 +2,6 @@
 layout: post
 title: Bean Validation Support
 tags: [Validation, Bean, Hibernate, Constraint Annotations]
-category: FINALIZED
 color: rgb(233, 84, 32)
 feature-img: "assets/img/post-cover/19-cover.png"
 thumbnail: "assets/img/post-cover/19-cover.png"

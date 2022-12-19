@@ -2,7 +2,6 @@
 layout: post
 title: HTTP Related Testing in Python
 tags: [Testing]
-category: FINALIZED
 color: rgb(8, 86, 112)
 feature-img: "assets/img/post-cover/33-cover.png"
 thumbnail: "assets/img/post-cover/33-cover.png"

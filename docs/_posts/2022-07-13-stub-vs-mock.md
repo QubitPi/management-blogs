@@ -2,7 +2,6 @@
 layout: post
 title: The Difference Between Mocks and Stubs
 tags: [Testing]
-category: FINALIZED
 color: rgb(240, 91, 161)
 feature-img: "assets/img/post-cover/6-cover.png"
 thumbnail: "assets/img/post-cover/6-cover.png"

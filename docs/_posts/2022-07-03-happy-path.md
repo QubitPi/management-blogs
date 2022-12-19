@@ -2,7 +2,6 @@
 layout: post
 title: Happy Path
 tags: [Testing]
-category: FINALIZED
 color: rgb(8, 86, 112)
 feature-img: "assets/img/post-cover/32-cover.png"
 thumbnail: "assets/img/post-cover/32-cover.png"

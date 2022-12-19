@@ -2,7 +2,6 @@
 layout: post
 title: JavaScript Classes
 tags: [JavaScript]
-category: FINALIZED
 color: rgb(8, 169, 109)
 feature-img: "assets/img/post-cover/13-cover.png"
 thumbnail: "assets/img/post-cover/13-cover.png"

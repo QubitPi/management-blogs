@@ -2,7 +2,6 @@
 layout: post
 title: Is an Entity Body Allowed for an HTTP DELETE Request?
 tags: [HTTP, HTTPS]
-category: FINALIZED
 color: rgb(0, 196, 0)
 feature-img: "assets/img/post-cover/28-cover.png"
 thumbnail: "assets/img/post-cover/28-cover.png"

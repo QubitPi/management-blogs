@@ -2,7 +2,6 @@
 layout: post
 title: Server-Sent Events (SSE) Support
 tags: [Server-Sent Events, SSE, Broadcasting]
-category: FINALIZED
 color: rgb(221, 65, 36)
 feature-img: "assets/img/post-cover/16-cover.png"
 thumbnail: "assets/img/post-cover/16-cover.png"

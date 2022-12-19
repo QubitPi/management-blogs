@@ -2,7 +2,6 @@
 layout: post
 title: Provider v.s. @Provider
 tags: [Java]
-category: FINALIZED
 color: rgb(8, 86, 112)
 feature-img: "assets/img/post-cover/27-cover.png"
 thumbnail: "assets/img/post-cover/27-cover.png"

@@ -2,7 +2,6 @@
 layout: post
 title: Support for Common Media Type Representations
 tags: [JSON, Jackson, XML]
-category: FINALIZED
 color: rgb(0, 191, 255)
 feature-img: "assets/img/post-cover/9-cover.png"
 thumbnail: "assets/img/post-cover/9-cover.png"

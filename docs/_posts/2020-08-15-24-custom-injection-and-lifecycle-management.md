@@ -2,7 +2,6 @@
 layout: post
 title: Custom Injection and Lifecycle Management
 tags: [HK2, Injection, Annotation, Lifecycle]
-category: FINALIZED
 color: rgb(254, 132, 14)
 feature-img: "assets/img/post-cover/24-cover.png"
 thumbnail: "assets/img/post-cover/24-cover.png"

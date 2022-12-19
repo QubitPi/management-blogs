@@ -2,7 +2,6 @@
 layout: post
 title: The Metaphysics of Software Testing
 tags: [Testing]
-category: FINALIZED
 color: rgb(220, 73, 0)
 feature-img: "assets/img/post-cover/1-cover.png"
 thumbnail: "assets/img/post-cover/1-cover.png"

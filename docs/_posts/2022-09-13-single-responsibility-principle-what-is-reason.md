@@ -2,7 +2,6 @@
 layout: post
 title: Single Responsibility Principle - What Defines a Reason to Change?
 tags: [Software Engineering]
-category: FINALIZED
 color: rgb(0, 136, 0)
 feature-img: "assets/img/post-cover/22-cover.png"
 thumbnail: "assets/img/post-cover/22-cover.png"

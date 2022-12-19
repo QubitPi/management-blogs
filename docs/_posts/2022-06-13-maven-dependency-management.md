@@ -2,7 +2,6 @@
 layout: post
 title: Introduction to the Dependency Mechanisme
 tags: [Maven]
-category: FINALIZED
 color: rgb(126, 31, 255)
 feature-img: "assets/img/post-cover/20-cover.png"
 thumbnail: "assets/img/post-cover/20-cover.png"

@@ -2,7 +2,6 @@
 layout: post
 title: Application Deployment and Runtime Environments
 tags: [Deployment, endpoint]
-category: FINALIZED
 color: rgb(91, 94, 166)
 feature-img: "assets/img/post-cover/4-cover.png"
 thumbnail: "assets/img/post-cover/4-cover.png"

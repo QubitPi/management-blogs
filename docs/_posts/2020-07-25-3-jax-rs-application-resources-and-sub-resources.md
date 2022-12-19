@@ -2,7 +2,6 @@
 layout: post
 title: JAX-RS Application, Resources and Sub-Resources
 tags: [Application, Resources, Sub-Resources]
-category: FINALIZED
 color: brown
 feature-img: "assets/img/post-cover/3-cover.png"
 thumbnail: "assets/img/post-cover/3-cover.png"
