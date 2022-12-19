@@ -1,5 +1,5 @@
 {% assign date = include.date %}
-{% assign authors = include.authors %}
+{% assign authors = include.authors | split:'|' | sort | uniq %}
 
 <div class="post-info">
   {% for author_id in authors %}
@@ -10,7 +10,7 @@
     <img src="{{ author.avatar | relative_url }}">
     {% endif %}
     <p class="meta">
-        {% if author.name %}{{ author.name }} - {% endif %}
+        {% if author.name %}{{ author.name }} {% endif %}
     </p>
     {%- if author.url -%}</a>{%- endif -%}
   {% endfor %}

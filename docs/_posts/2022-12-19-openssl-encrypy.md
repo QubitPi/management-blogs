@@ -151,5 +151,65 @@ enter aes-256-cbc decryption password:
 Using Public and Private keys
 -----------------------------
 
+In this section we will show how to encrypt and decrypt files using public and private keys. First we need to generate 
+private and public keys. This can simply be done by:
+
+```bash
+openssl genrsa -out private_key.pem 1024
+```
 
 
+From the private key we can then generate public key:
+
+```bash
+openssl rsa -in private_key.pem -out public_key.pem -outform PEM -pubout
+```
+
+At this point we should have both private and public key available in our current working directory.
+
+```bash
+$ ls
+private_key.pem  public_key.pem
+```
+
+Next, we create some sample file called "encrypt.txt" with any arbitrary text:
+
+```bash
+$ echo "Welcome to LinuxCareer.com" > encrypt.txt
+$ cat encrypt.txt 
+Welcome to LinuxCareer.com
+```
+
+Now we are ready to encrypt this file with public key:
+
+```bash
+openssl rsautl -encrypt -inkey public_key.pem -pubin -in encrypt.txt -out encrypt.dat 
+```
+
+i.e.
+
+```bash
+$ openssl rsautl -encrypt -inkey public_key.pem -pubin -in encrypt.txt -out encrypt.dat 
+$ ls
+encrypt.dat  encrypt.txt  private_key.pem  public_key.pem
+$ file encrypt.dat 
+encrypt.dat: openssl enc'd data with salted password
+```
+
+As you can see our new encrypt.dat file is no longer text files. To decrypt this file we need to use private key:
+
+```bash
+openssl rsautl -decrypt -inkey private_key.pem -in encrypt.dat -out new_encrypt.txt
+```
+
+i.e.
+
+```bash
+$ openssl rsautl -decrypt -inkey private_key.pem -in encrypt.dat -out new_encrypt.txt
+$ cat new_encrypt.txt
+Welcome to LinuxCareer.com
+```
+
+The syntax above is quite intuitive. As you can see we have decrypted a file encrypt.dat to its original form and save
+it as new_encrypt.txt. You can for example combine this syntax with encrypting directories example above to create 
+automated encrypted backup script.
