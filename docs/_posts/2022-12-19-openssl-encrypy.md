@@ -2,7 +2,7 @@
 layout: post
 title: Using OpenSSL to encrypt messages and files on Linux
 tags: [Security, OpenSSL]
-color: rgb(43, 164, 78)
+color: rgb(6, 176, 239)
 feature-img: "assets/img/post-cover/32-cover.png"
 thumbnail: "assets/img/post-cover/32-cover.png"
 authors: [linuxconfig.org, QubitPi]
