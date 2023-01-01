@@ -62,6 +62,11 @@ work out. Although it can be scary at first, company leaders find that when they
 team feels a greater sense of ownership and rises to meet (or exceed) management's expectations.
 
 
+<video controls width="250">
+    <source src="https://youtu.be/b02ZkndLk1Y"
+            type="video/mp4">
+</video>
+
 Agile Manifesto
 ===============
 
