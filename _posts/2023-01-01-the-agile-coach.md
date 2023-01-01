@@ -2,8 +2,8 @@
 layout: post
 title: The Agile Coach
 tags: [Management]
-color: rgb(67, 52, 127)
-feature-img: "assets/img/post-cover/AgileHome.png"
+color: rgb(0, 73, 176)
+feature-img: "assets/img/post-cover/35-cover.png"
 thumbnail: "assets/img/post-cover/AgileHome.png"
 authors: [QubitPi, atlassian]
 excerpt_separator: <!--more-->
@@ -61,7 +61,57 @@ standards for quality, usability, and completeness. Their "definition of done" t
 work out. Although it can be scary at first, company leaders find that when they put their trust in an agile team, that
 team feels a greater sense of ownership and rises to meet (or exceed) management's expectations.
 
-![Error loading illustrations.png]({{ "/assets/img/illustrations.png" | relative_url}})
 
+Agile Manifesto
+===============
 
+### The Origin Story
 
+In early 2001, against the backdrop of the Wasatch Mountains, in Snowbird, Utah, 17 people met to discuss the future of
+software development. The group's members shared a frustration about the current state of affairs, even if they
+disagreed about how to remedy the situation.
+
+The problem, they agreed, was that companies were so focused on excessively planning and documenting their software
+development cycles that they lost sight of what really mattered - pleasing their customers.
+
+Companies may have touted corporate values like "excellence" and "integrity," but these values did little to guide
+people - especially software developers - toward a better way. That needed to change. Many of the Snowbird 17 already
+had ideas about how to usher in software development's new era. The trip to the mountains was their chance to hash it
+out.
+
+The Agile Manifesto emerged from this extended weekend at just 68 words, and the short and sweet document went on to
+change software development forever. In the nearly two decades since its creation, these words (and the 12 principles
+that follow) have been embraced (in varying degrees) by countless individuals, teams, and companies.
+
+> **[Original Manifesto](https://agilemanifesto.org/) for Agile Software Development**
+>
+> We are uncovering better ways of developing software by doing it and helping others do it. Through this work we have
+> come to value:
+>
+> * **Individuals and interactions** over processes and tools
+> * **Working software** over comprehensive documentation
+> * **Customer collaboration** over contract negotiation
+> * **Responding to change** over following a plan
+>
+> That is, while there is value in the items on the right, we value the items on the left more.
+>
+> **Principles Behind the Agile Manifesto**
+>
+> 1. Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.
+> 2. Welcome changing requirements, even late in development. Agile processes harness change for the customer's
+>    competitive advantage.
+> 3. Deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter
+     timescale.
+> 4. Business people and developers must work together daily throughout the project.
+> 5. Build projects around motivated individuals. Give them the environment and support they need, and trust them to get
+>    the job done.
+> 6. The most efficient and effective method of conveying information to and within a development team is face-to-face
+>    conversation.
+> 7. Working software is the primary measure of progress.
+> 8. Agile processes promote sustainable development. The sponsors, developers, and users should be able to maintain a
+>    constant pace indefinitely.
+> 9. Continuous attention to technical excellence and good design enhances agility.
+> 10. Simplicity -- the art of maximizing the amount of work not done -- is essential.
+> 11. The best architectures, requirements, and designs emerge from self-organizing teams.
+> 12. At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior
+>     accordingly.
