@@ -3,8 +3,8 @@ layout: post
 title: The Agile Coach
 tags: [Management]
 color: rgb(0, 73, 176)
-feature-img: "assets/img/post-cover/35-cover.png"
-thumbnail: "assets/img/post-cover/AgileHome.png"
+feature-img: "assets/img/post-cover/AgileHome.png"
+thumbnail: "assets/img/post-cover/35-cover.png"
 authors: [QubitPi, atlassian]
 excerpt_separator: <!--more-->
 ---
@@ -42,7 +42,7 @@ or blend elements of kanban and XP - is entirely up to you.
 
 
 Why Choose Agile?
-=================
+-----------------
 
 Teams choose agile so they can **respond to changes in the marketplace or feedback from customers quickly** without 
 derailing a year's worth of plans. "Just enough" planning and shipping in small, frequent increments lets your team
@@ -61,11 +61,6 @@ standards for quality, usability, and completeness. Their "definition of done" t
 work out. Although it can be scary at first, company leaders find that when they put their trust in an agile team, that
 team feels a greater sense of ownership and rises to meet (or exceed) management's expectations.
 
-
-<video controls width="250">
-    <source src="https://youtu.be/b02ZkndLk1Y"
-            type="video/mp4">
-</video>
 
 Agile Manifesto
 ===============
@@ -120,3 +115,31 @@ that follow) have been embraced (in varying degrees) by countless individuals, t
 > 11. The best architectures, requirements, and designs emerge from self-organizing teams.
 > 12. At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior
 >     accordingly.
+
+
+Scrum
+=====
+
+Scrum is an agile project management framework that helps teams structure and manage their work through a set of values, 
+principles, and practices. Scrum encourages teams to learn through experiences, self-organize while working on a
+problem, and reflect on their wins and losses to continuously improve.
+
+<video controls>
+    <source src="https://youtu.be/b02ZkndLk1Y" type="video/mp4">
+</video>
+
+People often think scrum and agile are the same thing because scrum is centered around continuous improvement, which is
+a core principle of agile. However, scrum is a framework for getting work done, whereas agile is a philosophy. The agile 
+philosophy centers around continuous incremental improvement through small and frequent releases. We can't really "go 
+agile", as it takes dedication from the whole team to change the way they think about delivering value to customers. But
+we can use a framework like scrum to help us start thinking that way and to practice building agile principles into our 
+everyday communication and work.
+
+The definition of scrum is based on empiricism and lean thinking. Empiricism says that knowledge comes from experience
+and that decisions are made based on what is observed. Lean thinking reduces waste and focuses on essentials. The scrum 
+framework is heuristic; it’s based on continuous learning and adjustment to fluctuating factors. It acknowledges that
+the team doesn't know everything at the start of a project and will evolve through experience. Scrum is structured to
+help teams naturally adapt to changing conditions and user requirements, with re-prioritization built into the process
+and short release cycles so your team can constantly learn and improve.
+
+![Error loading sprint-cycle.png]({{ "/assets/img/sprint-cycle.png" | relative_url}})
