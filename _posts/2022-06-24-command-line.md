@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Command Line Reference
+title: Useful Commands for Life
 tags: [Bash, Linux, Mac]
 color: rgb(250, 154, 133)
 feature-img: "assets/img/post-cover/26-cover.png"
@@ -27,6 +27,21 @@ Media
 3. Locate and choose the FLV file.
 4. Choose an appropriate preset or configure the **Video** and **Audio** tabs manually.
 5. Click the **Start** button.
+
+
+PDF
+---
+
+### Automate removing the first page of a PDF
+
+I've done this using the [Coherent PDF Command Line Tools Community Release](http://community.coherentpdf.com/). The
+syntax for removing the first page when the PDF file has 2 or more pages is:
+
+    cpdf in.pdf 2-end -o out.pdf
+
+### Convert PDF to Images
+
+    pdftoppm -rx 300 -ry 300 -png file.pdf prefix # 300 specifies resolution
 
 
 Graphviz
@@ -65,23 +80,6 @@ Example:
 ![example]({{ "/assets/img/tree.png" | relative_url}})
 
 
-Convert PDF to Images
----------------------
-
-    pdftoppm -rx 300 -ry 300 -png file.pdf prefix # 300 specifies resolution
-
-
-PDF
----
-
-### Automate removing the first page of a PDF
-
-I've done this using the [Coherent PDF Command Line Tools Community Release](http://community.coherentpdf.com/). The
-syntax for removing the first page when the PDF file has 2 or more pages is:
-
-    cpdf in.pdf 2-end -o out.pdf
-
-
 grep
 ----
 
@@ -100,64 +98,6 @@ find
 ### Find And Delete
 
     find . -type f -name 'file-pattern' -delete
-
-
-[sed](https://www.gnu.org/software/sed/manual/sed.html)
-------------
-
-> [A good reference for sed](http://sed.sourceforge.net/local/docs/An_introduction_to_sed.html)
-
-### sed Pattern for Getting String Between Two Character Sequence
-
-For example, if we would like to extract email address from a string of
-`<some text> from=someuser@somedomain.com, <some text>`, which gives "someuser@somedomain.com", we could use
-
-```bash
-sed 's/.*from=\(.*\),.*/\1/' <<< "$s"
-someuser@somedomain.com
-```
-
-### Delete lines in a text file that contain a specific string
-
-To remove the line and print the output to standard out:
-
-    sed '/pattern to match/d' ./infile
-
-To modify the file directly:
-
-    sed -i '/pattern to match/d' ./infile
-
-To modify the file directly and create a backup:
-
-    sed -i.bak '/pattern to match/d' ./infile
-
-For Mac OS X users:
-
-    sed -i '' '/pattern/d' ./infile
-
-Merge Multiple Lines into One Single Line, space separated, in a file
-
-    sed -e '/^$/d' file| tr '\n' ' '
-
-### Trim
-
-    sed 's/^ *//;s/ *$//'
-
-Add a Prefix String to the Beginning of Each Line:
-
-    sed -e 's/^/prefix/' file
-    sed -i -e 's/^/prefix/' file         # If you want to edit the file in-place
-    sed -e 's/^/prefix/' file > file.new # If you want to create a new file
-
-If the prefix contains `/`, you can could replace the syntactic `/` with any other character. If prefix contains `/`,
-you can use any other characters not in prefix, or escape the `/`, so the `sed` command becomes
-
-    's#^#/opt/workdir#'
-    's/^/\/opt\/workdir/'
-
-### Add String After Each Line
-
-    sed -e 's/$/string after each line/'
 
 
 sort
@@ -542,45 +482,6 @@ echo "This statement echoes only if the \"assert\" does not fail."
 
 exit $?
 ```
-
-
-File System
------------
-
-### Create Soft & Hard Links
-
-Underneath the file system, files are represented by inodes. A file in the file system is basically a link to an inode.
-A **hard link**, then, just creates another file with a link to the same underlying inode. When we delete a file, it 
-removes one link to the underlying inode. The inode is only deleted (or deletable/over-writable) when all links to the 
-inode have been deleted. A symbolic link is a link to another name in the file system.
-
-![Error loading soft-vs-hard-links.png]({{ "/assets/img/soft-vs-hard-links.png" | relative_url}})
-
-Here is how we get to that picture:
-
-Create a name "myfile.txt" in the file system that points to a new inode (which contains the metadata for the file and 
-points to the blocks of data that contain its contents, i.e. the text "Hello, World!":
-
-```bash
-$ echo 'Hello, World!' > myfile.txt
-```
-   
-Create a hard link "my-hard-link" to the file "myfile.txt", which means creates a file that should point to the same inode
-that "myfile.txt" points to":
-
-```bash
-$ ln myfile.txt my-hard-link
-```
-
-Create a soft link "my-soft-link" to the file "myfile.txt", which means creates a file that should point to the file 
-"myfile.txt":
-
-```bash
-$ ln -s myfile.txt my-soft-link
-```
-
-Look what will now happen if "myfile.txt" is deleted (or moved): "my-hard-link" still points to the same contents, and
-is thus unaffected, whereas "my-soft-link" now points to nothing.
 
 
 Mac Specific
