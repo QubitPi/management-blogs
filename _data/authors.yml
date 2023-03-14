@@ -10,3 +10,11 @@ atlassian:
   name: Atlassian
   avatar: "https://wac-cdn-2.atlassian.com/image/upload/f_auto,q_auto/dam/jcr:89e146b4-642e-41fc-8e65-7848337d7bdd/Atlassian-icon-blue-onecolor@2x.png"
   url: "https://www.atlassian.com/agile"
+node2vec:
+  name: SNAP node2vec
+  avatar: "http://snap.stanford.edu/index.html"
+  url: "https://snap.stanford.edu/node2vec/"
+skip-gram-model:
+  name: Chris McCormick
+  avatar: "https://yt3.googleusercontent.com/ytc/AL5GRJXHZds_GV2YwpsJPIEqFCWKE4cyi_7ub_Sa7if7=s176-c-k-c0x00ffffff-no-rj"
+  url: "http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/"
