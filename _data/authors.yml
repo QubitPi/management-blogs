@@ -12,7 +12,7 @@ atlassian:
   url: "https://www.atlassian.com/agile"
 node2vec:
   name: SNAP node2vec
-  avatar: "http://snap.stanford.edu/index.html"
+  avatar: "https://snap.stanford.edu/images/snap_logo.png"
   url: "https://snap.stanford.edu/node2vec/"
 skip-gram-model:
   name: Chris McCormick
