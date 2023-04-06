@@ -2,6 +2,10 @@ QubitPi:
   name: QubitPi
   avatar: "https://avatars3.githubusercontent.com/u/16126939?s=460&v=4"
   url: "https://www.linkedin.com/in/jack20191124"
+martin-fowler:
+  name: Martin Fowler
+  avatar: "https://martinfowler.com/mf.jpg"
+  url: "https://martinfowler.com/"
 linuxconfig.org:
   name: linuxconfig.org
   avatar: "https://linuxconfig.org/wp-content/uploads/2021/07/logo-lc.png"
