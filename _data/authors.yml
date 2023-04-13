@@ -22,3 +22,7 @@ skip-gram-model:
   name: Chris McCormick
   avatar: "https://yt3.googleusercontent.com/ytc/AL5GRJXHZds_GV2YwpsJPIEqFCWKE4cyi_7ub_Sa7if7=s176-c-k-c0x00ffffff-no-rj"
   url: "http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/"
+apollo-client:
+  name: Apollo Client
+  avatar: "https://user-images.githubusercontent.com/841294/53402609-b97a2180-39ba-11e9-8100-812bab86357c.png"
+  url: "https://www.apollographql.com/docs/react/"
