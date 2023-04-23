@@ -3,8 +3,8 @@ layout: post
 title: Useful RestAssured Syntax
 tags: [Java, Software Testing]
 color: rgb(16, 155, 45)
-feature-img: "assets/img/post-cover/16-cover.png"
-thumbnail: "assets/img/post-cover/16-cover.png"
+feature-img: "assets/img/post-cover/17-cover.png"
+thumbnail: "assets/img/post-cover/17-cover.png"
 authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
