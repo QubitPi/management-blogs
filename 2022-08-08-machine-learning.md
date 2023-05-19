@@ -59,9 +59,9 @@ dedicated to future posts.
 
 Within this general setting we are interested in the following two questions:
 
-1. **Given a hypothesis $$\mathit{h}$$ and a data sample containing $$\mathit{n}$$ examples drawn at random according to
-   the distribution $$\mathcal{D}$$, what is the best estimate of the accuracy of $$\mathit{h}$$ over future instances
-   drawn from the same distribution?**
+1. **Given a hypothesis $$\mathit{h}$$ and a data sample containing $$\mathit{n}$$ examples drawn at random according 
+   to the distribution $$\mathcal{D}$$, what is the best estimate of the accuracy of $$\mathit{h}$$ over future 
+   instances drawn from the same distribution?**
 2. **What is the probable error in this accuracy estimate?**
 
 #### Sample Error and True Error
@@ -77,8 +77,8 @@ the fraction of $$\mathit{S}$$ that it misclassifies:
 
 > **Definition**
 >
-> The **sample error**, denoted as $$\text{error}_\mathit{S}\mathit{(h)}$$, of hypothesis $$\mathit{h}$$ with respect to
-> target function $$\mathit{f(x)}$$ and data sample $$\mathit{S}$$ is
+> The **sample error**, denoted as $$\text{error}_\mathit{S}\mathit{(h)}$$, of hypothesis $$\mathit{h}$$ with respect 
+> to target function $$\mathit{f(x)}$$ and data sample $$\mathit{S}$$ is
 >
 > $$ \text{error}_\mathit{S}\mathit{(h)} \equiv \frac{1}{n}\sum_{\mathit{x \in S}}\delta(\mathit{f(x)}, \mathit{h(x)}) $$
 >
@@ -1609,15 +1609,18 @@ is important to note that the convolution operation captures the local dependenc
 how these two different filters generate different feature maps from the same original image. Remember that the image
 and the two filters above are just numeric matrices as we have discussed above.
 
-In practice, a **CNN learns the values of these filters on its own during the training process** (although we still need
-to specify parameters such as number of filters, filter size, architecture of the network etc. before the training
+In practice, a **CNN learns the values of these filters on its own during the training process** (although we still 
+need to specify parameters such as number of filters, filter size, architecture of the network etc. before the training
 process). The more number of filters we have, the more image features get extracted and the better our network becomes
 at recognizing patterns in unseen images.
 
 The size of the feature map (convolved feature) is controlled by three parameters what we need to decide before the
 convolution step is performed:
 
-* **Depth**: Depth corresponds to the number of filters we use for the convolution operation. In the network shown in Figure 7, we are performing convolution of the original boat image using three distinct filters, thus producing three different feature maps as shown. You can think of these three feature maps as stacked 2d matrices, so, the ‘depth’ of the feature map would be three.
+* **Depth**: Depth corresponds to the number of filters we use for the convolution operation. In the network shown 
+  below, we are performing convolution of the original boat image using three distinct filters, thus producing three 
+  different feature maps as shown. You can think of these three feature maps as stacked 2d matrices, so, the 'depth' of
+  the feature map would be three.
 
   ![Error loading cnn-depth-example.png]({{ "/assets/img/cnn-depth-example.png" | relative_url}})
 

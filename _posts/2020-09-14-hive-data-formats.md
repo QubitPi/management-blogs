@@ -155,7 +155,7 @@ You can also specity that Hive store data as an ORC file when creating a table:
     zip 	int 
     ) 
     STORED AS orc TBLPROPERTIES ("orc.compress"= "ZLIB");
-    LOCATION ‘/users/sumeetsi/orcfile';
+    LOCATION '/users/sumeetsi/orcfile';
 
 Or, alter a table so that it uses ORCFile:
     

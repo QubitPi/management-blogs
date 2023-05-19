@@ -248,12 +248,12 @@ For example, you could partition the table based the criteria of the locale and 
         locale string, 
         datestamp string)
     STORED AS orc
-    location ‘...';
+    location '...';
 
 You can also add partitions to existing tables with the `ALTER` key word
 
     ALTER TABLE search ADD PARTITION ( locale=‘US', datestamp=‘20130201') 
-    LOCATION ‘...';
+    LOCATION '...';
 
 ### Reading Data
 
