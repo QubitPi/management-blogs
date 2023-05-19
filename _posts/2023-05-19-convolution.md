@@ -30,7 +30,6 @@ The convolution of $$\mathit{f}$$ and $$\mathit{g}$$ is written $$\mathit{f \ast
 
 $$\mathit{ (f \ast g)(t) :=\int_{-\infty}^{\infty}{f(\tau)g(t - \tau)d\tau} }$$
 
-
 An equivalent definition is (see [commutativity](https://en.wikipedia.org/wiki/Convolution#Properties)):
 
 $$\mathit{ (f \ast g)(t) :=\int_{-\infty}^{\infty}{f(t - \tau)g(\tau)d\tau} }$$
@@ -64,6 +63,8 @@ First, we flip the function 𝑏 vertically, due to the −𝑚 that appears in 
 
 ![Error loading discrete-conv-example-flipped.png]({{ "/assets/img/discrete-conv-example-flipped.png" | relative_url}})
 
+Then we will calculate the summation for each value of 𝑛 . Whilst changing 𝑛 , the original function does not move, 
+however the convolution function is shifted accordingly. Starting at 𝑛=0:
 
 𝑐[0]=∑𝑚𝑎[𝑚]𝑏[−𝑚]=0∗0.25+0∗0.5+1∗1+0.5∗0+1∗0+1∗0=1
 
@@ -77,9 +78,17 @@ First, we flip the function 𝑏 vertically, due to the −𝑚 that appears in 
 
 𝑐[5]=∑𝑚𝑎[𝑚]𝑏[−𝑚]=1∗0+0.5∗0+1∗0+1∗0.25+0∗0.5∗0∗1=0.25
 
+As we can see that is exactly what we get on the plot 𝑐[𝑛]. So we shifted around the function 𝑏[𝑛]
+over the function 𝑎[𝑛].
+
 
 2D Convolution using Python & NumPy
 -----------------------------------
+
+
+
+
+
 
 2D Convolutions are instrumental when creating convolutional neural networks or just for general image processing
 filters such as blurring, sharpening, edge detection, and many more. They are based on the idea of using a kernel and
@@ -124,6 +133,26 @@ We will make so that the image and kernel are specified by the user and the defa
 default [stride](https://qubitpi.github.io/jersey-guide/2023/05/19/cnn.html#the-convolution-step) is 1.
 
 The next thing that we must do is to apply cross correlation to our kernel and this can be done using NumPy very easily through just flipping the matrix horizontally then vertically. This looks like:
+
+```python
+kernel = np.flipud(np.fliplr(kernel))
+```
+
+> **Wait! Aren't we talking about _convolution_ instead of _corss correlation_ here???**
+> 
+> Some features of convolution are similar to [cross-correlation](https://en.wikipedia.org/wiki/Cross-correlation): for
+> real-valued functions, of a continuous or discrete variable, convolution ($$\mathit{f \ast g}$$) differs from 
+> cross-correlation ($$\mathit{f \star g}$$) only in that either $$\mathit{f(x)}$$ or $$\mathit{g(x)}$$ is reflected 
+> about the y-axis in convolution but NOT in corss-correlation; thus **convolution is a cross-correlation of
+> $$\mathit{g(-x)}$$ and $$\mathit{f(x)}$$, or $$\mathit{f(-x)}$$ and $$\mathit{g(x)}$$**.
+> 
+> ![Error loading Comparison_convolution_correlation.svg.png]({{ "/assets/img/Comparison_convolution_correlation.svg.png" | relative_url}})
+>
+>
+> 
+
+
+
 
 
 
@@ -199,4 +228,5 @@ Reference
 ---------
 
 - [Wikipedia: Convolution](https://en.wikipedia.org/wiki/Convolution#Domain_of_definition)
+- [Convolution and Cross Correlation in CNN](https://datascience.stackexchange.com/a/40545)
 - [2D Convolution using Python & NumPy](https://medium.com/analytics-vidhya/2d-convolution-using-python-numpy-43442ff5f381)
