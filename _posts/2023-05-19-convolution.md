@@ -28,12 +28,12 @@ Definition
 The convolution of $$\mathit{f}$$ and $$\mathit{g}$$ is written $$\mathit{f \ast g}$$, denoting the operator with the symbol $$\ast$$ It is defined as the _integral of the product of the two functions after one is reflected about the y-axis and shifted_. As such, it is a particular kind of
 [integral transform](https://en.wikipedia.org/wiki/Integral_transform):
 
-$$\mathit{ (f \ast g)(t) :=\int_{-\infty}^{+\infty}{f(\tau)g(t - \tau)d\tau} }$$
+$$\mathit{ (f \ast g)(t) :=\int_{-\infty}^{\ \infty}{f(\tau)g(t - \tau)d\tau} }$$
 
 
 An equivalent definition is (see [commutativity](https://en.wikipedia.org/wiki/Convolution#Properties)):
 
-$$\mathit{ (f \ast g)(t) :=\int_{-\infty}^{+\infty}{f(t - \tau)g(\tau)d\tau} }$$
+$$\mathit{ (f \ast g)(t) :=\int_{-\infty}^{ \infty}{f(t - \tau)g(\tau)d\tau} }$$
 
 At each $$\mathit{t}$$, the convolution formula can be described as the area under the function $$\mathit{f(\tau)}$$ 
 weighted by the function $$\mathit{g(-\tau)}$$ shifted by the amount $$\mathit{t}$$. As $$\mathit{t}$$ changes, the 
@@ -46,7 +46,55 @@ shifted toward the left (toward -∞) by the amount of $$\mathit{|t|}$$.
 2D Convolution using Python & NumPy
 -----------------------------------
 
-2D Convolutions are instrumental when creating convolutional neural networks or just for general image processing filters such as blurring, sharpening, edge detection, and many more. They are based on the idea of using a kernel and iterating through an input image to create an output image.
+2D Convolutions are instrumental when creating convolutional neural networks or just for general image processing
+filters such as blurring, sharpening, edge detection, and many more. They are based on the idea of using a kernel and
+iterating through an input image to create an output image.
+
+In this section we will be implementing a 2D Convolution and then applying an edge detection kernel to an image using
+the 2D Convolution.
+
+### Dependencies
+
+For this implementation of a 2D Convolution we will need 2 libraries:
+
+```python
+import cv2 
+import numpy as np
+```
+
+OpenCV will be used to [pre-process the image](#pre-processing-image) while NumPy will be used to implement the actual 
+[convolution](#2d-convolution).
+
+### Pre-processing Image
+
+In order to get the best results with a 2D convolution, it is generally recommended that we process the image in 
+[grayscale](https://qubitpi.github.io/jersey-guide/2023/05/19/cnn.html#an-image-is-a-matrix-of-pixel-values). To do
+this we can write a method with 1 parameter which will be the image file name. We will want to make sure our is stored 
+in the same directory as the python file, else we may have to specify the full path. To read the contents and turn it
+to grayscale, we can add the following lines of code:
+
+```python
+def processImage(image): 
+  image = cv2.imread(image) 
+  image = cv2.cvtColor(src=image, code=cv2.COLOR_BGR2GRAY) 
+  return image
+```
+
+When reading images with OpenCV, the default mode is BGR and not RGB, so we will want to specify the code parameter as 
+_BGR2GRAY_, allowing us to turn the BGR image into a grayscaled image. We will then return the new image.
+
+### 2D Convolution
+
+We will make so that the image and kernel are specified by the user and the default padding around the image is 0 and 
+default [stride](https://qubitpi.github.io/jersey-guide/2023/05/19/cnn.html#the-convolution-step) is 1.
+
+The next thing that we must do is to apply cross correlation to our kernel and this can be done using NumPy very easily through just flipping the matrix horizontally then vertically. This looks like:
+
+
+
+
+
+
 
 ```python
 import cv2 
