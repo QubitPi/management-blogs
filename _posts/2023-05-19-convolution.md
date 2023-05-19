@@ -55,6 +55,12 @@ or equivalently (see [commutativity](https://en.wikipedia.org/wiki/Convolution#P
 
 $$\mathit{ (f \ast g)[n] :=\sum_{m = -\infty}^{ \infty}{f[n - m]g[m]} }$$
 
+For example assuming 𝑎 is the function 𝑓 and 𝑏 is the convolution function 𝑔,
+
+
+
+
+
 2D Convolution using Python & NumPy
 -----------------------------------
 
