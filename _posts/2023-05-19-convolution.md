@@ -59,6 +59,11 @@ For example assuming 𝑎 is the function 𝑓 and 𝑏 is the convolution funct
 
 ![Error loading discrete-conv-example.png]({{ "/assets/img/discrete-conv-example.png" | relative_url}})
 
+First, we flip the function 𝑏 vertically, due to the −𝑚 that appears in the equation. _Visually, this flipping the
+𝑏 (the function in the middle above) around y-axis:
+
+![Error loading discrete-conv-example-flipped.png]({{ "/assets/img/discrete-conv-example-flipped.png" | relative_url}})
+
 
 𝑐[0]=∑𝑚𝑎[𝑚]𝑏[−𝑚]=0∗0.25+0∗0.5+1∗1+0.5∗0+1∗0+1∗0=1
 
