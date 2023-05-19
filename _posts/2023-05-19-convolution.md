@@ -28,12 +28,12 @@ Definition
 The convolution of $$\mathit{f}$$ and $$\mathit{g}$$ is written $$\mathit{f \ast g}$$, denoting the operator with the symbol $$\ast$$ It is defined as the _integral of the product of the two functions after one is reflected about the y-axis and shifted_. As such, it is a particular kind of
 [integral transform](https://en.wikipedia.org/wiki/Integral_transform):
 
-$$\mathit{ (f \ast g)(t) :=\int_{-\infty}^{\ \infty}{f(\tau)g(t - \tau)d\tau} }$$
+$$\mathit{ (f \ast g)(t) :=\int_{-\infty}^{\infty}{f(\tau)g(t - \tau)d\tau} }$$
 
 
 An equivalent definition is (see [commutativity](https://en.wikipedia.org/wiki/Convolution#Properties)):
 
-$$\mathit{ (f \ast g)(t) :=\int_{-\infty}^{ \infty}{f(t - \tau)g(\tau)d\tau} }$$
+$$\mathit{ (f \ast g)(t) :=\int_{-\infty}^{\infty}{f(t - \tau)g(\tau)d\tau} }$$
 
 At each $$\mathit{t}$$, the convolution formula can be described as the area under the function $$\mathit{f(\tau)}$$ 
 weighted by the function $$\mathit{g(-\tau)}$$ shifted by the amount $$\mathit{t}$$. As $$\mathit{t}$$ changes, the 
@@ -42,6 +42,18 @@ $$\mathit{\tau}$$is a positive value, then $$\mathit{g(t - \tau)}$$ is equal to 
 is shifted along the $$\mathit{\tau}$$-axis toward the right (toward +∞) by the amount of $$\mathit{t}$$, while if
 $$\mathit{t}$$is a negative value, then $$\mathit{g(t - \tau)}$$ is equal to $$\mathit{g(-\tau)}$$ that slides or is 
 shifted toward the left (toward -∞) by the amount of $$\mathit{|t|}$$.
+
+Discrete Convolutions
+---------------------
+
+For complex-valued functions $$\mathit{f}$$ and $$\mathit{g}$$ defined on the set $$\mathit{\mathbf{Z}}$$ of integers, 
+the discrete convolution of $$\mathit{f}$$ and $$\mathit{g}$$ is given by:
+
+$$\mathit{ (f \ast g)[n] :=\sum_{m = -\infty}^{ \infty}{f[m]g[n - m]} }$$
+
+or equivalently (see [commutativity](https://en.wikipedia.org/wiki/Convolution#Properties)) by:
+
+$$\mathit{ (f \ast g)[n] :=\sum_{m = -\infty}^{ \infty}{f[n - m]g[m]} }$$
 
 2D Convolution using Python & NumPy
 -----------------------------------
