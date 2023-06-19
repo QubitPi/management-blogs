@@ -2,6 +2,10 @@ QubitPi:
   name: QubitPi
   avatar: "https://avatars3.githubusercontent.com/u/16126939?s=460&v=4"
   url: "https://www.linkedin.com/in/jack20191124"
+atlassian:
+  name: Atlassian
+  avatar: "https://wac-cdn-2.atlassian.com/image/upload/f_auto,q_auto/dam/jcr:89e146b4-642e-41fc-8e65-7848337d7bdd/Atlassian-icon-blue-onecolor@2x.png"
+  url: "https://www.atlassian.com/agile"
 martin-fowler:
   name: Martin Fowler
   avatar: "https://martinfowler.com/mf.jpg"
@@ -10,10 +14,6 @@ linuxconfig.org:
   name: linuxconfig.org
   avatar: "https://linuxconfig.org/wp-content/uploads/2021/07/logo-lc.png"
   url: "https://linuxconfig.org/"
-atlassian:
-  name: Atlassian
-  avatar: "https://wac-cdn-2.atlassian.com/image/upload/f_auto,q_auto/dam/jcr:89e146b4-642e-41fc-8e65-7848337d7bdd/Atlassian-icon-blue-onecolor@2x.png"
-  url: "https://www.atlassian.com/agile"
 node2vec:
   name: SNAP node2vec
   avatar: "https://snap.stanford.edu/images/snap_logo.png"
