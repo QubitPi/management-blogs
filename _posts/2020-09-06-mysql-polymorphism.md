@@ -23,9 +23,8 @@ Take a look at Martin Fowler's [Patterns of Enterprise Application Architecture]
 **Represents an inheritance hierarchy of classes as a single table that has columns for all the fields of the various
 classes**.
 
-For a full description see
-[Patterns of Enterprise Application Architecture - Martin Fowler](../../java/pdfs/architecture/Patterns%20of%20Enterprise%20Application%20Architecture%20-%20Martin%20Fowler.pdf)
-page 278
+For a full description see _Patterns of Enterprise Application Architecture - Martin Fowler (The Addison-Wesley
+Signature Series)_ page 278
 
 ![Single Table Inheritance Example Diagram]({{ "/assets/img/single-table-inheritance.png" | relative_url}})
 
@@ -38,8 +37,8 @@ Inheritance maps all fields of all classes of an inheritance structure into a si
 
 **Represents an inheritance hierarchy of classes with one table for each class**.
 
-For a full description see [Patterns of Enterprise Application Architecture - Martin Fowler](../../java/pdfs/architecture/Patterns%20of%20Enterprise%20Application%20Architecture%20-%20Martin%20Fowler.pdf)
-page 285
+For a full description see _Patterns of Enterprise Application Architecture - Martin Fowler (The Addison-Wesley
+Signature Series)_ page 285
 
 ![Single Table Inheritance Example Diagram]({{ "/assets/img/class-table-inheritance.png" | relative_url}})
 
@@ -51,9 +50,8 @@ Class Table Inheritance supports this by using one database table per class in t
 
 **Represents an inheritance hierarchy of classes with one table per concrete class in the hierarchy**.
 
-For a full description see
-[Patterns of Enterprise Application Architecture - Martin Fowler](../../java/pdfs/architecture/Patterns%20of%20Enterprise%20Application%20Architecture%20-%20Martin%20Fowler.pdf)
-page 293
+For a full description see _Patterns of Enterprise Application Architecture - Martin Fowler (The Addison-Wesley
+Signature Series)_ page 293
 
 ![Concrete Table Inheritance]({{ "/assets/img/concrete-table-inheritance.png" | relative_url}})
 
