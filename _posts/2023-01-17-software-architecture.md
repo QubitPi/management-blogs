@@ -47,11 +47,6 @@ used to easily get us the release artifact we want. However, by changing the gro
 - we stay within the [standard guidelines](http://maven.apache.org/guides/mini/guide-naming-conventions.html) for Maven 
   version identifiers
 
-> 📚 **References**
-> 
-> - [Original Answer](https://stackoverflow.com/a/20353758/14312712)
-> - [Auxiliary Answer](https://stackoverflow.com/questions/12069546/how-to-properly-fork-a-maven-project#comment16121511_12069637)
-
 
 Additional Resources
 --------------------
