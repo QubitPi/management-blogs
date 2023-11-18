@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Software Architecture
-tags: [Architecture]
+title: What version label to use for a forked maven project?
+tags: [Maven]
 color: rgb(30, 159, 88)
 feature-img: "assets/img/post-cover/1-cover.png"
 thumbnail: "assets/img/post-cover/1-cover.png"
@@ -9,21 +9,10 @@ authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 
-https://martinfowler.com/architecture/
-
-When people in the software industry talk about "architecture", they refer to a hazily defined notion of the most
-important aspects of the internal design of a software system. A good architecture is important, otherwise it becomes
-slower and more expensive to add new capabilities in the future.
-
-Good architecture is something that supports its own evolution, and is deeply intertwined with programming. What does a
-architecture look like? How can teams create it? How to cultivate architectural thinking in a development organization?
-This post talks about software architecture in general
-
 <!--more-->
 
 * TOC
 {:toc}
-
 
 Whether or not the forked project is already in the main (Maven Central) repository, make sure to use a different group
 ID by **changing the `groupId`** in the fork, because if people don't change the `groupId`, the new library will clash
