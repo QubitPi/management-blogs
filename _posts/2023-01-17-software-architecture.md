@@ -46,9 +46,3 @@ used to easily get us the release artifact we want. However, by changing the gro
 - we eliminate any confusion that might arise from having artifacts from an organization that they did not create
 - we stay within the [standard guidelines](http://maven.apache.org/guides/mini/guide-naming-conventions.html) for Maven 
   version identifiers
-
-
-Additional Resources
---------------------
-
-- [Software architecture tools](https://softwarearchitecture.tools/#modelling-tools)
