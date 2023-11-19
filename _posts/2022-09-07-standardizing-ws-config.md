@@ -126,47 +126,6 @@ helloInJapanese = こんにちは
 ```
 
 
-Standards of Defining Configuration Access Layer
-------------------------------------------------
-
-> **The Access Layer is defined by [OWNER API](http://owner.aeonbits.org/), which defines a Java interface associated to
-> a properties file.
-
-For example, suppose a properties file "**ServerConfig.properties**" is defined as follows:
-
-```properties
-port=80
-hostname=foobar.com
-maxThreads=100
-```
-
-To access this properties file programmatically, one shall define a **Properties Mapping Interface**,
-**ServerConfig.java**, in the same package (For instance, if the mapping interface is called
-`com.foo.bar.ServerConfig`, OWNER will try to associate it to `com.foo.bar.ServerConfig.properties`, loading from the 
-classpath.):
-
-```java
-import org.aeonbits.owner.Config;
-
-public interface ServerConfig extends Config {
-    
-    int port();
-    
-    String hostname();
-    
-    @DefaultValue("42")
-    int maxThreads();
-}
-```
-
-Notice that the interface above extends from **Config**, that is a marker interface recognized by OWNER as valid to work 
-with.
-
-The properties names defined in the properties file will be associated to the methods in the Java class having the same 
-name. For instance, the property "port" defined in the properties file will be associated to the method `int port()` in 
-the Java class, the property "hostname" will be associated to the method `String hostname()` and the appropriate type 
-conversion will apply automatically, so the method `port()` will return an integer while the method `hostname()` will 
-return a string, since the interface is defined in this way.
 
 
 
