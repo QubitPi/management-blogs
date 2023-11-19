@@ -169,15 +169,5 @@ conversion will apply automatically, so the method `port()` will return an integ
 return a string, since the interface is defined in this way.
 
 
-Standards of Using Configuration Access Layer
----------------------------------------------
 
-At this point, one shall create the **ServerConfig object** and use it:
-
-```java
-ServerConfig config = ConfigFactory.create(ServerConfig.class);
-cfg.hostname();
-config.port();
-...
-```
 
