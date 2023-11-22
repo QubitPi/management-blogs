@@ -155,23 +155,3 @@ Similarly, there are common database smells:
 
 An effective way to decrease the coupling that your database is involved with is to encapsulate access to it. You do
 this by having external programs access your database via persistence layers
-
-## The Process of Database Refactoring
-
-### Verify That a Database Refactoring Is Appropriate
-
-> 📋 A Software Dev team often comes with a separate DBA team. The following DB refactoring is discussed with the DBA
-> team is present
-
-* **Does the refactoring make sense?** Perhaps the existing table structure is correct. It is common for developers to
-  either disagree with, or to simply misunderstand, the existing design of a database. This misunderstanding could lead
-  them to believe that the design needs to change when it really does not. The DBA should have a good knowledge of the
-  project team's database, other corporate databases, and will know whom to contact about issues such as this.
-  Therefore, they will be in a better position to determine whether the existing schema is the best one. Furthermore,
-  the DBA often understands the bigger picture of the overall enterprise, providing important insight that may not be
-  apparent when you look at it from the point of view of the single project. However, in our example, it appears that
-  the schema needs to change.
-* **Is the change actually needed now?** DBA, should b
-
-
-This is usually a "gut call" based on her previous experience with the application developer. Does Eddy have a good reason for making the schema change? Can Eddy explain the business requirement that the change supports? Does the requirement feel right? Has Eddy suggested good changes in the past? Has Eddy changed his mind several days later, requiring Beverley to back out of the change? Depending on this assessment,Beverley may suggest that Eddy think the change through some more or may decide to continue working with him, but will wait for a longer period of time before they actually apply the change in the project-integration environment (Chapter 4) if they believe the change will need to be reversed.
