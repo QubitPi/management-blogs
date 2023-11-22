@@ -43,21 +43,3 @@ items broken down into a set of stories, and multiple epics comprise an initiati
 the day-to-day work of the development team (on stores) contributes to the organizational goals built into epics and
 initiatives.
 
-
-Why Create User Stories?
-========================
-
-For development teams new to agile, user stories sometimes seem like an added step. Why not just break the big project
-(the epic) into a series of steps and get on with it? But stories give the team important context and associate tasks
-with the value those tasks bring.
-
-User stories serve a number of key benefits:
-
-* **Stories keep the focus on the user**. A to-do list keeps the team focused on tasks that need to be checked off, but
-  a collection of stories keeps the team focused on solving problems for real users.
-* **Stories enable collaboration**. With the end goal defined, the team can work together to decide how best to serve
-  the user and meet that goal.
-* **Stories drive creative solutions**. Stories encourage the team to think critically and creatively about how to best
-  solve for an end goal, **because the team understands why they are doing what they are doing**
-* **Stories create momentum**. With each passing story, the development team enjoys a small challenge and a small win,
-  driving momentum.
