@@ -76,9 +76,3 @@ knowledge panels they've claimed.
 Google processes billions of searches per day. Automation is the only way to handle this many searches. This means the
 best way to improve our results is to improve our automated systems, our
 [search algorithms](#search-algorithms).
-
-#### Search Algorithms
-
-
-
-To be continued...
