@@ -131,7 +131,3 @@ For example, user stories might look like:
 
 This structure is not required, but it is helpful for defining done. When that persona can capture their desired value,
 then the story is complete. We encourage teams to define their own structure, and then to stick to it.
-
-User stories describe the why and the what behind the day-to-day work of development team members, often expressed as
-persona + need + purpose. Understanding their role as the source of truth for what your team is delivering, but also
-why, is key to a smooth process.
