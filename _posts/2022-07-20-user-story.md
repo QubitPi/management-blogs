@@ -53,7 +53,6 @@ items broken down into a set of stories, and multiple epics comprise an initiati
 the day-to-day work of the development team (on stores) contributes to the organizational goals built into epics and
 initiatives.
 
-![Error loading epics-vs-stories-agile-development.png]({{ "/assets/img/epics-vs-stories-agile-development.png" | relative_url}})
 
 Why Create User Stories?
 ========================
