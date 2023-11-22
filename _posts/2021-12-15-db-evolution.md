@@ -92,17 +92,3 @@ Step 11. They rerun their tests to verify that the data migration has safely occ
 
 Step 12. To complete the schema changes, they drop the Customer.Balance column and then rerun all tests and fix anything
 as necessary
-
-### Multi-Application Database Environments
-
-This situation is more difficult because the individual applications have new releases deployed at different times over
-the next year and a half. To implement this database refactoring, you do the same sort of work that you did for the
-single-application database environment, except that you **do not delete the Customer.Balance column right away**.
-Instead, you run both columns in parallel during a "transition period" of at least 1.5 years to give the development
-teams time to update and redeploy all of their applications. It is very important to add two triggers,
-**SynchronizeCustomerBalance** and **SynchronizeAccountBalance**, which are run in production during the transition
-period to keep the two columns in sync.
-
-After the transition period, you remove the original column plus the trigger(s), resulting in the final database schema.
-You remove these things only after sufficient testing to ensure that it is safe to do so. At this point, your
-refactoring is complete.
