@@ -95,29 +95,3 @@ Consider the following when writing user stories:
   to complete should be broken up into smaller stories or should be considered their own epic.
 
 Once the user stories are clearly defined, make sure they are visible for the entire team.
-
-User Story Template and Examples
-================================
-
-User stories are often expressed in a simple sentence, structured as follows:
-
-**"As a [persona], I [want to], [so that]."**
-
-Breaking this down:
-
-* "As a [persona]": Who are we building this for? Team should have a shared understanding of who the persona is and have
-  empathy for them.
-* "Wants to": Here we're describing their intent - not the features they use. What is it they're actually trying to
-  achieve? This statement should be implementation free - if you're describing any part of the UI and not what the user
-  goal is you're missing the point.
-* "So that": how does their immediate desire to do something this fit into their bigger picture? What's the overall
-  benefit they're trying to achieve? What is the big problem that needs solving?
-
-For example, user stories might look like:
-
-* As John, I want to invite my friends, so we can enjoy this service together.
-* As Rick, I want to organize my work, so I can feel more in control.
-* As a manager, I want to be able to understand my colleagues progress, so I can better report our success and failures.
-
-This structure is not required, but it is helpful for defining done. When that persona can capture their desired value,
-then the story is complete. We encourage teams to define their own structure, and then to stick to it.
