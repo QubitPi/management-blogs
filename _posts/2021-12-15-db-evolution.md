@@ -106,11 +106,3 @@ period to keep the two columns in sync.
 After the transition period, you remove the original column plus the trigger(s), resulting in the final database schema.
 You remove these things only after sufficient testing to ensure that it is safe to do so. At this point, your
 refactoring is complete.
-
-### Maintaining Semantics
-
-When you refactor a database schema, you must maintain both the **informational and behavioral semantics**. You should
-neither add anything nor take anything away. Informational semantics refers to the meaning of the information within the
-database from the point of view of the users of that information.
-
-Similarly, with respect to behavioral semantics, the goal is to keep the black-box functionality
