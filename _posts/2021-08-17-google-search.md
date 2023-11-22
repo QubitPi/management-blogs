@@ -57,12 +57,5 @@ Deliver the most relevant and reliable information available
   partnerships, through data feeds being sent to us and through our own encyclopedia of facts, the
   [Knowledge Graph](https://support.google.com/knowledgepanel/answer/9787176).
   
-## Google's Knowledge Graph
-
-Google's search results sometimes show information that comes from our Knowledge Graph, our database of billions of
-facts about people, places, and things. The Knowledge Graph allows us to answer factual questions such as "How tall is
-the Eiffel Tower?" or "Where were the 2016 Summer Olympics held." Our goal with the Knowledge Graph is for our systems
-to discover and surface publicly known, factual information when it's determined to be useful.
-
 
 
