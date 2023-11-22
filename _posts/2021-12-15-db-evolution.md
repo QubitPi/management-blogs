@@ -150,8 +150,4 @@ Similarly, there are common database smells:
 * **Fear of Change** - If you are afraid to change your database schema because you are afraid to break something. Fear
   of change is a good indication that you have a serious technical risk on your hands, one that will only get worse over
   time.
-  
-### Making It Easier to Refactor Your Database Schema
 
-An effective way to decrease the coupling that your database is involved with is to encapsulate access to it. You do
-this by having external programs access your database via persistence layers
