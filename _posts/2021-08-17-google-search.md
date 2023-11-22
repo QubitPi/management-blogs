@@ -26,36 +26,3 @@ running the results of a search will be instantaneous.
 ### Google's Approach to Search
 
 Deliver the most relevant and reliable information available
-
-### How Search Works
-
-* **Finding Information by Crawling** - Most of our Search index is built through the work of software known as
-  crawlers. These automatically visit publicly accessible webpages and follow links on those pages, much like you would
-  if you were browsing content on the web. They go from page to page and store information about what they find on these
-  pages and other publicly-accessible content in Google's Search index.
-* **Organizing Information by Indexing** - When crawlers find a webpage, our systems render the content of the page,
-  just as a browser does. We take note of key signals - from keywords to website freshness - and we keep track of it all 
-  in the Search index
-* **Constantly Crawling for New Info** - Because the web and other content is constantly changing, our crawling
-  processes are always running to keep up. They learn how often content they've seen before seems to change and revisit
-  as needed. They also discover new content as new links to those pages or information appear.
-  
-  Google also provides a free toolset called
-  [Search Console](https://support.google.com/webmasters/answer/9128668?hl=en) that creators can use to help us better
-  crawl their content. They can also make use of established standards like
-  [sitemaps](https://developers.google.com/search/docs/advanced/sitemaps/overview?hl=en&visit_id=637533703645569991-3393536445&rd=1)
-  or [robots.txt](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag?hl=en) to indicate how often
-  content should be visited or if it shouldn't be included in our Search index at all.
-
-  Google never accepts payment to crawl a site more frequently — we provide the same tools to all websites to ensure the
-  best possible results for our users.
-  
-* Our Search index contains more than just what's on the web, because helpful information can be located in other
-  sources.
-
-  In fact, we have multiple indexes of different types of information, which is gathered through crawling, through
-  partnerships, through data feeds being sent to us and through our own encyclopedia of facts, the
-  [Knowledge Graph](https://support.google.com/knowledgepanel/answer/9787176).
-  
-
-
