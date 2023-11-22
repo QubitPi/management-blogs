@@ -22,7 +22,3 @@ In Windows 7, there is an option to index your hard drives. This process takes s
 running the results of a search will be instantaneous.
 
 > Google: Our mission is to organize the world’s information and make it universally accessible and useful.
-
-### Google's Approach to Search
-
-Deliver the most relevant and reliable information available
