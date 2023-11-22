@@ -26,19 +26,3 @@ requirements. Programmers have adopted techniques such as TDD, refactoring, and
 been realized that we also need techniques and tools to support evolutionary database development.
 
 Advantages to an evolutionary approach to database development include the following:
-
-## Database Refactoring
-
-You need a systematic way to refactor your code, including **good tools** and **techniques** to do so. _Most modern
-integrated development environments (IDEs) now support code refactoring to some extent_, which is a good start. However,
-to make refactoring work in practice, you also need to develop an **up-to-date regression-testing suite** that validates
-that your code still works
-
-You should refactor your code mercilessly because you are most productive when you are working on high-quality source
-code.
-
-A **database refactoring** is a simple change to a database schema that improves its design while retaining both its
-behavioral and informational semantics. In other words, you cannot add new functionality or break existing
-functionality, nor can you add new data or change the meaning of existing data. A database schema includes both 
-**structural aspects**, such as table and view definitions, and **functional aspects**, such as stored procedures and
-triggers.
