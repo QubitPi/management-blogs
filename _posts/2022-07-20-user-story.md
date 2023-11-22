@@ -61,18 +61,3 @@ User stories serve a number of key benefits:
   solve for an end goal, **because the team understands why they are doing what they are doing**
 * **Stories create momentum**. With each passing story, the development team enjoys a small challenge and a small win,
   driving momentum.
-
-Working with User Stories
-=========================
-
-Once a story has been written, it's time to integrate it into your workflow. Generally a story is written by the product
-owner, product manager, or program manager and submitted for review.
-
-During a sprint or iteration planning meeting, the team decides what stories they'll tackle that sprint. Teams now
-discuss the requirements and functionality that each user story requires. This is an opportunity to get technical and
-creative in the team's implementation of the story. Once agreed upon, these requirements are added to the story.
-
-Another common step in this meeting is to score the stories based on their complexity or time to completion. Teams use
-**t-shirt sizes**, the **Fibonacci sequence**, or **planning poker** to make proper estimations. A story should be sized
-to complete in one sprint, so as the team specs each story, they make sure to break up stories that will go over that
-completion horizon.
