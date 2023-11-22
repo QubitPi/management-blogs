@@ -17,31 +17,3 @@ Objects.
 * TOC
 {:toc}
 
-
-JavaScript Class Syntax
------------------------
-
-Use the keyword **class** to create a class. Always add a method named **constructor()**:
-
-{% highlight javascript %}
-class ClassName {
-    constructor() { ... }
-}
-{% endhighlight %}
-
-For example
-
-{% highlight javascript %}
-class Car {
-    constructor(name, year) {
-        this.name = name;
-        this.year = year;
-    }
-}
-{% endhighlight %}
-
-The example above creates a class named "Car" with two initial properties: "name" and "year".
-
-
-> A JavaScript class is not an object. It is a template for JavaScript objects
-
