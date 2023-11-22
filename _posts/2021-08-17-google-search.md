@@ -71,8 +71,3 @@ sources, we license data to provide information such as sports scores, stock pri
 receive factual information directly from content owners** in various ways, including from those who suggest changes to
 knowledge panels they've claimed.
 
-### How does Google Correct or Remove Knowledge Graph Information?
-
-Google processes billions of searches per day. Automation is the only way to handle this many searches. This means the
-best way to improve our results is to improve our automated systems, our
-[search algorithms](#search-algorithms).
