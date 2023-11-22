@@ -64,10 +64,5 @@ facts about people, places, and things. The Knowledge Graph allows us to answer 
 the Eiffel Tower?" or "Where were the 2016 Summer Olympics held." Our goal with the Knowledge Graph is for our systems
 to discover and surface publicly known, factual information when it's determined to be useful.
 
-### Where do Knowledge Graph facts come from?
 
-Facts in the Knowledge Graph come from a variety of sources that compile factual information. In addition to public
-sources, we license data to provide information such as sports scores, stock prices, and weather forecasts. **We also
-receive factual information directly from content owners** in various ways, including from those who suggest changes to
-knowledge panels they've claimed.
 
