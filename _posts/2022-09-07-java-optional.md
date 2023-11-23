@@ -23,36 +23,6 @@ introduces a new class called **java.util.Optional** that can alleviate some of 
 
 
 
-What Alternatives to Null Are There?
-------------------------------------
-
-Languages such as Groovy have a _safe navigation operator_ represented by "?." to safely navigate through potential null 
-references. (Note that it is soon to be included in C#, too, and it was proposed for Java SE 7 but didn't make it into
-that release.) It works as follows:
-
-```groovy
-String version = computer?.getSoundcard()?.getUSB()?.getVersion()
-```
-
-In this case, the variable "version" will be assigned to null if `computer` is null, or `getSoundcard()` returns null,
-or `getUSB()` returns null. You don't need to write complex nested conditions to check for null.
-
-In addition, Groovy also includes the _Elvis operator_ "?:" (if you look at it sideways, you'll recognize Elvis' famous 
-hair), which can be used for simple cases when a default value is needed. In the following, if the expression that uses
-the safe navigation operator returns null, the default value "UNKNOWN" is returned; otherwise, the available version tag 
-is returned.
-
-```groovy
-String version = computer?.getSoundcard()?.getUSB()?.getVersion() ?: "UNKNOWN"
-```
-
-Other functional languages, such as Haskell and Scala, take a different view. Haskell includes a **Maybe** type, which 
-essentially encapsulates an optional value. A value of type Maybe can contain either a value of a given type or nothing. 
-There is no concept of a null reference. Scala has a similar construct called **Option\[T\]** to encapsulate the
-presence or absence of a value of type `T`. You then have to explicitly check whether a value is present or not using 
-operations available on the `Option` type, which enforces the idea of "null checking." **You can no longer "forget to do
-it" because it is enforced by the type system**.
-
 
 Java 8 _Optional_ in a Nutshell
 -------------------------------
