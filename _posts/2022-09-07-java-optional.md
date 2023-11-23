@@ -24,48 +24,6 @@ introduces a new class called **java.util.Optional** that can alleviate some of 
 
 
 
-Java 8 _Optional_ in a Nutshell
--------------------------------
-
-Java SE 8 introduces a new class called **java.util.Optional<T>** that is inspired from the ideas of Haskell and Scala.
-It is a class that encapsulates an optional value, as illustrated in figure below. You can view `Optional` as a 
-single-value container that either contains a value or doesn't (it is then said to be "empty"):
-
-![Error loading java-optional-eg.png]({{ "/assets/img/java-optional-eg.png" | relative_url}})
-
-We can update our model to make use of Optional, as shown in Listing 2:
-
-```java
-public class Computer {
-    private Optional<Soundcard> soundcard;  
-    public Optional<Soundcard> getSoundcard() { ... }
-    ...
-}
-
-public class Soundcard {
-    private Optional<USB> usb;
-    public Optional<USB> getUSB() { ... }
-}
-
-public class USB {
-    public String getVersion(){ ... }
-}
-```
-
-The code above immediately shows that a computer might or might not have a sound card (the sound card is optional). In 
-addition, a sound card can optionally have a USB port. This is an improvement, because this new model can now reflect 
-clearly whether a given value is allowed to be missing. 
-
-But what can you actually do with an `Optional<Soundcard>` object? After all, you want to get to the USB port's version 
-number. In a nutshell, the `Optional` class includes methods to explicitly deal with the cases where a value is present
-or absent. However, the advantage compared to null references is that the `Optional` class forces us to think about the 
-case when the value is not present. As a consequence, we can prevent unintended null pointer exceptions.
-
-It is important to note that the intention of the `Optional` class is not to replace every single null reference.
-Instead, its purpose is to help design more-comprehensible APIs so that by just reading the signature of a method, you
-can tell whether you can expect an optional value. This forces you to actively unwrap an `Optional` to deal with the 
-absence of a value.
-
 
 Using Optional
 --------------
