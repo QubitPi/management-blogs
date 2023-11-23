@@ -96,38 +96,3 @@ development framework, the majority of your audience will be running your projec
 or mobile phones. Each of these groups is solving different problems and has distinct motivations—and those factors
 impact your engineering, marketing, and community-building decisions.
 
-
-How Do You Engage with Your User Base Today?
---------------------------------------------
-
-When people begin adopting your project, you will want them to not only use it but also engage with the project
-community in order to improve it. Engagement is therefore key to growing both your user base and your project's
-community. But you can engage with your users in many ways, each requiring different amounts of effort and producing 
-different outcomes. Determining where you should focus your community-building efforts can be difficult.
-
-Take stock of the various ways you are currently engaging with project users. If possible, categorize these as low
-touch, medium touch, and high touch strategies. Low-touch methods involve little interaction between potential users and 
-your community; that is, they allow potential users to engage with your project in a self-directed way. High touch
-methods include one-to-one or one-to-few efforts; they require much more direct, sustained interaction between existing 
-community members and potential new ones.
-
-Here are some examples of activities you can categorize this way:
-
-* Low touch: **Project website** and **documentation**, pre-recorded or automated online training, newsletters,
-  podcasts, and **blogs**. Low-touch activities are best for raising awareness of your project and encouraging users to 
-  look at it for the first time.
-* Medium touch: Project mailing list, **bug tracker**, **community forum**, webinars, user groups, and conference 
-  presentations. Medium-touch activities can produce a network effect, not only by facilitating communication with users 
-  but also by enabling those users to help one another.
-* High touch: Phone calls, personalized and guided training, conversations at conferences, and community meetings. 
-  high-touch activities are especially effective for building relationships with key community users, gathering
-  community case studies, and turning particularly active users into advocates for your project.
-
-Ideally, your project will have a healthy mix of each of these. By listing them this way, you are able to identify gaps
-in your end-to-end community engagement strategy (one that allows someone initially unfamiliar with your project to
-start using it, and then, over time, gain seniority in the project to the point of becoming a core contributor).
-
-Additionally, listing your engagement activities this way helps you effectively allocate community-building resources. 
-Low-touch activities are excellent tools for assisting new users without intervention from senior community members but 
-are generally impersonal, and high-touch activities can be valuable on an individual basis but do not scale well.
-
