@@ -178,28 +178,3 @@ does. You may be able to engage in market research, UX testing, and community-bu
 order to raise awareness of your project and meet potential new users. Adjacent communities important to your
 competitors will be important to you, too.
 
-
-What are Your Goals for the Project?
-------------------------------------
-
-This is every open source project's existential question - and surprisingly, many projects have difficulty answering it. 
-Next, then, you need to consider what you want to achieve by investing in your project. Why, in other words, does your 
-project exist?
-
-This is especially critical for projects released by or driven by a vendor. If this is the case for your project, ask 
-yourself why you are choosing to open source this particular software. Your answer might be something like:
-
-* To grow a market.
-* To promote a standard.
-* To disrupt a competitor.
-* To increase demand for another product in our portfolio. 
-
-Each of these requires a different set of investments - and a different marketing strategy.
-
-Understanding your reasons for open sourcing the project will help you clarify the investment required to achieve your 
-goal. In the absence of a strong common vision for the project's goals, you may find yourself underfunding the open
-source project, in part because it is perceived as competition to the products you build on top of it.
-
-Asking this important question also will help you align engineering, product, and sales teams as you develop an open 
-source product strategy
-
