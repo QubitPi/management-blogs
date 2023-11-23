@@ -131,30 +131,3 @@ Additionally, listing your engagement activities this way helps you effectively 
 Low-touch activities are excellent tools for assisting new users without intervention from senior community members but 
 are generally impersonal, and high-touch activities can be valuable on an individual basis but do not scale well.
 
-
-What Alternatives to Your Project Already Exist?
-------------------------------------------------
-
-Any open source project strategy must account for a project's competition. Next, you will need to assess the field of 
-alternative projects in which your own project participates. Considerations here include:
-
-* **Does your project have any direct competition?** If not, why is that? Are you breaking ground in an area of emerging 
-  technology? Or are people already using other projects to do the same kinds of work or solve the same sorts of
-  problems, albeit in a different way?
-* **How do other open source projects solve the problem differently than yours does?** If your competitive field
-  features a strong incumbent, what can you learn by analyzing that project, its community, and its target users? How
-  will you differentiate your work from theirs, and what will motivate people to adopt your project instead of others?
-  If your field of competitors features no clear market leader, then is joining another project - rather than competing 
-  with it - a viable option? If not, why? Answering these questions will ultimately help you prioritize features and 
-  determine the best ways to engage potential users (for instance, perhaps you can join existing in-person or virtual 
-  gatherings related to your competitor's technology to spread your message). But at the end of the day, you beat your
-  competitors by making yours **10 times better** than theirs
-
-Answering these questions will also help you and your community hone your project's messaging. For example, if your
-survey of the competitive field reveals that you are an upstart disruptor in a field dominated by an incumbent, then you 
-will most likely anchor your messaging to your competition (stressing how your project is less expensive than, or an
-open source alternative to, or simpler and faster than another option competing for users' attention). If you are 
-participating in a new market and your goal for the project is to achieve market dominance, you will need to focus on 
-spreading your message quickly - which means a higher marketing budget or more aggressive community plan, and more focus 
-on defining the problems you solve for potential users.
-
