@@ -63,36 +63,3 @@ metaphorical language:
 Ask as many probing follow-up questions as you must. In the end, just be sure that you understand the project, know what
 it can (and can't) do, and can explain it to someone else easily and clearly.
 
-
-Who are the Project's Users?
-----------------------------
-
-Successful open source projects require users. But many open source projects do not clearly understand who uses the 
-software they produce, nor do they typically have a sense of what those users do with the software.
-
-Consider developing a set of personas to characterize archetypes of key users engaging with your project. Ask yourself:
-
-* What job must be done, and how does the software help someone perform that job?
-* Who (what type of user, occupying what type of role in an organization) is most likely to need to perform that job,
-  and to use this software to do it?
-
-Your answer will likely be something like IT professionals, mobile application developers, or web developers. Next,
-refine your target user persona by asking follow-up questions designed to hone in on a number of criteria, including:
-
-* Is the project more useful to an individual or an organization?
-* Is your project particularly useful in a specific industry vertical or business domain?
-* What size organization will find your project most useful? Are you targeting systems administrators in large
-  enterprises, or small and medium-sized businesses?
-* What are the job titles of the people who will be downloading, installing, and using your project? Are they the same 
-  people, or are the users different from the project administrators?
-* What is the relationship between the people who download and install open source projects and the people who evaluate
-  and purchase commercial products?
-
-Your answers to these questions will impact your priorities for structuring the project, promoting it, and even
-engineering it (as your answers will prompt you to prioritize developing certain features over others). For example, if 
-your project runs in a datacenter or on a cluster of servers, your audience will typically be a business-focused
-audience, people running IT professionally (or as a volunteer in a university). For a mobile application or a web 
-development framework, the majority of your audience will be running your project on personal computers, workstations,
-or mobile phones. Each of these groups is solving different problems and has distinct motivations—and those factors
-impact your engineering, marketing, and community-building decisions.
-
