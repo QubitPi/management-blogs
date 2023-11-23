@@ -21,57 +21,6 @@ introduces a new class called **java.util.Optional** that can alleviate some of 
 {:toc}
 
 
-Dangers of Null
----------------
-
-Let's start with an example to see the dangers of null by considering a nested object structure for a `Computer`, as 
-illustrated in Figure below
-
-![Error loading java-optional-computer.png]({{ "/assets/img/java-optional-computer.png" | relative_url}})
-
-What's possibly problematic with the following code?
-
-```java
-String version = computer.getSoundcard().getUSB().getVersion();
-```
-
-This code looks pretty reasonable. However, many computers (for example, the Raspberry Pi) don't actually ship with a
-sound card. So what is the result of `getSoundcard()`?
-
-A common (bad) practice is to return the null reference to indicate the absence of a sound card. Unfortunately, this
-means the call to `getUSB()` will try to return the USB port of a null reference, which will result in a 
-`NullPointerException` at runtime and stop your program from running further. Imagine if your program was running on a 
-customer's machine; what would your customer say if the program suddenly failed?
-
-To give some historical context, Tony Hoare - one of the giants of computer science - wrote, "I call it my
-billion-dollar mistake. It was the invention of the null reference in 1965. I couldn't resist the temptation to put in a 
-null reference, simply because it was so easy to implement."
-
-What can you do to prevent unintended null pointer exceptions? You can be defensive and add checks to prevent null 
-dereferences, as shown below:
-
-```java
-String version = "UNKNOWN";
-if (computer != null) {
-    Soundcard soundcard = computer.getSoundcard();
-    if(soundcard != null){
-        USB usb = soundcard.getUSB();
-        if(usb != null){
-            version = usb.getVersion();
-        }
-    }
-}
-```
-
-However, you can see that the code quickly becomes very ugly due to the nested checks. Unfortunately, we need a lot of 
-boilerplate code to make sure we don't get a NullPointerException. In addition, it's just annoying that these checks get
-in the way of the business logic. In fact, they are decreasing the overall readability of our program.
-
-Furthermore, it is an error-prone process; what if you forget to check that one property could be null? I will argue in 
-this post that using null to represent the absence of a value is a wrong approach. What we need is a better way to model 
-the absence and presence of a value.
-
-To give some context, let's briefly look at what other programming languages have to offer.
 
 
 What Alternatives to Null Are There?
