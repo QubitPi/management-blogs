@@ -203,16 +203,3 @@ source project, in part because it is perceived as competition to the products y
 Asking this important question also will help you align engineering, product, and sales teams as you develop an open 
 source product strategy
 
-
-Who are Your Key Stakeholders?
-------------------------------
-
-In every project, only a small group of people will be deeply invested in the success of the project and can represent
-the diverse set of interests that are important to its development. These people are your stakeholders.
-
-In the case of vendor-sponsored projects, this group will typically include an engineering lead, someone from product 
-management, a member of product marketing, and a representative from the field (a field engineer, a sales lead, etc.).
-You may also want to ensure the group includes someone from your content services or support organizations, as well as 
-someone from product security. You will brief this group on your initial project strategy and reconvene the group once
-or twice every year to report on the state of the project and ensure continued alignment between project goals and the 
-investments necessary for achieving those goals.
