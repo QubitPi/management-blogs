@@ -158,23 +158,3 @@ participating in a new market and your goal for the project is to achieve market
 spreading your message quickly - which means a higher marketing budget or more aggressive community plan, and more focus 
 on defining the problems you solve for potential users.
 
-
-Are You Already Associated with Adjacent Projects?
---------------------------------------------------
-
-If your software is frequently used with (or is particularly useful to users of) another project, then your association 
-with those projects presents a great opportunity for growing awareness of your project in its early stages of
-development. Accounting for these complementary, adjacent projects will help you define your own project's strategy.
-
-For example, [Ceph](https://ceph.io/) can be used to manage storage for
-[OpenStack](https://www.redhat.com/en/topics/openstack-35971) or
-[Kubernetes](https://www.redhat.com/en/topics/containers/what-is-kubernetes). So the OpenStack and Kubernetes
-communities are adjacent to Ceph's community. Catering to adjacent projects to find an audience may affect your
-technology roadmap, the events you target with your community outreach efforts, and your investments in specific 
-integration features.
-
-An adjacent project provides you with a potentially friendly audience working to solve the same problem your own project 
-does. You may be able to engage in market research, UX testing, and community-building activities with this group in
-order to raise awareness of your project and meet potential new users. Adjacent communities important to your
-competitors will be important to you, too.
-
