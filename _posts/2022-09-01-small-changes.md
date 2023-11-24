@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Preliminary - Anatomy of Small Pull Request
+title: Team Planning - Anatomy of Small Pull Request
 tags: [Management]
 color: rgb(246, 77, 39)
 feature-img: "assets/img/post-cover/4-cover.png"
