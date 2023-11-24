@@ -104,14 +104,3 @@ strength** (in order from strongest to weakest):
 4. phantom
    
 We've already discussed strong and weak references, so let's take a look at the other two.
-
-## Soft References
-
-A **soft reference** is exactly like a weak reference, except that it is less eager to throw away the object to which it
-refers. An object which is only weakly reachable will be discarded at the next garbage collection cycle, but an object
-which is softly reachable will generally stick around for a while.
-
-Soft references aren't required to behave any differently than weak references, but in practice softly reachable objects
-are generally retained as long as memory is in plentiful supply. **This makes them an excellent foundation for a
-cache**, such as the image cache described above, since you can let the garbage collector worry about both how reachable
-the objects are and how badly it needs the memory they are consuming.
