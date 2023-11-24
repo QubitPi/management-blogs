@@ -92,15 +92,3 @@ The `ReferenceQueue` class makes it easy to keep track of dead references. If yo
 reference's constructor, the reference object will be automatically inserted into the reference queue when the object to
 which it pointed becomes garbage. You can then, at some regular interval, process the `ReferenceQueue` and perform
 whatever cleanup is needed for dead references.
-
-## Different Degrees of Weakness
-
-Up to this point I've just been referring to "weak references", but there are actually **4 degrees of reference
-strength** (in order from strongest to weakest):
-
-1. strong
-2. soft
-3. weak
-4. phantom
-   
-We've already discussed strong and weak references, so let's take a look at the other two.
