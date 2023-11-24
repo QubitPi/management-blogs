@@ -27,36 +27,3 @@ stuff, but bear with me. _The important part about strong references -- the part
 interact with the garbage collector_. Specifically, if an object is reachable via a chain of strong references (strongly
 reachable), it is not eligible for garbage collection. As you don't want the garbage collector destroying objects you're
 working on, this is normally exactly what you want.
-
-## When Strong References are Too Strong
-
-It's not uncommon for an application to use classes that it can't reasonably extend. The class might simply be marked
-`final`, or it could be something more complicated, such as an interface returned by a factory method backed by an
-unknown (and possibly even unknowable) number of concrete implementations. Suppose you have to use a class `Widget` and,
-for whatever reason, it isn't possible or practical to extend `Widget` to add new functionality.
-
-What happens when you need to keep track of extra information about the object? In this case, suppose we find ourselves
-needing to keep track of each Widget's serial number, but the Widget class doesn't actually have a serial number
-property -- and because Widget isn't extensible, we can't add one. No problem at all, that's what `HashMaps` are for:
-
-```java
-serialNumberMap.put(widget, widgetSerialNumber);
-```
-
-This might look okay on the surface, but the strong reference to widget will almost certainly cause problems. We have to
-know (with 100% certainty) when a particular Widget's serial number is no longer needed, so we can remove its entry from
-the map. Otherwise we're going to have a memory leak (if we don't remove Widgets when we should) or we're going to
-inexplicably find ourselves missing serial numbers (if we remove Widgets that we're still using). If these problems
-sound familiar, they should: they are exactly the problems that users of non-garbage-collected languages face when
-trying to manage memory, and we're not supposed to have to worry about this in a more civilized language like Java.
-
-Another common problem with strong references is caching, particular with very large structures like images. Suppose you
-have an application which has to work with user-supplied images, like the web site design tool I work on. Naturally you
-want to cache these images, because loading them from disk is very expensive and you want to avoid the possibility of 
-having two copies of the (potentially gigantic) image in memory at once. Because an image cache is supposed to prevent
-us from reloading images when we don't absolutely need to, you will quickly realize that the cache should always contain
-a reference to any image which is already in memory. With ordinary strong references, though, that reference itself will
-force the image to remain in memory, which requires you (just as above) to somehow determine when the image is no longer
-needed in memory and remove it from the cache, so that it becomes eligible for garbage collection. Once again you are
-forced to duplicate the behavior of the garbage collector and manually determine whether or not an object should be in
-memory.
