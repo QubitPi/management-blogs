@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Preliminary - Anatomy of Small Pull Request
-tags: [Git, Management]
+tags: [Management]
 color: rgb(246, 77, 39)
 feature-img: "assets/img/post-cover/4-cover.png"
 thumbnail: "assets/img/post-cover/4-cover.png"
@@ -13,7 +13,6 @@ excerpt_separator: <!--more-->
 
 * TOC
 {:toc}
-
 
 Writing clean code is just one of the many factors to care about when creating a pull request. Large pull requests cause
 a significant overhead during the code review and facilitate bugs introduction in the codebase. That's why we need to
@@ -99,7 +98,6 @@ engineers do the same thing in less than a week.**
 **Improved collaboration has multiple benefits including increased learning at work, higher job satisfaction, and higher 
 quality solutions.**
 
-
 How Small Should A PR Be?
 -------------------------
 
@@ -124,7 +122,6 @@ to be reviewed.
 > It's a reflection, not a principle to bind. Empirically, most changes you're doing can be shipped in pull requests
 > that have less than 200 lines changed. Anything above 500 lines is definitely large. Often, these pull requests could 
 > have been shipped in smaller increments.
-
 
 Feature Breakdown
 -----------------
@@ -159,7 +156,6 @@ Just like classes and modules, pull requests should do only one thing. Pull requ
 overhead caused by revising a code that attempts to solve several problems. Before submitting a PR for review, try
 applying the principle of single responsibility. If this code is doing more than one thing, break it into other Pull 
 Requests.
-
 
 Title and Description Matter
 ----------------------------
