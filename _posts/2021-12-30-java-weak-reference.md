@@ -81,14 +81,3 @@ references. If a `WeakHashMap` key becomes garbage, its entry is removed automat
 described earlier and requires no changes other than the switch from `HashMap` to a `WeakHashMap`. If you're following
 the standard convention of referring to your maps via the Map interface, no other code needs to even be aware of the
 change.
-
-## Reference Queues
-
-Once a `WeakReference` starts returning `null`, the object it pointed to has become garbage and the `WeakReference`
-object is pretty much useless. This generally means that some sort of cleanup is required; `WeakHashMap`, for example,
-has to remove such defunct entries to avoid holding onto an ever-increasing number of dead `WeakReferences`.
-
-The `ReferenceQueue` class makes it easy to keep track of dead references. If you pass a `ReferenceQueue` into a weak
-reference's constructor, the reference object will be automatically inserted into the reference queue when the object to
-which it pointed becomes garbage. You can then, at some regular interval, process the `ReferenceQueue` and perform
-whatever cleanup is needed for dead references.
