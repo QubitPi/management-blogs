@@ -60,24 +60,3 @@ force the image to remain in memory, which requires you (just as above) to someh
 needed in memory and remove it from the cache, so that it becomes eligible for garbage collection. Once again you are
 forced to duplicate the behavior of the garbage collector and manually determine whether or not an object should be in
 memory.
-
-## Weak References
-
-A **weak reference**, simply put, is a reference that isn't strong enough to force an object to remain in memory. Weak
-references allow you to leverage the garbage collector's ability to determine reachability for you, so you don't have to
-do it yourself. You create a weak reference like this:
-
-```java
-WeakReference weakWidget = new WeakReference(widget);
-```
-
-and then elsewhere in the code you can use `weakWidget.get()` to get the actual Widget object. Of course the weak
-reference isn't strong enough to prevent garbage collection, so you may find (if there are no strong references to the
-widget) that `weakWidget.get()` suddenly starts returning `null`.
-
-To solve the "widget serial number" problem above, the easiest thing to do is use the built-in `WeakHashMap` class.
-`WeakHashMap` works exactly like `HashMap`, except that the keys (not the values!) are referred to using weak
-references. If a `WeakHashMap` key becomes garbage, its entry is removed automatically. This avoids the pitfalls
-described earlier and requires no changes other than the switch from `HashMap` to a `WeakHashMap`. If you're following
-the standard convention of referring to your maps via the Map interface, no other code needs to even be aware of the
-change.
