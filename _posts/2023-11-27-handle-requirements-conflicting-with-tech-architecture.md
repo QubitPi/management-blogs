@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Handling Business Requirements That Conflict with the Technical Architecture of System?
+title: Handling Business Requirements That Conflict with the Technical Architecture of System
 tags: [Conflict Resolution]
 color: rgb(9, 102, 194)
 feature-img: "assets/img/post-cover/2-cover.png"
