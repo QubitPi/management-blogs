@@ -1,12 +1,12 @@
 [![License Badge](https://img.shields.io/badge/License-Apache%202.0-orange.svg?style=for-the-badge) ](https://www.apache.org/licenses/LICENSE-2.0)
 
-[A Complete Jersey Guide Book](https://qubitpi.github.io/jersey-guide/)
+[A Complete Jersey Guide Book](https://qubitpi.github.io/management-blogs/)
 ------------------------------
 
 ### The origin of name "Jersey Guide"
 
 Jersey has been an industry standard for standing up Webservices; I love it and opened up a blog site to put my study
-notes for it. So [Jersey Guide](https://qubitpi.github.io/jersey-guide/) was born. Later on, it has been used
+notes for it. So [Jersey Guide](https://qubitpi.github.io/management-blogs/) was born. Later on, it has been used
 extensively as a hub assembling all of my tech-related study notes. The jersey
 
 ### Add-on

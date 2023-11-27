@@ -1392,7 +1392,7 @@ Amazon EKS cluster.
   later. For more information, see [Installing kubectl][Installing kubectl].
 * **eksctl** A command line tool for working with EKS clusters that automates many individual tasks. We use version 
   0.112.0 or later. For more information, see [Installing eksctl][Installing eksctl].
-* Required [**IAM permissions**](https://qubitpi.github.io/jersey-guide/finalized/2022/10/09/startup-auth.html#aws-identity-and-access-management-iam) The IAM security principal that we're using
+* Required [**IAM permissions**](https://qubitpi.github.io/management-blogs/finalized/2022/10/09/startup-auth.html#aws-identity-and-access-management-iam) The IAM security principal that we're using
   must have permissions to work with Amazon EKS IAM roles and service linked roles, AWS CloudFormation, and a VPC and 
   related resources. Okay, to put it simple, we will create a admin user that will cover all of these permissions
 

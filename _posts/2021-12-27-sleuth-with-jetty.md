@@ -17,7 +17,7 @@ excerpt_separator: <!--more-->
 ## Create a Deployable War File
 
 > 📋 The source code in this post is in
-> https://github.com/QubitPi/jersey-guide/tree/master/docs/assets/src/sleuth-with-open-feign
+> https://github.com/QubitPi/management-blogs/tree/master/docs/assets/src/sleuth-with-open-feign
 
 The first step in producing a deployable war file is to provide a `SpringBootServletInitializer` subclass and override
 its `configure` method. Doing so makes use of Spring Framework's servlet 3.0 support and lets you configure your

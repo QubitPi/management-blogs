@@ -11,7 +11,7 @@ excerpt_separator: <!--more-->
 
 <!--more-->
 
-If the [SOLID principles](https://qubitpi.github.io/jersey-guide/2021/05/30/design-principles.html) tell us how to
+If the [SOLID principles](https://qubitpi.github.io/management-blogs/2021/05/30/design-principles.html) tell us how to
 arrange the bricks into walls and rooms, then the component principles tell us how to arrange the rooms into buildings.
 Large software systems, like large buildings, are built out of smaller components.
 
@@ -49,7 +49,7 @@ and modules; instead, there **must be some overarching theme or purpose that tho
 > components those classes that change at different times and for different reasons.
 
 This is the
-[Single Responsibility Principle](https://qubitpi.github.io/jersey-guide/2021/05/30/design-principles.html#single-responsibility-principle) restated for components. Just as the SRP
+[Single Responsibility Principle](https://qubitpi.github.io/management-blogs/2021/05/30/design-principles.html#single-responsibility-principle) restated for components. Just as the SRP
 says that a class should not contain multiples reasons to change, so the Common Closure Principle (CCP) says that a
 component should not have multiple reasons to change.
 
@@ -58,7 +58,7 @@ Thus, when a change in requirements comes along, that change has a good chance o
 of components.
 
 The CCP is the component form of the
-[SRP]((https://qubitpi.github.io/jersey-guide/2021/05/30/design-principles.html#single-responsibility-principle)). The
+[SRP]((https://qubitpi.github.io/management-blogs/2021/05/30/design-principles.html#single-responsibility-principle)). The
 SRP tells us to separate methods into different classes, if they change for different reasons. The CCP tells us to
 separate classes into different components, if they change for different reasons. Both principles can be summarized by
 the following sound bite
@@ -90,7 +90,7 @@ some and not on the others. Otherwise, we will be redeploying more components th
 effort.
 
 The CRP is the generic version of the
-[ISP](https://qubitpi.github.io/jersey-guide/2021/05/30/design-principles.html#interface-segregation-principle). The ISP
+[ISP](https://qubitpi.github.io/management-blogs/2021/05/30/design-principles.html#interface-segregation-principle). The ISP
 advises us not to depend on classes that have methods we don't use. The CRP advises us not to depend on components that
 have classes we don’t use.
 
@@ -178,7 +178,7 @@ Let's assume that there is a class `C` within "Flexible" that another class `U` 
 ![Error loading assumption.png]({{ "/assets/img/assumption.png" | relative_url}})
 
 We can fix this by employing the
-[Dependency Inversion Principle](https://qubitpi.github.io/jersey-guide/2021/05/30/design-principles.html#dependency-inversion-principle).
+[Dependency Inversion Principle](https://qubitpi.github.io/management-blogs/2021/05/30/design-principles.html#dependency-inversion-principle).
 We create an interface class called `US` and put it in a component named `UServer`. We make sure that this interface
 declares all the methods that `U` needs to use. We then make `C` implement this interface as shown below:
 
@@ -211,7 +211,7 @@ should contain only the software that is volatile - software that we want to be 
 However, if the high-level policies are placed into stable components, then the source code that represents those
 policies will be difficult to change. This could make the overall architecture inflexible. How can a component that is
 maximally stable (I = 0) be flexible enough to withstand change? The answer is found in the
-[Open-Closed Principle](https://qubitpi.github.io/jersey-guide/2021/05/30/design-principles.html#open-closed-principle).
+[Open-Closed Principle](https://qubitpi.github.io/management-blogs/2021/05/30/design-principles.html#open-closed-principle).
 This principle tells us that it is possible and desirable to create classes that are flexible enough to be
 extended without requiring modification. Which kind of classes conform to this principle? _Abstract classes_.
 
@@ -222,7 +222,7 @@ it to be easily changed.
 
 _The Stable Abstraction Principle_ and _The Stable Dependencies Principle_(Depend in the direction of stability)
 combined amount to the
-[Dependency Inversion Principle](https://qubitpi.github.io/jersey-guide/2021/05/30/design-principles.html#dependency-inversion-principle).
+[Dependency Inversion Principle](https://qubitpi.github.io/management-blogs/2021/05/30/design-principles.html#dependency-inversion-principle).
 for components. This is true because the SDP says that dependencies should run in the direction of stability, and the
 SAP says that stability implies abstraction. Thus **dependencies run in the direction of abstraction**.
 
