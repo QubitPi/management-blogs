@@ -80,6 +80,32 @@ There are numerous ways to learn. Google is our friend, as are books, videos, bl
 of course, other people. Some things we want to learn may be hidden; others may be larger than they appear. Balance 
 benefit with effort and be patient with ourselves. Celebrate every achievement and keep moving.
 
+Architecture is a Secondary Effect
+----------------------------------
+
+> Source: http://butunclebob.com/ArticleS.UncleBob.ArchitectureIsaSecondaryEffect
+
+This may seem a bitter pill to swallow. And many architects may reject it out of hand. However, nobody is suggesting 
+that architecture is no important, or that we should throw it away in favor of others. Quite the contrary, it is the 
+tests that give us the fearlessness to continuously improve the architecture of the system. It is not that tests 
+supercede architecture; rather they enable it!
+
+Automated tests give us a reliable way to know that our systems are working properly. We are no longer afraid that an 
+architectural change will break them. This makes it much easier to enact those architectural changes that will improve 
+the system. The presence of tests mean that there is much less impediment to continuous improvement of the structure, 
+design, and architecture of a system.
+
+Without tests, architecture was an initial guess that was difficult to change once significant development started. But 
+with automated tests architecture remains malleable. The risk (and therefore the cost) of change is so greatly reduced 
+that architecture becomes a variable that we can fiddle with as our system evolves.
+
+Hene:
+
+1. The main goal of architecture is flexibility, maintainability, and scalability.
+2. But the kind of unit tests and acceptance tests produced by the discipline of Test Driven Development are much more 
+   important to flexibility, maintainability, and scalability.
+3. Write the code that would actually make a product first, no matter how silly or small that product is.
+
 Tips for Programming Faster
 ---------------------------
 
@@ -94,7 +120,6 @@ Tips for Programming Faster
 - _Understand the user_. Understand their problem, the real problem; and then solve it. Knowledge of the domain helps 
   immensely. Talk to colleagues and domain experts about the problem, solution, and design.
 - _Make bugs impossible by design_, such as using strong typing and immutable data
-- Write the code that would actually make a product first, no matter how silly or small that product is.
 - Follow an agile approach to development.
 - Pull out abstractions only if they make sense and would actually be reused.
 - Stand on the shoulders of giants; use open source libraries, third party solutions, and so on.
