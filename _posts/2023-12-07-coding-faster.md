@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Code faster - 53 tips from the pros
+title: Code Faster
 tags: [Efficiency]
 color: rgb(9, 102, 194)
 feature-img: "assets/img/post-cover/3-cover.png"
