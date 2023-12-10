@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Code Faster
+title: Coding Faster
 tags: [Efficiency]
 color: rgb(9, 102, 194)
 feature-img: "assets/img/post-cover/3-cover.png"
@@ -13,7 +13,7 @@ Want to know how to program faster so that you can deliver software faster? Sure
 tips  for developers - hundreds, thousands, perhaps even millions of them. The problem is, there are far more out there 
 than anyone has time to read, so I've boiled them down for you.
 
-Here are 53 tips representing the very best advice I've found out there. But, before I tell you what I found, I need to 
+Here are tips representing the very best advice I've found out there. But, before I tell you what I found, I need to 
 explain what I mean by "programming faster," and "tips."
 
 <!--more-->
