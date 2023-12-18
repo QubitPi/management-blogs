@@ -9,7 +9,7 @@ avatar: assets/img/logo.png                                       # Empty for no
 favicon: assets/favicon.ico                                           # Icon displayed in the tab
 
 # Header and footer text
-header_text: Management<br>is the science of managing resources of business  # Change Blog header text
+header_text: You are an excellent Engineer if you could implement a fairly large system<br>You are an excellent architect if you could instruct several college interns to implement a fairly large system<br>You are a good tech manager if you could manage both to do the same thing in a timely manner with restricted resources    # Change Blog header text
 header_feature_image: assets/img/title-image-cover.png
 footer_text: >
   Art illustration inspired by Artist <a href="https://www.artstation.com/mb0sco">Bogdan mB0sco</a>
