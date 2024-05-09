@@ -32,9 +32,48 @@ followup actions:
 
 ### Integration Testing with Spring and Spock
 
+#### `@WebMvcTest(MyController.class)` or `@SpringBootTest`?
+
+![Error loading WebMvcTest-SpringBootTest.png]({{ "/assets/img/WebMvcTest-SpringBootTest.png" | relative_url}})
+
+They all share a common `TestApplication`:
+
+```java
+/**
+ * {@link TestApplication} is used for both {@code @WebMvcTest(Controller.class)} and {@code @SpringBootTest} annotated
+ * integration tests.
+ */
+@ComponentScan({"..."})
+@SpringBootApplication
+public class TestApplication {
+
+    /**
+     * Inject test dependencies and start test application for integration tests.
+     *
+     * @param args  Not used
+     */
+    public static void main(final String[] args) {
+        SpringApplication.run(TestApplication.class, args);
+    }
+}
+```
+
+Note the `@ComponentScan` which is very important. While we structure our code in a sensible way, we need to specify
+where our configuration classes are. There is another approach, however, which is not having `@ComponentScan` and
+annotate each test with specific config classes using
+
+```groovy
+@WebMvcTest(MyController.class)
+@ContextConfiguration(classes = [MyController.class, MyControllerConfig.class, MyControllerITConfig.class])
+class FileControllerITSpec extends Specification {
+    
+}
+```
+
 #### Spring IT with Spock Setup
 
 > [The aha moment](https://stackoverflow.com/a/70383811) - spock-spring
+>
 > [Reference](https://www.baeldung.com/spring-spock-testing)
 
 Suppose we would like to IT test the following controller:
@@ -62,6 +101,12 @@ We start by adding the dependencies:
 </dependency>
 
 <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+    <version>3.2.4</version>
+</dependency>
+
+<dependency>
     <groupId>org.spockframework</groupId>
     <artifactId>spock-spring</artifactId>
     <version>2.4-M4-groovy-4.0</version>
@@ -69,7 +114,8 @@ We start by adding the dependencies:
 </dependency>
 ```
 
-The test that checks if all Beans in the Spring application context are loaded is the following:
+[Taking `@SpringBootTest` as an example](#webmvctestmycontrollerclass-or-springboottest), The test that checks if all 
+Beans in the Spring application context are loaded is the following:
 
 ```groovy
 @SpringBootTest
@@ -86,3 +132,48 @@ class LoadContextTest extends Specification {
 ```
 
 That's it. `webController` should come out as non-null which means dependency injection has wired up correctly in tests
+
+#### Load application.yml Configuration in SpringBoot Test
+
+> [Reference](https://stackoverflow.com/a/38712718)
+
+One option is to work with profiles. Create a file called **application-test.yml**, move all properties we need for 
+those tests to that file and then add the `@ActiveProfiles` annotation to test class:
+
+```java
+@ActiveProfiles("test") // Like this
+public class MyIntTest{
+}
+```
+
+#### Implementing and Testing File Upload
+
+```java
+@PostMapping(value = "/upload")
+@ResponseStatus(HttpStatus.CREATED)
+public void uploadFile(@NotNull @RequestParam("file") final MultipartFile file) {
+    file.getOriginalFilename();
+    
+    ...
+}
+```
+
+```groovy
+    def "test file upload"() {
+        when:
+        MockMultipartFile mockMultipartFile = new MockMultipartFile(
+                "file",
+                "pride-and-prejudice-by-jane-austen.txt",
+                "text/plain",
+                new File("src/test/resources/pride-and-prejudice-by-jane-austen.txt").bytes
+        )
+
+        MockHttpServletRequestBuilder builder =
+                MockMvcRequestBuilders
+                        .multipart("/file/upload")
+                        .file(mockMultipartFile)
+
+        then:
+        mockMvc.perform(builder).andExpect(status().isCreated())
+    }
+```
