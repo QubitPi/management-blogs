@@ -114,15 +114,19 @@ We start by adding the dependencies:
 </dependency>
 ```
 
-[Taking `@SpringBootTest` as an example](#webmvctestmycontrollerclass-or-springboottest), The test that checks if all 
+[Taking `@SpringBootTest` as an example](#webmvctestmycontrollerclass-or-springboottest), the test that checks if all 
 Beans in the Spring application context are loaded is the following:
 
 ```groovy
 @SpringBootTest
-class LoadContextTest extends Specification {
+@AutoConfigureMockMvc
+class RequestFilterPlusControllerSpec extends Specification {
 
     @Autowired (required = false)
-    private WebController webController
+    private Controller myController
+
+    @Autowired
+    MockMvc mockMvc
 
     def "when context is loaded then all expected beans are created"() {
         expect: "the WebController is created"
@@ -132,6 +136,8 @@ class LoadContextTest extends Specification {
 ```
 
 That's it. `webController` should come out as non-null which means dependency injection has wired up correctly in tests
+
+Note also that `@AutoConfigureMockMvc` is required in order to inject `MockMvc`.
 
 #### Load application.yml Configuration in SpringBoot Test
 
