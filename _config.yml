@@ -51,8 +51,8 @@ remote_theme: sylhare/Type-on-Strap                     # If using as a remote_t
 # Atom feed config
 # Three separate feeds will be generated:
 #
-# 2. https://qubitpi.github.io/management-blogs/feed/FINALIZED.xml
-# 3. https://qubitpi.github.io/management-blogs/feed/MANAGEMENT.xml
+# 2. https://leadership.qubitpi.org/feed/FINALIZED.xml
+# 3. https://leadership.qubitpi.org/feed/MANAGEMENT.xml
 #
 # Each blog post has a "category" metadata that decides which feed that post goes into
 # See https://github.com/jekyll/jekyll-feed for more details

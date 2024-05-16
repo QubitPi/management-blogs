@@ -40,7 +40,7 @@ database
 ## Structured Approach
 
 One of the structured approaches is to have a
-[fully-denormalized](https://qubitpi.github.io/management-blogs/2020/09/06/mysql-polymorphism.html#concrete-table-inheritance) database schema which stores all 3 kinds of entity data. In
+[fully-denormalized](https://leadership.qubitpi.org/2020/09/06/mysql-polymorphism.html#concrete-table-inheritance) database schema which stores all 3 kinds of entity data. In
 this approach, data is "typed".
 
 There will be 3 tables each of which is created for the 3 hobbies defined above.

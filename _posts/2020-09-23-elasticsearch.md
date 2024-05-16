@@ -13,8 +13,8 @@ excerpt_separator: <!--more-->
 
 Thi post is part of Elasticsearch series:
 
-* [Elasticsearch Basics](https://qubitpi.github.io/management-blogs/2020/09/23/elasticsearch.html)
-* [Elasticsearch Performance](https://qubitpi.github.io/management-blogs/2021/10/01/elasticsearch-performance.html)
+* [Elasticsearch Basics](https://leadership.qubitpi.org/2020/09/23/elasticsearch.html)
+* [Elasticsearch Performance](https://leadership.qubitpi.org/2021/10/01/elasticsearch-performance.html)
 
 * TOC
 {:toc}
@@ -87,13 +87,13 @@ full-text field, the query text undergoes the same analysis before the terms are
 
 What defines near real-time search?
 
-[Lucene](https://qubitpi.github.io/management-blogs/2020/09/24/lucene.html), the Java libraries on which Elasticsearch is
+[Lucene](https://leadership.qubitpi.org/2020/09/24/lucene.html), the Java libraries on which Elasticsearch is
 based, introduced the concept of **per-segment search**. A segment is similar to an inverted index, but the word index
 in Lucene means "a collection of segments plus a commit point". After a commit, a new segment is added to the commit
 point and the buffer is cleared.
 
 Sitting between Elasticsearch and the disk is the
-[filesystem cache](https://qubitpi.github.io/management-blogs/2021/10/02/filesystem-cache.html). Documents in the in-memory
+[filesystem cache](https://leadership.qubitpi.org/2021/10/02/filesystem-cache.html). Documents in the in-memory
 indexing buffer are written to a new segment. The new segment is written to the filesystem cache first (which is cheap)
 and only later is it flushed to disk (which is expensive). However, after a file is in the cache, it can be opened and
 read just like any other file.
