@@ -30,3 +30,7 @@ apollo-client:
   name: Apollo Client
   avatar: "https://user-images.githubusercontent.com/841294/53402609-b97a2180-39ba-11e9-8100-812bab86357c.png"
   url: "https://www.apollographql.com/docs/react/"
+inc:
+  name: Inc.
+  avatar: https://kudos.inc.com/wp-content/uploads/2019/01/inc-logo-white.png
+  url: https://www.inc.com/
