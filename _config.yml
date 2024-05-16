@@ -1,6 +1,6 @@
 # SITE CONFIGURATION
-baseurl: "/management-blogs"
-url: "https://qubitpi.github.io"
+baseurl: "/"
+url: "https://leadership.qubitpi.org"
 
 # THEME-SPECIFIC CONFIGURATION
 title: "Jack's Tech Mgmt Blog"                                                # site's title
