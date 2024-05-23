@@ -1,0 +1,116 @@
+
+---
+layout: post
+title: Practical Tips for Managing Remote Workers
+tags: [Management]
+color: rgb(0, 0, 0)
+feature-img: "assets/img/post-cover/8-cover.png"
+thumbnail: "assets/img/post-cover/8-cover.png"
+authors: [QubitPi]
+excerpt_separator: <!--more-->
+---
+
+<!--more-->
+
+How Managers Can Support Remote Employees
+-----------------------------------------
+
+### Setting Clear Expectations
+
+It is crucial to provide clear guidance on priorities when employees work remotely. What is the same as in-office work 
+and what may be different? Are there particular times of day that you would expect employees to be immediately
+available? Just as in office environments, people leave their remote workspaces for breaks, meals and errands. Setting 
+ground rules will help to avoid undue confusion.
+
+### Acknowledging the Uncertainty
+
+If there is uncertainty surrounding remote work, identify and communicate a sense of calm, and reinforce and recognize 
+the bumps, missteps, and growing pains that can come along with these changes. Make sure to co-create communication
+plans with employees, seek feedback and input on what is and isn't working.
+
+### Checking in More Often
+
+Many quick conversations that normally happen in hallways, before or after meetings, or just from stopping by each 
+other's desks are no longer possible. You'll need to be intentional about checking in and following up at least once 
+daily if not more. Along with individual check-ins, it's a good practice to begin and end the day with a quick team 
+meeting or check in. This keeps everyone updated and hearing the same message at the same time, people are able to 
+contribute to the team, and everyone feels more socially connected.
+
+### Making Sure Everyone is on the Same Systems
+
+There are many, many systems available for messaging, video calls, file storage, etc. It's important to set and enforce 
+the expectation for which systems your team will be using.
+
+### Communicating Intentionally
+
+Remote communication can be more complex than face to face so it is important to actively listen, repeat back or ask 
+questions to ensure understanding, and be on the lookout for any signs of misunderstanding. Make sure to clarify who is 
+responsible for what by when at the end of every meeting.
+
+### Watching for New Stressors in Your Remote Team Members
+
+Situations that result in a change in work arrangements has the potential to create stress and/or anxiety. Adapting to 
+working differently can be challenging to your team. 
+
+### Seeking Feedback and Ideas
+
+Ask your team about their needs and concerns, ideas for communicating better and being more cohesive as a team, and 
+feedback to help you better lead and support them. You are all in it together, and the inclusive discussion and 
+collaboration can lead to some great ideas and solutions for your team.
+
+### Setting the Example
+
+Your employees are looking to you as a model for how to navigate the changes and succeed in a remote work environment. 
+Setting a tone with positivity, active communication and an openness to discussing questions and concerns will help your 
+team be better prepared for success in a remote workplace.
+
+### Providing Several Different Communication Technology Options
+
+Email alone is insufficient. Remote workers benefit from having a "richer" technology, such as video conferencing, that 
+gives participants many of the visual cues that they would have if they were face-to-face. Video conferencing has many 
+advantages, especially for smaller groups: Visual cues allow for increased "mutual knowledge" about coworkers and also 
+help reduce the sense of isolation among teams. Video is also particularly useful for complex or sensitive
+conversations, as it feels more personal than written or audio-only communication.
+
+### Establishing "Rules of Engagement"
+
+Remote work becomes more efficient and satisfying when managers set expectations for the frequency, means, and ideal 
+timing of communication for their teams. For example, "We use videoconferencing for daily check-in meetings, but we use
+IM when something is urgent." Also, if you can, let your employees know the best way and time to reach you during the 
+workday (e.g., "I tend to be more available late in the day for ad hoc phone or video conversations, but if there's an 
+emergency earlier in the day, send me a text.") Finally, keep an eye on communication among team members (to the extent 
+appropriate), to ensure that they are sharing information as needed.
+
+The most important factor is that all employees share the same set of expectations for communication.
+
+### Providing Opportunities for Remote Social Interaction
+
+One of the most essential steps a manager can take is to structure ways for employees to interact socially (that is,
+having informal conversations about non-work topics) while working remotely. This is true for all remote workers, but 
+particularly so for workers who have been abruptly transitioned out of the office.
+
+The easiest way to establish some basic social interaction is to leave some time at the beginning of team calls just for 
+non-work items (e.g., "We're going to spend the first few minutes just catching up with each other. How was your 
+weekend?"). Other options include virtual pizza parties (in which pizza is delivered to all team members at the time of 
+a videoconference), or virtual office parties (in which party “care packages” can be sent in advance to be opened and 
+enjoyed simultaneously). While these types of events may sound artificial or forced, experienced managers of remote 
+workers (and the workers themselves) report that virtual events help reduce feelings of isolation, promoting a sense of 
+belonging.
+
+### Offering Encouragement and Emotional Support
+
+Especially in the context of an abrupt shift to remote work, it is important for managers to acknowledge stress, listen 
+to employees' anxieties and concerns, and empathize with their struggles. If a newly remote employee is clearly 
+struggling but not communicating stress or anxiety, ask them how they're doing. Even a general question such as "How is 
+this remote work situation working out for you so far?" can elicit important information that you might not otherwise 
+hear. Once you ask the question, be sure to listen carefully to the response, and briefly restate it back to the 
+employee, to ensure that you understood correctly. Let the employee's stress or concerns (rather than your own) be the 
+focus of this conversation.
+
+Research on emotional intelligence and emotional contagion tells us that employees look to their managers for cues about 
+how to react to sudden changes or crisis situations. If a manager communicates stress and helplessness, this will have 
+what Daniel Goleman calls a "trickle-down" effect on employees. Effective leaders take a two-pronged approach, both 
+acknowledging the stress and anxiety that employees may be feeling in difficult circumstances, but also providing 
+affirmation of their confidence in their teams, using phrases such as "we've got this," or "this is tough, but I know we
+can handle it," or "let's look for ways to use our strengths during this time." With this support, employees are more 
+likely to take up the challenge with a sense of purpose and focus.
