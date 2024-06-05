@@ -183,3 +183,7 @@ public void uploadFile(@NotNull @RequestParam("file") final MultipartFile file) 
         mockMvc.perform(builder).andExpect(status().isCreated())
     }
 ```
+
+### Integrating Swagger
+
+https://www.baeldung.com/spring-rest-openapi-documentation
