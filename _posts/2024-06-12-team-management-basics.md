@@ -9,6 +9,8 @@ authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
 
+<!--more-->
+
 Examples of Team Management Skills
 ----------------------------------
 
