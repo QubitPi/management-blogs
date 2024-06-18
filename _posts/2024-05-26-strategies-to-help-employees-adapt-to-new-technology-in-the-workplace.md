@@ -3,8 +3,8 @@ layout: post
 title: Strategies To Help Employees Adapt to New Technology in the Workplace
 tags: [Leadership]
 color: rgb(0, 0, 0)
-feature-img: "assets/img/post-cover/9-cover.png"
-thumbnail: "assets/img/post-cover/9-cover.png"
+feature-img: "assets/img/post-cover/10-cover.png"
+thumbnail: "assets/img/post-cover/10-cover.png"
 authors: [QubitPi]
 excerpt_separator: <!--more-->
 ---
